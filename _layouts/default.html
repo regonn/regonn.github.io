@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ⚡>
+
+  {% include head.html %}
+
+  <body>
+    <amp-auto-ads type="adsense"
+                  data-ad-client="ca-pub-2988052208509124">
+    </amp-auto-ads>
+    <amp-analytics type="googleanalytics" id="analytics1">
+      <script type="application/json">
+        {
+          "vars": {
+            "account": "UA-115619813-8"
+          },
+          "triggers": {
+            "trackPageview": {
+              "on": "visible",
+              "request": "pageview"
+            }
+          }
+        }
+      </script>
+    </amp-analytics>
+
+    {% include header.html %}
+
+    <div class="page-content">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </div>
+    {% include footer.html %}
+  </body>
+</html>

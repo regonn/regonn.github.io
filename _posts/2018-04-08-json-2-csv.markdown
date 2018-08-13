@@ -1,0 +1,68 @@
+---
+layout: post
+title: "大きめのJSONファイルをCSVで出力したい(コマンドライン編)"
+date: 2018-04-08 9:41:28 +0900
+categories: json
+eyecatch_file: 'json-2-csv.png'
+---
+Kaggleの[iMaterialist Challenge](https://www.kaggle.com/c/imaterialist-challenge-furniture-2018)で画像URLとラベル情報が載っているデータがJSON形式で42MBある。
+
+普段私は Julia 言語を使っていて、JSONだと情報が扱いにくいので、DataFrame型にしたいが、そうするには一度CSVファイルに変換してから処理したい。
+
+## 実際のJSONデータ
+train.json
+```train.json
+{
+  "images": [
+    {
+      "url": [
+        "https://img13.360buyimg.com/imgzone/jfs/t2857/351/510705008/279959/4e27dce0/57171f60N523c940e.jpg"
+      ],
+      "image_id": 1
+    },
+    "...": "19万個データが続く",
+  ],
+  "annotations": [
+    {
+      "image_id": 1,
+      "label_id": 5
+    },
+    "...": "19万個のデータが続く",
+  ]
+}
+```
+
+### 面倒な点
+- images と annotations で分かれてる
+- url の中は配列になってる
+
+なので、train_images.csv と train_annotaions.csv に分割して、urlの配列の中身も必ずと言っていいほど1つしか入ってないので、中身は展開しておきたい。
+
+## 対処方法
+
+### jq コマンド
+[jq](https://stedolan.github.io/jq/) は Linux のターミナル上でJSONの値を扱える。出力も自分で指定できるのでCSV形式で出すことができる。
+
+### 実行したコマンド
+
+```shell
+$ cat train.json | jq '.images[] | "\(.url[0]),\(.image_id)"' | sed 's/"//g' >> train_images.csv
+$ cat train.json | jq '.annotations[] | "\(.image_id),\(.label_id)"' | sed 's/"//g' >> train_annotations.csv
+```
+
+cat したJSONファイルの中身を jq で読み込みCSVの形で出力。
+jqだと行毎に `"(ダブルコーテーション)` が出てくるので `sed` で取り除いている。
+実行も40MBのファイルでも2,3秒で終わってしまう。
+
+最初は、BigQueryにJSON読ませてとか考えてたけど、CUI強い。
+
+### おまけ: Juliaで生成したファイルを呼ぶ
+
+header情報は記載していないので、読み込む時に設定する。
+
+```julia
+using DataFrames
+using FileIO
+
+annotations = DataFrame(load("./input/train_annotations.csv", header_exists=false, colnames=["url","image_id"]))
+```

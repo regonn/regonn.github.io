@@ -1,0 +1,212 @@
+---
+layout: post
+title: "Rust言語で簡単なcatコマンドを実装してみた"
+date: 2014-12-31 9:41:28 +0900
+categories: rust
+---
+
+2015年には1.0が公開される予定のRust言語の勉強のために、Unixコマンドを簡略化してRustで実装してみた。
+
+すでに、[uutils/coreutils](https://github.com/uutils/coreutils/blob/master/src/cat/cat.rs)プロジェクトでcatコマンドは実装されていますが、今回は[ふつうのlinuxプログラミング](http://www.amazon.co.jp/gp/product/4797328355/ref=as_li_ss_tl?ie=UTF8&camp=247&creative=7399&creativeASIN=4797328355&linkCode=as2&tag=regonns-22)という本のサンプルコードを参考にしました。
+
+※ コードは[ここ](https://github.com/regonn/rust-unix-command)のレポジトリに公開するので、「もっとこう書けるよ」みたいなのがあれば、プルリクお願いします。
+
+# C言語でのcat
+
+``` c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
+static void do_cat(const char *path);
+static void die(const char *s);
+
+int
+main(int argc, char *argv[])
+{
+  int i;
+  if (argc < 2) {
+    fprintf(stderr, "%s: file name not given\n", argv[0]);
+    exit(1);
+  }
+  for (i = 1; i < argc; i++) {
+    do_cat(argv[i]);
+  }
+  exit(0);
+}
+
+#define BUFFER_SIZE 2048
+
+static void
+do_cat(const char *path)
+{
+  int fd;
+  unsigned char buf[BUFFER_SIZE];
+  int n;
+
+  fd = open(path, O_RDONLY);
+  if (fd < 0) die(path);
+  for (;;) {
+    n = read(fd, buf, sizeof buf);
+    if (n < 0) die(path);
+    if (n == 0) break;
+    if (write(STDOUT_FILENO, buf, n) < 0) die(path);
+  }
+  if (close(fd) < 0) die(path);
+}
+
+static void die(const char *s)
+{
+  perror(s);
+  exit(1);
+}
+```
+
+オプションとかは実装せず、ファイルの内容を読み取り標準出力する。
+
+# Rust言語でのcat
+
+## 実行環境
+
+``` sh
+$ rustc --version
+rustc 0.13.0-nightly (34d680009 2014-12-22 00:12:47 +0000)
+```
+
+``` rust
+#![allow(unused_must_use)]
+use std::os;
+use std::io::{File, IoResult, IoError, EndOfFile};
+use std::io::stdio::{stdout_raw, stderr};
+
+fn main() {
+    let paths = os::args().slice_from_or_fail(&1).to_vec();
+    let mut stderr = stderr();
+
+    if paths.len() < 1 {
+        stderr.write_str("file name not given\n");
+    }
+    for path in paths.iter() {
+        let res = do_cat(path);
+        if res.is_err() {
+            panic!("{}: {}", path, res.unwrap_err());
+        }
+    }
+}
+
+const BUFFER_SIZE: uint = 2048;
+
+fn do_cat(path: &String) -> IoResult<()> {
+    let mut writer = stdout_raw();
+    let mut in_buf = [0, .. BUFFER_SIZE];
+    let mut reader = File::open(&std::path::Path::new(path));
+
+    loop {
+        let n = match reader.read(&mut in_buf) {
+            Ok(n) if n == 0 => return Ok(()),
+            Ok(n) => n,
+            Err(IoError{ kind: EndOfFile, ..}) => return Ok(()),
+            Err(e) => return Err(e)
+        };
+        try!(writer.write(in_buf.slice_to(n)));
+    }
+}
+```
+
+実際に書いてみたら、やっぱりfor文のカウント用変数とかを使う必要がなくなったので、コンパクトに書けるし可読性は増している。
+
+配列をeachっぽく使える `iter()` とか、 `match` 使ってif文が減らせるから便利。
+
+# もっとシンプルに書けているプルリクを頂きました
+
+2015/06/26更新
+[tos-kamiya](https://github.com/tos-kamiya)さんからもっと、シンプルに書けているプルリクを頂きました。上のコードはCを元にしてしまっているので、Rustの恩恵があまり受けられていませんが、こちらのコードはとてもRustっぽいですね。ありがとうございます。
+
+``` rust
+use std::fs::File;
+use std::io::{BufReader, Read, Write};
+use std::io::stdout;
+use std::env::args;
+
+const BUFFER_SIZE: usize = 2048;
+
+fn main() {
+    let paths: Vec<String> = args().skip(1).collect();
+    if paths.is_empty() {
+        panic!("file name not given");
+    }
+
+    let mut writer = stdout();
+    for path in paths {
+        do_cat(&mut writer, &path);
+    }
+}
+
+fn do_cat(writer: &mut Write, path: &str) {
+    let file = File::open(path).unwrap();
+    let mut reader = BufReader::new(&file);
+    let mut buf = [0; BUFFER_SIZE];
+    loop {
+        let n = reader.read(&mut buf).unwrap();
+        if n == 0 { break; }
+        writer.write_all(&buf[..n]).unwrap();
+    }
+}
+```
+
+元のコードは[こちら](https://github.com/tos-kamiya/rust-unix-command/blob/simpler/cat.rs)で確認できます
+
+# 追記
+2015/01/03 [kui](https://github.com/kui) さんにプルリクもらいました。配列の最初だけ取り除く方法も
+
+``` rust
+let paths = os::args().slice_from_or_fail(&1).to_vec();
+```
+
+って書けばよかったんですね。
+ありがとうございます。
+
+# 追記
+2017/03/01 [RustのLT会！ Rust入門者の集い \#2](https://rust.connpass.com/event/48826/)で発表した時 1.15.1 で動くようにしました。
+
+``` rust
+#![allow(unused_must_use)]
+use std::env;
+use std::io::{stdout, stderr, Write, Read, Result};
+use std::fs::File;
+
+fn main() {
+    let paths = env::args().skip(1);
+    if paths.len() < 1 {
+        writeln!(&mut stderr(), "file name not given\n");
+    }
+    for path in paths {
+        let res = do_cat(path);
+        if res.is_err() {
+            panic!("{}", res.unwrap_err());
+        }
+    }
+}
+
+const BUFFER_SIZE: usize = 2048;
+
+fn do_cat(path: String) -> Result<()> {
+    let stdout = stdout();
+    let mut handle = stdout.lock();
+    let mut in_buf = [0; BUFFER_SIZE];
+    let mut reader = try!(File::open(&std::path::Path::new(&path)));
+
+    loop {
+        let n = match reader.read(&mut in_buf[..]) {
+            Ok(n) if n == 0 => return Ok(()),
+            Ok(n) => n,
+            Err(e) => return Err(e)
+        };
+        try!(handle.write(&in_buf[0..n]));
+    }
+}
+
+```

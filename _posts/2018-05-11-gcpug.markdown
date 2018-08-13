@@ -1,0 +1,16 @@
+---
+layout: post
+title: "GCPUG Shimane #2 で機械学習データを BigQuery with Ruby で処理する話を発表しました"
+date: 2018-05-11 20:00:00 +0900
+categories: ruby
+---
+
+<script async class="speakerdeck-embed" data-id="74b7b20e90214fe4a4110055e60fff19" data-ratio="1.37081659973226" src="//speakerdeck.com/assets/embed.js"></script>
+
+[GCPUG Shimane \#02\-1 \- connpass](https://gcpug-shimane.connpass.com/event/83410/)
+で発表しました。
+
+この前参加した、[Ruby X Elixir Conf Taiwan 2018](https://tech-regonn.github.io/ruby/2018/05/04/ruby-conf-tw-workshop.html)の影響を受けて、データ処理の部分をBigquery + Rubyで挑戦し、JupyterのRuby Kernelでグラフを表示するところまで。
+
+デモのgist
+[gcpug\.ipynb](https://gist.github.com/regonn/3f261402f7fdc4ee110b4facb71c294b)

@@ -1,0 +1,16 @@
+---
+layout: post
+title: "Meguro.es #6 で発表しました。"
+date: "2016-10-13 21:00:00 +0900"
+categories: 'programmer'
+desc: "Meguro.es で発表しました。オープンソースで運営されているプログラミング学習サイトの FreeCodeCampの説明と、ECMAScriptがプログラミング初心者の最初に学ぶ言語として適しているのかについて考えました。"
+keywords: "Javascript, プログラマ, ECMAScript"
+image: "https://blog.regonn.tokyo/images/2016-10-13-meguro-es6.jpeg"
+---
+<amp-img src="https://blog.regonn.tokyo/images/2016-10-13-meguro-es6.jpeg" alt="javascriptのココがすばらしい" width="670px" height="480px" layout="responsive" ></amp-img>
+
+[Meguro.es #6](http://meguroes.connpass.com/event/39081/) で発表しました。
+
+[発表資料](http://www.slideshare.net/kentatanoue1/ecmascriptjavascript-meguro-es6/)
+
+オープンソースで運営されているプログラミング学習サイトの FreeCodeCamp の説明と、ECMAScriptがプログラミング初心者の最初に学ぶ言語として適しているのかについて考えました。

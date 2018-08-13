@@ -1,0 +1,45 @@
+---
+layout: post
+title: "AWS の Deep Learning AMI を使って EC2 インスタンス上で 最新のJuliaを動かせるように"
+date: 2017-11-11 19:35:28 +0900
+categories: Julia
+---
+
+以前 Deep Learning AMI を使うことで気軽に MXNet を GPU 上で動かせた。
+
+[【動画解説】AWS の Deep learning 用 AMI で MXNet を動かす](https://tech-regonn.github.io/mxnet/2017/10/31/aws-mxnet.html)
+
+ただし、自分の今触っている Julia 言語が AMI にインストールされておらず、最新版(現在 v0.6.1) を動かしてGPU処理をするまで持っていった。Amazon Linux だとライブラリ周りのバージョンが追いついていなかったので、今回はUbuntu版のDeep Learning AMI(タイプはGPUが使えるp2.xlarge)を利用して構築。
+
+まずは普通にEC2のインスタンスにアクセスして、rootユーザになり、julia の v0.6.1 を make する。(CPU4コア使っても1時間ぐらいかかる。。。)
+
+``` shell
+$ sudo su -
+$ apt-get update
+$ apt-get install libpango1.0-0 -y
+$ add-apt-repository ppa:staticfloat/julia-deps -y
+$ apt-get update
+$ cd /usr/local/src
+$ git clone https://github.com/JuliaLang/julia.git
+$ cd julia
+$ git checkout v0.6.1
+$ echo "JULIA_CPU_TARGET=core2" > Make.user
+$ make -j 4 julia-deps
+$ make -j 4
+$ make install
+$ ln -s /usr/local/src/julia/julia /usr/local/bin/julia
+```
+
+ubuntuユーザに戻して、Juliaを起動して
+
+``` julia
+> Pkg.add("IJulia")
+> Pkg.add("MXNet")
+> Pkg.checkout("MXNet")
+> Pkg.build("MXNet')
+```
+※ Julia v0.6.1 で MXNet.jl v0.2.3 はインストールに失敗するので master 版を取ってきてbuildする。[Installation failed with julia 0\.6\.1 by iblis17 · Pull Request \#316 · dmlc/MXNet\.jl](https://github.com/dmlc/MXNet.jl/pull/316)
+
+再び、MXNetをbuildで待たされる。(これも1時間ぐらいかかるかも。。。)
+
+なんとかこれで使えるようになった。GPUも有効にしてもエラーにならずに起動できている感じ。

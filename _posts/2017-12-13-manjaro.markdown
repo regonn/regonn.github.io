@@ -1,0 +1,68 @@
+---
+layout: post
+title: "普段使っている開発PCをMacBookProからManjaro Linuxのラップトップに乗り換えた話"
+date: 2017-12-13 00:00:00
+categories: 'programmer'
+desc: "ラップトップのPCをManjaro Linuxに乗り換えて使ってみた感想"
+keywords: "linux,プログラミング"
+image: "https://blog.regonn.tokyo/images/2017-12-13-manjaro.png"
+---
+<amp-img src="/images/2017-12-13-manjaro.png" alt="パソコン" width="556px" height="130px" layout="responsive" ></amp-img>
+
+[Linux Advent Calendar 2017](https://qiita.com/advent-calendar/2017/linux)13日目の記事
+
+今年6月にMacBookProからManjaro Linuxに乗り換えたので感想とか書いてく。
+
+すでに3日目の記事で[laughk](https://qiita.com/laughk)さんが、Arch Linux のを一年使っている記事書いているので、そちらの方が参考になるかも。
+
+[続・ラフなラボ – ArchLinux なラップトップで仕事しはじめて大体1年経った](https://memo.laughk.org/2017/12/03/000013.html)
+
+## 自分の状況(PC使用環境)
+- Webプログラマ
+- Rails開発(Dockerは使わずにローカルに環境構築)
+- リモートワーク中心で、ZoomとかGoogle Hangoutで会議することが多い
+- Kaggleでデータサイエンス分野の処理やったりする(Julia言語)
+- 趣味でYouTubeにプログラミングの動画とか投稿する
+
+## MacBookProの乗り換えに踏み切った理由
+- 会社がパソコンの購入費用を出してくれるが会計処理の関係で30万まで
+  - MacBookProをフルフルにカスタマイズすると30万円を超えてくるので悩む
+- Appleのイベントを待たないと新しいモデルが出ないので買い換えるタイミングが限定されたりするのにうんざりしてきた
+  - 次のイベントで最新モデルがでるかも => 出ない (これの繰り返しがある)
+
+## 買ったラップトップ
+普段利用しているギーク向け?の口コミサイト[slant](https://www.slant.co/)というウェブサービスの[What are the best laptops for Linux](https://www.slant.co/topics/1184/~laptops-for-linux)というトピックで探してDellのXPS13を買うことに。
+- 日本でも買えるもの(たまに海外のPCベンダーだと技適通ってないものもあった)
+- Dell なので買いたい時の一番良い組み合わせをカスタムすることができる
+- 値段もフルフルに設定したけど20万ぐらいだった
+- QiitaでもXPS13にLinuxを導入する記事があり情報が多そうだった
+  - [DELL XPS13 \(9350 2015/11モデル\)にUbuntu15\.10をデュアルブートインストール\(with Windows10\) \- Qiita](https://qiita.com/NewGyu/items/d25cda12e0e1c5259121)
+
+## Manjaro Linux を選んだ理由
+- 同じくslantで[What are the best Linux distributions for laptops?](https://www.slant.co/topics/7819/~linux-distributions-for-laptops)上位から選ぶ
+- 最新のライブラリが使えるローリング・リリースにしたい
+- Arch Linux はインストールから設定していくのが面倒なのと、仕事で使うとなると最新版で不具合が出た時に自分の力量ではリカバリーできるか不安な部分も多かった
+  - Arch系列のManjaroだったら一度システムのテスト期間を設けた後にリリースされるのでPCが動かなくなるような状況はまだ起きていない
+
+## 実際にXPS13(Manjaro環境)を使ってみて
+- 問題なく仕事で使えている
+- タッチパッドの部分はどこでも押し込めばクリックできるタイプなので、MacBookProから移行してもあまりストレスにはならなかった
+- 電池の減りも半日カフェで電源なしで作業してギリギリぐらい
+- カメラが画面左下に付いていて、顔が半分見切れたりする
+- データサイエンス系の重めのファイル処理とかは、もうちょっとパワー欲しいけど、ラップトップだったらこんなもんな気もする
+- プログラミング動画撮影とかも[OBS](https://obsproject.com/)使えばデスクトップ上の音も拾えるので、Macでミキサーソフトを使っていた時より楽になった
+- AUR(Arch User Repository)でパッケージが管理できるので楽だし、SlackとかZoomもLinux版が出ているのでパッケージがなくて困ることも、あまりなかった
+- Macの時にはpuma-devを使っていて `sample.dev` にアクセスすればrailsアプリの開発環境にアクセスできたけど、上手く連携できてない(ubuntuだったらできた) 
+
+## MacBookProから抜け出せていない所
+- YouTubeに投稿する時に動画の音声ノイズをフィルタリングしたくて、動画をいい感じに編集できるLinuxで動くソフトはまだ出会えていないのでiMovieを使ってる。やっぱり、メディア系はApple強い。
+
+## 結論
+- 開発環境 Linux 良い
+- Manjaro だったら他のOSXやWindowsと同じぐらい安定して使える
+- 動画編集(音声ノイズフィルタリング付き)の良さげなライブラリかWebサービスができれば、Macからの卒業
+
+## DELLの広告
+ここから、XPS13を買ってくれたら私が喜ぶ。ただそれだけ。
+<a href="https://click.linksynergy.com/fs-bin/click?id=yVHigOvuIng&offerid=39250.10000905&type=4&subid=0"><amp-img src="https://i.dell.com/images/jp/banners/banners_l/289x82_004_140625.gif" alt="デル株式会社" width="289px" height="82px" layout="fixed" ></amp-img></a>
+<amp-img width="1px" height="1px" layout="fixed" src="https://ad.linksynergy.com/fs-bin/show?id=yVHigOvuIng&bids=39250.10000905&type=4&subid=0"></amp-img>
