@@ -5,29 +5,29 @@ date: 2017-11-12 9:41:28 +0900
 categories: Julia
 ---
 
-![Merlin](https://raw.githubusercontent.com/hshindo/Merlin.jl/master/Merlin.png)
+[Deep Learning フレームワークざっくり紹介 Advent Calendar 2017](https://qiita.com/advent-calendar/2017/deep-learning-frameworks)　 11 日目の記事。
 
-[Deep Learning フレームワークざっくり紹介 Advent Calendar 2017](https://qiita.com/advent-calendar/2017/deep-learning-frameworks)　11日目の記事。
+普段は、Kaggle の問題に挑戦する動画を投稿する底辺 YouTuber をやっています [田中 TOM](https://www.youtube.com/channel/UCWXXSB94_CUAYD7XgdLzvBg)
 
-普段は、Kaggleの問題に挑戦する動画を投稿する底辺YouTuberをやっています [田中TOM](https://www.youtube.com/channel/UCWXXSB94_CUAYD7XgdLzvBg)
-
-最近、機械学習関連はJulia言語をメインで使っていて、以前[Juliaデータサイエンスワークショップ](https://data-refinement.connpass.com/event/70804/)に参加した時、[Mearlin.jl](https://github.com/hshindo/Merlin.jl) という国産のDeepLearningライブラリを知ったので紹介していきます。
+最近、機械学習関連は Julia 言語をメインで使っていて、以前[Julia データサイエンスワークショップ](https://data-refinement.connpass.com/event/70804/)に参加した時、[Mearlin.jl](https://github.com/hshindo/Merlin.jl) という国産の DeepLearning ライブラリを知ったので紹介していきます。
 
 このライブラリは奈良先端科学技術大学院大学の進藤氏が自然言語処理分野において、入力のサンプルが異なるためミニバッチ化が難しく並列計算処理を行いにくい問題を解決するために作られました。
-Julia言語が採用されており、命令形的で動的にモデルを構築しても、Juliaの特徴の一つである高速で動かせるメリットが活きて、柔軟に素早く学習を行うことが可能になっています。
-[参考論文:Julia言語による深層学習ライブラリの実装と評価](https://kaigi.org/jsai/webprogram/2016/pdf/732.pdf)
+Julia 言語が採用されており、命令形的で動的にモデルを構築しても、Julia の特徴の一つである高速で動かせるメリットが活きて、柔軟に素早く学習を行うことが可能になっています。
+[参考論文:Julia 言語による深層学習ライブラリの実装と評価](https://kaigi.org/jsai/webprogram/2016/pdf/732.pdf)
 
 詳しい内容は論文を読んでもらいサンプルコードを紹介していきます。
 
 ## サンプルコード
+
 次のような簡単なニューラルネットワークを構築します
 
-![](/images/2017-11-12.png)
+<amp-img src="https://blog.regonn.tokyo/images/2017-11-12.png" alt="" width="292px" height="506px" layout="fixed" ></amp-img>
 
 ### 静的評価の場合
 
 #### static.jl
-``` julia
+
+```julia
 T = Float32
 n = Node(name="x")
 n = Linear(T,10,7)(n)
@@ -47,13 +47,16 @@ foreach(opt, params)
 
 入力`x`についてはランダムな値を入れています。
 この場合、`Graph`を作って、そこにデータを入力し結果をだしています。
-Theano等宣言型のフレームワークの書き方。
+Theano 等宣言型のフレームワークの書き方。
 画像などの入力の形が一定であるものは扱いやすく高速に処理できる。
 
 ### 動的評価
+
 今度は、動的に入力の行列サイズが変化する場合(自然言語処理等)を考えます。
+
 #### dynamic.jl
-``` julia
+
+```julia
 T = Float32
 x = zerograd(rand(T,10,5)) # instanciate Var with zero gradients
 y = Linear(T,10,7)(x)
@@ -68,16 +71,18 @@ foreach(opt, params)
 ```
 
 今度は`Graph`を作らずに直接勾配を求めています。
-このような書き方ができると学習を行う時はfor文で回している中で、毎回異なったサイズの入力データで学習を進めていくことができます。
-Chainer等命令形のフレームワークの書き方。
-静的評価の時よりも遅くなってしまうが、Julia言語の最適化によって早く実行することが可能になっています。
+このような書き方ができると学習を行う時は for 文で回している中で、毎回異なったサイズの入力データで学習を進めていくことができます。
+Chainer 等命令形のフレームワークの書き方。
+静的評価の時よりも遅くなってしまうが、Julia 言語の最適化によって早く実行することが可能になっています。
 
-## MNIST学習のサンプルコード
+## MNIST 学習のサンプルコード
+
 [Merlin\.jl/main\.jl at master · hshindo/Merlin\.jl](https://github.com/hshindo/Merlin.jl/blob/master/examples/mnist/main.jl)
 
-MNISTの学習をしています。実際に実行してみると 10epoch 回してテストデータの正答率が97%だったので、しっかりと学習が行われているようです。
+MNIST の学習をしています。実際に実行してみると 10epoch 回してテストデータの正答率が 97%だったので、しっかりと学習が行われているようです。
 
 ## 感想
-個人的には普段からJulia言語を使っていて、Julia言語がアカデミックな分野でも選択肢として存在感が出てきたのが嬉しい。
-特にJulia界隈だとPythonのライブラリを呼んで実行する場合が多いので、こういったJulia言語で書かれたライブラリが増えて高速な動きを出せるようになると、今後も使われる場所が増えてきそうな予感がしています。
-まだまだJulia言語自体開発段階で挙動が変わったりするのでオススメするのは少し厳しい状態ですが。。。
+
+個人的には普段から Julia 言語を使っていて、Julia 言語がアカデミックな分野でも選択肢として存在感が出てきたのが嬉しい。
+特に Julia 界隈だと Python のライブラリを呼んで実行する場合が多いので、こういった Julia 言語で書かれたライブラリが増えて高速な動きを出せるようになると、今後も使われる場所が増えてきそうな予感がしています。
+まだまだ Julia 言語自体開発段階で挙動が変わったりするのでオススメするのは少し厳しい状態ですが。。。

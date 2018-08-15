@@ -5,9 +5,9 @@ date: 2015-11-20 9:41:28 +0900
 categories: swift
 ---
 
-よくチャットなどで `@regonn` のようにメンションで使ったりしますが、Swiftで正規表現(NSRegularExpression)を使って取得したい。
+よくチャットなどで `@regonn` のようにメンションで使ったりしますが、Swift で正規表現(NSRegularExpression)を使って取得したい。
 
-例えば次のようなStringの場合
+例えば次のような String の場合
 
 `"@banana @ tomato @orange regonn@sonicgarden.jp "`
 
@@ -17,9 +17,9 @@ categories: swift
 
 そこで次のようなコードになりました。
 
-
 ### mentionMatch.swift
-``` swift
+
+```swift
 import UIKit
 
 let string = "@banana @ tomato @orange regonn@sonicgarden.jp "
@@ -37,7 +37,7 @@ for match in matches {
 (17,7)
 ```
 
-ちゃんと3か所にマッチできていることが確認できます。
+ちゃんと 3 か所にマッチできていることが確認できます。
 
 今回の正規表現は
 
@@ -48,4 +48,5 @@ for match in matches {
 `(?<=pattern)`は肯定後読み(positive lookbehind)という書き方らしい。知らなかった。。。
 
 図にしてみるとこんな感じになります。
-![](/images/2015-11-20.png)
+
+<amp-img src="https://blog.regonn.tokyo/images/2015-11-20.png" alt="" width="768" height="266" layout="responsive" ></amp-img>

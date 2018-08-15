@@ -3,33 +3,35 @@ layout: post
 title: "Numerai で初めて報酬圏内に入ったので機械学習処理を簡単にまとめる"
 date: 2018-02-16 9:41:28 +0900
 categories: Numerai
-eyecatch_file: 'Numerai_logo.png'
+eyecatch_file: "Numerai_logo.png"
 ---
 
 データサイエンティストが集まってモデルを作って市場予想をしヘッジファンドを動かす取り組みの [Numerai](https://wired.jp/2017/02/26/numerai/)
 
-データサイエンティストとしては、そのNumerai上で毎週行われているコンペに参加し一定の条件をクリアすると報酬がもらえる。
+データサイエンティストとしては、その Numerai 上で毎週行われているコンペに参加し一定の条件をクリアすると報酬がもらえる。
 
-何回か挑戦していたが、条件であるLogless 0.7 以下と提出データのオリジナリティが達成できていなかった。Logless 0.7 以下はそこまで難しく無いが、オリジナリティが達成しにくい。単純に一回予測しただけだと、他の人が同じ手順でやっているためオリジナリティは無くなってしまう。
+何回か挑戦していたが、条件である Logless 0.7 以下と提出データのオリジナリティが達成できていなかった。Logless 0.7 以下はそこまで難しく無いが、オリジナリティが達成しにくい。単純に一回予測しただけだと、他の人が同じ手順でやっているためオリジナリティは無くなってしまう。
 
-前回の [田中TOMの放送](https://tanaka-tom.github.io/kaggle-master/2018/02/12/kaggle-master-13.html) でLightGBMを触ったので、XGBoostと合わせてスタッキングで挑戦してみることに。
+前回の [田中 TOM の放送](https://tanaka-tom.github.io/kaggle-master/2018/02/12/kaggle-master-13.html) で LightGBM を触ったので、XGBoost と合わせてスタッキングで挑戦してみることに。
 
 ## 今回のデータ処理概要
+
 概要は次の通り。
-![](/images/2018-02-16/numerai.png)
+<amp-img src="https://blog.regonn.tokyo/images/2018-02-16/numerai.png" alt="" width="958" height="604" layout="responsive" ></amp-img>
 
 ## 実行環境
+
 - Julia: 0.6.2
-- 使ったJuliaライブラリ
+- 使った Julia ライブラリ
   - FileIO: 提出ファイル出力用
-  - CSV: CSVデータの読み込み、以前はDataFrameがメソッドを用意してくれていたが、こちらでCSV.readするように推奨している。
-  - XGBoost: XGBoost バージョンは更新されていないが最近masterブランチが0.6系に対応してくれた
-  - DataFrames: DataFrameを扱えるように
+  - CSV: CSV データの読み込み、以前は DataFrame がメソッドを用意してくれていたが、こちらで CSV.read するように推奨している。
+  - XGBoost: XGBoost バージョンは更新されていないが最近 master ブランチが 0.6 系に対応してくれた
+  - DataFrames: DataFrame を扱えるように
   - MultivariateStats: 主成分分析用
-  - LightGBM: LightGBM コアライブラリは別途用意する必要があるし、まだjuliaの公式パッケージになっておらずgithubから持ってくる必要がある
+  - LightGBM: LightGBM コアライブラリは別途用意する必要があるし、まだ julia の公式パッケージになっておらず github から持ってくる必要がある
   - LossFunctions: 損失関数を確認するため
   - CSVFiles: 提出ファイルの出力用
 
-![](/images/2018-02-16/numerai-1.png)
+<amp-img src="https://blog.regonn.tokyo/images/2018-02-16/numerai-1.png" alt="" width="620" height="149" layout="responsive" ></amp-img>
 
-無事にLogless 0.7以下とオリジナリティも承認されて、報酬圏内に入ることができた。
+無事に Logless 0.7 以下とオリジナリティも承認されて、報酬圏内に入ることができた。
