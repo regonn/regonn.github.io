@@ -17,3 +17,8 @@
   font-size: 18px;
   line-height: 1.6em;
 }
+
+.post-footer-ad {
+  max-width: 300px;
+  margin: auto;
+}

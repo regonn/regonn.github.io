@@ -16,12 +16,33 @@ layout: default
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
+
+    <amp-social-share type="facebook"
+                    data-param-text="Hello world"
+                    data-param-href="{{site.url}}{{page.url}}"
+                    data-param-app_id="1011152812236153"></amp-social-share>
+    <amp-social-share type="twitter"></amp-social-share>
+    <a href="http://b.hatena.ne.jp/append?{{ site.url }}{{ page.url }}" target='_blank'>
+      <amp-img src="/images/hatenabookmark-logomark.svg" alt="はてなブックマーク" width="45px" height="45px" layout="fixed"></amp-img>
+    </a>
+
     {% if page.youtube %}
       <amp-youtube data-videoid="{{ page.youtube }}" layout="responsive" width="560" height="315">
       </amp-youtube>
     {% endif %}
 
     {{ content }}
+
+    <div class="post-footer-ad">
+      <amp-ad
+        layout="responsive"
+        width=300
+        height=250
+        type="adsense"
+        data-ad-client="ca-pub-2988052208509124"
+        data-ad-slot="9932370507">
+      </amp-ad>
+    </div>
   </div>
 
   {%- if site.disqus.shortname -%}
