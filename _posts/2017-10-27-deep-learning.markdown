@@ -4,11 +4,13 @@ title: "Deep Learning 補足動画 行列内積の誤差逆伝播の式を導出
 date: 2017-10-27 00:21:28 +0900
 categories: DeepLearning
 youtube: p86RFYXvqxA
+eyecatch_file: "affine-graph.svg"
+desc: "書籍 ゼロから作る Deep Learning で Affine レイヤーの内積の誤差逆伝播を求める部分が省略されていたので、行列で微分する部分の説明を動画で録画してみました"
 ---
 
 [ゼロから作る Deep Learning](http://amzn.to/2ySiyvb) で Affine レイヤーの内積の誤差逆伝播を求める部分が省略されていたので、行列で微分する部分の説明を動画で録画してみました。
 
-# Deep Learning 補足動画
+## Deep Learning 補足動画
 
 行列での微分部分の補足動画です。
 
