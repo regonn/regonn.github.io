@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "VTuberハッカソン 全国ツアー2018【島根会場】で最優秀チームに選ばれたので、やったことを書いていく"
-date: 2018-09-09 9:00:00 +0900
+date: 2018-09-09 21:00:00 +0900
 categories: VR
 youtube: "tSViZtkQVaM"
 eyecatch_file: "regonn_ch_title.png"
