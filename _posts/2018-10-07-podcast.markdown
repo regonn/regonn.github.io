@@ -1,0 +1,82 @@
+---
+layout: post
+title: "Podcastの始め方"
+date: 2018-10-07 17:00:00 +0900
+categories: Podcast
+youtube: "bvOwwxD2kuM"
+eyecatch_file: "podcast.png"
+desc: "VR上でのIT勉強会 Workshop in VR #2 での発表内容。最近Podcast始めたのでそのことについて書きます。"
+keywords: "VR IT勉強会 WorkshopInVR Podcast GithubPages Voicy"
+---
+
+VR 上での勉強会 [Workshop in VR #2](https://workshop-in-vr.connpass.com/event/101802/) での発表内容です。
+
+## 発表資料スライド
+
+- [Podcast の始め方 \- Speaker Deck](https://speakerdeck.com/regonn/podcastfalseshi-mefang)
+
+## 最近 2 つの Podcast を始めた
+
+### [regonn&curry.fm](https://regonn-curry-fm.github.io/)
+
+- データサイエンス(Kaggle)の話し
+- 脱線して量子コンピュータとか VR
+
+### [今夜も Strong x Strong](https://strong-strong.github.io/)
+
+- ストロングゼロを飲みながらの酔っぱらい Podcast
+
+## 実は以前も Podcast 的なことはやっていた
+
+### 俳句ハイカーハイケスト
+
+- 俳句を紹介していく Podcast
+- Wordpress + [https://www.blubrry.com/](https://www.blubrry.com/)
+- Wordpress 側で AMP 対応などもできて使いやすい
+- ただ、更新していなくてもホスティング費用+Wordpress サーバー代がかかる
+  - 継続しにくくなった
+
+### Voicy 俳句と IT ニュース
+
+- [https://voicy.jp/channel/413](https://voicy.jp/channel/413)
+- こちらも俳句+IT 系のニュース
+- 勝手に BGM を載せてくれたりして楽
+- 結局マネタイズどうしよう問題があった
+- 録音が iPhone でしかできなくて辛かった。(逆に気軽にできるメリットもある)
+
+## Podcast を始めるにあたって最新の情報がしりたいので次の本を購入
+
+### [今日からはじめる「技術 Podcast」完全入門](https://amzn.to/2IM0Igs)
+
+YATTEIKI Project という Podcast も行っている人達が技術系 Podcast を運営してみてのノウハウが書いてある
+
+#### 良い所
+
+- [https://github.com/r7kamura/yattecast](https://github.com/r7kamura/yattecast) という Github pages(Jekyll) で Podcast&ブログが開始できるテンプレートを公開してくれている
+- 録音方法や音質の設定等についても述べられている(モノラルで録音すればデータ量を減らせる等)
+- 技術 Podcast を続けていくための方法にも触れられている
+
+#### イマイチ
+
+- テンプレートはメンテされていないのか、ちょっと情報が古かったりする
+- Discord での録音が書かれていたが試したら、雑音が入りやすいなど録音には向いていない気がした
+
+## 本の内容に加えてやったこと
+
+### Google Podcast 対応
+
+- 最近 Google も Podcast 事業に乗り出してアプリを公開している
+- そのままだと、Google の Podcast アプリで検索されないので対応が必要
+- [https://developers.google.com/search/docs/data-types/podcast](https://developers.google.com/search/docs/data-types/podcast)
+- rss に `xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0"` とだけ追加すれば、iTunesPodcast の xml をそのまま利用できる
+
+## 以前の Podcast の運用に比べて
+
+- Github page(jekyll) での運用なので、エンジニアであれば比較的簡単に保守運用が無料でできる
+  - ただし、Github の制限で 50MB 以上のファイルをあげようとすると git push 時に止められる
+  - コンテンツの長さか質を犠牲にする必要はある
+- 以前は一人でやっていたが、必ず 2 人以上でするようにした
+  - 次回の日程も決めて継続的にできるようにした
+- まだマネタイズ問題が解決しない
+  - ブログに広告だけだと難しい
+  - Patreon 等で支援してもらったり、アマゾンのウィッシュリストで物をもらう
