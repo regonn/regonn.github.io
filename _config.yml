@@ -5,6 +5,9 @@ description: >- # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://blog.regonn.tokyo" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: regonn
+twitter_username: regonn_haizine
+pinterest_username: regonn
+youtube_channel: UCg6N2lmVe6GE3CvShuv6bTg
 paginate: 5
 paginate_path: "blog/page:num"
 

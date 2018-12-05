@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About me
+title: About Regonn
 permalink: /about/
 ---
 
@@ -8,7 +8,7 @@ permalink: /about/
 
 フリーランス
 
-Julia, Kaggler, YouTuber(VTuber), Podcaster
+Julia, Kaggler, YouTuber(VTuber), Podcaster, VR(UE4)
 
 プログラミング動画をあげる底辺 YouTuber やってたりしてます。
 
