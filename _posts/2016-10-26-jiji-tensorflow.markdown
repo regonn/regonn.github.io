@@ -6,16 +6,18 @@ categories: jiji
 ---
 
 # 目的
-[TensorFlowを使った為替(FX)のトレードシステムを作るチュートリアル ～システムのセットアップからトレードまで～](http://qiita.com/jiji_platform/items/268377c542706e6f44b1) で公開されているサンプルコードを実行してみて、トレードの成績は良いものの、取引回数が減ってしまうので、複数通貨で取引できるようにしてみた。さらに今回は [Digital Ocean VPS](https://www.digitalocean.com/) で実際に動かすところまでやってみる。
+
+[TensorFlow を使った為替(FX)のトレードシステムを作るチュートリアル ～システムのセットアップからトレードまで～](http://qiita.com/jiji_platform/items/268377c542706e6f44b1) で公開されているサンプルコードを実行してみて、トレードの成績は良いものの、取引回数が減ってしまうので、複数通貨で取引できるようにしてみた。さらに今回は [Digital Ocean VPS](https://www.digitalocean.com/) で実際に動かすところまでやってみる。
 
 ※ 実際の取引は自己責任でお願いしますね。
 
-# 取引Agentのコード
+# 取引 Agent のコード
+
 サンプルコードを参考に複数通貨対応していった感じ。Tensorflow 側のコードはいじってないです。
 ちょっとログを出力する関係でイマイチな部分もある。
 Currency クラスを作ってそのインスタンスを複数持つことで対応した。
 
-``` ruby
+```ruby
 # tensorflow_agent.rb
 # coding: utf-8
 
@@ -285,20 +287,28 @@ end
 ```
 
 # Digital Ocean へのデプロイ手順
+
 ## Digital Ocean 上で Droplet を作成
+
 サーバーを立ち上げる。Digital Ocean のデザインが全体的にシンプルで好き。
-とりあえず公式だと CentOS で動作確認しているみたいなので、CentOS でサーバーのsizeは一番小さいやつにしておく。(運用中は基本的に12時間に1回しかアクション起こさないので、これで十分なはず)
-![DigitalOcean_-_Create_Droplets.png](https://qiita-image-store.s3.amazonaws.com/0/10375/bdb1780a-97af-1a39-46f6-33a24c12257c.png)
+とりあえず公式だと CentOS で動作確認しているみたいなので、CentOS でサーバーの size は一番小さいやつにしておく。(運用中は基本的に 12 時間に 1 回しかアクション起こさないので、これで十分なはず)
 
-## CentOSにアクセスして環境構築
+<amp-img alt="DigitalOcean"
+  src="/images/2016-10-26-jiji-tensorflow.png"
+  width="1082"
+  height="914"
+  layout="responsive">
+</amp-img>
 
-先に、独自ドメインのDNSの設定と、Digital Ocean 側でもメニューのNetworksから設定しておく。
+## CentOS にアクセスして環境構築
 
-また、今回はsshキーを登録してrootにログインしているので、`sudo` コマンドは使っていないので、適宜必要なところには入れてください。
+先に、独自ドメインの DNS の設定と、Digital Ocean 側でもメニューの Networks から設定しておく。
+
+また、今回は ssh キーを登録して root にログインしているので、`sudo` コマンドは使っていないので、適宜必要なところには入れてください。
 
 Digital Ocean の管理画面に書かれている IP アドレスに `ssh root@{IPアドレス}` でアクセス
 
-``` sh
+```sh
 
 # 必要なパッケージをインストール
 $ yum update -y
@@ -329,11 +339,12 @@ $ docker-compose up -d
 ```
 
 ## collect テストを実行
-立ち上がったサーバー https://{独自ドメイン}:10443 にアクセスし、jiji上でエージェントを登録して collect mode のテストを実行する。
+
+立ち上がったサーバー `https://{独自ドメイン}:10443` にアクセスし、jiji 上でエージェントを登録して collect mode のテストを実行する。
 
 ## 学習させる
 
-``` sh
+```sh
 # mongo DBに値が記録されているかを確認
 $ docker exec -it jiji_example__mongodb  mongo
 > use jiji
@@ -356,8 +367,10 @@ $ forever start -c /usr/bin/python server.py
 ```
 
 ## trade テストを実行
+
 今度は trade mode で実行して上手くいっているかを確認。
 
 ## 感想
+
 今回やってみて、docker の知識とか色々ついた。こういう触れるオモチャ的なものがあると学習って進む感じ。
-jijiにはかなり感謝してます。
+jiji にはかなり感謝してます。
