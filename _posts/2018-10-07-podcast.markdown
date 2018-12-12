@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Podcastの始め方"
+title: "Tech系 Podcastの始め方"
 date: 2018-10-07 17:00:00 +0900
 categories: Podcast
 youtube: "bvOwwxD2kuM"
