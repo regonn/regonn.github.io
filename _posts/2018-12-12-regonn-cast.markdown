@@ -48,6 +48,7 @@ Yattecast があまりメンテナンスされていないのと、あまりア�
   - [amp-analytics](https://www.ampproject.org/docs/reference/components/amp-analytics)
   - [amp-auto-ads(google adsense の自動広告)](https://www.ampproject.org/docs/reference/components/amp-auto-ads)
   - [amp-social-share](https://www.ampproject.org/docs/reference/components/amp-social-share)
+- Schema.org の構造化対応
 - 削除した部分
   - Pushdog がもうサービスをやっていないので削除
   - mediaelement-and-player
