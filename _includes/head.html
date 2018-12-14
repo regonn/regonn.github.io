@@ -40,15 +40,26 @@
       {
         "@context": "http://schema.org",
         "@type": "TechArticle",
-        "image": {% if page.image %} "{{ page.image }}" {% elsif page.eyecatch_file %} "{{ site.url }}/images/eyecatches/{{ page.eyecatch_file }}" {% else %} "{{ site.url }}/images/eyecatches/top.png" {% endif %},
-        "url": "{{ site.url }}{{ page.url }}",
+        "headline": "{{ page.title }}",
+        "image": {% if page.image %} "{{ page.image }}" {% elsif page.eyecatch_file %} "{{ site.url }}/images/eyecatches/{{ page.eyecatch_file }}" {% else %} "{{ site.url }}/images/eyecatches/top.png"{% endif %},
+        "datePublished": "{{ page.date | date_to_xmlschema }}",
+        "author": {
+          "@type": "Person",
+          "name": "regonn"
+        },
+        "description": "{{ page.desc }}",
+        "url": "{{ site.url }}{{ page.url }}"
       }
     {% else %}
       {
         "@context": "http://schema.org",
         "@type": "WebSite",
-        "image": "{{ site.url }}/images/eyecatches/top.png",
+        "name": "{{ site.title }}",
+        "image": [
+          "{{ site.url }}/images/eyecatches/top.png"
+        ],
         "url": "{{ site.url }}",
+        "description": "{{ site.description }}"
       }
     {% endif %}
   </script>
