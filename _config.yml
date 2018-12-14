@@ -22,3 +22,4 @@ plugins:
 
 timezone: Asia/Tokyo
 include: [".well-known"]
+author: れごん
