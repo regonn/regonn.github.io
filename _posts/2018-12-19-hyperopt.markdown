@@ -3,7 +3,6 @@ layout: post
 title: "Optuna使いたいけど、Juliaなので Hyperopt.jl でハイパーパラメータの最適な値を探す(Julia 1.0)"
 date: 2018-12-19 00:00:00 +0900
 categories: "julia"
-eyecatch_file: ""
 desc: "Optuna がリリースされたので、Juliaのハイパーパラメータを探す Hyperopt.jl を使ってみました。"
 keywords: "Julia DecisionTree Hyperopt MNIST"
 ---

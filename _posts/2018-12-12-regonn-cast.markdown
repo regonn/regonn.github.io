@@ -3,7 +3,7 @@ layout: post
 title: "Yattecastをamp対応させてPodcastを配信していく"
 date: 2018-12-12 22:30:00 +0900
 categories: "podcast"
-eyecatch_file: ""
+eyecatch_file: "podcast.png"
 desc: "Podcastサイトを作るためのテンプレートYattecastをamp対応させたのでその話"
 keywords: "Podcast,Yattecast,amp"
 ---

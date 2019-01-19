@@ -3,7 +3,6 @@ layout: post
 title: "2018年にAmazonで買った271件を公開する"
 date: 2018-12-15 00:00:00 +0900
 categories: "amazon"
-eyecatch_file: ""
 desc: "Amazon購入履歴 Advent Calendar登録したので今年買った271件を取り上げてみる"
 keywords: "Amazon 漫画 本 Kindle"
 ---
