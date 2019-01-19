@@ -3,7 +3,7 @@ layout: post
 title: "コルクラボ5期生の班課題発表会に参加しました。"
 date: 2019-01-19 20:00:00 +0900
 categories: "cork"
-eyecatch_file: ""
+eyecatch_file: "2019-01-19-cork-note.jpg"
 desc: "コルクラボ5期生の最初の班課題発表会があったので、これまでの活動の流れと当日学んだことを書きました。"
 keywords: "コルクラボ コミュニティ ギルド"
 ---
@@ -25,7 +25,7 @@ keywords: "コルクラボ コミュニティ ギルド"
 
 普段読書でメモを取る習慣はなかったですが、今回は読み進めながら「容疑者Xの献身だとどの部分だろう」と考えながら書いていきました。メモを取りながらの読書も楽しいですね。
 
-<amp-img src="/images/2019-01-19-cork-note.jpg" alt="" width="300" height="300" layout="fixed" ></amp-img>
+<amp-img src="/images/eyecatches/2019-01-19-cork-note.jpg" alt="" width="300" height="300" layout="fixed" ></amp-img>
 
 字が汚いのはしょうがないです。。。
 
