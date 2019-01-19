@@ -4,13 +4,11 @@ title: 読んだ本
 permalink: /books/
 ---
 
+- [2018年にAmazonで買った271件を公開する](https://blog.regonn.tokyo/amazon/2018/12/15/amazon.html)
+
 - [プログラマが知るべき 97 のこと](http://amzn.to/2b7livf)
 
   - [「プログラマが知るべき 97 のこと」を読んで思ったこと](/book/2014/09/14/every-programmer-should-know.html)
-
-- [弱いつながり](http://amzn.to/2bGcSqJ)
-
-  - [東浩紀「弱いつながり」を読んだ。](/book/2014/09/15/week-connection.html)
 
 - [ザ・ビジョン〜進むべき道は見えているか](http://amzn.to/2b9umKp)
 
