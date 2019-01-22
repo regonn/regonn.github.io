@@ -22,3 +22,7 @@
   max-width: 300px;
   margin: auto;
 }
+
+.post-title {
+  line-height: 1.1;
+}
