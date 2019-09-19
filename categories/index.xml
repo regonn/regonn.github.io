@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/categories/</link>
+    <description>Recent content in Categories on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Tue, 22 Jan 2019 18:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>data-science</title>
+      <link>https://blog.regonn.tokyo/categories/data-science/</link>
+      <pubDate>Tue, 22 Jan 2019 18:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/data-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>community</title>
+      <link>https://blog.regonn.tokyo/categories/community/</link>
+      <pubDate>Sat, 19 Jan 2019 20:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/community/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>amazon</title>
+      <link>https://blog.regonn.tokyo/categories/amazon/</link>
+      <pubDate>Sat, 15 Dec 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/amazon/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>podcast</title>
+      <link>https://blog.regonn.tokyo/categories/podcast/</link>
+      <pubDate>Wed, 12 Dec 2018 22:30:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/podcast/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>programmer</title>
+      <link>https://blog.regonn.tokyo/categories/programmer/</link>
+      <pubDate>Wed, 05 Dec 2018 18:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/programmer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vr</title>
+      <link>https://blog.regonn.tokyo/categories/vr/</link>
+      <pubDate>Mon, 03 Dec 2018 18:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/vr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>event</title>
+      <link>https://blog.regonn.tokyo/categories/event/</link>
+      <pubDate>Sun, 08 Jul 2018 08:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/event/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rails</title>
+      <link>https://blog.regonn.tokyo/categories/rails/</link>
+      <pubDate>Fri, 30 Mar 2018 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/rails/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>book</title>
+      <link>https://blog.regonn.tokyo/categories/book/</link>
+      <pubDate>Mon, 13 Oct 2014 13:48:05 +0000</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/book/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

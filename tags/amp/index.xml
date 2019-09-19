@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>amp on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/tags/amp/</link>
+    <description>Recent content in amp on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Wed, 12 Dec 2018 22:30:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/tags/amp/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Yattecastをamp対応させてPodcastを配信していく</title>
+      <link>https://blog.regonn.tokyo/podcast/2018-12-12-podcast-amp/</link>
+      <pubDate>Wed, 12 Dec 2018 22:30:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/podcast/2018-12-12-podcast-amp/</guid>
+      <description>Podcaster Advent Calendar 2018 の 12 日の記事です。 カレンダーの趣旨勘違いしてて、技術的なことをやって記事書いてしまいましたが、普段やっている Podcast も本日 2 つ通常回ですが公開します。
+本日公開 Podcast  12. オフ会後 - regonn&amp;amp;curry.fm  データサイエンス Podcast Twitter: @regonn_curry  9. ふたりは藤木くん - 今夜も strong x strong  底辺 Podcast、ストロングゼロをただ飲んでるだけ Twitter: @strongxstrong_2   Yattecast Yattecast - Podcast サイトをつくるためのテンプレート
+今年は新しく２つの Podcast を始めたんですが、始めるきっかけや続けるモチベーションを保てたのは、このテンプレートを使って Github pages により無料で公開できたのが大きいです。
+始めた時の技術的な内容は次の記事にまとめてあります。
+Tech 系 Podcast の始め方
+amp 対応 Yattecast があまりメンテナンスされていないのと、あまりアニメーション等もないので、これは amp 対応したほうがメリットありそうと思って今回挑戦してみました。
+成果  regonn/regonn-cast 差分(コミット単位でみてもらうと何をやったかわかりやすいと思います)  対応したこと  Gemfile 更新  Dependabotを使って今後もライブラリのアップデートに対応して更新していけるようにしました  Google Podcast 対応  ちゃんと対応しているのかは Podcast Publisher Tools で確認できるっぽい  amp 対応  amp-audio でポッドキャストも再生できるように amp-analytics amp-auto-ads(google adsense の自動広告) amp-social-share  Schema.</description>
+    </item>
+    
+    <item>
+      <title>Jekyll で作ったブログに AMP を導入してスマホ表示を高速化を動画で解説</title>
+      <link>https://blog.regonn.tokyo/programmer/2016-11-24-jekyll-amp/</link>
+      <pubDate>Thu, 24 Nov 2016 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/programmer/2016-11-24-jekyll-amp/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

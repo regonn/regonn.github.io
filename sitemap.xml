@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/</loc>
+    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/data-science/</loc>
+    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/julia/</loc>
+    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/pca/</loc>
+    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/posts/</loc>
+    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2019-01-22-julia-pca/</loc>
+    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/</loc>
+    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/</loc>
+    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/community/</loc>
+    <lastmod>2019-01-19T20:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/community/2019-01-19-cork/</loc>
+    <lastmod>2019-01-19T20:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/hyperopt/</loc>
+    <lastmod>2018-12-19T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-12-19-hyperopt-julia/</loc>
+    <lastmod>2018-12-19T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/amazon/2018-12-15-amazon/</loc>
+    <lastmod>2018-12-15T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/amazon/</loc>
+    <lastmod>2018-12-15T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/amazon/</loc>
+    <lastmod>2018-12-15T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/book/</loc>
+    <lastmod>2018-12-15T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/kindle/</loc>
+    <lastmod>2018-12-15T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/pages/</loc>
+    <lastmod>2018-12-15T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/books/</loc>
+    <lastmod>2018-12-15T00:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/amp/</loc>
+    <lastmod>2018-12-12T22:30:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/githubpages/</loc>
+    <lastmod>2018-12-12T22:30:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/podcast/</loc>
+    <lastmod>2018-12-12T22:30:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/podcast/2018-12-12-podcast-amp/</loc>
+    <lastmod>2018-12-12T22:30:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/community/2018-12-09-cork/</loc>
+    <lastmod>2018-12-09T17:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/programmer/</loc>
+    <lastmod>2018-12-05T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2018-12-05-matsue/</loc>
+    <lastmod>2018-12-05T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/vr/</loc>
+    <lastmod>2018-12-03T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/vr/2018-12-03-vtuber-hackathon-premium/</loc>
+    <lastmod>2018-12-03T18:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/podcast/2018-10-07-podcast/</loc>
+    <lastmod>2018-10-07T17:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/vr/2018-09-16-workshotp-in-vr/</loc>
+    <lastmod>2018-09-16T17:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/vr/2018-09-09-vtuber-hackathon/</loc>
+    <lastmod>2018-09-09T21:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/event/</loc>
+    <lastmod>2018-07-08T08:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/event/2018-07-08-sitw35/</loc>
+    <lastmod>2018-07-08T08:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-06-21-julia-bayesian-udemy/</loc>
+    <lastmod>2018-06-21T12:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-05-21-cytoscape/</loc>
+    <lastmod>2018-05-21T20:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-05-11-gcpug/</loc>
+    <lastmod>2018-05-11T20:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-05-04-ruby-conf-tw-workshop/</loc>
+    <lastmod>2018-05-04T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/slug/2018-04-19-kaggle-knight-matsue-4/</loc>
+    <lastmod>2018-04-19T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-04-08-json-2-csv/</loc>
+    <lastmod>2018-04-08T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-04-06-kaggle-knight-matsue-2/</loc>
+    <lastmod>2018-04-06T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-04-01-julia-image-segmentation/</loc>
+    <lastmod>2018-04-01T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-03-30-julia-download-images/</loc>
+    <lastmod>2018-03-30T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/rails/</loc>
+    <lastmod>2018-03-30T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2018-03-20-rails-new/</loc>
+    <lastmod>2018-03-30T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2018-02-26-rails-csv-download/</loc>
+    <lastmod>2018-02-26T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-02-18-julia-dataframes-jl/</loc>
+    <lastmod>2018-02-18T22:32:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2018-02-16-julia-csv-dataframes/</loc>
+    <lastmod>2018-02-16T23:07:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/kaggle/</loc>
+    <lastmod>2017-12-20T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-12-20-kaggle-postgresql/</loc>
+    <lastmod>2017-12-20T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-12-19-docker-julia-kaggle/</loc>
+    <lastmod>2017-12-19T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2017-12-13-manjaro/</loc>
+    <lastmod>2017-12-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/aws/</loc>
+    <lastmod>2017-12-04T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-12-04-aws-mxnet-julia/</loc>
+    <lastmod>2017-12-04T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/mxnet/</loc>
+    <lastmod>2017-12-04T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-12-01-kaggle-tutorial/</loc>
+    <lastmod>2017-12-01T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2017-11-13-rails5-login/</loc>
+    <lastmod>2017-11-13T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-11-12-merlin/</loc>
+    <lastmod>2017-11-12T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-11-12-machine-learning/</loc>
+    <lastmod>2017-11-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-11-11-aws-julia/</loc>
+    <lastmod>2017-11-11T19:35:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2017-11-11-manjaro-obs/</loc>
+    <lastmod>2017-11-11T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-11-03-julia-study/</loc>
+    <lastmod>2017-11-03T17:53:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-10-31-aws-mxnet/</loc>
+    <lastmod>2017-10-31T13:28:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-10-27-deep-learning/</loc>
+    <lastmod>2017-10-27T00:21:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/deep-learning/</loc>
+    <lastmod>2017-10-27T00:21:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-10-24-julia-numerai-multi/</loc>
+    <lastmod>2017-10-24T23:34:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-10-22-julia-numerai/</loc>
+    <lastmod>2017-10-22T09:52:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-10-21-julia-box-plot/</loc>
+    <lastmod>2017-10-21T17:00:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2017-10-03-rails-secrets-float/</loc>
+    <lastmod>2017-10-03T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2017-08-31-youtube-live-comment-bouyomi-san/</loc>
+    <lastmod>2017-08-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/dart/</loc>
+    <lastmod>2017-08-27T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2017-08-27-dart-speech/</loc>
+    <lastmod>2017-08-27T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/capybara/</loc>
+    <lastmod>2017-06-13T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2017-06-13-rspec-capybara/</loc>
+    <lastmod>2017-06-13T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/macos/</loc>
+    <lastmod>2017-02-03T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2017-02-03-maxos/</loc>
+    <lastmod>2017-02-03T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2017-01-15-tanaka-tom/</loc>
+    <lastmod>2017-01-15T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2016-12-08-work-place/</loc>
+    <lastmod>2016-12-08T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2016-11-24-jekyll-amp/</loc>
+    <lastmod>2016-11-24T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2016-11-18-tokidoki-nagano/</loc>
+    <lastmod>2016-11-18T21:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2016-10-26-jiji-tensorflow/</loc>
+    <lastmod>2016-10-26T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/jiji/</loc>
+    <lastmod>2016-10-26T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2016-10-23-line-bot/</loc>
+    <lastmod>2016-10-23T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/line/</loc>
+    <lastmod>2016-10-23T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2016-10-13-meguro-es6/</loc>
+    <lastmod>2016-10-13T21:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2016-06-28-free-code-camp-tokyo-17/</loc>
+    <lastmod>2016-06-28T08:34:01+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2016-06-11-free-code-camp-tokyo/</loc>
+    <lastmod>2016-06-11T19:21:13+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/design/</loc>
+    <lastmod>2016-05-23T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2016-05-23-remove-bootstrap/</loc>
+    <lastmod>2016-05-23T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-12-15-pair-programming/</loc>
+    <lastmod>2015-12-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-12-12-sg-faq/</loc>
+    <lastmod>2015-12-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-12-05-honest-code/</loc>
+    <lastmod>2015-12-05T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-12-01-sg-advent/</loc>
+    <lastmod>2015-12-01T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/swift/</loc>
+    <lastmod>2015-11-20T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-11-20-swift-mention/</loc>
+    <lastmod>2015-11-20T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-08-25-sonicgarden/</loc>
+    <lastmod>2015-08-27T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-08-16-tare/</loc>
+    <lastmod>2015-08-16T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-08-09-diary/</loc>
+    <lastmod>2015-08-09T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-08-02-rsap/</loc>
+    <lastmod>2015-08-02T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-07-21-codereview/</loc>
+    <lastmod>2015-07-21T08:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-07-12-debug/</loc>
+    <lastmod>2015-07-12T13:48:05+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2015-07-12-rails-upload-file-cli/</loc>
+    <lastmod>2015-07-12T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-07-04-spike/</loc>
+    <lastmod>2015-07-04T13:48:05+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2015-06-14-to-become-fully-qualified/</loc>
+    <lastmod>2015-06-14T13:48:05+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2015-03-15-method-source/</loc>
+    <lastmod>2015-03-15T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/rust/</loc>
+    <lastmod>2014-12-31T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2014-12-31-rust-cat/</loc>
+    <lastmod>2014-12-31T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2014-12-23-kpt-2/</loc>
+    <lastmod>2014-12-23T13:48:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2014-11-07-rails-datetime/</loc>
+    <lastmod>2014-11-07T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2014-11-03-kpt/</loc>
+    <lastmod>2014-11-03T13:48:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/book/</loc>
+    <lastmod>2014-10-13T13:48:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/book/2014-10-13-zero-to-one/</loc>
+    <lastmod>2014-10-13T13:48:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/book/2014-10-06-the-vision/</loc>
+    <lastmod>2014-10-06T13:48:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2014-09-28-recognition-alignment-ticket/</loc>
+    <lastmod>2014-09-28T13:48:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2014-09-21-recognition-alignment/</loc>
+    <lastmod>2014-09-21T13:48:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/book/2014-09-15-week-connection/</loc>
+    <lastmod>2014-09-15T13:48:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/book/2014-09-14-every-programmer-should-know/</loc>
+    <lastmod>2014-09-14T13:48:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2014-09-07-goal/</loc>
+    <lastmod>2014-09-07T13:48:05+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/javascript/</loc>
+    <lastmod>2014-07-06T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2014-07-06-rails-scaffold/</loc>
+    <lastmod>2014-07-06T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2014-07-06-match-lt-gt/</loc>
+    <lastmod>2014-07-06T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2014-04-09-sonic-garden/</loc>
+    <lastmod>2014-04-09T13:48:05+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/about/</loc>
+    <lastmod>2014-01-03T09:41:28+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/rails/2014-01-03-rails4-gems/</loc>
+    <lastmod>2014-01-03T09:41:28+09:00</lastmod>
+  </url>
+  
+</urlset>

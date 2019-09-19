@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data-science on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/categories/data-science/</link>
+    <description>Recent content in data-science on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Tue, 22 Jan 2019 18:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/categories/data-science/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Strengths Finderで似ている人を見つけるためにJuliaで主成分分析</title>
+      <link>https://blog.regonn.tokyo/data-science/2019-01-22-julia-pca/</link>
+      <pubDate>Tue, 22 Jan 2019 18:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2019-01-22-julia-pca/</guid>
+      <description> 私の最近所属しているグループでは、自分の強みを知ることができる Strength Finder を皆がやっています。
+スプレッドシートに情報が溜まっていたのですが、34項目あるので、自分と同じ傾向の人が探しにくいなと思って、主成分分析を使ってグラフで近い人を見つけられるようにしてみました。
+せっかくなのでJulia言語で書いてみることに。
+PCA(主成分分析) 主成分分析 - Wikipedia 次元を減らすために使われる処理ですが、今回はグラフにしたかったので、34項目の情報(34次元)を2次元にしています。似ている人が近く表示されるようになるはず。
+利用するデータ 流石に個人情報なのと、34項目だと多いのでサンプルデータを用意してみました。
+
+コルクラボでもこんな感じでしたが、実際は人によって、34位まで書いている人と上位5項目までの人がいたので合わせるために、上位5項目以外は0にして処理しました。残りは、1の方を大きい値にするために全体の数値を逆数にして処理しました。
+開発環境  Julia: v1.0.3  この記事書いている時に v1.1 リリースされたけど v1.0.3 で書いてます。  MultivariateStats.jl  PCAを使うためのライブラリ  PlotlyJS.jl  Plotly.jl もあるんですが、PlotlyJS.jl の方がメンテナンスもされているので、こちらを使いました。   Julia のコード 
+出来上がったグラフ 
+サンプルのデータなのでそこまで意味は無いですが、ちゃんと上位が一緒の人(父ちゃんとおまわりさん、兄ちゃんと姉ちゃん)が近い所にいますね。説明変数についてもベクトル表示していて、人が少ない回復志向とかは全員の反対側の方を向いたりしているのでちゃんとできてるっぽい?
+気になること  逆数で処理してるけど、もっと良さそうな計算方法を知りたい  </description>
+    </item>
+    
+    <item>
+      <title>Hyperopt.jl でハイパーパラメータの最適な値を探す(Julia 1.0)</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-12-19-hyperopt-julia/</link>
+      <pubDate>Wed, 19 Dec 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-12-19-hyperopt-julia/</guid>
+      <description>機械学習 Advent Calendar 2018 - Adventar の19日目の記事です。
+Optuna ハイパーパラメータ自動最適化ツール「Optuna」公開 | Preferred Research
+Optunaが公開されて、Julia言語でもハイパーパラメータ自動最適化ツールを探してたら、baggepinnen/Hyperopt.jl が一番求めているものに近かったので触ってみました。
+MNIST 問題 皆大好きMNIST。ちなみに、Juliaだと以前は MNIST.jl からデータが取得できたけどメンテされてなく、Julia 1.0 だと動かないので、MLDatasets.jl を利用する。
+試してみたコード JuliaのランダムフォレストライブラリDecisionTree.jlでMNIST を参考に Julia 1.0 でも動くようにしていく。
+Hyperopt.jl は対応ライブラリとかなく、ランダムで複数のハイパーパラメータの選択した範囲を試してくれて、一番良い結果を返してくれるだけなので、色々使える気もするけど、結局ランダムなので、ある程度値の範囲は絞ってあげる必要がありそう。
+
+無事に正答率は上がったけど、過学習の可能性もあるので、そこら辺は工夫が必要そう。 とりあえず、雰囲気と使い方がわかったので良しとする。
+それよりも、もっと Optuna で遊んでみたい欲がある。 こんな感じでハイパーパラメータも簡単に設定できていけるといいですね。</description>
+    </item>
+    
+    <item>
+      <title>ベルヌーイ分布の確立密度関数をJuliaで計算する</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-06-21-julia-bayesian-udemy/</link>
+      <pubDate>Thu, 21 Jun 2018 12:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-06-21-julia-bayesian-udemy/</guid>
+      <description>ベイズを学ぶために Udemy の講座で
+【Python と Stan で学ぶ】仕組みが分かるベイズ統計学入門
+
+の Python のコードを Julia で書き直して勉強している。
+Python のコード
+次のようにベルヌーイ分布で data から N_data 個取った場合の確立密度関数を計算する Python コードがあった
+import from scipy.stats import bernoulli p_a = 0.3 data = [0,1,0,0,1,1,1] N_data = 2 likehood_a = bernoulli.pmf(data[:N_data], p_a) likehood_a # array([ 0.7, 0.3])  Julia で書き直すとこんな感じになった
+using Distributions p_a = 0.3 data = [0,1,0,0,1,1,1] N_data = 2 likehood_a = pdf(Bernoulli(p_a), data[1:N_data]) likehood_a # 2-element Array{Float64,1}: # 0.7 # 0.</description>
+    </item>
+    
+    <item>
+      <title>グラフ・ネットワーク分析のJSON結果をブラウザ上で描画する Cytoscape.js</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-05-21-cytoscape/</link>
+      <pubDate>Mon, 21 May 2018 20:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-05-21-cytoscape/</guid>
+      <description>【5/21開催】ITOC機械学習もくもく会 #10 - connpass での作業内容。
+最近グラフ・ネットワーク分析(Facebookの友達から相関図を出す等)を勉強していて、解析結果を画像ではなくjsでブラウザ上に表示してみたかったので、グラフ・ネットワークをJSONから描画するjsライブラリを調べてみました。
+もうちょっと、ネットワーク分析を知りたい人は下の記事とか面白いです。
+HIP HOPでわかるネットワーク分析 - Aidemy Tech Blog
+jsのネットワーク・グラフ描画ライブラリ 検索してみたらいくつか発見
+ vis.js - A dynamic, browser based visualization library. Cytoscape.js JSNetworkX Sigma js arbor.js  js界隈あるあるですが、殆どがメンテナンスがされていない状態。。。
+Cytoscape.js だけは、現在もメンテナンスされているみたいなので、これで触ってみることに。
+Cytoscape.js 何ができるかは、TOPページのDemosにあるのと、コードもみることができます。
+あとは、他の人の記事でSlackの内容からコミュニケーションをCytoscape.jsで可視化している例もありました。
+cytoscape.jsとslack APIでチーム内の関係を可視化
+コード もくもく会で時間も限られていたので基本的な部分だけ触ってみました。 Codepenでhtml,css,jsで書いて触れるようになってます。
+Cytoscape - Codepen
+jsのコードはこんな感じ
+var cy = cytoscape({ container: document.getElementById(&#39;cy&#39;), style: cytoscape.stylesheet() .selector(&#39;node&#39;) .css({ &#39;height&#39;: &#39;data(size)&#39;, &#39;width&#39;: &#39;data(size)&#39;, &#39;border-color&#39;: &#39;#000&#39;, &#39;border-width&#39;: &#39;1&#39;, &#39;content&#39;: &#39;data(name)&#39; }) .selector(&#39;edge&#39;) .css({ &#39;width&#39;: &#39;data(strength)&#39; }) .</description>
+    </item>
+    
+    <item>
+      <title>機械学習データを BigQuery と Ruby で処理する</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-05-11-gcpug/</link>
+      <pubDate>Fri, 11 May 2018 20:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-05-11-gcpug/</guid>
+      <description>GCPUG Shimane #02-1 - connpass で発表しました。
+発表スライド
+この前参加した、Ruby X Elixir Conf Taiwan 2018の影響を受けて、データ処理の部分を Bigquery + Ruby で挑戦し、Jupyter の Ruby Kernel でグラフを表示するところまで。
+デモの gist</description>
+    </item>
+    
+    <item>
+      <title>Ruby X Elixir Conf Taiwan 2018 Rubyデータサイエンス最前線</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-05-04-ruby-conf-tw-workshop/</link>
+      <pubDate>Fri, 04 May 2018 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-05-04-ruby-conf-tw-workshop/</guid>
+      <description>台湾のRubyとElixirのTechイベントRuby X Elixir Conf Taiwan 2018に参加してきました。 自分にとって初めての海外一人旅と海外Techカンファレンス。
+趣味でデータサイエンス系の技術を触っていてデータサイエンスに興味があり、丁度イベントでRubyのデータサイエンス界隈がどうなっているかについて、pycall.rb等のライブラリを作っている@mrknさん(株式会社Speee)のワークショップに参加したので、その内容をまとめようと思います。
+内容のレベルはPythonで既に機械学習系のライブラリを触ったことのある人が対象ぐらいで書いています。
+ワークショップリポジトリ RubyData/workshop_taiwan_201804
+今回のワークショップで使われたリポジトリ。
+Dockerを用いて、それぞれの環境を作り進めていきました。
+Session 1: Introduction to Ruby&amp;rsquo;s data tools ecosystem 現在のRuby界隈のDataScience系のプロジェクトやツールを紹介
+Ruby×データサイエンス系プロジェクト  SciRuby  科学技術計算におけるRuby環境の改善が目的の国際プロジェクト Dataframe(Pythonでいうpandas)の daru だったり、RubyをJupyter上で動かすための iruby 等を開発  Ruby Numo  行列計算ライブラリ(Pythonでいうnumpy)の NArray を開発  Red Data Tools  Rubyのデータ処理ライブラリを提供するプロジェクト Apache ArrowのRubyバインドであるred-arrowを開発   Jupyter Notebook上でRubyを動かす Session1.ipynb  Kaggle でもチュートリアルとして有名な Titanic生存者データ rbplotly(いい感じにデータを描画してくれるサービスplotlyをrubyから呼べるgem)を使ってチャートを表示 CSVデータからDaruでデータフレーム型に変換して、rubyの文法でデータを処理できて、チャート表示までが問題なく出来ていた ある程度の前処理等もRubyでできてしまえる可能性を感じた  Session 2: Introduction to pycall.rb RubyでPythonのライブラリやメソッドを呼べる pycall.rb について
+Session2.ipynb  iris(アヤメ)データをpandas(データフレーム),seaborn(描画),scikit-learn(PCA,SVC)を使って解析  wine_data_viewer  pycall.</description>
+    </item>
+    
+    <item>
+      <title>Kaggle Knight Matuse #4 Julia言語でラベル毎に画像を保存する</title>
+      <link>https://blog.regonn.tokyo/slug/2018-04-19-kaggle-knight-matsue-4/</link>
+      <pubDate>Thu, 19 Apr 2018 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/slug/2018-04-19-kaggle-knight-matsue-4/</guid>
+      <description>2018/04/18 開催の Kaggle Knight Matsue #4 でやった作業内容。
+KaggleのiMaterialist Challengeの作業
+画像取得スクリプトの改善 以前作った画像取得スクリプト だと、ラベルの情報が無かったり、先にフォルダを作っておかないとエラーになったりしたので、自動で取得できるように変更する。
+スクリプトの仕様  ラベル情報を読み取り、ラベルのフォルダに画像を保存 フォルダが存在していなければ、新しく mkdir でフォルダ作成 全ての画像を取得するのではなく、それぞれのラベルの画像をn枚毎ダウンロードしたかったので、ラベル毎の枚数を length(readdir(dirname) でファイル数を読み取って、条件に追加する(コードだと100枚にしてある) label に missing が存在していたので、その場合は保存しないようにする json ファイルのときは for in で処理出来ていたが、Dataframeの場合は eachrow を使って行毎に処理できるようにする
+for row in eachrow(target_rows) try dirname = &amp;quot;./images/$(row[:label_id])&amp;quot; filename = &amp;quot;./images/$(row[:label_id])/$(row[:image_id]).jpg&amp;quot; if !isdir(dirname) mkdir(dirname) end if !(ismissing(row[:label_id]).|(isfile(filename)).|(length(readdir(dirname)) &amp;gt; 100)) println(filename) t = tempname() download(row[:url], t) img = load(t) square = imresize(img, (80, 80)) save(filename, square) rm(t) end catch err println(&amp;quot;ERROR: &amp;quot;, err) end end   これで、あとは放置しておけば勝手に指定した枚数毎にラベルの画像がダウンロードできるようになった。途中で止まっても、ちゃんと枚数を数えてから、ダウンロードが再開されるので安心。</description>
+    </item>
+    
+    <item>
+      <title>大きめのJSONファイルをCSVで出力したい(コマンドライン編)</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-04-08-json-2-csv/</link>
+      <pubDate>Sun, 08 Apr 2018 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-04-08-json-2-csv/</guid>
+      <description>KaggleのiMaterialist Challengeで画像URLとラベル情報が載っているデータがJSON形式で42MBある。
+普段私は Julia 言語を使っていて、JSONだと情報が扱いにくいので、DataFrame型にしたいが、そうするには一度CSVファイルに変換してから処理したい。
+実際のJSONデータ train.json
+{ &amp;quot;images&amp;quot;: [ { &amp;quot;url&amp;quot;: [ &amp;quot;https://img13.360buyimg.com/imgzone/jfs/t2857/351/510705008/279959/4e27dce0/57171f60N523c940e.jpg&amp;quot; ], &amp;quot;image_id&amp;quot;: 1 }, &amp;quot;...&amp;quot;: &amp;quot;19万個データが続く&amp;quot;, ], &amp;quot;annotations&amp;quot;: [ { &amp;quot;image_id&amp;quot;: 1, &amp;quot;label_id&amp;quot;: 5 }, &amp;quot;...&amp;quot;: &amp;quot;19万個のデータが続く&amp;quot;, ] }  面倒な点  images と annotations で分かれてる url の中は配列になってる  なので、train_images.csv と train_annotaions.csv に分割して、urlの配列の中身も必ずと言っていいほど1つしか入ってないので、中身は展開しておきたい。
+対処方法 jq コマンド jq は Linux のターミナル上でJSONの値を扱える。出力も自分で指定できるのでCSV形式で出すことができる。
+実行したコマンド $ cat train.json | jq &#39;.images[] | &amp;quot;\(.url[0]),\(.image_id)&amp;quot;&#39; | sed &#39;s/&amp;quot;//g&#39; &amp;gt;&amp;gt; train_images.csv $ cat train.</description>
+    </item>
+    
+    <item>
+      <title>Kaggle Knight Matuse #2 Julia言語でHOGを用いてObject Detection</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-04-06-kaggle-knight-matsue-2/</link>
+      <pubDate>Fri, 06 Apr 2018 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-04-06-kaggle-knight-matsue-2/</guid>
+      <description>2018/04/04開催の Kaggle Knight Matsue #2 でやった作業内容。
+Object Detection using HOG · ImageFeatures を参考にして、KaggleのiMaterialist Challenge準備。
+Juliaで保存する前に画像の拡大縮小をするには次の記事が参考になった。
+Juliaで画像の拡大縮小を行う - Qiita
+Juliaのコードは次のようになった。
+# 必要なライブラリを設定 using JSON using Images using DataFrames using FileIO using LIBSVM # 学習に利用 # ./input にデータを置いてる json = JSON.parsefile(&amp;quot;./input/train.json&amp;quot;) # 数が大きいので最初の10件で試す。images =&amp;gt; 画像URL, annotations =&amp;gt; ラベル情報 が別々に入っている a = json[&amp;quot;images&amp;quot;][1:10] # Json から Dataframe へ変換する。コピペコード。 ka = union([keys(r) for r in a]...) df = DataFrame(;Dict(Symbol(k)=&amp;gt;get.(a,k,NA) for k in ka)...) df[:url] = map(x-&amp;gt; x[1], df[:url]) # 毎回やるのは面倒なのでCSVで保存しておく FileIO.</description>
+    </item>
+    
+    <item>
+      <title>Julia ImageSegmentation.jl を使ってセグメンテーション処理を行う</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-04-01-julia-image-segmentation/</link>
+      <pubDate>Sun, 01 Apr 2018 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-04-01-julia-image-segmentation/</guid>
+      <description>Kaggle のiMaterialist Challenge問題の下準備。
+画像にセグメンテーション処理をする。</description>
+    </item>
+    
+    <item>
+      <title>Julia でJSONに記述されている画像ファイルをダウンロードする</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-03-30-julia-download-images/</link>
+      <pubDate>Fri, 30 Mar 2018 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-03-30-julia-download-images/</guid>
+      <description>【3/30 開催】ITOC 機械学習もくもく会 #08 - connpass での作業内容
+Kaggle のiMaterialist Challenge問題で Julia を使って画像ファイルをダウンロードする。
+また、画像ファイルは 404 や 403 が発生して取得できない場合があるため、エラーハンドリングもしておく。
+とりあえず先頭の 10 個の画像を images フォルダに {model_id}.jpg の形で保存していくコードを書く。
+
+jpg 以外は考慮していない。
+今後は画像のサイズ処理等フィルター関連をしていきたい。</description>
+    </item>
+    
+    <item>
+      <title>Julia DataFrames.jl で数字で始まるカラム名を取得する場合の工夫</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-02-18-julia-dataframes-jl/</link>
+      <pubDate>Sun, 18 Feb 2018 22:32:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-02-18-julia-dataframes-jl/</guid>
+      <description>以前の記事 で紹介した
+DataFrame(load(&amp;quot;./input/train.csv&amp;quot;))  だと、どうやら数字が先頭のカラム名をそのまま扱ってしまう。
+Julia DataFrame columns starting with number? - Stack Overflow
+によると、 :2aa という表記は Julia 上シンボルではなく 1:2aa というレンジの扱いになってしまうため、&amp;quot;1st&amp;quot;というカラムが存在しているからといって、df[:1st] と書いても想定しているカラムを取得できない。
+DataFrame.readtable だと、いい感じにカラム名の先頭を &amp;quot;1st&amp;quot; =&amp;gt; &amp;quot;x1st&amp;quot; のように x を入れてくれていた(これも、実際データ触る時邪魔な気もするけど)
+解決方法 ちゃんとシンボルだと指定してあげればいいので、
+df[Symbol(&amp;quot;1st&amp;quot;)]  としてあげれば取得できる。少し不格好だが嫌いじゃない。</description>
+    </item>
+    
+    <item>
+      <title>Julia でのCSV読み込みは CSVFiles.jl が良さげ</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-02-16-julia-csv-dataframes/</link>
+      <pubDate>Fri, 16 Feb 2018 23:07:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-02-16-julia-csv-dataframes/</guid>
+      <description>DataFramesでreadtableを実行しようとすると、deprecated warningが出る。
+DataFrames.readtable DataFrames.readtable(&amp;quot;./input/train.csv&amp;quot;) =&amp;gt; WARNING: readtable is deprecated, use CSV.read from the CSV package instead  CSV.read これに対応しようとして CSV の read メソッドを呼ぼうとするが、現状このメソッドでやろうとするとNull値を許可したり、Unionで型を指定してあげないといけなかったりする。
+CSV.read(&amp;quot;./input/train.csv&amp;quot;) =&amp;gt; CSV.ParsingException(&amp;quot;error parsing a `Int64` value on column 27, row 235; encountered &#39;N&#39;&amp;quot;)  CSVFiles.jl 他に良さそうなライブラリがないか探してみたら、CSVFiles.jl: FileIO.jl integration for CSV filesが使いやすそうだった。そういえば、提出用ファイルで出力する時にheaderのカラムにダブルクォーテーションを使いたくないときにもこのライブラリで対応できた。スター数は全然付いていないがメンテもされているし使い勝手が良い。作者のdavidanthoffさんがjuliaの質問サイトとかで自分のライブラリを紹介して広めているのも健気で好感が持てる。Read file with CSV.read - Usage / First steps - Julia discourse
+使い方としては
+DataFrame(load(&amp;quot;./input/train.csv&amp;quot;))  で DataFrames.readtable と同じように扱うことができる。</description>
+    </item>
+    
+    <item>
+      <title>Kaggleで容量の大きいcsvファイルを取り扱うには？(Postgresql編)</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-12-20-kaggle-postgresql/</link>
+      <pubDate>Wed, 20 Dec 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-12-20-kaggle-postgresql/</guid>
+      <description>Kaggleをやってると大きめのCSVファイルデータが用意されていて処理に困ったので、今回はそれを Postgresql で処理して容量を減らして再びCSVにしていきます。
+想定ファイル 今回は次のようなcsvを扱います。
+sample.csv uuid,name,price,date xxxxxxxxxxxx,tomato,10,2017-10-19 yyyyyyyyyyyy,banana,8,2017-10-19  Postgres に DB を作ってアクセスする  入力ファイルがあるディレクトリで作業を行う sampleという名前のDBを作成する 登録されているユーザー名(username)でsample DBにアクセスする
+$ ls # 入力ファイルがあるディレクトリで作業を行う sample.csv $ createdb sample $ psql -d sample -U (username)   Table を作る  samplesという Table を作成する。csvと同じ構成になるようにカラムを設定する \dで作ったTableが存在するかを確認
+sample=# CREATE TABLE samples ( uuid varchar(80), name varchar(80), price int, date date ); sample=# \d List of relations Schema | Name | Type | Owner --------+---------+-------+-------- public | samples | table | username   ローカルのcsvをインポートする  今回は \copy でメタコマンドを使っているが、COPYコマンドを使う場合は絶対パスを指定してあげる header を追加することでcsvの最初の行を無視してくれる</description>
+    </item>
+    
+    <item>
+      <title>Kaggle の Kernel が動いている Julia Docker を最新版にしていく</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-12-19-docker-julia-kaggle/</link>
+      <pubDate>Tue, 19 Dec 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-12-19-docker-julia-kaggle/</guid>
+      <description>Julia Advent Calendar 2017の19日目の記事です。 普段はデータサイエンスに関する動画を投稿しています。田中TOM - YouTube 最近データサイエンスのコンペティションサイトのKaggleで遊んでいて、Julia言語でデータサイエンス系の処理をやっている身としては、JuliaのKernelを登録したい。
+しかし、Juliaでの登録自体はできるものの、エラーが起きてしまいコードが実行されない、そのため殆どのコンペティションではJuliaのKernelが登録されていないのが現状。
+Kaggleのgithubページを見ると、Kaggle/docker-python: Kaggle Python docker image や Kaggle/docker-rstats: Kaggle R docker image といったPythonやR言語向けKernel dockerはちゃんとメンテナンスされているっぽい。
+同じようにjuliaも Kaggle/docker-julia でリポジトリは存在しているが、残念ながらメンテナスがされていない。
+このままだと世界中のJulia愛好家がKaggleで活躍できないので、今回はローカルDockerfileを実行しつつ最新のJuliaの安定版が起動するように変更していく。そしていずれ、JuliaのKernelがKaggle上で動いてくれて、メンテも継続されていくのが夢。
+元のDockerファイル # kaggle/julia dockerfile FROM ubuntu:16.04 ADD package_installs.jl /tmp/package_installs.jl RUN apt-get update &amp;amp;&amp;amp; \ apt-get install git software-properties-common curl wget libcairo2 libpango1.0-0 -y &amp;amp;&amp;amp; \ add-apt-repository ppa:staticfloat/julia-deps -y &amp;amp;&amp;amp; \ apt-get update -y &amp;amp;&amp;amp; \ apt-get install -y libpcre3-dev build-essential &amp;amp;&amp;amp; \ apt-get install -y gettext hdf5-tools &amp;amp;&amp;amp; \ apt-get install -y gfortran python &amp;amp;&amp;amp; \ apt-get install -y m4 cmake libssl-dev &amp;amp;&amp;amp; \ cd /usr/local/src &amp;amp;&amp;amp; git clone https://github.</description>
+    </item>
+    
+    <item>
+      <title>AWS EC2 に Julia 開発環境を構築し MXNet.jl でGPU処理したい</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-12-04-aws-mxnet-julia/</link>
+      <pubDate>Mon, 04 Dec 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-12-04-aws-mxnet-julia/</guid>
+      <description>田中 TOM という名前で、データサイエンスコンペティションサイトの Kaggle の問題に挑戦する YouTube 動画を投稿してます。
+田中 TOM - YouTube
+普段 Julia 言語を使って解析をしていて、AWS で Amazon が公式にサポートしている MXNet を GPU 使って処理してみたかったのでチャレンジ。
+実は、既に MXNet.jl を AWS で動かして記事にしてました。
+AWS の Deep Learning AMI を使って EC2 インスタンス上で 最新の Julia を動かせるように
+けど、この記事を書いた後に使っていた Deep Learning AMI が大幅に変更された。
+AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Services ブログ
+そして、Julia 0.6.1 だとインストールが失敗するためPkg.build(&#39;MXNet&#39;) してビルドして使っていた MXNet.jl も v0.3.0 がリリースされてインストールできるようになったぽい。
+なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。</description>
+    </item>
+    
+    <item>
+      <title>データサイエンティストを目指すための Kaggle チュートリアル</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-12-01-kaggle-tutorial/</link>
+      <pubDate>Fri, 01 Dec 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-12-01-kaggle-tutorial/</guid>
+      <description>皆さんデータサイエンスしてますか？
+機械学習の本読んだけど、MNISTやIrisデータの解析も飽きてきた(ディスっているわけではない)のであれば、実際の企業や団体が公開しているデータに触れることができるデータサイエンスコンペティションサイトのKaggleに挑戦してみましょう。
+今回は、日本語対応しておらず少しハードルの高いKaggleのコンペティションに参加できるように、よく出てくる単語とかを説明していきます。
+重要なKaggle用語 Kernels Kaggleで公開されているデータに対して、統計処理を行った結果や予測結果が公開されている。一流のプロが解析しているKernel等も見ることができ、評価の高いKernelのコードを写経するだけでも価値があると思う。
+Competitions 企業が賞金を出したりして、参加者がより良い予測ができるモデルを作って競い合います。上部メニューのCompetitionsで飛ぶと一覧で出てきます。Activeというのが現在開催中のもので、最近(2017年12月)だと、メルカリが値段予測問題でコンペティションを開催しています。
+Datasets 企業等が公開しているデータ。コンペティションではないので他のユーザーとは競わないですが、他のデータサイエンティストが公開しているKernelも見ることができるので、色々と参考になる。
+Kaggleをどう利用したらいいのか？ 登録してみたものの、何をすればいいのか迷いますよね。これについては、KaggleのCTOが Quora という Q&amp;amp;Aサイト(実名版のヤフー知恵袋のようなもの)で回答した内容だと機械学習やAIを学ぶには次のようにKaggleを使っていくと良いそうです。(あまり英語得意じゃないので勝手な解釈になってるかもしれませんが間違ってたらコメントで指摘してください)
+1. 興味のある問題を選ぶ 好きなものこそ上手なれという言葉もあるように、まず自分の興味ある分野のDatasetsを探してみましょう。画像を解析する問題や、株価を予測する問題が色々あります。Kaggleだとチュートリアル的な問題として、タイタニックの生存者予測や家の値段予想があります。
+2. 一回愚直に問題を解いてみる あれこれ、アルゴリズムを考えたりしてドツボにはまるのであれば、一度愚直に、簡単な方法で解いてみましょう。例えば性別の情報が入っているなら、性別だけで一回予測してみて答えを出してみたりすると、精度は悪いですが回答できるようになります。
+3. 最初のモデルを改善していく 一度回答は出せたので、今度はその回答の精度を上げてみます。先程の例ですと、性別の他に年齢を加えてみたり、使ったアルゴリズムの変数を調整して、どうすれば良い結果が得られるか色々試してみます。
+4. 自分の解法を公開する ある程度、良い結果がでたら、Kernelを公開してみましょう。フィードバックを得られて学びになったり、高評価を得てKaggleのプロフィールの見栄えがよくなるかもしれません(就職・転職の際に使えそうですね)。日本語でフィードバックが欲しいならQiitaなどで公開しても良さそうですね。
+5. 1~4を繰り返す 他の問題でも同じように解いてKernelを公開したり、他人のKernelを読んで勉強して色々な問題に対応できるようにしていきましょう。
+6. Competitionに参加してみる 実力を付けたらCompetitionに挑戦してみましょう。(別に参加は無料なのでいきなりCompetitionに参加しても大丈夫です)
+チーム機能もあったりするので、一緒にデータサイエンスを学んでいる人と協力して挑戦するのも良さそうです。
+7. プロを目指して機械学習を実践していく ある程度、Competitionに慣れてきたら、実際に自分の仕事で機械学習を実践してみたり、転職などで使える環境に挑戦してみましょう。ここまでくると最新の論文を読んだり、良いコードの書き方を意識しだしたりするようです。(ちなみに私はまだこのレベルまで達してないです。)
+あとは、自分が将来進む道(アカデミックな分野かAIエンジニアかデータサイエンティストなのか)も決めて専門性を高めていく必要があるみたいです。(なんか、ゲームの2次職みたいですね)
+8. 他の人に教えてみる ここまできたら、実際に他の人にも教えてみましょう。
+勉強会で発表したり、ブログや本を書いたり、アウトプットする方法は色々あると思います。他人に説明することで、自分のなかであやふやな部分とかも気づけたりするので大事ですね。
+Kaggleで目指すもの KaggleではCompetitionで上位に入賞したり、高評価のKernelを作ったりすると、メダルがもらえて、そのメダルの種類と枚数によってランクが上がって行きます。最終的にはグランドマスターという称号が用意されているので、それを目指してみるのもいいですね。
+宣伝 普段は田中TOMという名前でKaggleのコンペに挑戦するYoutube動画あげています。一緒にKaggleでプロフェッショナルの証であるMasterランクを手に入れましょう。
+めざせKaggleMaster - YouTube</description>
+    </item>
+    
+    <item>
+      <title>国産DeepLearningライブラリの Merlin.jl</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-11-12-merlin/</link>
+      <pubDate>Sun, 12 Nov 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-11-12-merlin/</guid>
+      <description>Deep Learning フレームワークざっくり紹介 Advent Calendar 2017　11 日目の記事。
+普段は、Kaggle の問題に挑戦する動画を投稿する底辺 YouTuber をやっています 田中 TOM
+最近、機械学習関連は Julia 言語をメインで使っていて、以前Julia データサイエンスワークショップに参加した時、Mearlin.jl という国産の DeepLearning ライブラリを知ったので紹介していきます。
+このライブラリは奈良先端科学技術大学院大学の進藤氏が自然言語処理分野において、入力のサンプルが異なるためミニバッチ化が難しく並列計算処理を行いにくい問題を解決するために作られました。 Julia 言語が採用されており、命令形的で動的にモデルを構築しても、Julia の特徴の一つである高速で動かせるメリットが活きて、柔軟に素早く学習を行うことが可能になっています。 参考論文:Julia 言語による深層学習ライブラリの実装と評価
+詳しい内容は論文を読んでもらいサンプルコードを紹介していきます。
+サンプルコード 次のような簡単なニューラルネットワークを構築します
+
+静的評価の場合 static.jl T = Float32 n = Node(name=&amp;quot;x&amp;quot;) n = Linear(T,10,7)(n) n = relu(n) n = Linear(T,7,3)(n) g = Graph(n) x = zerograd(rand(T,10,10)) y = g(&amp;quot;x&amp;quot;=&amp;gt;x) params = gradient!(y) println(x.grad) opt = SGD(0.01) foreach(opt, params)  入力xについてはランダムな値を入れています。 この場合、Graphを作って、そこにデータを入力し結果をだしています。 Theano 等宣言型のフレームワークの書き方。 画像などの入力の形が一定であるものは扱いやすく高速に処理できる。</description>
+    </item>
+    
+    <item>
+      <title>2017年に触った(学んだ)機械学習の技術をまとめておく</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-11-12-machine-learning/</link>
+      <pubDate>Sun, 12 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-11-12-machine-learning/</guid>
+      <description>2017年に入ってから機械学習系の技術を触り始めてYouTubeで学んだ内容を動画にして公開していった。 触り始めてから約1年経ったので、これまでの内容をまとめていく。 今はデータサイエンスの技術を競い合うKaggleというサービスでMasterの称号を得るために相棒のJulia(言語)と奮闘中。
+めざせカグルマスター
+2017年に触ってきたもの ゼロから作るDeepLearning  書籍のゼロから作るDeep Learning ―Pythonで学ぶディープラーニングの理論と実装を参考にDeepLearningのモデルを構築していく。
+最初はパーセプトロンの実装から、最終的にはMNISTの画像判別の部分までやっている。 ここで、ディープラーニングに関する基礎的な内容をPythonを使ってゼロから作ってみて、どのような計算や方法が使われているのか知ることができた。
+何ができるようになったか 画像を分類することが可能になった。 現状は、1枚毎に用意されている手書きの数字から書かれている数字を分類できる。
+Keras で時系列データ予測  今度はKerasというディープラーニング用のライブラリを使って時系列データ(回帰分析)を扱った。 RNN(Recurrent Neural Network) から LSTM(Long Short-Term Memory) を利用して、過去の情報を保持しながらの数値予測をしている。 KerasはTensorFlowやTheanoをラッパーしておりモデルを構築しやすかったし、大抵の機能(LSTM)などが揃っているため、特定のニューラルネットワークの層がどういった役割かについて概要を知っていれば扱えて便利だった。
+何ができるようになったか 株価予測など過去の情報から未来の傾向を予測することができるようになった。(もちろん精度はまだ良くない)
+Random Forestで分類問題  決定木を組み合わせたランダムフォレストをPythonで実装してみて、分類問題を解いていく。 他の機械学習のアルゴリズムと比べてもロジックが複雑ではなく出来上がった結果も見やすいため、ライブラリを使わず自作しても、それなりに精度を出すことができた。機械学習系を触るのであれば、ここらへんから触り出してみると、最初から結果を出せるので良いかもしれない。
+何ができるようになったか 画像だけでなく、複数の数値などから対象のものを分類することができるようになった。 (今回は花の花弁の長さ情報から種類を特定できるように)
+Kaggleマスターを目指していく  メジャーな機械学習のライブラリや技術は触ることができてきたので、Kaggleというデータサイエンスコンペティションサイトでデータサイエンスの腕を磨いていくことに。 この辺りで自分はJuliaという言語を知り、気に入ったのでJuliaを使って色々挑戦している。
+何ができるようになったか 簡単な統計処理(Nullな値をどう扱うか等)やどういったツールを使うと効率的に求めることができるかも分かってきた。あと、AWSでGPUを使って計算処理する方法など。
+来年に向けてやっていきたいこと、将来像 Kaggleをやりだして感じたことは、統計に関する知識が自分に足りていないことだ。 実際にKaggleのアンケートでDeepLearning(NN)を使っている人は意外と少なかったりして、統計処理をしっかりと組み合わせて、分析や予測をしている人たちがやっぱり強い。
+今年一年で道具は使えるようになってきたので、来年はもう少し統計や数学に関する知識を身につけていきたい。自分にとってデータサイエンスの分野は熱中できるため今後もやっていくと思う。
+最近興味が出てきた技術は量子コンピュータ分野だ。 量子コンピュータが人工知能を加速するという本を読んで、最近の量子コンピュータ系の技術が機械学習に応用できそうという話を知った。幸い大学時代は応用物理学を学んでいたので、量子力学に関する知識は多少持ち合わせているのと、マイクロソフトが今年中には量子コンピュータのプログラミング言語を発表するらしい。 マイクロソフト、量子コンピュータ向けプログラミング言語を発表 - ZDNet Japan なので、来年は統計・数学・量子力学などの大学時代を思い出す内容を再び学んでいくことになりそうな気がする。</description>
+    </item>
+    
+    <item>
+      <title>AWSのDeepLearningAMIを使ってJuliaを動かせるように</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-11-11-aws-julia/</link>
+      <pubDate>Sat, 11 Nov 2017 19:35:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-11-11-aws-julia/</guid>
+      <description>以前 Deep Learning AMI を使うことで気軽に MXNet を GPU 上で動かせた。
+【動画解説】AWS の Deep learning 用 AMI で MXNet を動かす
+ただし、自分の今触っている Julia 言語が AMI にインストールされておらず、最新版(現在 v0.6.1) を動かしてGPU処理をするまで持っていった。Amazon Linux だとライブラリ周りのバージョンが追いついていなかったので、今回はUbuntu版のDeep Learning AMI(タイプはGPUが使えるp2.xlarge)を利用して構築。
+まずは普通にEC2のインスタンスにアクセスして、rootユーザになり、julia の v0.6.1 を make する。(CPU4コア使っても1時間ぐらいかかる。。。)
+$ sudo su - $ apt-get update $ apt-get install libpango1.0-0 -y $ add-apt-repository ppa:staticfloat/julia-deps -y $ apt-get update $ cd /usr/local/src $ git clone https://github.com/JuliaLang/julia.git $ cd julia $ git checkout v0.6.1 $ echo &amp;quot;JULIA_CPU_TARGET=core2&amp;quot; &amp;gt; Make.</description>
+    </item>
+    
+    <item>
+      <title>Julia データサイエンスワークショップに参加</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-11-03-julia-study/</link>
+      <pubDate>Fri, 03 Nov 2017 17:53:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-11-03-julia-study/</guid>
+      <description>最近 Julia のデータサイエンス本を購入。
+Julia データサイエンス―Julia を使って自分でゼロから作るデータサイエンス世界の探索
+
+
+ちょうど、この書籍に関する勉強会が開催されるのを知り参加してみる。
+Julia データサイエンスワークショップ - connpass
+やはりというか、書籍で書かれている Julia のバージョンが v0.4 で現在は v0.6 なので、動かないコードが多い印象。(公式 github は更新がなく、日本の出版社も v0.6 対応は近日公開になっている。。。)発表者の方が、一部 v0.6 でも動くようにしてもらっていたので助かった。
+data-refinement/Julia-for-Data-Science
+この勉強会を開催するに至った経緯に次の本の話があり、この本の著者が公開しているサンプルコードは Julia のコードで書かれているみたいで、今後も Julia は科学計算分野で使われていきそう。
+機械学習スタートアップシリーズ ベイズ推論による機械学習入門 (KS 情報科学専門書)
+
+
+「機械学習スタートアップシリーズ ベイズ推論による機械学習入門」のサンプルコード(コチラは最新の v0.6 で書かれている)
+最初に紹介した Julia のデータサイエンス本の次はこれを読んでいくのと、勉強会で Julia で書かれている(他の言語でのライブラリの API を叩いていない)deep learning ライブラリの hshindo/Merlin.jl(国産ライブラリ) や pluskid/Mocha.jl の存在を知ったので触っていこうと思う。</description>
+    </item>
+    
+    <item>
+      <title>【動画解説】AWS の Deep learning 用 AMI で MXNet を動かす</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-10-31-aws-mxnet/</link>
+      <pubDate>Tue, 31 Oct 2017 13:28:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-10-31-aws-mxnet/</guid>
+      <description>AWS の Deep learning 用 AMI を使って EC2 の GPU インスタンスを起動し MXNet を Jupyter notebook 経由で扱っていきます。</description>
+    </item>
+    
+    <item>
+      <title>Deep Learning 補足動画 行列内積の誤差逆伝播の式を導出</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-10-27-deep-learning/</link>
+      <pubDate>Fri, 27 Oct 2017 00:21:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-10-27-deep-learning/</guid>
+      <description>ゼロから作る Deep Learning で Affine レイヤーの内積の誤差逆伝播を求める部分が省略されていたので、行列で微分する部分の説明を動画で録画してみました。
+Deep Learning 補足動画 行列での微分部分の補足動画です。
+
+この
+
+について解説してく。
+今回想定するモデル 今回はバイアス部分は除いて、単純に入力 2 個と次の層への出力 3 個で考える。
+
+
+
+ここで
+
+となる。
+① について 
+まで計算しておいて
+
+を代入すると
+
+よって示せた。
+② について 
+同じように
+
+少し複雑になるが
+
+なので、ほとんどは 0 になってしまう。
+
+よって示せた。
+単純な数値計算例(値は結構適当) 
+
+
+もし、損失関数を計算して
+
+として値が渡ってきたとしたら、</description>
+    </item>
+    
+    <item>
+      <title>Juliaで並列計算を試す</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-10-24-julia-numerai-multi/</link>
+      <pubDate>Tue, 24 Oct 2017 23:34:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-10-24-julia-numerai-multi/</guid>
+      <description>引き続き Numerai をランダムフォレストで解いてみる。
+https://www.slideshare.net/sfchaos/julia-39591233
+のスライドによると、 DecisionTree は並列計算対応してくれているらしいので、実験してみた。
+using DataFrames using DecisionTree using ScikitLearn using LossFunctions train = readtable(&amp;quot;./numerai_training_data.csv&amp;quot;) test = readtable(&amp;quot;./numerai_tournament_data.csv&amp;quot;) yTrain_array = Array(train[:, :target] * 1.0) xTrain_array = Array(train[:, 4:53]) @time model = build_forest(yTrain_array, xTrain_array, 2, 30, 4, 0.7, 50) pred_test = apply_forest(model, Array(test[:,4:53])) labelsInfoTest = DataFrame() labelsInfoTest[:id] = test[:id] labelsInfoTest[:probability] = pred_test writetable(&amp;quot;numerai_answer3.csv&amp;quot;, labelsInfoTest, separator=&#39;,&#39;, header=true)  @time を付けることでそのコードでの処理時間やメモリ使用量が分かるっぽい。
+実行結果 &amp;gt; julia numerai.jl 657.770862 seconds &amp;gt; julia -p 3 numerai.</description>
+    </item>
+    
+    <item>
+      <title>Julia で Numerai にチャレンジ</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-10-22-julia-numerai/</link>
+      <pubDate>Sun, 22 Oct 2017 09:52:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-10-22-julia-numerai/</guid>
+      <description>Numerai というデータサイエンスが競い合って、効率の良いファウンドを運営しようという試み。
+ビットコインで雇われた匿名の7,500人が「頭脳」となるヘッジファンド「Numerai」｜WIRED.jp
+良いデータを登録できると、報酬ももらえるので頑張って Julia で挑戦してみる。
+using DataFrames using DecisionTree using ScikitLearn train = readtable(&amp;quot;./numerai_training_data.csv&amp;quot;) test = readtable(&amp;quot;./numerai_tournament_data.csv&amp;quot;) yTrain_array = Array(train[:, :target] * 1.0) xTrain_array = Array(train[:,4:53]) model = RandomForestRegressor() ScikitLearn.fit!(model, xTrain_array, yTrain_array) predTest = ScikitLearn.predict(model, Array(test[:,4:53])) labelsInfoTest = DataFrame() labelsInfoTest[:id] = test[:id] labelsInfoTest[:probability] = predTest writetable(&amp;quot;numerai_predict.csv&amp;quot;, labelsInfoTest, separator=&#39;,&#39;, header=true)  とりあえず、simpleなランダムフォレストを作って登録もできた。Loglossは0.76522ぐらいだった。</description>
+    </item>
+    
+    <item>
+      <title>Julia で箱ひげ図を表示する</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-10-21-julia-box-plot/</link>
+      <pubDate>Sat, 21 Oct 2017 17:00:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-10-21-julia-box-plot/</guid>
+      <description>Kaggle の Titanic 問題 をやっている。
+性別と等級から年齢の平均は異なりそうで、それを NaN 値に入れることを考えた。
+まずは、実際にどれくらい違いがでるのかを確認してみる。
+箱ひげ図 を表示できれば良さそうなので、Julia の Gadfly ライブラリを使って、図を表示してみる。
+
+やっぱり差異はありそうなので、今後の :Age の NaN 値にはとりあえず、この平均を入れていくことにする。</description>
+    </item>
+    
+    <item>
+      <title>機械学習を勉強して内容を動画でまとめていく</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-01-15-tanaka-tom/</link>
+      <pubDate>Sun, 15 Jan 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-01-15-tanaka-tom/</guid>
+      <description> 田中TOMという名前でYoutuberやってます。 機械学習について勉強して学んだことを動画でまとめていきます。
+Random Forestで分類問題  Random Forest で分類問題 part1 決定木モデル 理論編 Random Forest で分類問題 part2 決定木モデル 実装編 Random Forest で分類問題 part3 Random Forest 理論編 Random Forest で分類問題 part4 Random Forest 実装編  Kerasで時系列データ予測 簡単にNN(ニューラルネットワーク)が構築できる Keras で時系列データの機械学習を行う。
+ Kerasで時系列データ予測 part1 環境構築 Kerasで時系列データ予測 part2 Keras Kerasで時系列データ予測 part3 再帰型ニューラルネットワーク Kerasで時系列データ予測 part4 時系列データ予測  ゼロから作るDeep Learning 機械学習の Deep Learning について自分達が学習した内容をまとめて動画にしています。 参考書はゼロから作るDeep Learning ―Pythonで学ぶディープラーニングの理論と実装です。
+ Deep Learning 第1回:まずは環境構築だ！ Deep Learning 第2回:パーセプトロンを実装しよう Deep Learning 第3回:ニューラルネットワーク その1 Deep Learning 第4回:ニューラルネットワーク その2 Deep Learning 第5回:ニューラルネットワークの学習機能を実装 Deep Learning 第6回:誤差逆伝播を利用して学習処理を早くする Deep Learning 第7回:誤差逆伝播を用いてニューラルネットワークを実装 Deep Learning 第8回:機械学習機能を実装したので、ここまでのまとめ Deep Learning ちょっと横道 MNIST 以外のデータで機械学習を試す Deep Learning ちょっと横道 その2 ニューラルネットワークの改善 Deep Learning 第9回:パラメータの自動最適化 Deep Learning 第10回:パラメータの自動最適化(過学習編) Deep Learning 第11回:畳み込みニューラルネットワーク  </description>
+    </item>
+    
+  </channel>
+</rss>

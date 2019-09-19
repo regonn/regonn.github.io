@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>rails on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/categories/rails/</link>
+    <description>Recent content in rails on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Fri, 30 Mar 2018 09:41:28 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/categories/rails/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>【5.2.0版】rails new する際のオレオレやることリスト</title>
+      <link>https://blog.regonn.tokyo/rails/2018-03-20-rails-new/</link>
+      <pubDate>Fri, 30 Mar 2018 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2018-03-20-rails-new/</guid>
+      <description>最初に  自分用のメモとして随時更新していく アプリ名は sample にしているつもり  rails new 実行コード rails new sample --webpack -d postgresql -B -T
+ポイント  webpack を導入 postgresql を使う bundle install と unittest ファイルの生成はしない  haml 導入  Gemfile に haml-rails 追加 bin/rake haml:erb2haml 実行 Gemfile から haml-rails 削除 Gemfile に hamlit-rails 追加  sass 変更  全て読み込むファイルは定義するので一度 application.css ファイルは消してしまう rm app/assets/stylesheets/application.css touch app/assets/stylesheets/application.sass でファイルだけ作っておく Gemfile に sassc-rails 追加、sass-rails は削除  font-awesome-rails 追加  Gemfile に font-awesome-rails 追加 app/assets/stylesheets/applicaiton.</description>
+    </item>
+    
+    <item>
+      <title>RailsでCSVダウンロード機能実装(Shift JIS対応)</title>
+      <link>https://blog.regonn.tokyo/rails/2018-02-26-rails-csv-download/</link>
+      <pubDate>Mon, 26 Feb 2018 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2018-02-26-rails-csv-download/</guid>
+      <description>RailsでDBのレコードを読み込んでCSVとして吐き出す方法。
+Userというモデルで実装しています。
+以下のコードをダウンロードを行いたいControllerのアクションに追加(config/routes.rb にもアクションを追加してください。)
+# app/controllers/users_controller.rb def csv self.response.headers[&amp;quot;Content-Type&amp;quot;] ||= &#39;text/csv; charset=Shift_JIS&#39; self.response.headers[&amp;quot;Content-Disposition&amp;quot;] = &amp;quot;attachment;filename=users_#{Time.current.to_i}.csv&amp;quot; self.response.headers[&amp;quot;Content-Transfer-Encoding&amp;quot;] = &amp;quot;binary&amp;quot; self.response.headers[&amp;quot;Last-Modified&amp;quot;] = Time.current.ctime.to_s self.response_body = Enumerator.new do |yielder| yielder &amp;lt;&amp;lt; encode_sjis(User.csv_header) # ここで、出力するデータのスコープを変更できます。 User.all.each do |user| yielder &amp;lt;&amp;lt; encode_sjis(user.to_csv) end end end private def encode_sjis data data.encode(&amp;quot;Shift_JIS&amp;quot;, invalid: :replace, undef: :replace, replace: &#39;?&#39;) end  モデルの方も実装していきます
+# app/models/user.rb def self.csv_header header = [] header &amp;lt;&amp;lt; (User.human_attribute_name :id) header &amp;lt;&amp;lt; (User.human_attribute_name :name) header.to_csv end def to_csv cols = [] cols &amp;lt;&amp;lt; id cols &amp;lt;&amp;lt; name cols.</description>
+    </item>
+    
+    <item>
+      <title>Rails5対応 自分だけログインできる環境を作る</title>
+      <link>https://blog.regonn.tokyo/rails/2017-11-13-rails5-login/</link>
+      <pubDate>Mon, 13 Nov 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2017-11-13-rails5-login/</guid>
+      <description>devise gemを使うことで簡単にログイン環境と認可機能を実装できますが、自分しか使わない個人のアプリだけどHerokuにアップするから他の人がeditとかnewのページに入れないようにしたいぐらいだと、gem使うよりも独自に実装するほうが簡単だったのでご紹介。
+参考サイト ほとんど、このブログ記事を参考にしました。Ruby on Rails3.2でログイン機能を実装する。
+準備 Gemfileに書かれているがコメントアウトされている bcrypt gem を有効にします。パスワードの暗号化に必要です。
+# Gemfile gem &#39;bcrypt&#39;, &#39;~&amp;gt; 3.1.7&#39;  そして、 bundle install をして準備完了。
+Userモデル作成 まず、Userモデルを作ります。
+$ rails g model user name:string password_digest:string $ rails db:migrate  次にできたUserモデルファイルを変更
+# app/model/user.rb class User &amp;lt; ApplicationRecord has_secure_password validates :password, presence: true, length: { minimum: 8 } end  これでさっき入れたbcrypt gemが使われます。
+データ作成 そして、アカウント追加
+$ rails c irb(main):001:0&amp;gt; User.create!(name: &amp;quot;admin&amp;quot;, password: &amp;quot;hogehoge&amp;quot;, password_confirmation: &amp;quot;hogehoge&amp;quot;)  passwordはハッシュ化された値で保存されます。</description>
+    </item>
+    
+    <item>
+      <title>Rails config/secrets.yml の環境変数がfloat型になる時の対処法</title>
+      <link>https://blog.regonn.tokyo/rails/2017-10-03-rails-secrets-float/</link>
+      <pubDate>Tue, 03 Oct 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2017-10-03-rails-secrets-float/</guid>
+      <description>困ったこと Railsで Slack OAuth 認証を実装していたら、Slack の client_id が 4167427656.251487306806 のような 数字 + .(ドット) + 数字 の形式が使われてた。
+client_id は環境変数として使いたかったため
+SLACK_CLIENT_ID=&#39;4167427656.251487306806&#39;  のように設定し secrets.yml には次のように書く
+shared: client_id: &amp;lt;%= ENV[&#39;SLACK_CLIENT_ID&#39;] %&amp;gt;  そして、Railsで値を呼ぼうとすると
+&amp;gt; Rails.application.secrets.client_id =&amp;gt; 4167427656.2514873  のように設定した値と異なって表示されてしまう。
+原因 型を確認してみると
+&amp;gt; Rails.application.secrets.client_id.class =&amp;gt; Float  となっていて、Float型で読み込まれてしまっており、浮動小数点数の精度の影響で期待した値にならなかった。
+解決策 String型で読み込めるように書いてあげる。
+shared: client_id: &amp;quot;&amp;lt;%= ENV[&#39;SLACK_CLIENT_ID&#39;] %&amp;gt;&amp;quot;  こうすることで正しく文字として呼び出せる。
+&amp;gt; Rails.application.secrets.client_id =&amp;gt; &amp;quot;4167427656.251487306806&amp;quot;  あんまり、このような書き方で環境変数を呼んだことがなかったのでハマってしまった。 他の書き方で良さそうなものがありましたら教えてください。</description>
+    </item>
+    
+    <item>
+      <title>Capybaraで確認ダイアログを操作する場合は page.accept_confirm を使う</title>
+      <link>https://blog.regonn.tokyo/rails/2017-06-13-rspec-capybara/</link>
+      <pubDate>Tue, 13 Jun 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2017-06-13-rspec-capybara/</guid>
+      <description>RSpecとCapybaraの環境でダイアログの操作を行いたい場合は、 「page.driver.browser.switch_to.alert.accept を使う」という説明をよく見かけます。
+ですが、Capybaraには、
+ :accept_alert :accept_confirm :dismiss_confirm :accept_prompt :dismiss_prompt  というダイアログ操作用のメソッドが用意されています。 なので、こちらを使うようにした方がよいです。
+Class: Capybara::Session — Documentation for jnicklas/capybara (master)
+上記メソッドを使うことのメリット 上記メソッドを使うと、ただ文字数減るだけでなく、他にもメリットが出てきます。
+今後 Chrome Headless ブラウザでテストを実行する時には、このメソッドの中で呼ばれているdriver.accept_modal(:confirm)という処理がHeadlessへの移行に必要な差分を吸収してくれるようです。
+Workaround chromedriver lack of support for system modals when headless by twalpole · Pull Request #1859 · teamcapybara/capybara
+あと、引数を渡すと、モーダルの内容確認してくれたり、指定した時間(デフォルトはCapybara.default_max_wait_timeなので、設定しなくてもOK)待ってくれたりします。
+今後 Chrome Headless へ移行する予定なら、先に対応しておくと楽になりそうです。
+移行作業 既存のテストコードに対して、
+- page.driver.browser.switch_to.alert.accept + page.accept_confirm  にするだけでOKです。</description>
+    </item>
+    
+    <item>
+      <title>脱 Bootstrap をするために工夫したこと &amp; デザイナーから指摘を受けたTips</title>
+      <link>https://blog.regonn.tokyo/rails/2016-05-23-remove-bootstrap/</link>
+      <pubDate>Mon, 23 May 2016 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2016-05-23-remove-bootstrap/</guid>
+      <description>WEB プログラマがサイトデザインを整えるにとても便利なBootstrap。 しかし、Bootstrap を利用してサイトを作ると、やっぱり Bootstrap 臭がしてしまう。(私の技術力やデザイン力が低いのが原因かもしれませんが。。。)
+そこで、Bootstrap を利用してデザインをしている Rails のサイトをデザイナーの人にレビューしてもらい、実践した Bootstrap の依存を減らしていくために工夫したこと &amp;amp; デザインの指摘を受けた部分 について書いていきます。
+実装したサイトの説明 まず作っていたサイトについて説明しておきますと、 企業がイベントを開催した際にフィードバックを受けるためのアンケートを WEB 上で回答してもらい、その集計結果が見えるというサービス です。機能としては少なく、企業管理側のイベントページの作成と詳細ページを見ることができるだけです。
+Before and After まず、サイトがどう変わったかの画像を載せておきます。(サイトが特定される情報の部分は隠してあります。)
+Before まずは、デザイン修正前の画像です。どのページもすごい Bootstrap 臭がプンプンしてますね。
+ログイン画面 
+ログイン後の画面 
+イベント詳細ページ 
+イベント作成ページ 
+After 続いて、デザイナーから指摘を受けて修正したものです、全体的に洗練されてますね。（デザイナーの方にコードを触ってもらったわけではなく、指摘部分を私が直しているので、まだまだ改善の余地はありそうですが）
+ログイン画面 
+ログイン後の画面 
+イベント詳細ページ 
+イベント作成ページ 
+最初に注意を受けた部分 デザイナーの人に見せてまず言われたことが次の 2 つです
+ デザインのコンセプトを決める 基本 Bootstrap の機能は Grid システムだけにしてみる  それぞれについて書いていきます。
+デザインのコンセプトを決める デザインのコンセプトを決めないでいるため、 Bootstrap の色がそのまま使われてしまっているなど、オリジナル感が出しにくくなってしまっていました 。最初に、どのようなデザインにするのかコンセプトを決めることが必要のようです。
+そこで、依頼者からの話などをもとに次のようなコンセプトに決めました。
+ 基調を白として、アクセントに赤を入れる パディングなども大きさをもたせてゆとりを作り高級感を出す  基本 Bootstrap の機能は Grid システムだけにしてみる Bootstrap のボタンをそのまま使うと色が決まっていたり(カスタムはできますが)、丸みを帯びたボタンになってしまったりするため、基本的に Bootstrap は縦を揃えるための Grid 以外は使わずに、他は自分で実装していった方が結局はデザインしやすいとのこと。Bootstrap 自体を外すことも考えましたが、Bootstrap は v4 になると flexbox(flexbox の分かりやすいサンプル - Bootstrap 4 Flex Box Grid Demo)等の便利な機能が追加されるのと、改修する部分が多くなりそうなので v4 の一部分を import して使いました。</description>
+    </item>
+    
+    <item>
+      <title>Railsでコンソールからファイルをアップロードする方法</title>
+      <link>https://blog.regonn.tokyo/rails/2015-07-12-rails-upload-file-cli/</link>
+      <pubDate>Sun, 12 Jul 2015 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2015-07-12-rails-upload-file-cli/</guid>
+      <description>ファイルアップロードのデバッグ作業をしているときに、何回もファイルアップロードが面倒だったのですが、 Railsのコンソールでアップロードできる方法を知ったので忘れないように共有しておきます。
+Rack::Test::UploadedFileを使うと簡単にできました。
+例えば public/sample.jpg というファイルがあるとします。
+するとコンソール上で次のようにすることでアップロードできます。
+&amp;gt; file = Rack::Test::UploadedFile.new(&amp;quot;public/sample.jpg&amp;quot;, &amp;quot;image/jpeg&amp;quot;) =&amp;gt; #&amp;lt;Rack::Test::UploadedFile:0x007fd769dfa140 @content_type=&amp;quot;image/jpeg&amp;quot;, @original_filename=&amp;quot;sample.jpg&amp;quot;, @tempfile=#&amp;lt;Tempfile:/var/folders/8l/nqm1cg1d7nv6hgsww_s04vxw0000gn/T/sample.jpg20150712-55981-1ora8cn&amp;gt;&amp;gt; &amp;gt; Item.create(file: file, name: &amp;quot;sample file&amp;quot;)  まとめて画像をローカルにアップロードしたい時とかも簡単に扱えるので便利ですね。</description>
+    </item>
+    
+    <item>
+      <title>Rails5から標準Gemになるmethod_sourceを触ってみた</title>
+      <link>https://blog.regonn.tokyo/rails/2015-03-15-method-source/</link>
+      <pubDate>Sun, 15 Mar 2015 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2015-03-15-method-source/</guid>
+      <description>ついにRails5が使えるようになりましたね。
+Start Rails 5 development :tada: · rails/rails@f25ad07
+追加されたmethod_source gem 早速自分の環境にrails5でrails newしてみて、Gemfileを覗いてみると、普段見かけなかった method_source というGemが追加されていました。
+どうやら標準でGemに追加されたみたいです。
+This week in Rails: tokens migrations, method_source and more | Riding Rails
+取り込まれた経緯 取り込まれた経緯を見てみますと、どうやらDHHがRails console上で次のようにmethodが書かれている場所を取得しても
+irb(main):001:0&amp;gt; User.first.method(:yo).source_location User Load (0.7ms) SELECT &amp;quot;users&amp;quot;.* FROM &amp;quot;users&amp;quot; ORDER BY &amp;quot;users&amp;quot;.&amp;quot;id&amp;quot; ASC LIMIT 1 =&amp;gt; [&amp;quot;/Users/regonn/sample/app/models/user.rb&amp;quot;, 23]  と表示されるだけ(メソッド名は気にしないでください)で いちいちクリップボードにPathをコピーして該当のLineに飛ばないと行けないんだけど、もっとシンプルに出来るんじゃない？ というIssueを上げていました。 pryでもやりたいことはできたんですが(DHHも納得して一度Issueが閉じられた)、method_source gemがあまりにも期待していている挙動だったので、このGemが採用されたみたいです。
+実際に使ってみた method_source gemを使うと次のようにメソッドの中身をコンソール上で見ることができます。
+参照先のmodelファイル
+class User &amp;lt; ActiveRecord::Base #Say Yo! #Yoを返すYo! #TODO push Yo API def yo if self.</description>
+    </item>
+    
+    <item>
+      <title>Railsでnilの可能性もあるDatetime型を比較して、新しい方の値を取得する</title>
+      <link>https://blog.regonn.tokyo/rails/2014-11-07-rails-datetime/</link>
+      <pubDate>Fri, 07 Nov 2014 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2014-11-07-rails-datetime/</guid>
+      <description>困った内容 RubyでDatetimeの比較についてです。
+次のような場合を想定します。
+foo, hoge #どちらも、Datetimeかnilの可能性がある  この2つの変数を比較して、新しい方の値を取得したいです。 しかし、Google先生にRuby Time 比較を聞いても。
+&amp;lt;=&amp;gt;演算子を使うと-1 0 1 nilを返してくれるよ！
+という結果しか出てきませんでした（私の検索力が低いせいもありますが。。。。）
+欲しいのは どちらが大きいかの情報 ではなく、 大きかった方の値 だし、もし片方にnilが含まれていた場合だと
+&amp;gt; foo = DateTime.now =&amp;gt; Tue, 04 Nov 2014 19:48:53 &amp;gt; hoge = nil =&amp;gt; nil &amp;gt; foo &amp;lt;=&amp;gt; hoge =&amp;gt; nil  となりどちらがnilなのか分かりません。
+さらに、普通の比較演算子でtrue falseでの結果を知ろうとしても
+foo &amp;lt; hoge # ArgumentError: comparison of DateTime with nil failed  となりnilが含まれているとエラーになってしまいます。
+だからといって
+if foo.present? and hoge.present? foo &amp;lt; hoge end  みたいに書いていっても、最終的に値を取得するまでの条件分岐が複雑になりそうで嫌でした。</description>
+    </item>
+    
+    <item>
+      <title>Rails初心者が4.0.0のScaffold生成コードを調べてみた</title>
+      <link>https://blog.regonn.tokyo/rails/2014-07-06-rails-scaffold/</link>
+      <pubDate>Sun, 06 Jul 2014 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2014-07-06-rails-scaffold/</guid>
+      <description>はじめに 今までRailsのscaffoldは、素早くアプリを作るためのツールだと思っていました。しかし、scaffoldはRailsの規約が適用されているバイブル的な存在であり、scaffoldに従って書くことで効率的にサイトを作っていくことができる！と教わったので、生成されるコードで気になる所を調べてみました。その時のメモ。
+※このメモを書いたのは2013年7月で書いた時点ではRails触って3ヶ月位だったので情報が間違っているor古くなっている可能性があります。
+scaffold差分 生成されるコード 実行コード
+$ rails generate scaffold Item name:string price:integer description:text  migrateファイル class CreateItems &amp;lt; ActiveRecord::Migration def change create_table :items do |t| t.string :name t.integer :price t.text :description t.timestamps end end end   ActiveRecordのclassを継承していますが、これはSQLでリレーショナルデータベースを扱う際に必要なもの  Ruby on Rails3で学ぶWeb開発のキホン（3）：「ActiveRecord」の基本とデータの参照 (1&amp;frasl;2) - ＠IT
+ NOSQLでは使われないみたい  MongoDB を Rails から使う、導入編 - happy lie, happy life
+これで無事に、migrateができました。失敗したorやり直したい時には
+$ rake db:migrate:redo [STEP=ステップ数]  で戻すことができます。
+config/routes.rb Sample::Application.routes.draw do resources :items end   resources :itemsがscaffoldで生成されています。これによって、routingが追加されてきます。ちなみに、 resource :itemとすれば、単体で扱う場合に重宝するみたいです。  Ruby on Rails ルーティング - ayaketanのプログラミング勉強日記</description>
+    </item>
+    
+    <item>
+      <title>Rails4 にデフォルトで入ってるGemについて調べてみた</title>
+      <link>https://blog.regonn.tokyo/rails/2014-01-03-rails4-gems/</link>
+      <pubDate>Fri, 03 Jan 2014 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2014-01-03-rails4-gems/</guid>
+      <description>Railsに触って半年ぐらい経つけど、未だにrails newした時に出来上がるGemfileの中身を理解していたなかったので調べてみた。
+「そもそもGemfileとは？」という人はこちらへ⇒http://xxxcaqui.hatenablog.com/entry/2013/02/11/013421
+rails newで生成されるGemfile
+source &#39;https://rubygems.org&#39; # Bundle edge Rails instead: gem &#39;rails&#39;, github: &#39;rails/rails&#39; gem &#39;rails&#39;, &#39;4.0.0&#39; # Use sqlite3 as the database for Active Record gem &#39;sqlite3&#39; # Use SCSS for stylesheets gem &#39;sass-rails&#39;, &#39;~&amp;gt; 4.0.0&#39; # Use Uglifier as compressor for JavaScript assets gem &#39;uglifier&#39;, &#39;&amp;gt;= 1.3.0&#39; # Use CoffeeScript for .js.coffee assets and views gem &#39;coffee-rails&#39;, &#39;~&amp;gt; 4.0.0&#39; # See https://github.com/sstephenson/execjs#readme for more supported runtimes # gem &#39;therubyracer&#39;, platforms: :ruby # Use jquery as the JavaScript library gem &#39;jquery-rails&#39; # Turbolinks makes following links in your web application faster.</description>
+    </item>
+    
+  </channel>
+</rss>

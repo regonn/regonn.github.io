@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>capybara on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/tags/capybara/</link>
+    <description>Recent content in capybara on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Tue, 13 Jun 2017 09:41:28 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/tags/capybara/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Capybaraで確認ダイアログを操作する場合は page.accept_confirm を使う</title>
+      <link>https://blog.regonn.tokyo/rails/2017-06-13-rspec-capybara/</link>
+      <pubDate>Tue, 13 Jun 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/rails/2017-06-13-rspec-capybara/</guid>
+      <description>RSpecとCapybaraの環境でダイアログの操作を行いたい場合は、 「page.driver.browser.switch_to.alert.accept を使う」という説明をよく見かけます。
+ですが、Capybaraには、
+ :accept_alert :accept_confirm :dismiss_confirm :accept_prompt :dismiss_prompt  というダイアログ操作用のメソッドが用意されています。 なので、こちらを使うようにした方がよいです。
+Class: Capybara::Session — Documentation for jnicklas/capybara (master)
+上記メソッドを使うことのメリット 上記メソッドを使うと、ただ文字数減るだけでなく、他にもメリットが出てきます。
+今後 Chrome Headless ブラウザでテストを実行する時には、このメソッドの中で呼ばれているdriver.accept_modal(:confirm)という処理がHeadlessへの移行に必要な差分を吸収してくれるようです。
+Workaround chromedriver lack of support for system modals when headless by twalpole · Pull Request #1859 · teamcapybara/capybara
+あと、引数を渡すと、モーダルの内容確認してくれたり、指定した時間(デフォルトはCapybara.default_max_wait_timeなので、設定しなくてもOK)待ってくれたりします。
+今後 Chrome Headless へ移行する予定なら、先に対応しておくと楽になりそうです。
+移行作業 既存のテストコードに対して、
+- page.driver.browser.switch_to.alert.accept + page.accept_confirm  にするだけでOKです。</description>
+    </item>
+    
+  </channel>
+</rss>

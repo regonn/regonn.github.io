@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>javascript on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/tags/javascript/</link>
+    <description>Recent content in javascript on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Sun, 06 Jul 2014 09:41:28 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>山括弧　＜　＞　(小なり,大なり)　が正規表現でマッチしなかった場合</title>
+      <link>https://blog.regonn.tokyo/programmer/2014-07-06-match-lt-gt/</link>
+      <pubDate>Sun, 06 Jul 2014 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/programmer/2014-07-06-match-lt-gt/</guid>
+      <description>JavaScriptで文章中のタグに使われている山括弧 &amp;lt; &amp;gt; を消したいために replace(/&amp;gt;/g,&#39; &#39;) と書いてもマッチしてくれなかった。 replace(/\&amp;gt;/g,&#39; &#39;) でエスケープしてもだめだった。
+検索で調べても山括弧って言葉自体はじめて知ったし。Googleの検索とかは記号は弾かれてしまって解決に苦労した。
+悪意のあるコード等を入力フォームに入力されても、実行されないようにホームページではサニタイズされていて&amp;lt; &amp;gt;は&amp;amp;lt; &amp;amp;gt;に変換されていたみたい。
+replace(/&amp;amp;gt;/g,&#39; &#39;) でマッチしてくれた。</description>
+    </item>
+    
+  </channel>
+</rss>

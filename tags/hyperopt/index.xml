@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>hyperopt on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/tags/hyperopt/</link>
+    <description>Recent content in hyperopt on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Wed, 19 Dec 2018 00:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/tags/hyperopt/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hyperopt.jl でハイパーパラメータの最適な値を探す(Julia 1.0)</title>
+      <link>https://blog.regonn.tokyo/data-science/2018-12-19-hyperopt-julia/</link>
+      <pubDate>Wed, 19 Dec 2018 00:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2018-12-19-hyperopt-julia/</guid>
+      <description>機械学習 Advent Calendar 2018 - Adventar の19日目の記事です。
+Optuna ハイパーパラメータ自動最適化ツール「Optuna」公開 | Preferred Research
+Optunaが公開されて、Julia言語でもハイパーパラメータ自動最適化ツールを探してたら、baggepinnen/Hyperopt.jl が一番求めているものに近かったので触ってみました。
+MNIST 問題 皆大好きMNIST。ちなみに、Juliaだと以前は MNIST.jl からデータが取得できたけどメンテされてなく、Julia 1.0 だと動かないので、MLDatasets.jl を利用する。
+試してみたコード JuliaのランダムフォレストライブラリDecisionTree.jlでMNIST を参考に Julia 1.0 でも動くようにしていく。
+Hyperopt.jl は対応ライブラリとかなく、ランダムで複数のハイパーパラメータの選択した範囲を試してくれて、一番良い結果を返してくれるだけなので、色々使える気もするけど、結局ランダムなので、ある程度値の範囲は絞ってあげる必要がありそう。
+
+無事に正答率は上がったけど、過学習の可能性もあるので、そこら辺は工夫が必要そう。 とりあえず、雰囲気と使い方がわかったので良しとする。
+それよりも、もっと Optuna で遊んでみたい欲がある。 こんな感じでハイパーパラメータも簡単に設定できていけるといいですね。</description>
+    </item>
+    
+  </channel>
+</rss>

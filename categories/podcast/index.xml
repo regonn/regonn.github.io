@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>podcast on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/categories/podcast/</link>
+    <description>Recent content in podcast on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Wed, 12 Dec 2018 22:30:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/categories/podcast/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Yattecastをamp対応させてPodcastを配信していく</title>
+      <link>https://blog.regonn.tokyo/podcast/2018-12-12-podcast-amp/</link>
+      <pubDate>Wed, 12 Dec 2018 22:30:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/podcast/2018-12-12-podcast-amp/</guid>
+      <description>Podcaster Advent Calendar 2018 の 12 日の記事です。 カレンダーの趣旨勘違いしてて、技術的なことをやって記事書いてしまいましたが、普段やっている Podcast も本日 2 つ通常回ですが公開します。
+本日公開 Podcast  12. オフ会後 - regonn&amp;amp;curry.fm  データサイエンス Podcast Twitter: @regonn_curry  9. ふたりは藤木くん - 今夜も strong x strong  底辺 Podcast、ストロングゼロをただ飲んでるだけ Twitter: @strongxstrong_2   Yattecast Yattecast - Podcast サイトをつくるためのテンプレート
+今年は新しく２つの Podcast を始めたんですが、始めるきっかけや続けるモチベーションを保てたのは、このテンプレートを使って Github pages により無料で公開できたのが大きいです。
+始めた時の技術的な内容は次の記事にまとめてあります。
+Tech 系 Podcast の始め方
+amp 対応 Yattecast があまりメンテナンスされていないのと、あまりアニメーション等もないので、これは amp 対応したほうがメリットありそうと思って今回挑戦してみました。
+成果  regonn/regonn-cast 差分(コミット単位でみてもらうと何をやったかわかりやすいと思います)  対応したこと  Gemfile 更新  Dependabotを使って今後もライブラリのアップデートに対応して更新していけるようにしました  Google Podcast 対応  ちゃんと対応しているのかは Podcast Publisher Tools で確認できるっぽい  amp 対応  amp-audio でポッドキャストも再生できるように amp-analytics amp-auto-ads(google adsense の自動広告) amp-social-share  Schema.</description>
+    </item>
+    
+    <item>
+      <title>Tech系 Podcastの始め方【Workshop In VR #2】</title>
+      <link>https://blog.regonn.tokyo/podcast/2018-10-07-podcast/</link>
+      <pubDate>Sun, 07 Oct 2018 17:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/podcast/2018-10-07-podcast/</guid>
+      <description>VR 上での勉強会 Workshop in VR #2 での発表内容です。
+発表資料スライド  Podcast の始め方 - Speaker Deck  最近 2 つの Podcast を始めた regonn&amp;amp;curry.fm  データサイエンス(Kaggle)の話し 脱線して量子コンピュータとか VR  今夜も Strong x Strong  ストロングゼロを飲みながらの酔っぱらい Podcast  実は以前も Podcast 的なことはやっていた 俳句ハイカーハイケスト  俳句を紹介していく Podcast Wordpress + https://www.blubrry.com/ Wordpress 側で AMP 対応などもできて使いやすい ただ、更新していなくてもホスティング費用+Wordpress サーバー代がかかる  継続しにくくなった   Voicy 俳句と IT ニュース  https://voicy.jp/channel/413 こちらも俳句+IT 系のニュース 勝手に BGM を載せてくれたりして楽 結局マネタイズどうしよう問題があった 録音が iPhone でしかできなくて辛かった。(逆に気軽にできるメリットもある)  Podcast を始めるにあたって最新の情報がしりたいので次の本を購入 今日からはじめる「技術 Podcast」完全入門 YATTEIKI Project という Podcast も行っている人達が技術系 Podcast を運営してみてのノウハウが書いてある</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>aws on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/tags/aws/</link>
+    <description>Recent content in aws on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Mon, 04 Dec 2017 09:41:28 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/tags/aws/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>AWS EC2 に Julia 開発環境を構築し MXNet.jl でGPU処理したい</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-12-04-aws-mxnet-julia/</link>
+      <pubDate>Mon, 04 Dec 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-12-04-aws-mxnet-julia/</guid>
+      <description>田中 TOM という名前で、データサイエンスコンペティションサイトの Kaggle の問題に挑戦する YouTube 動画を投稿してます。
+田中 TOM - YouTube
+普段 Julia 言語を使って解析をしていて、AWS で Amazon が公式にサポートしている MXNet を GPU 使って処理してみたかったのでチャレンジ。
+実は、既に MXNet.jl を AWS で動かして記事にしてました。
+AWS の Deep Learning AMI を使って EC2 インスタンス上で 最新の Julia を動かせるように
+けど、この記事を書いた後に使っていた Deep Learning AMI が大幅に変更された。
+AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Services ブログ
+そして、Julia 0.6.1 だとインストールが失敗するためPkg.build(&#39;MXNet&#39;) してビルドして使っていた MXNet.jl も v0.3.0 がリリースされてインストールできるようになったぽい。
+なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。</description>
+    </item>
+    
+    <item>
+      <title>AWSのDeepLearningAMIを使ってJuliaを動かせるように</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-11-11-aws-julia/</link>
+      <pubDate>Sat, 11 Nov 2017 19:35:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-11-11-aws-julia/</guid>
+      <description>以前 Deep Learning AMI を使うことで気軽に MXNet を GPU 上で動かせた。
+【動画解説】AWS の Deep learning 用 AMI で MXNet を動かす
+ただし、自分の今触っている Julia 言語が AMI にインストールされておらず、最新版(現在 v0.6.1) を動かしてGPU処理をするまで持っていった。Amazon Linux だとライブラリ周りのバージョンが追いついていなかったので、今回はUbuntu版のDeep Learning AMI(タイプはGPUが使えるp2.xlarge)を利用して構築。
+まずは普通にEC2のインスタンスにアクセスして、rootユーザになり、julia の v0.6.1 を make する。(CPU4コア使っても1時間ぐらいかかる。。。)
+$ sudo su - $ apt-get update $ apt-get install libpango1.0-0 -y $ add-apt-repository ppa:staticfloat/julia-deps -y $ apt-get update $ cd /usr/local/src $ git clone https://github.com/JuliaLang/julia.git $ cd julia $ git checkout v0.6.1 $ echo &amp;quot;JULIA_CPU_TARGET=core2&amp;quot; &amp;gt; Make.</description>
+    </item>
+    
+    <item>
+      <title>【動画解説】AWS の Deep learning 用 AMI で MXNet を動かす</title>
+      <link>https://blog.regonn.tokyo/data-science/2017-10-31-aws-mxnet/</link>
+      <pubDate>Tue, 31 Oct 2017 13:28:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2017-10-31-aws-mxnet/</guid>
+      <description>AWS の Deep learning 用 AMI を使って EC2 の GPU インスタンスを起動し MXNet を Jupyter notebook 経由で扱っていきます。</description>
+    </item>
+    
+  </channel>
+</rss>

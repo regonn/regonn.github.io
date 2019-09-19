@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dart on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/tags/dart/</link>
+    <description>Recent content in dart on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Sun, 27 Aug 2017 09:41:28 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/tags/dart/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>YouTubeLiveのコメントを読み上げてくれるツールをDartで書いてみた</title>
+      <link>https://blog.regonn.tokyo/programmer/2017-08-27-dart-speech/</link>
+      <pubDate>Sun, 27 Aug 2017 09:41:28 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/programmer/2017-08-27-dart-speech/</guid>
+      <description>モチベーション YouTubeでプログラミングのライブ配信するときに、ニコニコ生放送ではお馴染みの「棒読みちゃん」が欲しかった。 けど、Mac環境だと使い勝手が悪いのでYouTubeのAPIとWebSpeechAPI(音声合成)でWebブラウザで動く棒読みちゃんを自分で作ってみることに。
+趣味でDartを勉強しているのとYouTubeはgoogleだし相性もいいかなと思ってDart実装にチャレンジしてみた。
+名前は、棒読みちゃんよりWebSpeechAPIの音声の人の方がしっかりした声なので、棒読みさんと名付ける。
+regonn/bouyomi-san-youtube-live.dart
+ローカルにDart環境が揃っていれば、Dart project scaffolding generatorのstagehandを使って web-simple モードで生成すればすぐに開発が始められる。
+コード main.dart import &#39;dart:html&#39;; import &#39;dart:async&#39;; import &#39;package:googleapis_auth/auth_browser.dart&#39; as auth; import &#39;package:googleapis/youtube/v3.dart&#39; as youtube; DateTime lastMessagedAt = new DateTime.now(); void main() { InputElement apiKeyInput = querySelector(&#39;#api-key&#39;); InputElement channelIdInput = querySelector(&#39;#channel-id&#39;); ButtonElement setButton = querySelector(&#39;#set-button&#39;); displayOutput(&#39;APIキーとチャンネルを設定してください。&#39;); speak(&#39;起動しました。エーピーアイキーとチャンネルを設定してください。&#39;); setButton.onClick.listen((_) { var apiKey = apiKeyInput.value; var client = auth.clientViaApiKey(apiKey); var api = new youtube.YoutubeApi(client); api.search.list(&amp;quot;id&amp;quot;, channelId: channelIdInput.value, type: &#39;video&#39;, eventType: &#39;live&#39;) .</description>
+    </item>
+    
+  </channel>
+</rss>
