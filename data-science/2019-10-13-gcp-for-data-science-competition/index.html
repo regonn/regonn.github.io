@@ -382,8 +382,6 @@
       
       <a href="/tags/kaggle"><span class="ampstart-subtitle ml3 pt2 mb2"><i class="fas fa-tag">Kaggle</i></span></a>
       
-      <a href="/tags/jupyter-notebook"><span class="ampstart-subtitle ml3 pt2 mb2"><i class="fas fa-tag">Jupyter-Notebook</i></span></a>
-      
     
 
     <h1 class="mb1 px3">重めのデータを扱う時のGPUを有効にしたGCP(GCE)の設定</h1>
@@ -397,9 +395,6 @@
     
   </header>
   <div class="px3">
-    
-
-    
 
     <amp-ad width="100vw" height=320
       type="adsense"
@@ -412,19 +407,23 @@
 
     
 
-<p>最近のKaggle等のデータサイエンスコンペティションでは、データ量が大きく、クラウドでJupyterNotebook用のインスタンスを立ち上げる際にも、メモリの関係等からGCPの設定をいじる必要があったので構築の際に気をつけていることをメモしておく。</p>
+    
+
+    
+
+<p>最近の Kaggle 等のデータサイエンスコンペティションでは、データ量が大きく、クラウドで JupyterNotebook 用のインスタンスを立ち上げる際にも、メモリの関係等から GCP の設定をいじる必要があったので構築の際に気をつけていることをメモしておく。</p>
 
 <h2 id="目標">目標</h2>
 
-<p>GPUが有効になったLightGBMをJupyterNotebook上で動かせるようにする。
-Dockerは利用しない。</p>
+<p>GPU が有効になった LightGBM を JupyterNotebook 上で動かせるようにする。
+Docker は利用しない。</p>
 
 <h3 id="メモリを最大限に使えるようにする-機械学習専用設定向けなので-一般のサーバーでは非推奨">メモリを最大限に使えるようにする ※機械学習専用設定向けなので、一般のサーバーでは非推奨</h3>
 
 <pre><code>sudo sh -c &quot;echo 'vm.overcommit_memory=1' &gt;&gt; /etc/sysctl.conf &amp;&amp; sysctl -p&quot;
 </code></pre>
 
-<h3 id="gcpにはswapが無いので-swapを追加する">GCPにはSwapが無いので、Swapを追加する</h3>
+<h3 id="gcp-には-swap-が無いので-swap-を追加する">GCP には Swap が無いので、Swap を追加する</h3>
 
 <pre><code>sudo dd if=/dev/zero of=/swapfile bs=1M count=10000
 sudo chmod 600 /swapfile
@@ -438,19 +437,19 @@ sudo swapon /swapfile
 sudo apt remove cuda-*
 </code></pre>
 
-<h3 id="gpuドライバーインストール">GPUドライバーインストール</h3>
+<h3 id="gpu-ドライバーインストール">GPU ドライバーインストール</h3>
 
 <p><a href="https://cloud.google.com/compute/docs/gpus/add-gpus?hl=ja">GPU の追加または削除  |  Compute Engine ドキュメント  |  Google Cloud</a> の記事の 「GPU ドライバのインストール」を参考に最新版を入れる</p>
 
-<h3 id="python環境">Python環境</h3>
+<h3 id="python-環境">Python 環境</h3>
 
-<p><a href="https://qiita.com/micheleno13/items/39ad85cfe44ca32f53ee">Pyenvを使用してUbuntuにPythonをインストールする - Qiita</a> を参考に pyenv を入れて、 miniconda の最新版を入れている</p>
+<p><a href="https://qiita.com/micheleno13/items/39ad85cfe44ca32f53ee">Pyenv を使用して Ubuntu に Python をインストールする - Qiita</a> を参考に pyenv を入れて、 miniconda の最新版を入れている</p>
 
-<h3 id="jupyternotebookやgcpのネットワーク">JupyterNotebookやGCPのネットワーク</h3>
+<h3 id="jupyternotebook-や-gcp-のネットワーク">JupyterNotebook や GCP のネットワーク</h3>
 
-<p><a href="https://qiita.com/tk_01/items/307716a680460f8dbe17">Anacondaを利用してCompute Engineのインスタンス上にJupyter Notebookを導入する - Qiita</a> を参考に Jupyter の設定や GCP のネットワーク側の設定をする</p>
+<p><a href="https://qiita.com/tk_01/items/307716a680460f8dbe17">Anaconda を利用して Compute Engine のインスタンス上に Jupyter Notebook を導入する - Qiita</a> を参考に Jupyter の設定や GCP のネットワーク側の設定をする</p>
 
-<h4 id="jupyternotebookでの利用メモリを10gbにする">JupyterNotebookでの利用メモリを10GBにする</h4>
+<h4 id="jupyternotebook-での利用メモリを-10gb-にする">JupyterNotebook での利用メモリを 10GB にする</h4>
 
 <p><code>~/.jupyter/jupyter_notebook_config.py</code> に以下を追加</p>
 
@@ -458,13 +457,13 @@ sudo apt remove cuda-*
 c.NotebookApp.max_buffer_size = 10737412742
 </code></pre>
 
-<h3 id="jupyternotebookのデーモン化">JupyterNotebookのデーモン化</h3>
+<h3 id="jupyternotebook-のデーモン化">JupyterNotebook のデーモン化</h3>
 
-<p><a href="https://kinformation.sakura.ne.jp/20170704-01">jupyterをsystemdに登録してデーモン化 | KINの雑記帳</a> を参考にしてGCPインスタンスが立ち上がったら、JupyterNotebookも立ち上がるようにしておく</p>
+<p><a href="https://kinformation.sakura.ne.jp/20170704-01">jupyter を systemd に登録してデーモン化 | KIN の雑記帳</a> を参考にして GCP インスタンスが立ち上がったら、JupyterNotebook も立ち上がるようにしておく</p>
 
-<h3 id="lightgbmインストール">LightGBMインストール</h3>
+<h3 id="lightgbm-インストール">LightGBM インストール</h3>
 
-<p><a href="https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html">LightGBM GPU Tutorial</a> を参考にして LightGBM の GPU 有効版をインストールする(XGBoostやCatBoostはそのままpipで入れれば有効になる)</p>
+<p><a href="https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html">LightGBM GPU Tutorial</a> を参考にして LightGBM の GPU 有効版をインストールする(XGBoost や CatBoost はそのまま pip で入れれば有効になる)</p>
 
 
   </div>

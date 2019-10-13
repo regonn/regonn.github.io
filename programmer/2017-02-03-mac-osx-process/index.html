@@ -3,11 +3,11 @@
   <meta charset="utf-8">
   <title>
     
-      Railsでnilの可能性もあるDatetime型を比較して、新しい方の値を取得する
+      MacOSX で fork: Resource temporarily unavailable エラーになる場合の対処法
     
   </title>
 
-  <link rel="canonical" href="https://blog.regonn.tokyo/rails/2014-11-07-rails-datetime/">
+  <link rel="canonical" href="https://blog.regonn.tokyo/programmer/2017-02-03-mac-osx-process/">
 
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
   <meta name="amp-google-client-id-api" content="googleanalytics">
@@ -53,7 +53,7 @@
     
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@regonn_haizine" />
-      <meta name="twitter:title" content="Railsでnilの可能性もあるDatetime型を比較して、新しい方の値を取得する" />
+      <meta name="twitter:title" content="MacOSX で fork: Resource temporarily unavailable エラーになる場合の対処法" />
       <meta name="twitter:description" content="" />
       <meta name="twitter:image" content="/img/avatar.png" />
     
@@ -73,17 +73,17 @@
       {
         "@context": "http://schema.org",
         "@type": "TechArticle",
-        "headline": "Railsでnilの可能性もあるDatetime型を比較して、新しい方の値を取得する",
+        "headline": "MacOSX で fork: Resource temporarily unavailable エラーになる場合の対処法",
         "image": "https:\/\/blog.regonn.tokyo\//images/eyecatches/avatar.png",
-        "datePublished": "2014-11-07",
-        "dateModified": "2014-11-07",
-        "mainEntityOfPage": "https:\/\/blog.regonn.tokyo\/rails\/2014-11-07-rails-datetime\/",
+        "datePublished": "2017-02-03",
+        "dateModified": "2017-02-03",
+        "mainEntityOfPage": "https:\/\/blog.regonn.tokyo\/programmer\/2017-02-03-mac-osx-process\/",
         "author": {
           "@type": "Person",
           "name": "regonn"
         },
         "description": "",
-        "url": "https:\/\/blog.regonn.tokyo\/rails\/2014-11-07-rails-datetime\/",
+        "url": "https:\/\/blog.regonn.tokyo\/programmer\/2017-02-03-mac-osx-process\/",
         "publisher": {
           "@type": "Organization",
           "name": "Haizine Lab.",
@@ -373,15 +373,19 @@
 <main id="content" role="main" class="">
 <article class="single-article">
   <header>
-    <a href="/categories/rails"><span class="ampstart-subtitle block px3 pt2 mb2"><i class="fas fa-folder">rails</i></span></a>
+    <a href="/categories/programmer"><span class="ampstart-subtitle block px3 pt2 mb2"><i class="fas fa-folder">programmer</i></span></a>
+    
+      
+      <a href="/tags/macos"><span class="ampstart-subtitle ml3 pt2 mb2"><i class="fas fa-tag">Macos</i></span></a>
+      
     
 
-    <h1 class="mb1 px3">Railsでnilの可能性もあるDatetime型を比較して、新しい方の値を取得する</h1>
+    <h1 class="mb1 px3">MacOSX で fork: Resource temporarily unavailable エラーになる場合の対処法</h1>
 
     
     <address class="ampstart-byline clearfix mb1 px3 h5">
       <time class="ampstart-byline-pubdate block bold my1" datetime="2016-12-13"
-        >Nov 7, 2014</time
+        >Feb 3, 2017</time
       >
     </address>
     
@@ -403,134 +407,77 @@
 
     
 
-<h1 id="困った内容">困った内容</h1>
+<p>最近 Rails 開発で puma-dev とかを入れていると、fsevent_watch プロセスが量産されて、プロセス上限数に達し</p>
 
-<p>RubyでDatetimeの比較についてです。</p>
-
-<p>次のような場合を想定します。</p>
-
-<pre><code class="language-ruby">foo, hoge #どちらも、Datetimeかnilの可能性がある
+<pre><code>fork: Resource temporarily unavailable
 </code></pre>
 
-<p>この2つの変数を比較して、新しい方の値を取得したいです。
-しかし、Google先生に<code>Ruby Time 比較</code>を聞いても。</p>
+<p>というエラーが出て開発が中断される。</p>
 
-<p><code>&lt;=&gt;演算子を使うと-1 0 1 nilを返してくれるよ！</code></p>
+<p>色々なところで議論もされていて、まだ根本的な解決はされていない様子</p>
 
-<p>という結果しか出てきませんでした（私の検索力が低いせいもありますが。。。。）</p>
+<ul>
+<li><a href="https://github.com/puma/puma-dev/issues/56">fork: Resource temporarily unavailable occurring since installing · Issue #56 · puma/puma-dev</a></li>
+<li><a href="https://github.com/rails/rails/issues/26158">The listen gem breaks my laptop · Issue #26158 · rails/rails</a></li>
+</ul>
 
-<p>欲しいのは <strong>どちらが大きいかの情報</strong> ではなく、 <strong>大きかった方の値</strong> だし、もし片方にnilが含まれていた場合だと</p>
+<p><code>listen</code> gem を削除したり <code>development.rb</code> を修正する必要があるみたいだけど、Railsアプリのコードをいじってしまうと他の人の開発環境にも影響が出るので、自分の Mac のプロセス上限を上げることに。</p>
 
-<pre><code class="language-irb">&gt; foo = DateTime.now
-=&gt; Tue, 04 Nov 2014 19:48:53
-&gt; hoge = nil
-=&gt; nil
-&gt; foo &lt;=&gt; hoge
-=&gt; nil
+<p>以前の MacOSX だと、 <code>/etc/launchd.conf</code> をいじれば良さそうだったけど、Sierraではそんなファイルが存在していなく、調べると</p>
+
+<p><a href="https://docs.basho.com/riak/kv/2.2.0/using/performance/open-files-limit/#mac-os-x">Open Files Limit</a></p>
+
+<p>という記事で、次の2つのファイルを作ることで対応できるみたい。</p>
+
+<h3 id="library-launchdaemons-limit-maxfiles-plist">/Library/LaunchDaemons/limit.maxfiles.plist</h3>
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+  &lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;limit.maxfiles&lt;/string&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+      &lt;string&gt;launchctl&lt;/string&gt;
+      &lt;string&gt;limit&lt;/string&gt;
+      &lt;string&gt;maxfiles&lt;/string&gt;
+      &lt;string&gt;200000&lt;/string&gt;
+      &lt;string&gt;200000&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;RunAtLoad&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;ServiceIPC&lt;/key&gt;
+    &lt;false/&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;
 </code></pre>
 
-<p>となりどちらがnilなのか分かりません。</p>
+<h3 id="library-launchdaemons-limit-maxproc-plist">/Library/LaunchDaemons/limit.maxproc.plist</h3>
 
-<p>さらに、普通の比較演算子でtrue falseでの結果を知ろうとしても</p>
-
-<pre><code class="language-ruby">foo &lt; hoge
-# ArgumentError: comparison of DateTime with nil failed
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple/DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+  &lt;dict&gt;
+    &lt;key&gt;Label&lt;/key&gt;
+    &lt;string&gt;limit.maxproc&lt;/string&gt;
+    &lt;key&gt;ProgramArguments&lt;/key&gt;
+    &lt;array&gt;
+      &lt;string&gt;launchctl&lt;/string&gt;
+      &lt;string&gt;limit&lt;/string&gt;
+      &lt;string&gt;maxproc&lt;/string&gt;
+      &lt;string&gt;2048&lt;/string&gt;
+      &lt;string&gt;2048&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;RunAtLoad&lt;/key&gt;
+    &lt;true /&gt;
+    &lt;key&gt;ServiceIPC&lt;/key&gt;
+      &lt;false /&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;
 </code></pre>
 
-<p>となりnilが含まれているとエラーになってしまいます。</p>
-
-<p>だからといって</p>
-
-<pre><code class="language-ruby">if foo.present? and hoge.present?
-  foo &lt; hoge
-end
-</code></pre>
-
-<p>みたいに書いていっても、最終的に値を取得するまでの条件分岐が複雑になりそうで嫌でした。</p>
-
-<h2 id="ダメなコード">ダメなコード</h2>
-
-<p>まず、nilの値で時間の比較をしないようにダミーの値を持たせて三項演算子で値を取得する方法を考えました。</p>
-
-<pre><code class="language-ruby">bar = foo || DateTime.new(0) # bar = DateTime.nowの値
-piyo = hoge || DateTime.new(0) # piyo = Thu, 01 Jan 0000 00:00:00 の値
-bar &gt; piyo ? bar : piyo # DateTime.nowの値
-</code></pre>
-
-<p>こうすればnilだったら、古い値が入るので一番新しい時間が取得できます。</p>
-
-<p>けど、 <strong>DateTime.new(0)なんて書き方見たことないし</strong> (西暦0年1月1日が木曜日なのは分かった) <strong>何かDateTimeを比較できる良いメソッドとかあるんじゃない？</strong> と思って色々調べましたがDateTimeを扱えるメソッドには想定している結果を返してくれるメッソドはありませんでした。</p>
-
-<h2 id="良いコード">良いコード</h2>
-
-<p>仕方がないのでRails出来る人に聞くとすぐに解決</p>
-
-<pre><code class="language-ruby">[foo, hoge].compact.max
-</code></pre>
-
-<p>で新しい値が取得できるようになりました！
-compactでnilを取り除き、maxで比較するのか。</p>
-
-<p>これだと両方nilでもnilを返してくれるのでif文は返り値がnilかどうかの1回で済みました。</p>
-
-<p>教えてもらった人に
-<strong>一つ一つを比較しようとしているのは、せっかくのRubyの特徴を活かせていない</strong>
-という教訓をもらいました。</p>
-
-<p>この、たとえ2つの比較であっても視界を広くして配列として扱うって考え方なかなか身につかないな〜。</p>
-
-<p>2014/11/06追記（コメントでテストの要望があったので書いてみました)</p>
-
-<pre><code class="language-ruby">require 'date'
-
-describe 'Compare dates' do
-  let(:today) { DateTime.now }
-  # DateTimeはDateのサブクラスなので数字の足し算・引き算は日にち単位で行われる
-  # DateTime.yesterday とやってしまうとDate型になるので注意
-  let(:yesterday) { today - 1 }
-  subject { [date_A, date_B].compact.max }
-
-  context 'nilを含んでいない' do
-    context 'date_Aの方が古い' do
-      let(:date_A) { yesterday }
-      let(:date_B) { today }
-      it { is_expected.to eq today }
-    end
-
-    context 'data_Bの方が古い' do
-      let(:date_A) { today }
-      let(:date_B) { yesterday }
-      it { is_expected.to eq today }
-    end
-
-    context '両方同じ値' do
-      let(:date_A) { today }
-      let(:date_B) { today }
-      it { is_expected.to eq today }
-    end
-  end
-
-  context 'nilを含んでいる' do
-    context 'date_Aがnil' do
-      let(:date_A) { nil }
-      let(:date_B) { today }
-      it { is_expected.to eq today }
-    end
-
-    context 'date_Bがnil' do
-      let(:date_A) { today }
-      let(:date_B) { nil }
-      it { is_expected.to eq today }
-    end
-
-    context '両方nil' do
-      let(:date_A) { nil }
-      let(:date_B) { nil }
-      it { is_expected.to be nil }
-    end
-  end
-end
-</code></pre>
+<p>再起動して、 <code>$ sudo launchctl limit</code> コマンドで maxproc と maxfiles が増えていればOK</p>
 
 
   </div>
@@ -545,7 +492,7 @@ end
     <li>
       <amp-social-share
         type="facebook"
-        data-param-href="https://blog.regonn.tokyo/rails/2014-11-07-rails-datetime/"
+        data-param-href="https://blog.regonn.tokyo/programmer/2017-02-03-mac-osx-process/"
         data-param-app_id="1011152812236153"
       >
       </amp-social-share>
@@ -554,7 +501,7 @@ end
       <amp-social-share
         type="hatena_bookmark"
         layout="container"
-        data-share-endpoint="http://b.hatena.ne.jp/append?https://blog.regonn.tokyo/rails/2014-11-07-rails-datetime/">
+        data-share-endpoint="http://b.hatena.ne.jp/append?https://blog.regonn.tokyo/programmer/2017-02-03-mac-osx-process/">
         B!
       </amp-social-share>
     </li>

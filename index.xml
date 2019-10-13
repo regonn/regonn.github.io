@@ -17,10 +17,9 @@
       <pubDate>Sun, 13 Oct 2019 09:00:00 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/data-science/2019-10-13-gcp-for-data-science-competition/</guid>
-      <description>最近のKaggle等のデータサイエンスコンペティションでは、データ量が大きく、クラウドでJupyterNotebook用のインスタンスを立ち上げる際にも、メモリの関係等からGCPの設定をいじる必要があったので構築の際に気をつけていることをメモしておく。
-目標 GPUが有効になったLightGBMをJupyterNotebook上で動かせるようにする。 Dockerは利用しない。
-メモリを最大限に使えるようにする ※機械学習専用設定向けなので、一般のサーバーでは非推奨 sudo sh -c &amp;quot;echo &#39;vm.overcommit_memory=1&#39; &amp;gt;&amp;gt; /etc/sysctl.conf &amp;amp;&amp;amp; sysctl -p&amp;quot;  GCPにはSwapが無いので、Swapを追加する sudo dd if=/dev/zero of=/swapfile bs=1M count=10000 sudo chmod 600 /swapfile sudo mkswap /swapfile sudo swapon /swapfile  先に古い nvidia cuda 系を削除 sudo apt remove nvidia-* sudo apt remove cuda-*  GPUドライバーインストール GPU の追加または削除 | Compute Engine ドキュメント | Google Cloud の記事の 「GPU ドライバのインストール」を参考に最新版を入れる
-Python環境 Pyenvを使用してUbuntuにPythonをインストールする - Qiita を参考に pyenv を入れて、 miniconda の最新版を入れている</description>
+      <description>最近の Kaggle 等のデータサイエンスコンペティションでは、データ量が大きく、クラウドで JupyterNotebook 用のインスタンスを立ち上げる際にも、メモリの関係等から GCP の設定をいじる必要があったので構築の際に気をつけていることをメモしておく。
+目標 GPU が有効になった LightGBM を JupyterNotebook 上で動かせるようにする。 Docker は利用しない。
+メモリを最大限に使えるようにする ※機械学習専用設定向けなので、一般のサーバーでは非推奨 sudo sh -c &amp;quot;echo &#39;vm.overcommit_memory=1&#39; &amp;gt;&amp;gt; /etc/sysctl.conf &amp;amp;&amp;amp; sysctl -p&amp;quot;  GCP には Swap が無いので、Swap を追加する sudo dd if=/dev/zero of=/swapfile bs=1M count=10000 sudo chmod 600 /swapfile sudo mkswap /swapfile sudo swapon /swapfile  先に古い nvidia cuda 系を削除 sudo apt remove nvidia-* sudo apt remove cuda-*  GPU ドライバーインストール GPU の追加または削除 | Compute Engine ドキュメント | Google Cloud の記事の 「GPU ドライバのインストール」を参考に最新版を入れる</description>
     </item>
     
     <item>
@@ -759,11 +758,11 @@ Workaround chromedriver lack of support for system modals when headless by twalp
     </item>
     
     <item>
-      <title>MacOSX で &#39;fork: Resource temporarily unavailable&#39; エラーになる場合の対処法</title>
-      <link>https://blog.regonn.tokyo/programmer/2017-02-03-maxos/</link>
+      <title>MacOSX で fork: Resource temporarily unavailable エラーになる場合の対処法</title>
+      <link>https://blog.regonn.tokyo/programmer/2017-02-03-mac-osx-process/</link>
       <pubDate>Fri, 03 Feb 2017 09:41:28 +0900</pubDate>
       
-      <guid>https://blog.regonn.tokyo/programmer/2017-02-03-maxos/</guid>
+      <guid>https://blog.regonn.tokyo/programmer/2017-02-03-mac-osx-process/</guid>
       <description>最近 Rails 開発で puma-dev とかを入れていると、fsevent_watch プロセスが量産されて、プロセス上限数に達し
 fork: Resource temporarily unavailable  というエラーが出て開発が中断される。
 色々なところで議論もされていて、まだ根本的な解決はされていない様子
@@ -787,7 +786,7 @@ Random Forestで分類問題  Random Forest で分類問題 part1 決定木モ�
     </item>
     
     <item>
-      <title>家を仕事場にしてみよう！住み込み型ワークプレイス</title>
+      <title>家を仕事場にしてみよう 住み込み型ワークプレイス</title>
       <link>https://blog.regonn.tokyo/programmer/2016-12-08-work-place/</link>
       <pubDate>Thu, 08 Dec 2016 08:00:00 +0000</pubDate>
       
@@ -856,7 +855,7 @@ Random Forestで分類問題  Random Forest で分類問題 part1 決定木モ�
     </item>
     
     <item>
-      <title>[Ruby &#43; Heroku] Line Messaging API を利用して 雑談Bot を作成</title>
+      <title>Line Messaging APIを利用してRubyとHerokuで雑談Botを作成</title>
       <link>https://blog.regonn.tokyo/programmer/2016-10-23-line-bot/</link>
       <pubDate>Sun, 23 Oct 2016 09:41:28 +0900</pubDate>
       
@@ -899,7 +898,7 @@ Random Forestで分類問題  Random Forest で分類問題 part1 決定木モ�
     </item>
     
     <item>
-      <title>freeCodeCamp の東京コミュニティを立ち上げて1年弱が経つので振り返り</title>
+      <title>freeCodeCampの東京コミュニティを立ち上げて1年弱が経つので振り返り</title>
       <link>https://blog.regonn.tokyo/programmer/2016-06-11-free-code-camp-tokyo/</link>
       <pubDate>Sat, 11 Jun 2016 19:21:13 +0900</pubDate>
       
@@ -1417,9 +1416,9 @@ if foo.present? and hoge.present? foo &amp;lt; hoge end  みたいに書いて�
     </item>
     
     <item>
-      <title>ザ・ビジョン~進むべき道は見えているか~を読んで、心に残った3つの事</title>
+      <title>ザ・ビジョン～進むべき道は見えているか～を読んで、心に残った3つの事</title>
       <link>https://blog.regonn.tokyo/book/2014-10-06-the-vision/</link>
-      <pubDate>Mon, 06 Oct 2014 13:48:05 +0000</pubDate>
+      <pubDate>Mon, 06 Oct 2014 14:00:00 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/book/2014-10-06-the-vision/</guid>
       <description>ザ・ビジョン 進むべき道は見えているか を読みました。この本は、経営や個人の目標を作る過程で大切な「ビジョン」について、 物語を通して分かりやすく説明してくれます。本を読んでいて面白いなと思った所に、 栞を挟んでいったら最終的に3箇所に挟んであったので、何故そこが面白いと感じたのか考えながら書いていこうと思います。
