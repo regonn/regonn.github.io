@@ -4,12 +4,52 @@
   
   <url>
     <loc>https://blog.regonn.tokyo/categories/</loc>
-    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
+    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.regonn.tokyo/categories/data-science/</loc>
-    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
+    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/gce/</loc>
+    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/gcp/</loc>
+    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/jupyter-notebook/</loc>
+    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/kaggle/</loc>
+    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/posts/</loc>
+    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/</loc>
+    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/</loc>
+    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2019-10-13-gcp-for-data-science-competition/</loc>
+    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
   </url>
   
   <url>
@@ -23,22 +63,7 @@
   </url>
   
   <url>
-    <loc>https://blog.regonn.tokyo/posts/</loc>
-    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.regonn.tokyo/data-science/2019-01-22-julia-pca/</loc>
-    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/tags/</loc>
-    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/</loc>
     <lastmod>2019-01-22T18:00:00+09:00</lastmod>
   </url>
   
@@ -68,12 +93,12 @@
   </url>
   
   <url>
-    <loc>https://blog.regonn.tokyo/categories/amazon/</loc>
+    <loc>https://blog.regonn.tokyo/tags/amazon/</loc>
     <lastmod>2018-12-15T00:00:00+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.regonn.tokyo/tags/amazon/</loc>
+    <loc>https://blog.regonn.tokyo/categories/amazon/</loc>
     <lastmod>2018-12-15T00:00:00+09:00</lastmod>
   </url>
   
@@ -235,11 +260,6 @@
   <url>
     <loc>https://blog.regonn.tokyo/data-science/2018-02-16-julia-csv-dataframes/</loc>
     <lastmod>2018-02-16T23:07:28+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/tags/kaggle/</loc>
-    <lastmod>2017-12-20T09:41:28+09:00</lastmod>
   </url>
   
   <url>

@@ -6,10 +6,46 @@
     <description>Recent content in Tags on そこのけそこのけゆとりが通る</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Tue, 22 Jan 2019 18:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 13 Oct 2019 09:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.regonn.tokyo/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>gce</title>
+      <link>https://blog.regonn.tokyo/tags/gce/</link>
+      <pubDate>Sun, 13 Oct 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/tags/gce/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gcp</title>
+      <link>https://blog.regonn.tokyo/tags/gcp/</link>
+      <pubDate>Sun, 13 Oct 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/tags/gcp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>jupyter-notebook</title>
+      <link>https://blog.regonn.tokyo/tags/jupyter-notebook/</link>
+      <pubDate>Sun, 13 Oct 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/tags/jupyter-notebook/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kaggle</title>
+      <link>https://blog.regonn.tokyo/tags/kaggle/</link>
+      <pubDate>Sun, 13 Oct 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/tags/kaggle/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>julia</title>
@@ -80,15 +116,6 @@
       <pubDate>Wed, 12 Dec 2018 22:30:00 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/tags/githubpages/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kaggle</title>
-      <link>https://blog.regonn.tokyo/tags/kaggle/</link>
-      <pubDate>Wed, 20 Dec 2017 09:41:28 +0900</pubDate>
-      
-      <guid>https://blog.regonn.tokyo/tags/kaggle/</guid>
       <description></description>
     </item>
     

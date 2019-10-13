@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>jupyter-notebook on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/tags/jupyter-notebook/</link>
+    <description>Recent content in jupyter-notebook on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Sun, 13 Oct 2019 09:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/tags/jupyter-notebook/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>重めのデータを扱う時のGPUを有効にしたGCP(GCE)の設定</title>
+      <link>https://blog.regonn.tokyo/data-science/2019-10-13-gcp-for-data-science-competition/</link>
+      <pubDate>Sun, 13 Oct 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2019-10-13-gcp-for-data-science-competition/</guid>
+      <description>最近のKaggle等のデータサイエンスコンペティションでは、データ量が大きく、クラウドでJupyterNotebook用のインスタンスを立ち上げる際にも、メモリの関係等からGCPの設定をいじる必要があったので構築の際に気をつけていることをメモしておく。
+目標 GPUが有効になったLightGBMをJupyterNotebook上で動かせるようにする。 Dockerは利用しない。
+メモリを最大限に使えるようにする ※機械学習専用設定向けなので、一般のサーバーでは非推奨 sudo sh -c &amp;quot;echo &#39;vm.overcommit_memory=1&#39; &amp;gt;&amp;gt; /etc/sysctl.conf &amp;amp;&amp;amp; sysctl -p&amp;quot;  GCPにはSwapが無いので、Swapを追加する sudo dd if=/dev/zero of=/swapfile bs=1M count=10000 sudo chmod 600 /swapfile sudo mkswap /swapfile sudo swapon /swapfile  先に古い nvidia cuda 系を削除 sudo apt remove nvidia-* sudo apt remove cuda-*  GPUドライバーインストール GPU の追加または削除 | Compute Engine ドキュメント | Google Cloud の記事の 「GPU ドライバのインストール」を参考に最新版を入れる
+Python環境 Pyenvを使用してUbuntuにPythonをインストールする - Qiita を参考に pyenv を入れて、 miniconda の最新版を入れている</description>
+    </item>
+    
+  </channel>
+</rss>

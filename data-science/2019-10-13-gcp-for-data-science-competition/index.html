@@ -1,14 +1,13 @@
 <!doctype html>
 <html ⚡=""><head>
-	<meta name="generator" content="Hugo 0.58.2" />
   <meta charset="utf-8">
   <title>
     
-      そこのけそこのけゆとりが通る
+      重めのデータを扱う時のGPUを有効にしたGCP(GCE)の設定
     
   </title>
 
-  <link rel="canonical" href="https://blog.regonn.tokyo/">
+  <link rel="canonical" href="https://blog.regonn.tokyo/data-science/2019-10-13-gcp-for-data-science-competition/">
 
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
   <meta name="amp-google-client-id-api" content="googleanalytics">
@@ -41,21 +40,23 @@
   <script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>
 
   
-    <script custom-element="amp-position-observer" src="https://cdn.ampproject.org/v0/amp-position-observer-0.1.js" async=""></script>
-  
 
   
 
+  
+    
     
     <meta name="author" content="Regonn" />
-    <meta name="description" content="データサイエンティストを目指してるフリーランスのWEBプログラマ" />
+    <meta name="description" content="Kaggle等で大きめのデータをGCP(GCE)のJupyterNotebookで利用したい場合の構築メモ">
 
     
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:site" content="@regonn_haizine" />
-    <meta name="twitter:title" content="そこのけそこのけゆとりが通る" />
-    <meta name="twitter:description" content="データサイエンティストを目指してるフリーランスのWEBプログラマ" />
-    <meta name="twitter:image" content="/img/avatar.png" />
+    
+      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:site" content="@regonn_haizine" />
+      <meta name="twitter:title" content="重めのデータを扱う時のGPUを有効にしたGCP(GCE)の設定" />
+      <meta name="twitter:description" content="Kaggle等で大きめのデータをGCP(GCE)のJupyterNotebookで利用したい場合の構築メモ" />
+      <meta name="twitter:image" content="/img/avatar.png" />
+    
 
   
 
@@ -71,13 +72,26 @@
     
       {
         "@context": "http://schema.org",
-        "@type": "WebSite",
-        "name": "そこのけそこのけゆとりが通る",
-        "image": [
-          "https:\/\/blog.regonn.tokyo\//images/eyecatches/avatar.png"
-        ],
-        "url": "https:\/\/blog.regonn.tokyo\/",
-        "description": "データサイエンティストを目指してるフリーランスのWEBプログラマ"
+        "@type": "TechArticle",
+        "headline": "重めのデータを扱う時のGPUを有効にしたGCP(GCE)の設定",
+        "image": "https:\/\/blog.regonn.tokyo\//images/eyecatches/avatar.png",
+        "datePublished": "2019-10-13",
+        "dateModified": "2019-10-13",
+        "mainEntityOfPage": "https:\/\/blog.regonn.tokyo\/data-science\/2019-10-13-gcp-for-data-science-competition\/",
+        "author": {
+          "@type": "Person",
+          "name": "regonn"
+        },
+        "description": "Kaggle等で大きめのデータをGCP(GCE)のJupyterNotebookで利用したい場合の構築メモ",
+        "url": "https:\/\/blog.regonn.tokyo\/data-science\/2019-10-13-gcp-for-data-science-competition\/",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Haizine Lab.",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https:\/\/blog.regonn.tokyo\//images/eyecatches/avatar.png"
+          }
+        }
       }
     
   </script>
@@ -357,129 +371,130 @@
 </nav>
 </amp-sidebar>
 <main id="content" role="main" class="">
-<section class="land-see-recent-content relative mx-auto py4">
-
-  <amp-ad width="100vw" height=320
-    type="adsense"
-    data-ad-client="ca-pub-2988052208509124"
-    data-ad-slot="3587748844"
-    data-auto-format="rspv"
-    data-full-width>
-    <div overflow></div>
-  </amp-ad>
-
-  <div class="clearfix pt2">
-    <amp-position-observer on="enter:recentSlideIn.start" layout="nodisplay">
-    </amp-position-observer>
-    <ul class="list-reset m0 p0 center justify-center fit">
-      
-      
-        <li
-  class="px1 mt1 block align-top land-see-pre-animate land-see-post-item land-see-post-item-wide land-see-post-featured col land-see-recent"
->
-  <a href="https://blog.regonn.tokyo/programmer/2014-07-06-match-lt-gt/" class="text-decoration-none">
-    <amp-img
-      class="land-see-post-image cover"
-      alt="Studio Serif, interior."
-      media=""
-      width="409"
-      height="305"
-      layout="responsive"
-      
-        src="/images/eyecatches/avatar.png"
-      
-    >
-    </amp-img>
-  </a>
-  <a
-    class="land-see-post-category land-see-page-navigation inline-block pt1 underline caps"
-    href="/categories/programmer"
-    >
-    <i class="fas fa-folder">programmer</i>
-
-  </a>
-  
+<article class="single-article">
+  <header>
+    <a href="/categories/data-science"><span class="ampstart-subtitle block px3 pt2 mb2"><i class="fas fa-folder">data-science</i></span></a>
     
-      <a class="land-see-post-category land-see-page-navigation inline-block pt1 underline caps" href="/tags/javascript"><i class="fas fa-tag">Javascript</i></a>
+      
+      <a href="/tags/gcp"><span class="ampstart-subtitle ml3 pt2 mb2"><i class="fas fa-tag">Gcp</i></span></a>
+      
+      <a href="/tags/gce"><span class="ampstart-subtitle ml3 pt2 mb2"><i class="fas fa-tag">Gce</i></span></a>
+      
+      <a href="/tags/kaggle"><span class="ampstart-subtitle ml3 pt2 mb2"><i class="fas fa-tag">Kaggle</i></span></a>
+      
+      <a href="/tags/jupyter-notebook"><span class="ampstart-subtitle ml3 pt2 mb2"><i class="fas fa-tag">Jupyter-Notebook</i></span></a>
+      
     
-  
-  <h4 class="land-see-post-title ampstart-title-sm pt1 mb4">
-    <a class="text-decoration-none" href="https://blog.regonn.tokyo/programmer/2014-07-06-match-lt-gt/">山括弧　＜　＞　(小なり,大なり)　が正規表現でマッチしなかった場合</a>
-  </h4>
-</li>
 
-      
-        <li
-  class="px1 mt1 block align-top land-see-pre-animate land-see-post-item land-see-post-item-wide land-see-post-featured col land-see-recent"
->
-  <a href="https://blog.regonn.tokyo/programmer/2014-04-09-sonic-garden/" class="text-decoration-none">
-    <amp-img
-      class="land-see-post-image cover"
-      alt="Studio Serif, interior."
-      media=""
-      width="409"
-      height="305"
-      layout="responsive"
-      
-        src="/images/eyecatches/avatar.png"
-      
-    >
-    </amp-img>
-  </a>
-  <a
-    class="land-see-post-category land-see-page-navigation inline-block pt1 underline caps"
-    href="/categories/programmer"
-    >
-    <i class="fas fa-folder">programmer</i>
+    <h1 class="mb1 px3">重めのデータを扱う時のGPUを有効にしたGCP(GCE)の設定</h1>
 
-  </a>
-  
-  <h4 class="land-see-post-title ampstart-title-sm pt1 mb4">
-    <a class="text-decoration-none" href="https://blog.regonn.tokyo/programmer/2014-04-09-sonic-garden/">株式会社ソニックガーデンに入社しました</a>
-  </h4>
-</li>
+    
+    <address class="ampstart-byline clearfix mb1 px3 h5">
+      <time class="ampstart-byline-pubdate block bold my1" datetime="2016-12-13"
+        >Oct 13, 2019</time
+      >
+    </address>
+    
+  </header>
+  <div class="px3">
+    
 
-      
-        <li
-  class="px1 mt1 block align-top land-see-pre-animate land-see-post-item land-see-post-item-wide land-see-post-featured col land-see-recent"
->
-  <a href="https://blog.regonn.tokyo/rails/2014-01-03-rails4-gems/" class="text-decoration-none">
-    <amp-img
-      class="land-see-post-image cover"
-      alt="Studio Serif, interior."
-      media=""
-      width="409"
-      height="305"
-      layout="responsive"
-      
-        src="/images/eyecatches/avatar.png"
-      
-    >
-    </amp-img>
-  </a>
-  <a
-    class="land-see-post-category land-see-page-navigation inline-block pt1 underline caps"
-    href="/categories/rails"
-    >
-    <i class="fas fa-folder">rails</i>
+    
 
-  </a>
-  
-  <h4 class="land-see-post-title ampstart-title-sm pt1 mb4">
-    <a class="text-decoration-none" href="https://blog.regonn.tokyo/rails/2014-01-03-rails4-gems/">Rails4 にデフォルトで入ってるGemについて調べてみた</a>
-  </h4>
-</li>
+    <amp-ad width="100vw" height=320
+      type="adsense"
+      data-ad-client="ca-pub-2988052208509124"
+      data-ad-slot="4338202660"
+      data-auto-format="rspv"
+      data-full-width>
+      <div overflow></div>
+    </amp-ad>
 
-      
-    </ul>
+    
+
+<p>最近のKaggle等のデータサイエンスコンペティションでは、データ量が大きく、クラウドでJupyterNotebook用のインスタンスを立ち上げる際にも、メモリの関係等からGCPの設定をいじる必要があったので構築の際に気をつけていることをメモしておく。</p>
+
+<h2 id="目標">目標</h2>
+
+<p>GPUが有効になったLightGBMをJupyterNotebook上で動かせるようにする。
+Dockerは利用しない。</p>
+
+<h3 id="メモリを最大限に使えるようにする-機械学習専用設定向けなので-一般のサーバーでは非推奨">メモリを最大限に使えるようにする ※機械学習専用設定向けなので、一般のサーバーでは非推奨</h3>
+
+<pre><code>sudo sh -c &quot;echo 'vm.overcommit_memory=1' &gt;&gt; /etc/sysctl.conf &amp;&amp; sysctl -p&quot;
+</code></pre>
+
+<h3 id="gcpにはswapが無いので-swapを追加する">GCPにはSwapが無いので、Swapを追加する</h3>
+
+<pre><code>sudo dd if=/dev/zero of=/swapfile bs=1M count=10000
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+</code></pre>
+
+<h3 id="先に古い-nvidia-cuda-系を削除">先に古い nvidia cuda 系を削除</h3>
+
+<pre><code>sudo apt remove nvidia-*
+sudo apt remove cuda-*
+</code></pre>
+
+<h3 id="gpuドライバーインストール">GPUドライバーインストール</h3>
+
+<p><a href="https://cloud.google.com/compute/docs/gpus/add-gpus?hl=ja">GPU の追加または削除  |  Compute Engine ドキュメント  |  Google Cloud</a> の記事の 「GPU ドライバのインストール」を参考に最新版を入れる</p>
+
+<h3 id="python環境">Python環境</h3>
+
+<p><a href="https://qiita.com/micheleno13/items/39ad85cfe44ca32f53ee">Pyenvを使用してUbuntuにPythonをインストールする - Qiita</a> を参考に pyenv を入れて、 miniconda の最新版を入れている</p>
+
+<h3 id="jupyternotebookやgcpのネットワーク">JupyterNotebookやGCPのネットワーク</h3>
+
+<p><a href="https://qiita.com/tk_01/items/307716a680460f8dbe17">Anacondaを利用してCompute Engineのインスタンス上にJupyter Notebookを導入する - Qiita</a> を参考に Jupyter の設定や GCP のネットワーク側の設定をする</p>
+
+<h4 id="jupyternotebookでの利用メモリを10gbにする">JupyterNotebookでの利用メモリを10GBにする</h4>
+
+<p><code>~/.jupyter/jupyter_notebook_config.py</code> に以下を追加</p>
+
+<pre><code>c.NotebookApp.max_body_size = 10737412742
+c.NotebookApp.max_buffer_size = 10737412742
+</code></pre>
+
+<h3 id="jupyternotebookのデーモン化">JupyterNotebookのデーモン化</h3>
+
+<p><a href="https://kinformation.sakura.ne.jp/20170704-01">jupyterをsystemdに登録してデーモン化 | KINの雑記帳</a> を参考にしてGCPインスタンスが立ち上がったら、JupyterNotebookも立ち上がるようにしておく</p>
+
+<h3 id="lightgbmインストール">LightGBMインストール</h3>
+
+<p><a href="https://lightgbm.readthedocs.io/en/latest/GPU-Tutorial.html">LightGBM GPU Tutorial</a> を参考にして LightGBM の GPU 有効版をインストールする(XGBoostやCatBoostはそのままpipで入れれば有効になる)</p>
+
+
   </div>
-  <nav class="pagination">
-    
-      <a class="pagination-btn" href="/page/14/">← Newer Posts</a>
-    
-    
-  </nav>
-</section>
+  <footer class="my4">
+
+  <ul
+    class="ampstart-social-follow list-reset flex justify-around items-center flex-wrap"
+  >
+    <li>
+      <amp-social-share type="twitter"></amp-social-share>
+    </li>
+    <li>
+      <amp-social-share
+        type="facebook"
+        data-param-href="https://blog.regonn.tokyo/data-science/2019-10-13-gcp-for-data-science-competition/"
+        data-param-app_id="1011152812236153"
+      >
+      </amp-social-share>
+    </li>
+    <li>
+      <amp-social-share
+        type="hatena_bookmark"
+        layout="container"
+        data-share-endpoint="http://b.hatena.ne.jp/append?https://blog.regonn.tokyo/data-science/2019-10-13-gcp-for-data-science-competition/">
+        B!
+      </amp-social-share>
+    </li>
+  </ul>
+  </footer>
+</article>
 
     </main><footer class="ampstart-footer flex flex-column items-center px3 ">
   <ul
