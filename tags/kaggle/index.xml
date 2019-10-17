@@ -6,10 +6,29 @@
     <description>Recent content in kaggle on そこのけそこのけゆとりが通る</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Sun, 13 Oct 2019 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 16 Oct 2019 09:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.regonn.tokyo/tags/kaggle/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kaggleコンペにチームで挑戦する時に工夫したこと</title>
+      <link>https://blog.regonn.tokyo/data-science/2019-10-16-kaggle-team/</link>
+      <pubDate>Wed, 16 Oct 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/data-science/2019-10-16-kaggle-team/</guid>
+      <description>Kaggleのコンペって、周りに一緒にやってくれる人がいないと孤独な戦いになりやすいですよね。 かといって、チームにマージされるほどの実力も無いので、コンペの最初からメンバーを募集してチームを組み 、Kaggleの IEEE Fraud Detection コンペ に挑戦してみました。チームメンバーを募集するところから、やっていく中での気付き等をまとめておこうと思います。
+私の紹介  れごん @regonn_haizine 島根県松江市に住んでるWebフリーランス データサイエンスのPodcastやってます regonn&amp;amp;curry.fm 挑戦したときはKaggleコンペの参加経験はあるもののメダルは0枚  仲間集め 仲間集めは、最近 データラーニングギルド というコミュニティに所属したのもあって、そこの Slack で募集しました。
+Kaggler の日本人コミュニティの Kaggler-ja とかでも、募集してみると色んな人が集まるかもしれませんね。
+募集したあとに、やってるデータサイエンスPodcastのDiscordチャンネル作ったので、こちらでも、今後は募集するかもしれません。かぐるーど
+仲間集めで注意したこと IEEEコンペのチームは最大5人なので、もし応募が多すぎたら、抽選とかでも嫌なので、募集は複数チームも想定して Google Form で次のような項目を追加しておきました。(結果的には丁度5人になったので自分がリーダーになりましたが)
+ レベル感  色んな人が応募してきた際に、チーム分けをしやすくするため、レベル感を聞いておく 機械学習始めたて(半年位) Python, Rのどちらかを読んだり書いたりできる 業務や研究で統計知識がある Kaggleコンペメダルを持ってます  希望者が多い場合にはチームのリーダーをやってもいいか?  分ける場合にリーダーをやってもいいか聞いておく、データサイエンスの能力よりも、学生などでコンペ期間中に参加しやすさで決めてもらった   また、参加表明フォームには次のような注意書きもしておきました。
+ 試験的な取り組みなため、途中で色々と変更があったり変則的になる可能性があります 場合によっては、チーム機能が上手く働かずソロプレイのような状態になってしまってもご了承ください Kaggleの特性上、異なるチーム間での情報共有やSlackでのノウハウ共有は行なえません  自分も含めてタダ乗りライダー的な人が出てくるかもしれないけど、許してねとも注意しておきました。
+初回キックオフ これから1ヶ月以上戦っていく仲間なので、一度Zoomに集まって、初回のキックオフを行いました。全員が近場ならオフラインでもいいですが、私が島根県で離れているので、オンラインで開催しています。 後でも書きますが、普段のタスク管理はTrelloで行う予定だったので操作に慣れてもらうため、自己紹介をカードに記入(テンプレートは用意しておいた)してもらったりもしました。
+活動内容 普段のやり取り  プライベートSlackチャンネル
+ コミュニケーションを取れるように  週1回Zoom定例会
+ 現状のリーダーボードでメダル圏やベースライン等を確認 各個人でこの1週間やったこと 気になったノートブック、ディスカッション 各個人で次の1週間やること   タスク管理(Trello) やることとか、良かったノートブックをカードにしたり、自分たちのベストスコアとベースラインやメダル圏内がどこら辺にあるか並べるリストを作ったりしてました</description>
+    </item>
     
     <item>
       <title>重めのデータを扱う時のGPUを有効にしたGCP(GCE)の設定</title>
@@ -19,7 +38,8 @@
       <guid>https://blog.regonn.tokyo/data-science/2019-10-13-gcp-for-data-science-competition/</guid>
       <description>最近の Kaggle 等のデータサイエンスコンペティションでは、データ量が大きく、クラウドで JupyterNotebook 用のインスタンスを立ち上げる際にも、メモリの関係等から GCP の設定をいじる必要があったので構築の際に気をつけていることをメモしておく。
 目標 GPU が有効になった LightGBM を JupyterNotebook 上で動かせるようにする。 Docker は利用しない。
-メモリを最大限に使えるようにする ※機械学習専用設定向けなので、一般のサーバーでは非推奨 sudo sh -c &amp;quot;echo &#39;vm.overcommit_memory=1&#39; &amp;gt;&amp;gt; /etc/sysctl.conf &amp;amp;&amp;amp; sysctl -p&amp;quot;  GCP には Swap が無いので、Swap を追加する sudo dd if=/dev/zero of=/swapfile bs=1M count=10000 sudo chmod 600 /swapfile sudo mkswap /swapfile sudo swapon /swapfile  先に古い nvidia cuda 系を削除 sudo apt remove nvidia-* sudo apt remove cuda-*  GPU ドライバーインストール GPU の追加または削除 | Compute Engine ドキュメント | Google Cloud の記事の 「GPU ドライバのインストール」を参考に最新版を入れる</description>
+メモリを最大限に使えるようにする ※機械学習等の大きめのメモリを確保したい時の設定なので、一般サーバーでは非推奨
+sudo sh -c &amp;quot;echo &#39;vm.overcommit_memory=1&#39; &amp;gt;&amp;gt; /etc/sysctl.conf &amp;amp;&amp;amp; sysctl -p&amp;quot;  GCP には Swap が無いので、Swap を追加する sudo dd if=/dev/zero of=/swapfile bs=1M count=10000 sudo chmod 600 /swapfile sudo mkswap /swapfile sudo swapon /swapfile  先に古い nvidia cuda 系を削除 sudo apt remove nvidia-* sudo apt remove cuda-*  GPU ドライバーインストール GPU の追加または削除 | Compute Engine ドキュメント | Google Cloud の記事の 「GPU ドライバのインストール」を参考に最新版を入れる</description>
     </item>
     
     <item>

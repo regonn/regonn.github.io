@@ -4,12 +4,37 @@
   
   <url>
     <loc>https://blog.regonn.tokyo/categories/</loc>
-    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
+    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.regonn.tokyo/categories/data-science/</loc>
-    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
+    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/kaggle/</loc>
+    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2019-10-16-kaggle-team/</loc>
+    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/posts/</loc>
+    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/</loc>
+    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/</loc>
+    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
   </url>
   
   <url>
@@ -19,26 +44,6 @@
   
   <url>
     <loc>https://blog.regonn.tokyo/tags/gcp/</loc>
-    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/tags/kaggle/</loc>
-    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/posts/</loc>
-    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/tags/</loc>
-    <lastmod>2019-10-13T09:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/</loc>
     <lastmod>2019-10-13T09:00:00+09:00</lastmod>
   </url>
   

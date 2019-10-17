@@ -3,11 +3,11 @@
   <meta charset="utf-8">
   <title>
     
-      家を仕事場にしてみよう 住み込み型ワークプレイス
+      Kaggleコンペにチームで挑戦する時に工夫したこと
     
   </title>
 
-  <link rel="canonical" href="https://blog.regonn.tokyo/programmer/2016-12-08-work-place/">
+  <link rel="canonical" href="https://blog.regonn.tokyo/data-science/2019-10-16-kaggle-team/">
 
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
   <meta name="amp-google-client-id-api" content="googleanalytics">
@@ -47,15 +47,15 @@
     
     
     <meta name="author" content="Regonn" />
-    <meta name="description" content="彼氏 彼女がいないなら、家を住み込み型ワークプレイスにすると色々捗るという話">
+    <meta name="description" content="Kaggleのコンペに最初からチームを組んで挑んでみたので、工夫したこと等">
 
     
     
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:card" content="summary" />
       <meta name="twitter:site" content="@regonn_haizine" />
-      <meta name="twitter:title" content="家を仕事場にしてみよう 住み込み型ワークプレイス" />
-      <meta name="twitter:description" content="彼氏 彼女がいないなら、家を住み込み型ワークプレイスにすると色々捗るという話" />
-      <meta name="twitter:image" content="/images/eyecatches/2016-12-08-work-place.png" />
+      <meta name="twitter:title" content="Kaggleコンペにチームで挑戦する時に工夫したこと" />
+      <meta name="twitter:description" content="Kaggleのコンペに最初からチームを組んで挑んでみたので、工夫したこと等" />
+      <meta name="twitter:image" content="/img/avatar.png" />
     
 
   
@@ -73,17 +73,17 @@
       {
         "@context": "http://schema.org",
         "@type": "TechArticle",
-        "headline": "家を仕事場にしてみよう 住み込み型ワークプレイス",
-        "image": "https:\/\/blog.regonn.tokyo\//images/eyecatches/2016-12-08-work-place.png",
-        "datePublished": "2016-12-08",
-        "dateModified": "2016-12-08",
-        "mainEntityOfPage": "https:\/\/blog.regonn.tokyo\/programmer\/2016-12-08-work-place\/",
+        "headline": "Kaggleコンペにチームで挑戦する時に工夫したこと",
+        "image": "https:\/\/blog.regonn.tokyo\//images/eyecatches/avatar.png",
+        "datePublished": "2019-10-16",
+        "dateModified": "2019-10-16",
+        "mainEntityOfPage": "https:\/\/blog.regonn.tokyo\/data-science\/2019-10-16-kaggle-team\/",
         "author": {
           "@type": "Person",
           "name": "regonn"
         },
-        "description": "彼氏 彼女がいないなら、家を住み込み型ワークプレイスにすると色々捗るという話",
-        "url": "https:\/\/blog.regonn.tokyo\/programmer\/2016-12-08-work-place\/",
+        "description": "Kaggleのコンペに最初からチームを組んで挑んでみたので、工夫したこと等",
+        "url": "https:\/\/blog.regonn.tokyo\/data-science\/2019-10-16-kaggle-team\/",
         "publisher": {
           "@type": "Organization",
           "name": "Haizine Lab.",
@@ -373,15 +373,19 @@
 <main id="content" role="main" class="">
 <article class="single-article">
   <header>
-    <a href="/categories/programmer"><span class="ampstart-subtitle block px3 pt2 mb2"><i class="fas fa-folder">programmer</i></span></a>
+    <a href="/categories/data-science"><span class="ampstart-subtitle block px3 pt2 mb2"><i class="fas fa-folder">data-science</i></span></a>
+    
+      
+      <a href="/tags/kaggle"><span class="ampstart-subtitle ml3 pt2 mb2"><i class="fas fa-tag">Kaggle</i></span></a>
+      
     
 
-    <h1 class="mb1 px3">家を仕事場にしてみよう 住み込み型ワークプレイス</h1>
+    <h1 class="mb1 px3">Kaggleコンペにチームで挑戦する時に工夫したこと</h1>
 
     
     <address class="ampstart-byline clearfix mb1 px3 h5">
       <time class="ampstart-byline-pubdate block bold my1" datetime="2016-12-13"
-        >Dec 8, 2016</time
+        >Oct 16, 2019</time
       >
     </address>
     
@@ -398,86 +402,140 @@
     </amp-ad>
 
     
-      <amp-img
-        src="/images/eyecatches/2016-12-08-work-place.png"
-        width="1280"
-        height="853"
-        layout="responsive"
-        alt="The final spritzer"
-        class="mb4 mx3"
-      ></amp-img>
-    
 
     
 
     
 
-<p>たまたま知った <a href="http://qiita.com/advent-calendar/2016/give_me_kareshi" target="_blank">カレシ・カノジョできないエンジニア Advent Calendar 2016</a>
-しかし、明日(12月8日)が埋まってない！
-ということで、彼氏・彼女がいないからこそできる家を仕事場にして会社に提供している話を酒に酔った勢いで書いてみました。</p>
+<p>Kaggleのコンペって、周りに一緒にやってくれる人がいないと孤独な戦いになりやすいですよね。
+かといって、チームにマージされるほどの実力も無いので、<strong>コンペの最初からメンバーを募集してチームを組み</strong> 、Kaggleの <a href="https://www.kaggle.com/c/ieee-fraud-detection" target="_blank">IEEE Fraud Detection コンペ</a> に挑戦してみました。チームメンバーを募集するところから、やっていく中での気付き等をまとめておこうと思います。</p>
 
-<h2 id="リモートワーク">リモートワーク</h2>
-
-<p>最近はリモートワークのニュースやブログ記事もちょくちょく出てきますね。
-リモートワークは通勤がなくなるなどメリット満載ですが、私のように入社3年ぐらいの若手？で独身彼女無しだと勝手が違ってきます。</p>
+<h2 id="私の紹介">私の紹介</h2>
 
 <ul>
-<li>リモートワークをすると家に他に誰もいないのでリアルで人と会う機会が減ってくる</li>
-<li>日中家にいるので光熱費が高くなる</li>
-<li>会社からちゃんと仕事してるか疑われる</li>
+<li>れごん <a href="https://twitter.com/regonn_haizine" target="_blank">@regonn_haizine</a></li>
+<li>島根県松江市に住んでるWebフリーランス</li>
+<li>データサイエンスのPodcastやってます <a href="https://anchor.fm/regonn-curry-fm" target="_blank">regonn&amp;curry.fm</a></li>
+<li>挑戦したときはKaggleコンペの参加経験はあるもののメダルは0枚</li>
 </ul>
 
-<p>それを解決するのが <strong>住み込み型ワークプレイス</strong> です。これは、 <strong>他のリモートワークの人を呼んで自分の家を仕事場にしてしまう</strong> 方法です。</p>
+<h2 id="仲間集め">仲間集め</h2>
 
-<h2 id="経緯">経緯</h2>
+<p>仲間集めは、最近 <a href="https://data-learning.com/guild" target="_blank">データラーニングギルド</a> というコミュニティに所属したのもあって、そこの Slack で募集しました。</p>
 
-<p>私の働いているソニックガーデンでは6月頃オフィスの引っ越しがありました。
-<a href="http://kuranuki.sonicgarden.jp/2016/06/remove-office.html" target="_blank">社員が増えたので物理的なオフィスをやめました 〜 これからは「分散型ワークプレイス」へ | Social Change!</a>
-記事の中でも書かれていますが、ちょうど町田近辺で他の社員の人がリモートワークできる場所を探してました。
-オフィスが家から遠くなり、せっかくなので町田に引っ越してリモートワークを実践してみました。
-<amp-img src="/images/2016-12-08-work-place-1.jpg" alt="部屋" width="670px" height="480px" layout="responsive" ></amp-img>
-こんな感じで自分含め最大3人まで作業できる環境</p>
+<p>Kaggler の日本人コミュニティの Kaggler-ja とかでも、募集してみると色んな人が集まるかもしれませんね。</p>
 
-<h2 id="感じたメリット">感じたメリット</h2>
+<p>募集したあとに、やってるデータサイエンスPodcastのDiscordチャンネル作ったので、こちらでも、今後は募集するかもしれません。<a href="https://discord.gg/2Jf95W4" target="_blank">かぐるーど</a></p>
+
+<h3 id="仲間集めで注意したこと">仲間集めで注意したこと</h3>
+
+<p>IEEEコンペのチームは最大5人なので、もし応募が多すぎたら、抽選とかでも嫌なので、募集は複数チームも想定して Google Form で次のような項目を追加しておきました。(結果的には丁度5人になったので自分がリーダーになりましたが)</p>
 
 <ul>
-<li>人との会話が増える</li>
-<li>食費・光熱費が節約できて広い部屋を借りられる</li>
-<li>リモートワークのメリットをそのまま継承できる</li>
-<li>会社も安心してリモートワークを実践できる</li>
+<li>レベル感
+
+<ul>
+<li>色んな人が応募してきた際に、チーム分けをしやすくするため、レベル感を聞いておく</li>
+<li>機械学習始めたて(半年位)</li>
+<li>Python, Rのどちらかを読んだり書いたりできる</li>
+<li>業務や研究で統計知識がある</li>
+<li>Kaggleコンペメダルを持ってます</li>
+</ul></li>
+<li>希望者が多い場合にはチームのリーダーをやってもいいか?
+
+<ul>
+<li>分ける場合にリーダーをやってもいいか聞いておく、データサイエンスの能力よりも、学生などでコンペ期間中に参加しやすさで決めてもらった</li>
+</ul></li>
 </ul>
 
-<h3 id="人との会話が増える">人との会話が増える</h3>
+<p>また、参加表明フォームには次のような注意書きもしておきました。</p>
 
-<p>これは、そのままですが、社員の人が家にくるため、自然と会話が生まれます。もう、これで寂しくないです。</p>
+<ul>
+<li>試験的な取り組みなため、途中で色々と変更があったり変則的になる可能性があります</li>
+<li>場合によっては、チーム機能が上手く働かずソロプレイのような状態になってしまってもご了承ください</li>
+<li>Kaggleの特性上、異なるチーム間での情報共有やSlackでのノウハウ共有は行なえません</li>
+</ul>
 
-<h3 id="食費光熱費が節約できて広い部屋を借りられる">食費光熱費が節約できて広い部屋を借りられる</h3>
+<p>自分も含めてタダ乗りライダー的な人が出てくるかもしれないけど、許してねとも注意しておきました。</p>
 
-<p>会社との契約にもよりますが、自分の部屋を会社に貸しているので、家賃と光熱費の補助が受けられます。</p>
+<h2 id="初回キックオフ">初回キックオフ</h2>
 
-<p>会社的にも、利用する社員数×交通費やコワーキングスペースを借りるより、補助の方が安くなると説得できればオッケーも出やすいかも。</p>
+<p>これから1ヶ月以上戦っていく仲間なので、一度Zoomに集まって、初回のキックオフを行いました。全員が近場ならオフラインでもいいですが、私が島根県で離れているので、オンラインで開催しています。
+後でも書きますが、普段のタスク管理はTrelloで行う予定だったので操作に慣れてもらうため、自己紹介をカードに記入(テンプレートは用意しておいた)してもらったりもしました。</p>
 
-<p>食費も自炊する機会が増えるので減ってきます。
-<amp-img src="/images/2016-12-08-work-place-2.jpg" alt="自炊の風景" width="670px" height="480px" layout="responsive" ></amp-img>
-最近もキャベツの芯を味噌汁に入れると美味しく食べられることに気がつきました。</p>
+<h2 id="活動内容">活動内容</h2>
 
-<h3 id="リモートワークのメリットをそのまま継承できる">リモートワークのメリットをそのまま継承できる</h3>
+<h3 id="普段のやり取り">普段のやり取り</h3>
 
-<p>やっていることはリモートワークなので、そのままリモートワークのメリットも受けられます。
-<amp-img src="/images/2016-12-08-work-place-3.jpg" alt="甘酒と雪" width="670px" height="480px" layout="responsive" ></amp-img>
-この前の11月にあった寒い雪の日には家で作業しながら甘酒飲んだり
-<amp-img src="/images/2016-12-08-work-place-4.jpg" alt="こたつ" width="670px" height="480px" layout="responsive" ></amp-img>
-こたつでヌクヌク作業ができます。</p>
+<ul>
+<li><p>プライベートSlackチャンネル</p>
 
-<h2 id="デメリット">デメリット</h2>
+<ul>
+<li>コミュニケーションを取れるように</li>
+</ul></li>
 
-<h3 id="家に彼氏-彼女を連れ込めない">家に彼氏・彼女を連れ込めない</h3>
+<li><p>週1回Zoom定例会</p>
 
-<p>よく「この状態だと家に彼女を連れ込めないね」と言われます。それでも大丈夫です。彼女できませんから。。。</p>
+<ul>
+<li>現状のリーダーボードでメダル圏やベースライン等を確認</li>
+<li>各個人でこの1週間やったこと</li>
+<li>気になったノートブック、ディスカッション</li>
+<li>各個人で次の1週間やること</li>
+</ul></li>
+</ul>
 
-<h2 id="まとめ">まとめ</h2>
+<h2 id="タスク管理-trello">タスク管理(Trello)</h2>
 
-<p>彼氏・彼女がいないなら、家を住み込み型ワークプレイスにすると色々捗るという話。</p>
+<p>やることとか、良かったノートブックをカードにしたり、自分たちのベストスコアとベースラインやメダル圏内がどこら辺にあるか並べるリストを作ったりしてました</p>
+
+<p><amp-img src="/images/2019-10-14-trello.png" alt="" width="1919" height="549" layout="responsive" ></amp-img></p>
+
+<h2 id="コード管理">コード管理</h2>
+
+<p>コードは Github のプライベートリポジトリを作って、各自別ブランチで進めていく方針にしましたが、これはあまり良くなかったです。</p>
+
+<p>データや特徴量が一緒に管理できなかったり、Kaggleのノートブックを使ったり、バージョンが色々分裂したりするので、ここらへんは改善が必要そうです。</p>
+
+<h2 id="良い点-悪い点">良い点・悪い点</h2>
+
+<h3 id="良い点">良い点</h3>
+
+<h4 id="最初からデータについて議論することができる">最初からデータについて議論することができる</h4>
+
+<p>一人でやると、何から手を付けようかとか、一人でデータを解析(EDA)していかないといけませんが、最初からチームなので、評価の高いEDAノートブックを議論しながら読み進めていく等できて、データへの理解なども深まり良かったです。</p>
+
+<h4 id="一人では収集しきれないディスカッションの話題も拾える">一人では収集しきれないディスカッションの話題も拾える</h4>
+
+<p>一人でやってると使える時間も限られてくるので、他の人がHOTなノートブックやディスカッションを拾ってきてくれると助かります。</p>
+
+<h4 id="普段kaggle触ってない人がkaggle特有の知識をつけられる">普段Kaggle触ってない人がKaggle特有の知識をつけられる</h4>
+
+<p>統計等の知識はあるけど、Kaggleに慣れていない人にとって、Kaggleでどういうことができるのか分からない部分も多いので、定例会等で画面共有しながら、説明できるので、無駄に詰まる時間などを解消できたと思います。</p>
+
+<h4 id="分業とかもできる">分業とかもできる</h4>
+
+<p>得意分野が上手く分かれていたりすれば、特徴量作る人とかローカルCV作る人とか分業ができたところが良かったです。あまり、時間が取れない人も、Discussionを追ってもらうなどしてもらいました。</p>
+
+<h3 id="悪い点">悪い点</h3>
+
+<h4 id="途中で脱落する人も出てくる">途中で脱落する人も出てくる</h4>
+
+<p>レベル差を感じたり、仕事が忙しくて、途中で抜けてしまう人も出てきてしまいました。
+ここらへんはある程度仕方ないとは思いますが、抜けなくても大丈夫だということを初回の説明等で、もう少し伝えていれば良かったかなとも思ってます。</p>
+
+<h4 id="何も成績がでないと辛いものがある">何も成績がでないと辛いものがある</h4>
+
+<p>コンペの中盤あたりは、新しく特徴量を作ったりしていましたが、なかなかチームでのPublicスコアが改善せず、一人でやる以上に辛さを感じた気もします。</p>
+
+<h2 id="結果">結果</h2>
+
+<p>約1ヶ月半位の死闘の末、終盤にメンバーの学生の一人が猛烈にスコアを上げてくれたこともあって <strong>銀メダル</strong> を取得することができました。</p>
+
+<h2 id="所感と今後">所感と今後</h2>
+
+<p>なんとかメダルも獲得することができて良かったです。自分の反省では、コンペの後半での動きがガバガバで全然スコアアップに貢献できていなかったので、課題も見えてきました。今回はテーブルデータのコンペでしたが、画像コンペでもやってみたいですし、最近 <a href="https://amzn.to/2oLxpF7" target="_blank">Kaggle本</a> も出たので、テーブルコンペでまたやってみようかなと思いました。</p>
+
+<p>みなさんもチームでのコンペ参加を検討してみてはどうでしょうか?</p>
 
 
   </div>
@@ -492,7 +550,7 @@
     <li>
       <amp-social-share
         type="facebook"
-        data-param-href="https://blog.regonn.tokyo/programmer/2016-12-08-work-place/"
+        data-param-href="https://blog.regonn.tokyo/data-science/2019-10-16-kaggle-team/"
         data-param-app_id="1011152812236153"
       >
       </amp-social-share>
@@ -501,7 +559,7 @@
       <amp-social-share
         type="hatena_bookmark"
         layout="container"
-        data-share-endpoint="http://b.hatena.ne.jp/append?https://blog.regonn.tokyo/programmer/2016-12-08-work-place/">
+        data-share-endpoint="http://b.hatena.ne.jp/append?https://blog.regonn.tokyo/data-science/2019-10-16-kaggle-team/">
         B!
       </amp-social-share>
     </li>
