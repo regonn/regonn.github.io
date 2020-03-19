@@ -405,13 +405,9 @@
 
     
 
-    
-
-<p>RSpecとCapybaraの環境でダイアログの操作を行いたい場合は、
+    <p>RSpecとCapybaraの環境でダイアログの操作を行いたい場合は、
 「<code>page.driver.browser.switch_to.alert.accept</code> を使う」という説明をよく見かけます。</p>
-
 <p>ですが、Capybaraには、</p>
-
 <ul>
 <li><code>:accept_alert</code></li>
 <li><code>:accept_confirm</code></li>
@@ -419,33 +415,20 @@
 <li><code>:accept_prompt</code></li>
 <li><code>:dismiss_prompt</code></li>
 </ul>
-
 <p>というダイアログ操作用のメソッドが用意されています。
 なので、こちらを使うようにした方がよいです。</p>
-
-<p><a href="http://www.rubydoc.info/github/jnicklas/capybara/master/Capybara/Session" target="_blank">Class: Capybara::Session — Documentation for jnicklas/capybara (master)</a></p>
-
+<p><a href="http://www.rubydoc.info/github/jnicklas/capybara/master/Capybara/Session">Class: Capybara::Session — Documentation for jnicklas/capybara (master)</a></p>
 <h2 id="上記メソッドを使うことのメリット">上記メソッドを使うことのメリット</h2>
-
 <p>上記メソッドを使うと、ただ文字数減るだけでなく、他にもメリットが出てきます。</p>
-
 <p>今後 Chrome Headless ブラウザでテストを実行する時には、このメソッドの中で呼ばれている<code>driver.accept_modal(:confirm)</code>という処理がHeadlessへの移行に必要な差分を吸収してくれるようです。</p>
-
-<p><a href="https://github.com/teamcapybara/capybara/pull/1859/files" target="_blank">Workaround chromedriver lack of support for system modals when headless by twalpole · Pull Request #1859 · teamcapybara/capybara</a></p>
-
+<p><a href="https://github.com/teamcapybara/capybara/pull/1859/files">Workaround chromedriver lack of support for system modals when headless by twalpole · Pull Request #1859 · teamcapybara/capybara</a></p>
 <p>あと、引数を渡すと、モーダルの内容確認してくれたり、指定した時間(デフォルトは<code>Capybara.default_max_wait_time</code>なので、設定しなくてもOK)待ってくれたりします。</p>
-
 <p>今後 Chrome Headless へ移行する予定なら、先に対応しておくと楽になりそうです。</p>
-
 <h2 id="移行作業">移行作業</h2>
-
 <p>既存のテストコードに対して、</p>
-
-<pre><code class="language-diff">- page.driver.browser.switch_to.alert.accept
-+ page.accept_confirm
-</code></pre>
-
-<p>にするだけでOKです。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff"><span style="color:#f92672">- page.driver.browser.switch_to.alert.accept
+</span><span style="color:#f92672"></span><span style="color:#a6e22e">+ page.accept_confirm
+</span></code></pre></div><p>にするだけでOKです。</p>
 
 
   </div>

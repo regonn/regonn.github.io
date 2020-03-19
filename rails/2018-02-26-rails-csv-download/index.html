@@ -402,53 +402,46 @@
     
 
     <p>RailsでDBのレコードを読み込んでCSVとして吐き出す方法。</p>
-
 <p>Userというモデルで実装しています。</p>
-
 <p>以下のコードをダウンロードを行いたいControllerのアクションに追加(<code>config/routes.rb</code> にもアクションを追加してください。)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rb" data-lang="rb"><span style="color:#75715e"># app/controllers/users_controller.rb</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">csv</span>
+  self<span style="color:#f92672">.</span>response<span style="color:#f92672">.</span>headers<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;Content-Type&#34;</span><span style="color:#f92672">]</span> <span style="color:#f92672">||=</span> <span style="color:#e6db74">&#39;text/csv; charset=Shift_JIS&#39;</span>
+  self<span style="color:#f92672">.</span>response<span style="color:#f92672">.</span>headers<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;Content-Disposition&#34;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;attachment;filename=users_</span><span style="color:#e6db74">#{</span><span style="color:#66d9ef">Time</span><span style="color:#f92672">.</span>current<span style="color:#f92672">.</span>to_i<span style="color:#e6db74">}</span><span style="color:#e6db74">.csv&#34;</span>
+  self<span style="color:#f92672">.</span>response<span style="color:#f92672">.</span>headers<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;Content-Transfer-Encoding&#34;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;binary&#34;</span>
+  self<span style="color:#f92672">.</span>response<span style="color:#f92672">.</span>headers<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;Last-Modified&#34;</span><span style="color:#f92672">]</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">Time</span><span style="color:#f92672">.</span>current<span style="color:#f92672">.</span>ctime<span style="color:#f92672">.</span>to_s
 
-<pre><code class="language-rb"># app/controllers/users_controller.rb
-def csv
-  self.response.headers[&quot;Content-Type&quot;] ||= 'text/csv; charset=Shift_JIS'
-  self.response.headers[&quot;Content-Disposition&quot;] = &quot;attachment;filename=users_#{Time.current.to_i}.csv&quot;
-  self.response.headers[&quot;Content-Transfer-Encoding&quot;] = &quot;binary&quot;
-  self.response.headers[&quot;Last-Modified&quot;] = Time.current.ctime.to_s
+  self<span style="color:#f92672">.</span>response_body <span style="color:#f92672">=</span> <span style="color:#66d9ef">Enumerator</span><span style="color:#f92672">.</span>new <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>yielder<span style="color:#f92672">|</span>
+    yielder <span style="color:#f92672">&lt;&lt;</span> encode_sjis(<span style="color:#66d9ef">User</span><span style="color:#f92672">.</span>csv_header)
+    <span style="color:#75715e"># ここで、出力するデータのスコープを変更できます。</span>
+    <span style="color:#66d9ef">User</span><span style="color:#f92672">.</span>all<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>user<span style="color:#f92672">|</span>
+      yielder <span style="color:#f92672">&lt;&lt;</span> encode_sjis(user<span style="color:#f92672">.</span>to_csv)
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
 
-  self.response_body = Enumerator.new do |yielder|
-    yielder &lt;&lt; encode_sjis(User.csv_header)
-    # ここで、出力するデータのスコープを変更できます。
-    User.all.each do |user|
-      yielder &lt;&lt; encode_sjis(user.to_csv)
-    end
-  end
-end
+<span style="color:#66d9ef">private</span>
 
-private
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">encode_sjis</span> data
+  data<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;Shift_JIS&#34;</span>, <span style="color:#e6db74">invalid</span>: <span style="color:#e6db74">:replace</span>, <span style="color:#66d9ef">undef</span>: <span style="color:#e6db74">:replace</span>, <span style="color:#e6db74">replace</span>: <span style="color:#e6db74">&#39;?&#39;</span>)
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>モデルの方も実装していきます</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rb" data-lang="rb"><span style="color:#75715e"># app/models/user.rb</span>
 
-def encode_sjis data
-  data.encode(&quot;Shift_JIS&quot;, invalid: :replace, undef: :replace, replace: '?')
-end
-</code></pre>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">.</span><span style="color:#a6e22e">csv_header</span>
+  header <span style="color:#f92672">=</span> <span style="color:#f92672">[]</span>
+  header <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#66d9ef">User</span><span style="color:#f92672">.</span>human_attribute_name <span style="color:#e6db74">:id</span>)
+  header <span style="color:#f92672">&lt;&lt;</span> (<span style="color:#66d9ef">User</span><span style="color:#f92672">.</span>human_attribute_name <span style="color:#e6db74">:name</span>)
+  header<span style="color:#f92672">.</span>to_csv
+<span style="color:#66d9ef">end</span>
 
-<p>モデルの方も実装していきます</p>
-
-<pre><code class="language-rb"># app/models/user.rb
-
-def self.csv_header
-  header = []
-  header &lt;&lt; (User.human_attribute_name :id)
-  header &lt;&lt; (User.human_attribute_name :name)
-  header.to_csv
-end
-
-def to_csv
-  cols = []
-  cols &lt;&lt; id
-  cols &lt;&lt; name
-  cols.to_csv
-end
-</code></pre>
-
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">to_csv</span>
+  cols <span style="color:#f92672">=</span> <span style="color:#f92672">[]</span>
+  cols <span style="color:#f92672">&lt;&lt;</span> id
+  cols <span style="color:#f92672">&lt;&lt;</span> name
+  cols<span style="color:#f92672">.</span>to_csv
+<span style="color:#66d9ef">end</span>
+</code></pre></div>
 
   </div>
   <footer class="my4">

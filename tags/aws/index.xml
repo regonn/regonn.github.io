@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>aws on そこのけそこのけゆとりが通る</title>
@@ -25,7 +25,8 @@ AWS の Deep Learning AMI を使って EC2 インスタンス上で 最新の Ju
 けど、この記事を書いた後に使っていた Deep Learning AMI が大幅に変更された。
 AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Services ブログ
 そして、Julia 0.6.1 だとインストールが失敗するためPkg.build(&#39;MXNet&#39;) してビルドして使っていた MXNet.jl も v0.3.0 がリリースされてインストールできるようになったぽい。
-なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。</description>
+なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。
+利用する EC2 環境  インスタンスタイプ: p2.</description>
     </item>
     
     <item>
@@ -38,7 +39,7 @@ AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Se
 【動画解説】AWS の Deep learning 用 AMI で MXNet を動かす
 ただし、自分の今触っている Julia 言語が AMI にインストールされておらず、最新版(現在 v0.6.1) を動かしてGPU処理をするまで持っていった。Amazon Linux だとライブラリ周りのバージョンが追いついていなかったので、今回はUbuntu版のDeep Learning AMI(タイプはGPUが使えるp2.xlarge)を利用して構築。
 まずは普通にEC2のインスタンスにアクセスして、rootユーザになり、julia の v0.6.1 を make する。(CPU4コア使っても1時間ぐらいかかる。。。)
-$ sudo su - $ apt-get update $ apt-get install libpango1.0-0 -y $ add-apt-repository ppa:staticfloat/julia-deps -y $ apt-get update $ cd /usr/local/src $ git clone https://github.com/JuliaLang/julia.git $ cd julia $ git checkout v0.6.1 $ echo &amp;quot;JULIA_CPU_TARGET=core2&amp;quot; &amp;gt; Make.</description>
+$ sudo su -$ apt-get update$ apt-get install libpango1.0-0 -y$ add-apt-repository ppa:staticfloat/julia-deps -y$ apt-get update$ cd /usr/local/src$ git clone https://github.com/JuliaLang/julia.git$ cd julia$ git checkout v0.6.1$ echo &amp;#34;JULIA_CPU_TARGET=core2&amp;#34; &amp;gt; Make.</description>
     </item>
     
     <item>

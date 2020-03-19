@@ -409,35 +409,19 @@
 
     
 
-    
-
-<p><a href="https://adventar.org/calendars/3119" target="_blank">機械学習 Advent Calendar 2018 - Adventar</a> の19日目の記事です。</p>
-
+    <p><a href="https://adventar.org/calendars/3119">機械学習 Advent Calendar 2018 - Adventar</a> の19日目の記事です。</p>
 <h2 id="optuna">Optuna</h2>
-
-<p><a href="https://research.preferred.jp/2018/12/optuna-release/" target="_blank">ハイパーパラメータ自動最適化ツール「Optuna」公開 | Preferred Research</a></p>
-
-<p>Optunaが公開されて、Julia言語でもハイパーパラメータ自動最適化ツールを探してたら、<a href="https://github.com/baggepinnen/Hyperopt.jl" target="_blank">baggepinnen/Hyperopt.jl</a> が一番求めているものに近かったので触ってみました。</p>
-
+<p><a href="https://research.preferred.jp/2018/12/optuna-release/">ハイパーパラメータ自動最適化ツール「Optuna」公開 | Preferred Research</a></p>
+<p>Optunaが公開されて、Julia言語でもハイパーパラメータ自動最適化ツールを探してたら、<a href="https://github.com/baggepinnen/Hyperopt.jl">baggepinnen/Hyperopt.jl</a> が一番求めているものに近かったので触ってみました。</p>
 <h2 id="mnist-問題">MNIST 問題</h2>
-
-<p>皆大好きMNIST。ちなみに、Juliaだと以前は <a href="https://github.com/johnmyleswhite/MNIST.jl" target="_blank">MNIST.jl</a> からデータが取得できたけどメンテされてなく、Julia 1.0 だと動かないので、<a href="https://github.com/JuliaML/MLDatasets.jl" target="_blank">MLDatasets.jl</a> を利用する。</p>
-
+<p>皆大好きMNIST。ちなみに、Juliaだと以前は <a href="https://github.com/johnmyleswhite/MNIST.jl">MNIST.jl</a> からデータが取得できたけどメンテされてなく、Julia 1.0 だと動かないので、<a href="https://github.com/JuliaML/MLDatasets.jl">MLDatasets.jl</a> を利用する。</p>
 <h2 id="試してみたコード">試してみたコード</h2>
-
-<p><a href="https://masatoi.github.io/2017/07/10/julia-random-forest-mnist" target="_blank">JuliaのランダムフォレストライブラリDecisionTree.jlでMNIST</a> を参考に Julia 1.0 でも動くようにしていく。</p>
-
+<p><a href="https://masatoi.github.io/2017/07/10/julia-random-forest-mnist">JuliaのランダムフォレストライブラリDecisionTree.jlでMNIST</a> を参考に Julia 1.0 でも動くようにしていく。</p>
 <p>Hyperopt.jl は対応ライブラリとかなく、ランダムで複数のハイパーパラメータの選択した範囲を試してくれて、一番良い結果を返してくれるだけなので、色々使える気もするけど、結局ランダムなので、ある程度値の範囲は絞ってあげる必要がありそう。</p>
-
-<p><amp-gist
-  data-gistid="4e4fa62af6471bae0a3b04482b54ea32"
-  layout="fixed-height"
-  height="225">
-</amp-gist></p>
-
+<p><!-- raw HTML omitted -->
+<!-- raw HTML omitted --></p>
 <p>無事に正答率は上がったけど、過学習の可能性もあるので、そこら辺は工夫が必要そう。
 とりあえず、雰囲気と使い方がわかったので良しとする。</p>
-
 <p>それよりも、もっと Optuna で遊んでみたい欲がある。
 こんな感じでハイパーパラメータも簡単に設定できていけるといいですね。</p>
 

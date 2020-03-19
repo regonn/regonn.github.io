@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on そこのけそこのけゆとりが通る</title>
@@ -22,7 +22,7 @@
 Kaggler の日本人コミュニティの Kaggler-ja とかでも、募集してみると色んな人が集まるかもしれませんね。
 募集したあとに、やってるデータサイエンス Podcast の Discord チャンネル作ったので、こちらでも、今後は募集するかもしれません。かぐるーど
 仲間集めで注意したこと IEEE コンペのチームは最大 5 人なので、もし応募が多すぎたら、抽選とかでも嫌なので、募集は複数チームも想定して Google Form で次のような項目を追加しておきました。(結果的には丁度 5 人だったので1チームでした)
- レベル感  チーム分けをしやすくするため、レベル感を聞いておく 1. 機械学習始めたて(半年位) 2. Python, R のどちらかを読んだり書いたりできる 3. 業務や研究で統計知識がある 4. Kaggle コンペメダルを持ってます  希望者が多い場合にはチームのリーダーをやってもいいか?  分ける場合にリーダーをやってもいいか聞いておく、データサイエンスの能力よりも、学生などでコンペ期間中に参加しやすさで決めてもらった   また、参加表明フォームには次のような注意書きもしておきました。</description>
+ レベル感  チーム分けをしやすくするため、レベル感を聞いておく   機械学習始めたて(半年位)    Python, R のどちらかを読んだり書いたりできる    業務や研究で統計知識がある    Kaggle コンペメダルを持ってます     希望者が多い場合にはチームのリーダーをやってもいいか?</description>
     </item>
     
     <item>
@@ -34,7 +34,7 @@ Kaggler の日本人コミュニティの Kaggler-ja とかでも、募集して
       <description>最近の Kaggle 等のデータサイエンスコンペティションでは、データ量が大きく、クラウドで JupyterNotebook 用のインスタンスを立ち上げる際にも、メモリの関係等から GCP の設定をいじる必要があったので構築の際に気をつけていることをメモしておく。
 目標 GPU が有効になった LightGBM を JupyterNotebook 上で動かせるようにする。 Docker は利用しない。
 メモリを最大限に使えるようにする ※機械学習等の大きめのメモリを確保したい時の設定なので、一般サーバーでは非推奨
-sudo sh -c &amp;quot;echo &#39;vm.overcommit_memory=1&#39; &amp;gt;&amp;gt; /etc/sysctl.conf &amp;amp;&amp;amp; sysctl -p&amp;quot;  GCP には Swap が無いので、Swap を追加する sudo dd if=/dev/zero of=/swapfile bs=1M count=10000 sudo chmod 600 /swapfile sudo mkswap /swapfile sudo swapon /swapfile  先に古い nvidia cuda 系を削除 sudo apt remove nvidia-* sudo apt remove cuda-*  GPU ドライバーインストール GPU の追加または削除 | Compute Engine ドキュメント | Google Cloud の記事の 「GPU ドライバのインストール」を参考に最新版を入れる</description>
+sudo sh -c &amp;quot;echo &#39;vm.overcommit_memory=1&#39; &amp;gt;&amp;gt; /etc/sysctl.conf &amp;amp;&amp;amp; sysctl -p&amp;quot;GCP には Swap が無いので、Swap を追加する sudo dd if=/dev/zero of=/swapfile bs=1M count=10000sudo chmod 600 /swapfilesudo mkswap /swapfilesudo swapon /swapfile先に古い nvidia cuda 系を削除 sudo apt remove nvidia-*sudo apt remove cuda-*GPU ドライバーインストール GPU の追加または削除 | Compute Engine ドキュメント | Google Cloud の記事の 「GPU ドライバのインストール」を参考に最新版を入れる</description>
     </item>
     
     <item>
@@ -43,16 +43,13 @@ sudo sh -c &amp;quot;echo &#39;vm.overcommit_memory=1&#39; &amp;gt;&amp;gt; /etc
       <pubDate>Tue, 22 Jan 2019 18:00:00 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/data-science/2019-01-22-julia-pca/</guid>
-      <description> 私の最近所属しているグループでは、自分の強みを知ることができる Strength Finder を皆がやっています。
+      <description>私の最近所属しているグループでは、自分の強みを知ることができる Strength Finder を皆がやっています。
 スプレッドシートに情報が溜まっていたのですが、34項目あるので、自分と同じ傾向の人が探しにくいなと思って、主成分分析を使ってグラフで近い人を見つけられるようにしてみました。
 せっかくなのでJulia言語で書いてみることに。
 PCA(主成分分析) 主成分分析 - Wikipedia 次元を減らすために使われる処理ですが、今回はグラフにしたかったので、34項目の情報(34次元)を2次元にしています。似ている人が近く表示されるようになるはず。
 利用するデータ 流石に個人情報なのと、34項目だと多いのでサンプルデータを用意してみました。
-
 コルクラボでもこんな感じでしたが、実際は人によって、34位まで書いている人と上位5項目までの人がいたので合わせるために、上位5項目以外は0にして処理しました。残りは、1の方を大きい値にするために全体の数値を逆数にして処理しました。
-開発環境  Julia: v1.0.3  この記事書いている時に v1.1 リリースされたけど v1.0.3 で書いてます。  MultivariateStats.jl  PCAを使うためのライブラリ  PlotlyJS.jl  Plotly.jl もあるんですが、PlotlyJS.jl の方がメンテナンスもされているので、こちらを使いました。   Julia のコード 
-出来上がったグラフ 
-サンプルのデータなのでそこまで意味は無いですが、ちゃんと上位が一緒の人(父ちゃんとおまわりさん、兄ちゃんと姉ちゃん)が近い所にいますね。説明変数についてもベクトル表示していて、人が少ない回復志向とかは全員の反対側の方を向いたりしているのでちゃんとできてるっぽい?
+開発環境  Julia: v1.0.3  この記事書いている時に v1.1 リリースされたけど v1.0.3 で書いてます。   MultivariateStats.jl  PCAを使うためのライブラリ   PlotlyJS.jl  Plotly.jl もあるんですが、PlotlyJS.jl の方がメンテナンスもされているので、こちらを使いました。    Julia のコード 出来上がったグラフ サンプルのデータなのでそこまで意味は無いですが、ちゃんと上位が一緒の人(父ちゃんとおまわりさん、兄ちゃんと姉ちゃん)が近い所にいますね。説明変数についてもベクトル表示していて、人が少ない回復志向とかは全員の反対側の方を向いたりしているのでちゃんとできてるっぽい?
 気になること  逆数で処理してるけど、もっと良さそうな計算方法を知りたい  </description>
     </item>
     
@@ -69,7 +66,6 @@ PCA(主成分分析) 主成分分析 - Wikipedia 次元を減らすために使�
 班ミーティング 私が島根県の松江に住んでリモート参加ということもあり、初回以外はリモートで会議をしました。基本Skypeでやり取りしたりしましたが、複数人での利用時間に制限があるZoomの無料プランの方が音質等の点では優れてましたね。
 そして私達の班では、取り上げるヒットコンテンツを容疑者Xの献身に決めて、詩学の内容と合わせて、どうヒットにつながっているのかについて考えました。
 普段読書でメモを取る習慣はなかったですが、今回は読み進めながら「容疑者Xの献身だとどの部分だろう」と考えながら書いていきました。メモを取りながらの読書も楽しいですね。
-
 字が汚いのはしょうがないです。。。
 発表会当日 私達の班では3回班ミーティングをして発表会へ。ミーティングや資料作成では自分以外の人が詩学を読み込んでて、容疑者Xの献身の鋭い考察をされていたので、ほとんどそこら辺は貢献できてませんでしたが。。。
 発表会も島根県からリモートで参加しました。
@@ -97,7 +93,6 @@ Optunaが公開されて、Julia言語でもハイパーパラメータ自動最
 MNIST 問題 皆大好きMNIST。ちなみに、Juliaだと以前は MNIST.jl からデータが取得できたけどメンテされてなく、Julia 1.0 だと動かないので、MLDatasets.jl を利用する。
 試してみたコード JuliaのランダムフォレストライブラリDecisionTree.jlでMNIST を参考に Julia 1.0 でも動くようにしていく。
 Hyperopt.jl は対応ライブラリとかなく、ランダムで複数のハイパーパラメータの選択した範囲を試してくれて、一番良い結果を返してくれるだけなので、色々使える気もするけど、結局ランダムなので、ある程度値の範囲は絞ってあげる必要がありそう。
-
 無事に正答率は上がったけど、過学習の可能性もあるので、そこら辺は工夫が必要そう。 とりあえず、雰囲気と使い方がわかったので良しとする。
 それよりも、もっと Optuna で遊んでみたい欲がある。 こんな感じでハイパーパラメータも簡単に設定できていけるといいですね。</description>
     </item>
@@ -124,12 +119,12 @@ Hyperopt.jl は対応ライブラリとかなく、ランダムで複数のハ�
       
       <guid>https://blog.regonn.tokyo/podcast/2018-12-12-podcast-amp/</guid>
       <description>Podcaster Advent Calendar 2018 の 12 日の記事です。 カレンダーの趣旨勘違いしてて、技術的なことをやって記事書いてしまいましたが、普段やっている Podcast も本日 2 つ通常回ですが公開します。
-本日公開 Podcast  12. オフ会後 - regonn&amp;amp;curry.fm  データサイエンス Podcast Twitter: @regonn_curry  9. ふたりは藤木くん - 今夜も strong x strong  底辺 Podcast、ストロングゼロをただ飲んでるだけ Twitter: @strongxstrong_2   Yattecast Yattecast - Podcast サイトをつくるためのテンプレート
+本日公開 Podcast  12. オフ会後 - regonn&amp;amp;curry.fm  データサイエンス Podcast Twitter: @regonn_curry   9. ふたりは藤木くん - 今夜も strong x strong  底辺 Podcast、ストロングゼロをただ飲んでるだけ Twitter: @strongxstrong_2    Yattecast Yattecast - Podcast サイトをつくるためのテンプレート
 今年は新しく２つの Podcast を始めたんですが、始めるきっかけや続けるモチベーションを保てたのは、このテンプレートを使って Github pages により無料で公開できたのが大きいです。
 始めた時の技術的な内容は次の記事にまとめてあります。
 Tech 系 Podcast の始め方
 amp 対応 Yattecast があまりメンテナンスされていないのと、あまりアニメーション等もないので、これは amp 対応したほうがメリットありそうと思って今回挑戦してみました。
-成果  regonn/regonn-cast 差分(コミット単位でみてもらうと何をやったかわかりやすいと思います)  対応したこと  Gemfile 更新  Dependabotを使って今後もライブラリのアップデートに対応して更新していけるようにしました  Google Podcast 対応  ちゃんと対応しているのかは Podcast Publisher Tools で確認できるっぽい  amp 対応  amp-audio でポッドキャストも再生できるように amp-analytics amp-auto-ads(google adsense の自動広告) amp-social-share  Schema.</description>
+成果  regonn/regonn-cast 差分(コミット単位でみてもらうと何をやったかわかりやすいと思います)  対応したこと  Gemfile 更新  Dependabotを使って今後もライブラリのアップデートに対応して更新していけるようにしました   Google Podcast 対応  ちゃんと対応しているのかは Podcast Publisher Tools で確認できるっぽい   amp 対応  amp-audio でポッドキャストも再生できるように amp-analytics amp-auto-ads(google adsense の自動広告) amp-social-share   Schema.</description>
     </item>
     
     <item>
@@ -144,12 +139,10 @@ amp 対応 Yattecast があまりメンテナンスされていないのと、�
  コルクラボでは、「コミュニティファースト」という言葉を掲げて、コミュニティを運営するために必要 な知識、技術を学んでいく。
  というコミュニティです。
 まず、コルクラボを知った経緯ですが、最近自分の中で コミュニティに所属する機会が増えてきた と感じました。実際に次のところに現在所属しています。
- kaggler-ja  データサイエンスコンペティションサイト Kaggle のコミュニティ  VR アカデミア  VR 上でそれぞれが好きなことについて発表や講義をしていきながら教育の形を変えようとしている  Vnos  V の者というバーチャルの存在のまま仕事を受け生活していくことができるか挑戦している。ギルド的なグループを作ろうとしている。   コミュニティで学ぶ機会や所属する機会が増えてきたというのと、他にも幾つかのコミュニティに所属していたりもしましたが、上手く自分が参加することができない場合もあり、 学ぶためのコミュニティや運営 という部分に興味がでてきました。
+ kaggler-ja  データサイエンスコンペティションサイト Kaggle のコミュニティ   VR アカデミア  VR 上でそれぞれが好きなことについて発表や講義をしていきながら教育の形を変えようとしている   Vnos  V の者というバーチャルの存在のまま仕事を受け生活していくことができるか挑戦している。ギルド的なグループを作ろうとしている。    コミュニティで学ぶ機会や所属する機会が増えてきたというのと、他にも幾つかのコミュニティに所属していたりもしましたが、上手く自分が参加することができない場合もあり、 学ぶためのコミュニティや運営 という部分に興味がでてきました。
 そのタイミングで、WEEKLY OCHIAI で「コミュニティをアップデートせよ」というタイトルでの配信があり、まさに自分の興味にピッタリのネタで視聴し、コルクラボという存在を知りました。
-
 そして、コルクラボについての情報を追ってたりしてましたが、丁度 5 期生の応募が始まり申し込んで無事に 5 期生になれたので今回初回説明会に参加してきました。
 初回説明会でやったこと 偏愛マップ 初回説明会ではまず会場に着くと、自分の偏愛マップというものを描きました。これを使って自己紹介のときなどの話題のネタになります。
-
 コルクラボの説明 コルクラボの説明がありました。コルクラボの公式の About ページに書いてある内容に一歩踏み込んだ内容で、次の所が自分の中で印象に残りました。
 コルクラボのコミュニティ観  情報量が圧倒的に増えてしまって重要な情報はコミュニティを通じ、そのコミュニティの価値観に沿った文脈で伝わる。 コミュニティ形成の最初は「安全・安心」の確保。熱狂・拡大は安全・安心の結果であり原因ではない。 コミュニティのゆるい繋がりを活かした互助を生む。  とありました。
 特に二番目の 安全・安心の確保 が一番しっくりきました。 最初はコミュニティを大きくしていくというよりも、そのコミュニティに貢献、所属することに安全と安心が広まれば自然と大きくなっていく というのは大事そうです。だからこそ、コルクラボでも最初の初回説明会でもアイスブレイクや自分を知り、他の人にも知ってもらうという工夫がされていそうです。</description>
@@ -167,7 +160,7 @@ amp 対応 Yattecast があまりメンテナンスされていないのと、�
 なぜ松江を選んだか？ 最も聞かれる質問ですね。 IT のエンジニアの方であれば松江が Ruby の聖地であることは有名ですが、それを知らない親族とかには不思議がられました。
 なぜ松江(地方都市への I ターン)決めたのか改めて考えてみました。
 松江に体験で仕事できる機会があった 総務省のお試しサテライトオフィスという企画で 2017 年の夏に 1 週間松江で仕事をすることができました。そのとき次のように感じ住むのにも良さそうと思いました。
- 松江は都市がコンパクトに収まっている  現在も私は車も自転車も持っておらず、歩きだけで普段の生活(市役所への書類提出とか、勉強会等への参加)もできています 買い物も駅近くにイオンモールがあるため大抵の物は買える  Ruby の聖地ということで エンジニアコミュニティ が出来上がっている 大学(島根大学)や高専(松江工業高等専門学校)もあったりして、学生がイベント に参加してくる機会も多い 県庁所在地でもあるので、 市と県の人達の支援 が受けやすかったり、イベントが開催されている  松江・出雲がお茶処 東京にいるとき茶道をやっており、丁度通っていた教室の家元が松江の隣の市である出雲市にありました。 お茶にまつわる禅語の話など、色々と知識が入ってくるのが面白く、少し本格的にやってみるのもいいかもと思ってました。 現在も毎週出雲市へお稽古に通っています。
+ 松江は都市がコンパクトに収まっている  現在も私は車も自転車も持っておらず、歩きだけで普段の生活(市役所への書類提出とか、勉強会等への参加)もできています 買い物も駅近くにイオンモールがあるため大抵の物は買える   Ruby の聖地ということで エンジニアコミュニティ が出来上がっている 大学(島根大学)や高専(松江工業高等専門学校)もあったりして、学生がイベント に参加してくる機会も多い 県庁所在地でもあるので、 市と県の人達の支援 が受けやすかったり、イベントが開催されている  松江・出雲がお茶処 東京にいるとき茶道をやっており、丁度通っていた教室の家元が松江の隣の市である出雲市にありました。 お茶にまつわる禅語の話など、色々と知識が入ってくるのが面白く、少し本格的にやってみるのもいいかもと思ってました。 現在も毎週出雲市へお稽古に通っています。
 集中する(ひきこもれる)環境が欲しかった 普段色々なものに興味を持ってしまう性格(マルチポテンシャライトというらしい)なので、東京に住んでると色々なイベントやコミュニティに参加してしまって、自分の好きなタイミングで集中したいものに取り組むということができていませんでした。 そこで、 住む環境を地方に移しイベントやコミュニティ参加にもある程度制限をかけることで、自分の好きな物事に取り組める環境 が欲しくなりました。 その点、松江は集中したいものが自分の中にあれば、集中できる環境が整っている気がします。外にでて散歩をすれば、すぐ自然とも触れられる良い環境だと思います。
 ギークハウスが新しくできた お試しサテライトのときにエンジニア向けのシェアハウスプロジェクトであるギークハウスを松江に作ろうと計画が進んでいました。 私も以前から幾つかのギークハウスで住んだこともあり興味がありました。現在もギークハウス松江に住んでいます。</description>
     </item>
@@ -179,7 +172,7 @@ amp 対応 Yattecast があまりメンテナンスされていないのと、�
       
       <guid>https://blog.regonn.tokyo/vr/2018-12-03-vtuber-hackathon-premium/</guid>
       <description>以前島根県の VTuber ハッカソンで最優秀賞を頂き、全国大会の位置づけであるプレミアム大会に参加してきました。 今回はそこで使った技術等を書いていきます。
-企画を考える  全国大会ということで、技術にも詳しい人も集まる中で VR や 3D が本業でない二人で挑むには技術的にも人数的にも結構厳しい もう一人のメンバーの金山さんが Insta360(360 度カメラ) とスマホ用スタビライザーを持ってきていたので、リアルな世界の動画を混ぜられそう 俳句だと吟行といって外に出て色々な所を巡って俳句を詠んでいく遊び方がある 二人共リアル動画のノウハウはなかったので技術的に学びがありそう 他の人達は流石にハッカソンで外に出ることは無さそうなので独自のコンテンツが作れそう  動画を撮る  リアルな世界  色々な東京の観光名所等を回って動画を集める  VR の世界  バーチャルキャスト 普段 Vlog といって日記のかわりに VTuber で動画投稿する時に使っているので慣れている バックグラウンドをグリーンバックにしてクロマキー合成を行う ひたすら動画を撮ってリアルの世界に埋め込んでいく   動画編集  Adobe  Premiere Pro After Effects   他と違う所  プレゼンの動画も撮る  せっかくバーチャルなキャラがいるのだからもったいない 撮ってしまえば時間配分とか言葉つっかえるとか無くなる バーチャルキャストを使ってプレゼンするのはポインタとかも使えるので結構楽   良かったこと・大変だったこと  良かったこと  クロマキー合成等の今までの VTuber 活動で触っていない技術を体験できた 東京観光がついでにできた  大変だったこと  リアルの動画撮ると問題が出てくる 一般の人が映るため、モザイク処理等が必要になる  Premiere Pro だとモザイク自動追尾機能等もある それでも小さい顔とかを隠そうとすると結構面倒  会場の六本木グランドタワーを外側から映してもダメらしい  ここらへんはモノパブ問題と言われているらしくて、どうやら敷地内での撮影はだめらしい 事実！ トラブルが最も多い、建物の写真で気をつけるべき権利     結果 ツクモ/ASK 賞を頂きました。賞品として初音ミクデザインのゲーミングキーボードとゲーミングマウスをゲット。 とりあえず、VTuber でゲーム実況していきたいのと、Blender 扱う際にテンキー付きのキーボードが欲しかったので丁度良かった。</description>
+企画を考える  全国大会ということで、技術にも詳しい人も集まる中で VR や 3D が本業でない二人で挑むには技術的にも人数的にも結構厳しい もう一人のメンバーの金山さんが Insta360(360 度カメラ) とスマホ用スタビライザーを持ってきていたので、リアルな世界の動画を混ぜられそう 俳句だと吟行といって外に出て色々な所を巡って俳句を詠んでいく遊び方がある 二人共リアル動画のノウハウはなかったので技術的に学びがありそう 他の人達は流石にハッカソンで外に出ることは無さそうなので独自のコンテンツが作れそう  動画を撮る  リアルな世界  色々な東京の観光名所等を回って動画を集める   VR の世界  バーチャルキャスト  普段 Vlog といって日記のかわりに VTuber で動画投稿する時に使っているので慣れている バックグラウンドをグリーンバックにしてクロマキー合成を行う ひたすら動画を撮ってリアルの世界に埋め込んでいく      動画編集  Adobe  Premiere Pro After Effects    他と違う所  プレゼンの動画も撮る  せっかくバーチャルなキャラがいるのだからもったいない 撮ってしまえば時間配分とか言葉つっかえるとか無くなる バーチャルキャストを使ってプレゼンするのはポインタとかも使えるので結構楽    良かったこと・大変だったこと  良かったこと  クロマキー合成等の今までの VTuber 活動で触っていない技術を体験できた 東京観光がついでにできた   大変だったこと  リアルの動画撮ると問題が出てくる  一般の人が映るため、モザイク処理等が必要になる  Premiere Pro だとモザイク自動追尾機能等もある それでも小さい顔とかを隠そうとすると結構面倒   会場の六本木グランドタワーを外側から映してもダメらしい  ここらへんはモノパブ問題と言われているらしくて、どうやら敷地内での撮影はだめらしい 事実！ トラブルが最も多い、建物の写真で気をつけるべき権利         結果 ツクモ/ASK 賞を頂きました。賞品として初音ミクデザインのゲーミングキーボードとゲーミングマウスをゲット。 とりあえず、VTuber でゲーム実況していきたいのと、Blender 扱う際にテンキー付きのキーボードが欲しかったので丁度良かった。</description>
     </item>
     
     <item>
@@ -189,7 +182,7 @@ amp 対応 Yattecast があまりメンテナンスされていないのと、�
       
       <guid>https://blog.regonn.tokyo/podcast/2018-10-07-podcast/</guid>
       <description>VR 上での勉強会 Workshop in VR #2 での発表内容です。
-発表資料スライド  Podcast の始め方 - Speaker Deck  最近 2 つの Podcast を始めた regonn&amp;amp;curry.fm  データサイエンス(Kaggle)の話し 脱線して量子コンピュータとか VR  今夜も Strong x Strong  ストロングゼロを飲みながらの酔っぱらい Podcast  実は以前も Podcast 的なことはやっていた 俳句ハイカーハイケスト  俳句を紹介していく Podcast Wordpress + https://www.blubrry.com/ Wordpress 側で AMP 対応などもできて使いやすい ただ、更新していなくてもホスティング費用+Wordpress サーバー代がかかる  継続しにくくなった   Voicy 俳句と IT ニュース  https://voicy.jp/channel/413 こちらも俳句+IT 系のニュース 勝手に BGM を載せてくれたりして楽 結局マネタイズどうしよう問題があった 録音が iPhone でしかできなくて辛かった。(逆に気軽にできるメリットもある)  Podcast を始めるにあたって最新の情報がしりたいので次の本を購入 今日からはじめる「技術 Podcast」完全入門 YATTEIKI Project という Podcast も行っている人達が技術系 Podcast を運営してみてのノウハウが書いてある</description>
+発表資料スライド  Podcast の始め方 - Speaker Deck  最近 2 つの Podcast を始めた regonn&amp;amp;curry.fm  データサイエンス(Kaggle)の話し 脱線して量子コンピュータとか VR  今夜も Strong x Strong  ストロングゼロを飲みながらの酔っぱらい Podcast  実は以前も Podcast 的なことはやっていた 俳句ハイカーハイケスト  俳句を紹介していく Podcast Wordpress + https://www.blubrry.com/ Wordpress 側で AMP 対応などもできて使いやすい ただ、更新していなくてもホスティング費用+Wordpress サーバー代がかかる  継続しにくくなった    Voicy 俳句と IT ニュース  https://voicy.jp/channel/413 こちらも俳句+IT 系のニュース 勝手に BGM を載せてくれたりして楽 結局マネタイズどうしよう問題があった 録音が iPhone でしかできなくて辛かった。(逆に気軽にできるメリットもある)  Podcast を始めるにあたって最新の情報がしりたいので次の本を購入 今日からはじめる「技術 Podcast」完全入門 YATTEIKI Project という Podcast も行っている人達が技術系 Podcast を運営してみてのノウハウが書いてある</description>
     </item>
     
     <item>
@@ -198,8 +191,7 @@ amp 対応 Yattecast があまりメンテナンスされていないのと、�
       <pubDate>Sun, 16 Sep 2018 17:00:00 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/vr/2018-09-16-workshotp-in-vr/</guid>
-      <description>発表資料スライド  Workshop in VR #1 発表資料 - Speaker Deck Kaggle の Julia Kernel が動く Docker を 1.0 に対応させる - Speaker Deck  なぜ VR 上で勉強会を開催しようと思ったか  島根県松江市に住んでいて、Ruby 界隈の勉強会はあるけど、機械学習系とか少ない 開催しても人が集まらないことも多い(人望・宣伝不足もある) 最近 VR 技術にハマっている 自分の所属しているコミュニティが Slack や Discord 上で形成されているのが多いと感じて同じように勉強会コミュニティも作ってみようと思った  VR 上で行うことで解決する問題 スライドより 
-cluster  cluster（クラスター）｜バーチャルイベント空間 VR 上でイベントを開催できるサービス VTuber・輝夜月の VR ライブを行ったりとエンタメ系でも強い  cluster を使ってみて 良かった所  VR 機器を持っていない人でも参加可能 VRM データ(3D モデル)があれば自分のアバターに設定できる PDF のプレゼン表示、コメントフィード表示、拍手モーションなど勉強会に必要なものは揃っている UI がしっかりしていて、未来を感じる いくらでもルームが作成できるので、同じ環境で発表準備ができる くらすたーちゃん可愛い  悪かった所  マイク環境が人によって違うため発表音量がバラバラになる 設定した YouTubeLive ページのコメントしか連携されないので配信環境を別途準備する必要が出てくる たまにスライドボタンの次へを押しても反応がなかったりする VR でやろうとするとメニューのボタンが左手首に付いていることに気づかない(n=2)   自分でウィンドウ位置を空間上に自由に配置できるのは VR ならでは</description>
+      <description>発表資料スライド  Workshop in VR #1 発表資料 - Speaker Deck Kaggle の Julia Kernel が動く Docker を 1.0 に対応させる - Speaker Deck  なぜ VR 上で勉強会を開催しようと思ったか  島根県松江市に住んでいて、Ruby 界隈の勉強会はあるけど、機械学習系とか少ない 開催しても人が集まらないことも多い(人望・宣伝不足もある) 最近 VR 技術にハマっている 自分の所属しているコミュニティが Slack や Discord 上で形成されているのが多いと感じて同じように勉強会コミュニティも作ってみようと思った  VR 上で行うことで解決する問題 スライドより cluster  cluster（クラスター）｜バーチャルイベント空間 VR 上でイベントを開催できるサービス VTuber・輝夜月の VR ライブを行ったりとエンタメ系でも強い  cluster を使ってみて 良かった所  VR 機器を持っていない人でも参加可能 VRM データ(3D モデル)があれば自分のアバターに設定できる PDF のプレゼン表示、コメントフィード表示、拍手モーションなど勉強会に必要なものは揃っている UI がしっかりしていて、未来を感じる いくらでもルームが作成できるので、同じ環境で発表準備ができる くらすたーちゃん可愛い  悪かった所  マイク環境が人によって違うため発表音量がバラバラになる 設定した YouTubeLive ページのコメントしか連携されないので配信環境を別途準備する必要が出てくる たまにスライドボタンの次へを押しても反応がなかったりする VR でやろうとするとメニューのボタンが左手首に付いていることに気づかない(n=2)  自分でウィンドウ位置を空間上に自由に配置できるのは VR ならでは</description>
     </item>
     
     <item>
@@ -210,7 +202,7 @@ cluster  cluster（クラスター）｜バーチャルイベント空間 VR 上
       <guid>https://blog.regonn.tokyo/vr/2018-09-09-vtuber-hackathon/</guid>
       <description>発表資料スライド https://speakerdeck.com/regonn/vtuberhatukason-quan-guo-tua2018-dao-gen-hui-chang-timu-freeee
 この記事で書くこと 2018/09/09 開催のVTuber ハッカソン 全国ツアー 2018【島根会場】 - connpass でやった作業内容
-使った技術  Unreal Engine 4  チームが 2 人のため、なるべく少ないコストで綺麗なシーンを撮りたかった  Substance Painter - 3D Painting Software  オブジェクトの編集などで利用  Oculus Rift | Oculus  Vive が提供されていたけど、二人とも Oculus Rift を持っていたので、操作も慣れており採用  レッサーモクリ  VR 法人 HIKKY がモクリプロジェクトで公開している無料で営利目的で使って大丈夫なライセンス 2 チームだったため出来合いのものを使いたかった 私がケモナー  Open Broadcaster Software  録画   モクリを Unreal Engine に取り込む 公開されているモクリデータは unity project 形式だったので次の様な方法で Unreal Engine に取り込みました。(方法探り探りやったので、もっと効率の良い方法はありそう)</description>
+使った技術  Unreal Engine 4  チームが 2 人のため、なるべく少ないコストで綺麗なシーンを撮りたかった   Substance Painter - 3D Painting Software  オブジェクトの編集などで利用   Oculus Rift | Oculus  Vive が提供されていたけど、二人とも Oculus Rift を持っていたので、操作も慣れており採用   レッサーモクリ  VR 法人 HIKKY がモクリプロジェクトで公開している無料で営利目的で使って大丈夫なライセンス 2 チームだったため出来合いのものを使いたかった 私がケモナー   Open Broadcaster Software  録画    モクリを Unreal Engine に取り込む 公開されているモクリデータは unity project 形式だったので次の様な方法で Unreal Engine に取り込みました。(方法探り探りやったので、もっと効率の良い方法はありそう)</description>
     </item>
     
     <item>
@@ -220,14 +212,12 @@ cluster  cluster（クラスター）｜バーチャルイベント空間 VR 上
       
       <guid>https://blog.regonn.tokyo/event/2018-07-08-sitw35/</guid>
       <description>第 35 回山陰 ITPro 勉強会に参加してきました。
-今回は Web アプリケーションセキュリティの第一人者 徳丸浩 さんの 6&amp;frasl;21 に発売された、体系的に学ぶ 安全な Web アプリケーションの作り方 第 2 版　脆弱性が生まれる原理と対策の実践についての講演でした。
- 
-
+今回は Web アプリケーションセキュリティの第一人者 徳丸浩 さんの 6/21 に発売された、体系的に学ぶ 安全な Web アプリケーションの作り方 第 2 版　脆弱性が生まれる原理と対策の実践についての講演でした。
 普段 Web アプリケーションを作る身として、せっかく作ったサービスが脆弱性でハッキングされたり、情報が漏洩してしまったら元も子もないので、セキュリティに関する知識も勉強したいと思いエントリを決意。
 最初に参加者全員で自己紹介を行い、そこからメイン講演へ。
 メイン講演前半 講演前半では第 1 版と第 2 版の差分についての話がありました。 第 1 版が出版された時(2011 年)とは、普及している技術や環境が違うので例えばガラケーの項目やレガシー IE の項目について削除されているようです。 また増えた項目としては、OWASP Top 10に出てくるような最近流行っている脆弱性の項目(クリックジャッキングや Web API 等)が追加されています。
 おすすめの読み方 また、この本を実物で見てもらうと分かりますが相当分厚いです。 そのため、徳丸さんは章ごとに次のような読み方を推奨していました。
- 1 章 ざっと読んでみる 2 章 実習環境のセットアップなので、普段ここらへんの技術を触ってる人はそこまで必要ない 3 章 できればちゃんと手を動かして進める 4 章 4.1 と 4.2 節 を読んだ後、4.3 節からは最初の 1 ページぐらいをざっと読む  その後、必要な節を手を動かしながら読む 逆引き的な使い方を想定  5 章 読み物的にざっと読んで、後で該当機能を実装する際に詳しく読むとよい 6 章 読み物のとして読む 7 章 診断体験ができるのでやるのをおすすめ 8 章 読み物的に 9 章 読み物的に  メイン講演後半 講演の後半は実際に付属してくるサンプルアプリケーションのデモでした。 7 章で使う脆弱性たっぷりの Bad Todo List というアプリがあり、そこからいくつかの脆弱性を解説してもらったり、4 章にある新しい脆弱性の解説がありました。特に 4 章では一つの脆弱性ごとに一つのサンプルアプリケーションがあるので、かなり充実していました。</description>
+ 1 章 ざっと読んでみる 2 章 実習環境のセットアップなので、普段ここらへんの技術を触ってる人はそこまで必要ない 3 章 できればちゃんと手を動かして進める 4 章 4.1 と 4.2 節 を読んだ後、4.3 節からは最初の 1 ページぐらいをざっと読む  その後、必要な節を手を動かしながら読む 逆引き的な使い方を想定   5 章 読み物的にざっと読んで、後で該当機能を実装する際に詳しく読むとよい 6 章 読み物のとして読む 7 章 診断体験ができるのでやるのをおすすめ 8 章 読み物的に 9 章 読み物的に  メイン講演後半 講演の後半は実際に付属してくるサンプルアプリケーションのデモでした。 7 章で使う脆弱性たっぷりの Bad Todo List というアプリがあり、そこからいくつかの脆弱性を解説してもらったり、4 章にある新しい脆弱性の解説がありました。特に 4 章では一つの脆弱性ごとに一つのサンプルアプリケーションがあるので、かなり充実していました。</description>
     </item>
     
     <item>
@@ -237,13 +227,11 @@ cluster  cluster（クラスター）｜バーチャルイベント空間 VR 上
       
       <guid>https://blog.regonn.tokyo/data-science/2018-06-21-julia-bayesian-udemy/</guid>
       <description>ベイズを学ぶために Udemy の講座で
-【Python と Stan で学ぶ】仕組みが分かるベイズ統計学入門
-
-の Python のコードを Julia で書き直して勉強している。
+【Python と Stan で学ぶ】仕組みが分かるベイズ統計学入門の Python のコードを Julia で書き直して勉強している。
 Python のコード
 次のようにベルヌーイ分布で data から N_data 個取った場合の確立密度関数を計算する Python コードがあった
-import from scipy.stats import bernoulli p_a = 0.3 data = [0,1,0,0,1,1,1] N_data = 2 likehood_a = bernoulli.pmf(data[:N_data], p_a) likehood_a # array([ 0.7, 0.3])  Julia で書き直すとこんな感じになった
-using Distributions p_a = 0.3 data = [0,1,0,0,1,1,1] N_data = 2 likehood_a = pdf(Bernoulli(p_a), data[1:N_data]) likehood_a # 2-element Array{Float64,1}: # 0.7 # 0.</description>
+import from scipy.stats import bernoullip_a = 0.3data = [0,1,0,0,1,1,1]N_data = 2likehood_a = bernoulli.pmf(data[:N_data], p_a)likehood_a # array([ 0.7, 0.3]) Julia で書き直すとこんな感じになった
+using Distributionsp_a = 0.3data = [0,1,0,0,1,1,1]N_data = 2likehood_a = pdf(Bernoulli(p_a), data[1:N_data])likehood_a# 2-element Array{Float64,1}: # 0.7 # 0.</description>
     </item>
     
     <item>
@@ -265,7 +253,7 @@ cytoscape.jsとslack APIでチーム内の関係を可視化
 コード もくもく会で時間も限られていたので基本的な部分だけ触ってみました。 Codepenでhtml,css,jsで書いて触れるようになってます。
 Cytoscape - Codepen
 jsのコードはこんな感じ
-var cy = cytoscape({ container: document.getElementById(&#39;cy&#39;), style: cytoscape.stylesheet() .selector(&#39;node&#39;) .css({ &#39;height&#39;: &#39;data(size)&#39;, &#39;width&#39;: &#39;data(size)&#39;, &#39;border-color&#39;: &#39;#000&#39;, &#39;border-width&#39;: &#39;1&#39;, &#39;content&#39;: &#39;data(name)&#39; }) .selector(&#39;edge&#39;) .css({ &#39;width&#39;: &#39;data(strength)&#39; }) .</description>
+var cy = cytoscape({container: document.getElementById(&amp;#39;cy&amp;#39;),style: cytoscape.stylesheet().selector(&amp;#39;node&amp;#39;).css({&amp;#39;height&amp;#39;: &amp;#39;data(size)&amp;#39;,&amp;#39;width&amp;#39;: &amp;#39;data(size)&amp;#39;,&amp;#39;border-color&amp;#39;: &amp;#39;#000&amp;#39;,&amp;#39;border-width&amp;#39;: &amp;#39;1&amp;#39;,&amp;#39;content&amp;#39;: &amp;#39;data(name)&amp;#39;}).selector(&amp;#39;edge&amp;#39;).css({&amp;#39;width&amp;#39;: &amp;#39;data(strength)&amp;#39;}).</description>
     </item>
     
     <item>
@@ -293,8 +281,7 @@ var cy = cytoscape({ container: document.getElementById(&#39;cy&#39;), style: cy
 今回のワークショップで使われたリポジトリ。
 Dockerを用いて、それぞれの環境を作り進めていきました。
 Session 1: Introduction to Ruby&amp;rsquo;s data tools ecosystem 現在のRuby界隈のDataScience系のプロジェクトやツールを紹介
-Ruby×データサイエンス系プロジェクト  SciRuby  科学技術計算におけるRuby環境の改善が目的の国際プロジェクト Dataframe(Pythonでいうpandas)の daru だったり、RubyをJupyter上で動かすための iruby 等を開発  Ruby Numo  行列計算ライブラリ(Pythonでいうnumpy)の NArray を開発  Red Data Tools  Rubyのデータ処理ライブラリを提供するプロジェクト Apache ArrowのRubyバインドであるred-arrowを開発   Jupyter Notebook上でRubyを動かす Session1.ipynb  Kaggle でもチュートリアルとして有名な Titanic生存者データ rbplotly(いい感じにデータを描画してくれるサービスplotlyをrubyから呼べるgem)を使ってチャートを表示 CSVデータからDaruでデータフレーム型に変換して、rubyの文法でデータを処理できて、チャート表示までが問題なく出来ていた ある程度の前処理等もRubyでできてしまえる可能性を感じた  Session 2: Introduction to pycall.rb RubyでPythonのライブラリやメソッドを呼べる pycall.rb について
-Session2.ipynb  iris(アヤメ)データをpandas(データフレーム),seaborn(描画),scikit-learn(PCA,SVC)を使って解析  wine_data_viewer  pycall.</description>
+Ruby×データサイエンス系プロジェクト  SciRuby  科学技術計算におけるRuby環境の改善が目的の国際プロジェクト Dataframe(Pythonでいうpandas)の daru だったり、RubyをJupyter上で動かすための iruby 等を開発   Ruby Numo  行列計算ライブラリ(Pythonでいうnumpy)の NArray を開発   Red Data Tools  Rubyのデータ処理ライブラリを提供するプロジェクト Apache ArrowのRubyバインドであるred-arrowを開発    Jupyter Notebook上でRubyを動かす Session1.ipynb  Kaggle でもチュートリアルとして有名な Titanic生存者データ rbplotly(いい感じにデータを描画してくれるサービスplotlyをrubyから呼べるgem)を使ってチャートを表示 CSVデータからDaruでデータフレーム型に変換して、rubyの文法でデータを処理できて、チャート表示までが問題なく出来ていた ある程度の前処理等もRubyでできてしまえる可能性を感じた  Session 2: Introduction to pycall.rb RubyでPythonのライブラリやメソッドを呼べる pycall.rb について</description>
     </item>
     
     <item>
@@ -306,8 +293,7 @@ Session2.ipynb  iris(アヤメ)データをpandas(データフレーム),seaborn
       <description>2018/04/18 開催の Kaggle Knight Matsue #4 でやった作業内容。
 KaggleのiMaterialist Challengeの作業
 画像取得スクリプトの改善 以前作った画像取得スクリプト だと、ラベルの情報が無かったり、先にフォルダを作っておかないとエラーになったりしたので、自動で取得できるように変更する。
-スクリプトの仕様  ラベル情報を読み取り、ラベルのフォルダに画像を保存 フォルダが存在していなければ、新しく mkdir でフォルダ作成 全ての画像を取得するのではなく、それぞれのラベルの画像をn枚毎ダウンロードしたかったので、ラベル毎の枚数を length(readdir(dirname) でファイル数を読み取って、条件に追加する(コードだと100枚にしてある) label に missing が存在していたので、その場合は保存しないようにする json ファイルのときは for in で処理出来ていたが、Dataframeの場合は eachrow を使って行毎に処理できるようにする
-for row in eachrow(target_rows) try dirname = &amp;quot;./images/$(row[:label_id])&amp;quot; filename = &amp;quot;./images/$(row[:label_id])/$(row[:image_id]).jpg&amp;quot; if !isdir(dirname) mkdir(dirname) end if !(ismissing(row[:label_id]).|(isfile(filename)).|(length(readdir(dirname)) &amp;gt; 100)) println(filename) t = tempname() download(row[:url], t) img = load(t) square = imresize(img, (80, 80)) save(filename, square) rm(t) end catch err println(&amp;quot;ERROR: &amp;quot;, err) end end   これで、あとは放置しておけば勝手に指定した枚数毎にラベルの画像がダウンロードできるようになった。途中で止まっても、ちゃんと枚数を数えてから、ダウンロードが再開されるので安心。</description>
+スクリプトの仕様  ラベル情報を読み取り、ラベルのフォルダに画像を保存 フォルダが存在していなければ、新しく mkdir でフォルダ作成 全ての画像を取得するのではなく、それぞれのラベルの画像をn枚毎ダウンロードしたかったので、ラベル毎の枚数を length(readdir(dirname) でファイル数を読み取って、条件に追加する(コードだと100枚にしてある) label に missing が存在していたので、その場合は保存しないようにする json ファイルのときは for in で処理出来ていたが、Dataframeの場合は eachrow を使って行毎に処理できるようにする  for row in eachrow(target_rows)trydirname = &amp;#34;./images/$(row[:label_id])&amp;#34;filename = &amp;#34;./images/$(row[:label_id])/$(row[:image_id]).jpg&amp;#34;if !isdir(dirname)mkdir(dirname)endif !(ismissing(row[:label_id]).|(isfile(filename)).|(length(readdir(dirname)) &amp;gt; 100))println(filename)t = tempname()download(row[:url], t)img = load(t)square = imresize(img, (80, 80))save(filename, square)rm(t)endcatch errprintln(&amp;#34;ERROR: &amp;#34;, err)endendこれで、あとは放置しておけば勝手に指定した枚数毎にラベルの画像がダウンロードできるようになった。途中で止まっても、ちゃんと枚数を数えてから、ダウンロードが再開されるので安心。</description>
     </item>
     
     <item>
@@ -319,9 +305,9 @@ for row in eachrow(target_rows) try dirname = &amp;quot;./images/$(row[:label_id
       <description>KaggleのiMaterialist Challengeで画像URLとラベル情報が載っているデータがJSON形式で42MBある。
 普段私は Julia 言語を使っていて、JSONだと情報が扱いにくいので、DataFrame型にしたいが、そうするには一度CSVファイルに変換してから処理したい。
 実際のJSONデータ train.json
-{ &amp;quot;images&amp;quot;: [ { &amp;quot;url&amp;quot;: [ &amp;quot;https://img13.360buyimg.com/imgzone/jfs/t2857/351/510705008/279959/4e27dce0/57171f60N523c940e.jpg&amp;quot; ], &amp;quot;image_id&amp;quot;: 1 }, &amp;quot;...&amp;quot;: &amp;quot;19万個データが続く&amp;quot;, ], &amp;quot;annotations&amp;quot;: [ { &amp;quot;image_id&amp;quot;: 1, &amp;quot;label_id&amp;quot;: 5 }, &amp;quot;...&amp;quot;: &amp;quot;19万個のデータが続く&amp;quot;, ] }  面倒な点  images と annotations で分かれてる url の中は配列になってる  なので、train_images.csv と train_annotaions.csv に分割して、urlの配列の中身も必ずと言っていいほど1つしか入ってないので、中身は展開しておきたい。
+{&amp;#34;images&amp;#34;: [{&amp;#34;url&amp;#34;: [&amp;#34;https://img13.360buyimg.com/imgzone/jfs/t2857/351/510705008/279959/4e27dce0/57171f60N523c940e.jpg&amp;#34;],&amp;#34;image_id&amp;#34;: 1},&amp;#34;...&amp;#34;: &amp;#34;19万個データが続く&amp;#34;,],&amp;#34;annotations&amp;#34;: [{&amp;#34;image_id&amp;#34;: 1,&amp;#34;label_id&amp;#34;: 5},&amp;#34;...&amp;#34;: &amp;#34;19万個のデータが続く&amp;#34;,]}面倒な点  images と annotations で分かれてる url の中は配列になってる  なので、train_images.csv と train_annotaions.csv に分割して、urlの配列の中身も必ずと言っていいほど1つしか入ってないので、中身は展開しておきたい。
 対処方法 jq コマンド jq は Linux のターミナル上でJSONの値を扱える。出力も自分で指定できるのでCSV形式で出すことができる。
-実行したコマンド $ cat train.json | jq &#39;.images[] | &amp;quot;\(.url[0]),\(.image_id)&amp;quot;&#39; | sed &#39;s/&amp;quot;//g&#39; &amp;gt;&amp;gt; train_images.csv $ cat train.</description>
+実行したコマンド $ cat train.json | jq &amp;#39;.images[] | &amp;#34;\(.url[0]),\(.image_id)&amp;#34;&amp;#39; | sed &amp;#39;s/&amp;#34;//g&amp;#39; &amp;gt;&amp;gt; train_images.csv$ cat train.json | jq &amp;#39;.</description>
     </item>
     
     <item>
@@ -335,7 +321,7 @@ Object Detection using HOG · ImageFeatures を参考にして、KaggleのiMater
 Juliaで保存する前に画像の拡大縮小をするには次の記事が参考になった。
 Juliaで画像の拡大縮小を行う - Qiita
 Juliaのコードは次のようになった。
-# 必要なライブラリを設定 using JSON using Images using DataFrames using FileIO using LIBSVM # 学習に利用 # ./input にデータを置いてる json = JSON.parsefile(&amp;quot;./input/train.json&amp;quot;) # 数が大きいので最初の10件で試す。images =&amp;gt; 画像URL, annotations =&amp;gt; ラベル情報 が別々に入っている a = json[&amp;quot;images&amp;quot;][1:10] # Json から Dataframe へ変換する。コピペコード。 ka = union([keys(r) for r in a]...) df = DataFrame(;Dict(Symbol(k)=&amp;gt;get.(a,k,NA) for k in ka)...) df[:url] = map(x-&amp;gt; x[1], df[:url]) # 毎回やるのは面倒なのでCSVで保存しておく FileIO.</description>
+# 必要なライブラリを設定 using JSONusing Imagesusing DataFramesusing FileIOusing LIBSVM # 学習に利用 # ./input にデータを置いてる json = JSON.parsefile(&amp;#34;./input/train.json&amp;#34;)# 数が大きいので最初の10件で試す。images =&amp;gt; 画像URL, annotations =&amp;gt; ラベル情報 が別々に入っている a = json[&amp;#34;images&amp;#34;][1:10]# Json から Dataframe へ変換する。コピペコード。 ka = union([keys(r) for r in a]...)df = DataFrame(;Dict(Symbol(k)=&amp;gt;get.(a,k,NA) for k in ka).</description>
     </item>
     
     <item>
@@ -358,7 +344,6 @@ Juliaのコードは次のようになった。
 Kaggle のiMaterialist Challenge問題で Julia を使って画像ファイルをダウンロードする。
 また、画像ファイルは 404 や 403 が発生して取得できない場合があるため、エラーハンドリングもしておく。
 とりあえず先頭の 10 個の画像を images フォルダに {model_id}.jpg の形で保存していくコードを書く。
-
 jpg 以外は考慮していない。
 今後は画像のサイズ処理等フィルター関連をしていきたい。</description>
     </item>
@@ -382,8 +367,8 @@ jpg 以外は考慮していない。
       <description>RailsでDBのレコードを読み込んでCSVとして吐き出す方法。
 Userというモデルで実装しています。
 以下のコードをダウンロードを行いたいControllerのアクションに追加(config/routes.rb にもアクションを追加してください。)
-# app/controllers/users_controller.rb def csv self.response.headers[&amp;quot;Content-Type&amp;quot;] ||= &#39;text/csv; charset=Shift_JIS&#39; self.response.headers[&amp;quot;Content-Disposition&amp;quot;] = &amp;quot;attachment;filename=users_#{Time.current.to_i}.csv&amp;quot; self.response.headers[&amp;quot;Content-Transfer-Encoding&amp;quot;] = &amp;quot;binary&amp;quot; self.response.headers[&amp;quot;Last-Modified&amp;quot;] = Time.current.ctime.to_s self.response_body = Enumerator.new do |yielder| yielder &amp;lt;&amp;lt; encode_sjis(User.csv_header) # ここで、出力するデータのスコープを変更できます。 User.all.each do |user| yielder &amp;lt;&amp;lt; encode_sjis(user.to_csv) end end end private def encode_sjis data data.encode(&amp;quot;Shift_JIS&amp;quot;, invalid: :replace, undef: :replace, replace: &#39;?&#39;) end  モデルの方も実装していきます
-# app/models/user.rb def self.csv_header header = [] header &amp;lt;&amp;lt; (User.human_attribute_name :id) header &amp;lt;&amp;lt; (User.human_attribute_name :name) header.to_csv end def to_csv cols = [] cols &amp;lt;&amp;lt; id cols &amp;lt;&amp;lt; name cols.</description>
+# app/controllers/users_controller.rb def csvself.response.headers[&amp;#34;Content-Type&amp;#34;] ||= &amp;#39;text/csv; charset=Shift_JIS&amp;#39;self.response.headers[&amp;#34;Content-Disposition&amp;#34;] = &amp;#34;attachment;filename=users_#{Time.current.to_i}.csv&amp;#34;self.response.headers[&amp;#34;Content-Transfer-Encoding&amp;#34;] = &amp;#34;binary&amp;#34;self.response.headers[&amp;#34;Last-Modified&amp;#34;] = Time.current.ctime.to_sself.response_body = Enumerator.new do |yielder|yielder &amp;lt;&amp;lt; encode_sjis(User.csv_header)# ここで、出力するデータのスコープを変更できます。 User.all.each do |user|yielder &amp;lt;&amp;lt; encode_sjis(user.to_csv)endendendprivatedef encode_sjis datadata.encode(&amp;#34;Shift_JIS&amp;#34;, invalid: :replace, undef: :replace, replace: &amp;#39;?&amp;#39;)endモデルの方も実装していきます
+# app/models/user.rb def self.csv_headerheader = []header &amp;lt;&amp;lt; (User.human_attribute_name :id)header &amp;lt;&amp;lt; (User.human_attribute_name :name)header.</description>
     </item>
     
     <item>
@@ -393,12 +378,12 @@ Userというモデルで実装しています。
       
       <guid>https://blog.regonn.tokyo/data-science/2018-02-18-julia-dataframes-jl/</guid>
       <description>以前の記事 で紹介した
-DataFrame(load(&amp;quot;./input/train.csv&amp;quot;))  だと、どうやら数字が先頭のカラム名をそのまま扱ってしまう。
+DataFrame(load(&amp;#34;./input/train.csv&amp;#34;))だと、どうやら数字が先頭のカラム名をそのまま扱ってしまう。
 Julia DataFrame columns starting with number? - Stack Overflow
 によると、 :2aa という表記は Julia 上シンボルではなく 1:2aa というレンジの扱いになってしまうため、&amp;quot;1st&amp;quot;というカラムが存在しているからといって、df[:1st] と書いても想定しているカラムを取得できない。
 DataFrame.readtable だと、いい感じにカラム名の先頭を &amp;quot;1st&amp;quot; =&amp;gt; &amp;quot;x1st&amp;quot; のように x を入れてくれていた(これも、実際データ触る時邪魔な気もするけど)
 解決方法 ちゃんとシンボルだと指定してあげればいいので、
-df[Symbol(&amp;quot;1st&amp;quot;)]  としてあげれば取得できる。少し不格好だが嫌いじゃない。</description>
+df[Symbol(&amp;#34;1st&amp;#34;)]としてあげれば取得できる。少し不格好だが嫌いじゃない。</description>
     </item>
     
     <item>
@@ -408,10 +393,10 @@ df[Symbol(&amp;quot;1st&amp;quot;)]  としてあげれば取得できる。少�
       
       <guid>https://blog.regonn.tokyo/data-science/2018-02-16-julia-csv-dataframes/</guid>
       <description>DataFramesでreadtableを実行しようとすると、deprecated warningが出る。
-DataFrames.readtable DataFrames.readtable(&amp;quot;./input/train.csv&amp;quot;) =&amp;gt; WARNING: readtable is deprecated, use CSV.read from the CSV package instead  CSV.read これに対応しようとして CSV の read メソッドを呼ぼうとするが、現状このメソッドでやろうとするとNull値を許可したり、Unionで型を指定してあげないといけなかったりする。
-CSV.read(&amp;quot;./input/train.csv&amp;quot;) =&amp;gt; CSV.ParsingException(&amp;quot;error parsing a `Int64` value on column 27, row 235; encountered &#39;N&#39;&amp;quot;)  CSVFiles.jl 他に良さそうなライブラリがないか探してみたら、CSVFiles.jl: FileIO.jl integration for CSV filesが使いやすそうだった。そういえば、提出用ファイルで出力する時にheaderのカラムにダブルクォーテーションを使いたくないときにもこのライブラリで対応できた。スター数は全然付いていないがメンテもされているし使い勝手が良い。作者のdavidanthoffさんがjuliaの質問サイトとかで自分のライブラリを紹介して広めているのも健気で好感が持てる。Read file with CSV.read - Usage / First steps - Julia discourse
+DataFrames.readtable DataFrames.readtable(&amp;#34;./input/train.csv&amp;#34;)=&amp;gt;WARNING: readtable is deprecated, use CSV.read from the CSV package insteadCSV.read これに対応しようとして CSV の read メソッドを呼ぼうとするが、現状このメソッドでやろうとするとNull値を許可したり、Unionで型を指定してあげないといけなかったりする。
+CSV.read(&amp;#34;./input/train.csv&amp;#34;)=&amp;gt;CSV.ParsingException(&amp;#34;error parsing a `Int64` value on column 27, row 235; encountered &amp;#39;N&amp;#39;&amp;#34;)CSVFiles.jl 他に良さそうなライブラリがないか探してみたら、CSVFiles.jl: FileIO.jl integration for CSV filesが使いやすそうだった。そういえば、提出用ファイルで出力する時にheaderのカラムにダブルクォーテーションを使いたくないときにもこのライブラリで対応できた。スター数は全然付いていないがメンテもされているし使い勝手が良い。作者のdavidanthoffさんがjuliaの質問サイトとかで自分のライブラリを紹介して広めているのも健気で好感が持てる。Read file with CSV.read - Usage / First steps - Julia discourse
 使い方としては
-DataFrame(load(&amp;quot;./input/train.csv&amp;quot;))  で DataFrames.readtable と同じように扱うことができる。</description>
+DataFrame(load(&amp;#34;./input/train.csv&amp;#34;))で DataFrames.readtable と同じように扱うことができる。</description>
     </item>
     
     <item>
@@ -422,9 +407,7 @@ DataFrame(load(&amp;quot;./input/train.csv&amp;quot;))  で DataFrames.readtable
       <guid>https://blog.regonn.tokyo/data-science/2017-12-20-kaggle-postgresql/</guid>
       <description>Kaggleをやってると大きめのCSVファイルデータが用意されていて処理に困ったので、今回はそれを Postgresql で処理して容量を減らして再びCSVにしていきます。
 想定ファイル 今回は次のようなcsvを扱います。
-sample.csv uuid,name,price,date xxxxxxxxxxxx,tomato,10,2017-10-19 yyyyyyyyyyyy,banana,8,2017-10-19  Postgres に DB を作ってアクセスする  入力ファイルがあるディレクトリで作業を行う sampleという名前のDBを作成する 登録されているユーザー名(username)でsample DBにアクセスする
-$ ls # 入力ファイルがあるディレクトリで作業を行う sample.csv $ createdb sample $ psql -d sample -U (username)   Table を作る  samplesという Table を作成する。csvと同じ構成になるようにカラムを設定する \dで作ったTableが存在するかを確認
-sample=# CREATE TABLE samples ( uuid varchar(80), name varchar(80), price int, date date ); sample=# \d List of relations Schema | Name | Type | Owner --------+---------+-------+-------- public | samples | table | username   ローカルのcsvをインポートする  今回は \copy でメタコマンドを使っているが、COPYコマンドを使う場合は絶対パスを指定してあげる header を追加することでcsvの最初の行を無視してくれる</description>
+sample.csv uuid,name,price,datexxxxxxxxxxxx,tomato,10,2017-10-19yyyyyyyyyyyy,banana,8,2017-10-19Postgres に DB を作ってアクセスする  入力ファイルがあるディレクトリで作業を行う sampleという名前のDBを作成する 登録されているユーザー名(username)でsample DBにアクセスする  $ ls # 入力ファイルがあるディレクトリで作業を行うsample.csv$ createdb sample$ psql -d sample -U (username)Table を作る  samplesという Table を作成する。csvと同じ構成になるようにカラムを設定する \dで作ったTableが存在するかを確認  sample=# CREATE TABLE samples (uuid varchar(80),name varchar(80),price int,date date);sample=# \dList of relationsSchema | Name | Type | Owner--------+---------+-------+-------- public | samples | table | usernameローカルのcsvをインポートする  今回は \copy でメタコマンドを使っているが、COPYコマンドを使う場合は絶対パスを指定してあげる header を追加することでcsvの最初の行を無視してくれる  sample=# \copy samples from &amp;#39;sample.</description>
     </item>
     
     <item>
@@ -438,7 +421,7 @@ sample=# CREATE TABLE samples ( uuid varchar(80), name varchar(80), price int, d
 Kaggleのgithubページを見ると、Kaggle/docker-python: Kaggle Python docker image や Kaggle/docker-rstats: Kaggle R docker image といったPythonやR言語向けKernel dockerはちゃんとメンテナンスされているっぽい。
 同じようにjuliaも Kaggle/docker-julia でリポジトリは存在しているが、残念ながらメンテナスがされていない。
 このままだと世界中のJulia愛好家がKaggleで活躍できないので、今回はローカルDockerfileを実行しつつ最新のJuliaの安定版が起動するように変更していく。そしていずれ、JuliaのKernelがKaggle上で動いてくれて、メンテも継続されていくのが夢。
-元のDockerファイル # kaggle/julia dockerfile FROM ubuntu:16.04 ADD package_installs.jl /tmp/package_installs.jl RUN apt-get update &amp;amp;&amp;amp; \ apt-get install git software-properties-common curl wget libcairo2 libpango1.0-0 -y &amp;amp;&amp;amp; \ add-apt-repository ppa:staticfloat/julia-deps -y &amp;amp;&amp;amp; \ apt-get update -y &amp;amp;&amp;amp; \ apt-get install -y libpcre3-dev build-essential &amp;amp;&amp;amp; \ apt-get install -y gettext hdf5-tools &amp;amp;&amp;amp; \ apt-get install -y gfortran python &amp;amp;&amp;amp; \ apt-get install -y m4 cmake libssl-dev &amp;amp;&amp;amp; \ cd /usr/local/src &amp;amp;&amp;amp; git clone https://github.</description>
+元のDockerファイル # kaggle/julia dockerfileFROM ubuntu:16.04ADD package_installs.jl /tmp/package_installs.jlRUN apt-get update &amp;amp;&amp;amp; \apt-get install git software-properties-common curl wget libcairo2 libpango1.0-0 -y &amp;amp;&amp;amp; \add-apt-repository ppa:staticfloat/julia-deps -y &amp;amp;&amp;amp; \apt-get update -y &amp;amp;&amp;amp; \apt-get install -y libpcre3-dev build-essential &amp;amp;&amp;amp; \apt-get install -y gettext hdf5-tools &amp;amp;&amp;amp; \apt-get install -y gfortran python &amp;amp;&amp;amp; \apt-get install -y m4 cmake libssl-dev &amp;amp;&amp;amp; \cd /usr/local/src &amp;amp;&amp;amp; git clone https://github.</description>
     </item>
     
     <item>
@@ -451,8 +434,8 @@ Kaggleのgithubページを見ると、Kaggle/docker-python: Kaggle Python docke
 今年6月にMacBookProからManjaro Linuxに乗り換えたので感想とか書いてく。
 すでに3日目の記事でlaughkさんが、Arch Linux のを一年使っている記事書いているので、そちらの方が参考になるかも。
 続・ラフなラボ – ArchLinux なラップトップで仕事しはじめて大体1年経った
-自分の状況(PC使用環境)  Webプログラマ Rails開発(Dockerは使わずにローカルに環境構築) リモートワーク中心で、ZoomとかGoogle Hangoutで会議することが多い Kaggleでデータサイエンス分野の処理やったりする(Julia言語) 趣味でYouTubeにプログラミングの動画とか投稿する  MacBookProの乗り換えに踏み切った理由  会社がパソコンの購入費用を出してくれるが会計処理の関係で30万まで  MacBookProをフルフルにカスタマイズすると30万円を超えてくるので悩む  Appleのイベントを待たないと新しいモデルが出ないので買い換えるタイミングが限定されたりするのにうんざりしてきた  次のイベントで最新モデルがでるかも =&amp;gt; 出ない (これの繰り返しがある)   買ったラップトップ 普段利用しているギーク向け?の口コミサイトslantというウェブサービスのWhat are the best laptops for Linuxというトピックで探してDellのXPS13を買うことに。 - 日本でも買えるもの(たまに海外のPCベンダーだと技適通ってないものもあった) - Dell なので買いたい時の一番良い組み合わせをカスタムすることができる - 値段もフルフルに設定したけど20万ぐらいだった - QiitaでもXPS13にLinuxを導入する記事があり情報が多そうだった - DELL XPS13 (9350 2015/11モデル)にUbuntu15.10をデュアルブートインストール(with Windows10) - Qiita
-Manjaro Linux を選んだ理由  同じくslantでWhat are the best Linux distributions for laptops?</description>
+自分の状況(PC使用環境)  Webプログラマ Rails開発(Dockerは使わずにローカルに環境構築) リモートワーク中心で、ZoomとかGoogle Hangoutで会議することが多い Kaggleでデータサイエンス分野の処理やったりする(Julia言語) 趣味でYouTubeにプログラミングの動画とか投稿する  MacBookProの乗り換えに踏み切った理由  会社がパソコンの購入費用を出してくれるが会計処理の関係で30万まで  MacBookProをフルフルにカスタマイズすると30万円を超えてくるので悩む   Appleのイベントを待たないと新しいモデルが出ないので買い換えるタイミングが限定されたりするのにうんざりしてきた  次のイベントで最新モデルがでるかも =&amp;gt; 出ない (これの繰り返しがある)    買ったラップトップ 普段利用しているギーク向け?の口コミサイトslantというウェブサービスのWhat are the best laptops for Linuxというトピックで探してDellのXPS13を買うことに。
+ 日本でも買えるもの(たまに海外のPCベンダーだと技適通ってないものもあった) Dell なので買いたい時の一番良い組み合わせをカスタムすることができる 値段もフルフルに設定したけど20万ぐらいだった QiitaでもXPS13にLinuxを導入する記事があり情報が多そうだった  DELL XPS13 (9350 2015/11モデル)にUbuntu15.10をデュアルブートインストール(with Windows10) - Qiita    Manjaro Linux を選んだ理由  同じくslantでWhat are the best Linux distributions for laptops?</description>
     </item>
     
     <item>
@@ -469,7 +452,8 @@ AWS の Deep Learning AMI を使って EC2 インスタンス上で 最新の Ju
 けど、この記事を書いた後に使っていた Deep Learning AMI が大幅に変更された。
 AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Services ブログ
 そして、Julia 0.6.1 だとインストールが失敗するためPkg.build(&#39;MXNet&#39;) してビルドして使っていた MXNet.jl も v0.3.0 がリリースされてインストールできるようになったぽい。
-なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。</description>
+なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。
+利用する EC2 環境  インスタンスタイプ: p2.</description>
     </item>
     
     <item>
@@ -510,12 +494,13 @@ Kaggleで目指すもの KaggleではCompetitionで上位に入賞したり、�
       <description>devise gemを使うことで簡単にログイン環境と認可機能を実装できますが、自分しか使わない個人のアプリだけどHerokuにアップするから他の人がeditとかnewのページに入れないようにしたいぐらいだと、gem使うよりも独自に実装するほうが簡単だったのでご紹介。
 参考サイト ほとんど、このブログ記事を参考にしました。Ruby on Rails3.2でログイン機能を実装する。
 準備 Gemfileに書かれているがコメントアウトされている bcrypt gem を有効にします。パスワードの暗号化に必要です。
-# Gemfile gem &#39;bcrypt&#39;, &#39;~&amp;gt; 3.1.7&#39;  そして、 bundle install をして準備完了。
+# Gemfile gem &amp;#39;bcrypt&amp;#39;, &amp;#39;~&amp;gt; 3.1.7&amp;#39;そして、 bundle install をして準備完了。
 Userモデル作成 まず、Userモデルを作ります。
-$ rails g model user name:string password_digest:string $ rails db:migrate  次にできたUserモデルファイルを変更
-# app/model/user.rb class User &amp;lt; ApplicationRecord has_secure_password validates :password, presence: true, length: { minimum: 8 } end  これでさっき入れたbcrypt gemが使われます。
+$ rails g model user name:string password_digest:string$ rails db:migrate次にできたUserモデルファイルを変更
+# app/model/user.rb class User &amp;lt; ApplicationRecordhas_secure_passwordvalidates :password, presence: true, length: { minimum: 8 }endこれでさっき入れたbcrypt gemが使われます。
 データ作成 そして、アカウント追加
-$ rails c irb(main):001:0&amp;gt; User.create!(name: &amp;quot;admin&amp;quot;, password: &amp;quot;hogehoge&amp;quot;, password_confirmation: &amp;quot;hogehoge&amp;quot;)  passwordはハッシュ化された値で保存されます。</description>
+$ rails cirb(main):001:0&amp;gt; User.create!(name: &amp;quot;admin&amp;quot;, password: &amp;quot;hogehoge&amp;quot;, password_confirmation: &amp;quot;hogehoge&amp;quot;)passwordはハッシュ化された値で保存されます。
+Sessionコントローラ作成 ログイン環境のsessionコントローラを生成</description>
     </item>
     
     <item>
@@ -530,8 +515,7 @@ $ rails c irb(main):001:0&amp;gt; User.create!(name: &amp;quot;admin&amp;quot;, 
 このライブラリは奈良先端科学技術大学院大学の進藤氏が自然言語処理分野において、入力のサンプルが異なるためミニバッチ化が難しく並列計算処理を行いにくい問題を解決するために作られました。 Julia 言語が採用されており、命令形的で動的にモデルを構築しても、Julia の特徴の一つである高速で動かせるメリットが活きて、柔軟に素早く学習を行うことが可能になっています。 参考論文:Julia 言語による深層学習ライブラリの実装と評価
 詳しい内容は論文を読んでもらいサンプルコードを紹介していきます。
 サンプルコード 次のような簡単なニューラルネットワークを構築します
-
-静的評価の場合 static.jl T = Float32 n = Node(name=&amp;quot;x&amp;quot;) n = Linear(T,10,7)(n) n = relu(n) n = Linear(T,7,3)(n) g = Graph(n) x = zerograd(rand(T,10,10)) y = g(&amp;quot;x&amp;quot;=&amp;gt;x) params = gradient!(y) println(x.grad) opt = SGD(0.01) foreach(opt, params)  入力xについてはランダムな値を入れています。 この場合、Graphを作って、そこにデータを入力し結果をだしています。 Theano 等宣言型のフレームワークの書き方。 画像などの入力の形が一定であるものは扱いやすく高速に処理できる。</description>
+静的評価の場合 static.jl T = Float32n = Node(name=&amp;#34;x&amp;#34;)n = Linear(T,10,7)(n)n = relu(n)n = Linear(T,7,3)(n)g = Graph(n)x = zerograd(rand(T,10,10))y = g(&amp;#34;x&amp;#34;=&amp;gt;x)params = gradient!(y)println(x.grad)opt = SGD(0.01)foreach(opt, params)入力xについてはランダムな値を入れています。 この場合、Graphを作って、そこにデータを入力し結果をだしています。 Theano 等宣言型のフレームワークの書き方。 画像などの入力の形が一定であるものは扱いやすく高速に処理できる。</description>
     </item>
     
     <item>
@@ -542,14 +526,14 @@ $ rails c irb(main):001:0&amp;gt; User.create!(name: &amp;quot;admin&amp;quot;, 
       <guid>https://blog.regonn.tokyo/data-science/2017-11-12-machine-learning/</guid>
       <description>2017年に入ってから機械学習系の技術を触り始めてYouTubeで学んだ内容を動画にして公開していった。 触り始めてから約1年経ったので、これまでの内容をまとめていく。 今はデータサイエンスの技術を競い合うKaggleというサービスでMasterの称号を得るために相棒のJulia(言語)と奮闘中。
 めざせカグルマスター
-2017年に触ってきたもの ゼロから作るDeepLearning  書籍のゼロから作るDeep Learning ―Pythonで学ぶディープラーニングの理論と実装を参考にDeepLearningのモデルを構築していく。
+2017年に触ってきたもの ゼロから作るDeepLearning 書籍のゼロから作るDeep Learning ―Pythonで学ぶディープラーニングの理論と実装を参考にDeepLearningのモデルを構築していく。
 最初はパーセプトロンの実装から、最終的にはMNISTの画像判別の部分までやっている。 ここで、ディープラーニングに関する基礎的な内容をPythonを使ってゼロから作ってみて、どのような計算や方法が使われているのか知ることができた。
 何ができるようになったか 画像を分類することが可能になった。 現状は、1枚毎に用意されている手書きの数字から書かれている数字を分類できる。
-Keras で時系列データ予測  今度はKerasというディープラーニング用のライブラリを使って時系列データ(回帰分析)を扱った。 RNN(Recurrent Neural Network) から LSTM(Long Short-Term Memory) を利用して、過去の情報を保持しながらの数値予測をしている。 KerasはTensorFlowやTheanoをラッパーしておりモデルを構築しやすかったし、大抵の機能(LSTM)などが揃っているため、特定のニューラルネットワークの層がどういった役割かについて概要を知っていれば扱えて便利だった。
+Keras で時系列データ予測 今度はKerasというディープラーニング用のライブラリを使って時系列データ(回帰分析)を扱った。 RNN(Recurrent Neural Network) から LSTM(Long Short-Term Memory) を利用して、過去の情報を保持しながらの数値予測をしている。 KerasはTensorFlowやTheanoをラッパーしておりモデルを構築しやすかったし、大抵の機能(LSTM)などが揃っているため、特定のニューラルネットワークの層がどういった役割かについて概要を知っていれば扱えて便利だった。
 何ができるようになったか 株価予測など過去の情報から未来の傾向を予測することができるようになった。(もちろん精度はまだ良くない)
-Random Forestで分類問題  決定木を組み合わせたランダムフォレストをPythonで実装してみて、分類問題を解いていく。 他の機械学習のアルゴリズムと比べてもロジックが複雑ではなく出来上がった結果も見やすいため、ライブラリを使わず自作しても、それなりに精度を出すことができた。機械学習系を触るのであれば、ここらへんから触り出してみると、最初から結果を出せるので良いかもしれない。
+Random Forestで分類問題 決定木を組み合わせたランダムフォレストをPythonで実装してみて、分類問題を解いていく。 他の機械学習のアルゴリズムと比べてもロジックが複雑ではなく出来上がった結果も見やすいため、ライブラリを使わず自作しても、それなりに精度を出すことができた。機械学習系を触るのであれば、ここらへんから触り出してみると、最初から結果を出せるので良いかもしれない。
 何ができるようになったか 画像だけでなく、複数の数値などから対象のものを分類することができるようになった。 (今回は花の花弁の長さ情報から種類を特定できるように)
-Kaggleマスターを目指していく  メジャーな機械学習のライブラリや技術は触ることができてきたので、Kaggleというデータサイエンスコンペティションサイトでデータサイエンスの腕を磨いていくことに。 この辺りで自分はJuliaという言語を知り、気に入ったのでJuliaを使って色々挑戦している。
+Kaggleマスターを目指していく メジャーな機械学習のライブラリや技術は触ることができてきたので、Kaggleというデータサイエンスコンペティションサイトでデータサイエンスの腕を磨いていくことに。 この辺りで自分はJuliaという言語を知り、気に入ったのでJuliaを使って色々挑戦している。
 何ができるようになったか 簡単な統計処理(Nullな値をどう扱うか等)やどういったツールを使うと効率的に求めることができるかも分かってきた。あと、AWSでGPUを使って計算処理する方法など。
 来年に向けてやっていきたいこと、将来像 Kaggleをやりだして感じたことは、統計に関する知識が自分に足りていないことだ。 実際にKaggleのアンケートでDeepLearning(NN)を使っている人は意外と少なかったりして、統計処理をしっかりと組み合わせて、分析や予測をしている人たちがやっぱり強い。
 今年一年で道具は使えるようになってきたので、来年はもう少し統計や数学に関する知識を身につけていきたい。自分にとってデータサイエンスの分野は熱中できるため今後もやっていくと思う。
@@ -566,7 +550,7 @@ Kaggleマスターを目指していく  メジャーな機械学習のライブ
 【動画解説】AWS の Deep learning 用 AMI で MXNet を動かす
 ただし、自分の今触っている Julia 言語が AMI にインストールされておらず、最新版(現在 v0.6.1) を動かしてGPU処理をするまで持っていった。Amazon Linux だとライブラリ周りのバージョンが追いついていなかったので、今回はUbuntu版のDeep Learning AMI(タイプはGPUが使えるp2.xlarge)を利用して構築。
 まずは普通にEC2のインスタンスにアクセスして、rootユーザになり、julia の v0.6.1 を make する。(CPU4コア使っても1時間ぐらいかかる。。。)
-$ sudo su - $ apt-get update $ apt-get install libpango1.0-0 -y $ add-apt-repository ppa:staticfloat/julia-deps -y $ apt-get update $ cd /usr/local/src $ git clone https://github.com/JuliaLang/julia.git $ cd julia $ git checkout v0.6.1 $ echo &amp;quot;JULIA_CPU_TARGET=core2&amp;quot; &amp;gt; Make.</description>
+$ sudo su -$ apt-get update$ apt-get install libpango1.0-0 -y$ add-apt-repository ppa:staticfloat/julia-deps -y$ apt-get update$ cd /usr/local/src$ git clone https://github.com/JuliaLang/julia.git$ cd julia$ git checkout v0.6.1$ echo &amp;#34;JULIA_CPU_TARGET=core2&amp;#34; &amp;gt; Make.</description>
     </item>
     
     <item>
@@ -577,7 +561,7 @@ $ sudo su - $ apt-get update $ apt-get install libpango1.0-0 -y $ add-apt-reposi
       <guid>https://blog.regonn.tokyo/programmer/2017-11-11-manjaro-obs/</guid>
       <description>タイトルの通りですが、OBSで放送しようと思った時にTextを表示しようとしたら日本語が豆腐になっていたので解決する。
 対処方法 日本語フォントをインストールすれば良さそうなので、notoフォントを入れる
-$ sudo pacman -Sy noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra  でインストールして、Select fontで &amp;ldquo;Noto Snas CJK JP&amp;rdquo; を指定したら正しく表示された。</description>
+$ sudo pacman -Sy noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extraでインストールして、Select fontで &amp;ldquo;Noto Snas CJK JP&amp;rdquo; を指定したら正しく表示された。</description>
     </item>
     
     <item>
@@ -588,16 +572,12 @@ $ sudo pacman -Sy noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra  �
       <guid>https://blog.regonn.tokyo/data-science/2017-11-03-julia-study/</guid>
       <description>最近 Julia のデータサイエンス本を購入。
 Julia データサイエンス―Julia を使って自分でゼロから作るデータサイエンス世界の探索
-
-
 ちょうど、この書籍に関する勉強会が開催されるのを知り参加してみる。
 Julia データサイエンスワークショップ - connpass
 やはりというか、書籍で書かれている Julia のバージョンが v0.4 で現在は v0.6 なので、動かないコードが多い印象。(公式 github は更新がなく、日本の出版社も v0.6 対応は近日公開になっている。。。)発表者の方が、一部 v0.6 でも動くようにしてもらっていたので助かった。
 data-refinement/Julia-for-Data-Science
 この勉強会を開催するに至った経緯に次の本の話があり、この本の著者が公開しているサンプルコードは Julia のコードで書かれているみたいで、今後も Julia は科学計算分野で使われていきそう。
 機械学習スタートアップシリーズ ベイズ推論による機械学習入門 (KS 情報科学専門書)
-
-
 「機械学習スタートアップシリーズ ベイズ推論による機械学習入門」のサンプルコード(コチラは最新の v0.6 で書かれている)
 最初に紹介した Julia のデータサイエンス本の次はこれを読んでいくのと、勉強会で Julia で書かれている(他の言語でのライブラリの API を叩いていない)deep learning ライブラリの hshindo/Merlin.jl(国産ライブラリ) や pluskid/Mocha.jl の存在を知ったので触っていこうと思う。</description>
     </item>
@@ -619,36 +599,19 @@ data-refinement/Julia-for-Data-Science
       <guid>https://blog.regonn.tokyo/data-science/2017-10-27-deep-learning/</guid>
       <description>ゼロから作る Deep Learning で Affine レイヤーの内積の誤差逆伝播を求める部分が省略されていたので、行列で微分する部分の説明を動画で録画してみました。
 Deep Learning 補足動画 行列での微分部分の補足動画です。
-
 この
-
 について解説してく。
 今回想定するモデル 今回はバイアス部分は除いて、単純に入力 2 個と次の層への出力 3 個で考える。
-
-
-
 ここで
-
 となる。
-① について 
-まで計算しておいて
-
+① について まで計算しておいて
 を代入すると
-
 よって示せた。
-② について 
-同じように
-
+② について 同じように
 少し複雑になるが
-
 なので、ほとんどは 0 になってしまう。
-
 よって示せた。
-単純な数値計算例(値は結構適当) 
-
-
-もし、損失関数を計算して
-
+単純な数値計算例(値は結構適当) もし、損失関数を計算して
 として値が渡ってきたとしたら、</description>
     </item>
     
@@ -661,8 +624,8 @@ Deep Learning 補足動画 行列での微分部分の補足動画です。
       <description>引き続き Numerai をランダムフォレストで解いてみる。
 https://www.slideshare.net/sfchaos/julia-39591233
 のスライドによると、 DecisionTree は並列計算対応してくれているらしいので、実験してみた。
-using DataFrames using DecisionTree using ScikitLearn using LossFunctions train = readtable(&amp;quot;./numerai_training_data.csv&amp;quot;) test = readtable(&amp;quot;./numerai_tournament_data.csv&amp;quot;) yTrain_array = Array(train[:, :target] * 1.0) xTrain_array = Array(train[:, 4:53]) @time model = build_forest(yTrain_array, xTrain_array, 2, 30, 4, 0.7, 50) pred_test = apply_forest(model, Array(test[:,4:53])) labelsInfoTest = DataFrame() labelsInfoTest[:id] = test[:id] labelsInfoTest[:probability] = pred_test writetable(&amp;quot;numerai_answer3.csv&amp;quot;, labelsInfoTest, separator=&#39;,&#39;, header=true)  @time を付けることでそのコードでの処理時間やメモリ使用量が分かるっぽい。
-実行結果 &amp;gt; julia numerai.jl 657.770862 seconds &amp;gt; julia -p 3 numerai.</description>
+using DataFramesusing DecisionTreeusing ScikitLearnusing LossFunctionstrain = readtable(&amp;#34;./numerai_training_data.csv&amp;#34;)test = readtable(&amp;#34;./numerai_tournament_data.csv&amp;#34;)yTrain_array = Array(train[:, :target] * 1.0)xTrain_array = Array(train[:, 4:53])@time model = build_forest(yTrain_array, xTrain_array, 2, 30, 4, 0.7, 50)pred_test = apply_forest(model, Array(test[:,4:53]))labelsInfoTest = DataFrame()labelsInfoTest[:id] = test[:id]labelsInfoTest[:probability] = pred_testwritetable(&amp;#34;numerai_answer3.csv&amp;#34;, labelsInfoTest, separator=&amp;#39;,&amp;#39;, header=true)@time を付けることでそのコードでの処理時間やメモリ使用量が分かるっぽい。
+実行結果 &amp;gt; julia numerai.jl657.770862 seconds&amp;gt; julia -p 3 numerai.</description>
     </item>
     
     <item>
@@ -674,7 +637,7 @@ using DataFrames using DecisionTree using ScikitLearn using LossFunctions train 
       <description>Numerai というデータサイエンスが競い合って、効率の良いファウンドを運営しようという試み。
 ビットコインで雇われた匿名の7,500人が「頭脳」となるヘッジファンド「Numerai」｜WIRED.jp
 良いデータを登録できると、報酬ももらえるので頑張って Julia で挑戦してみる。
-using DataFrames using DecisionTree using ScikitLearn train = readtable(&amp;quot;./numerai_training_data.csv&amp;quot;) test = readtable(&amp;quot;./numerai_tournament_data.csv&amp;quot;) yTrain_array = Array(train[:, :target] * 1.0) xTrain_array = Array(train[:,4:53]) model = RandomForestRegressor() ScikitLearn.fit!(model, xTrain_array, yTrain_array) predTest = ScikitLearn.predict(model, Array(test[:,4:53])) labelsInfoTest = DataFrame() labelsInfoTest[:id] = test[:id] labelsInfoTest[:probability] = predTest writetable(&amp;quot;numerai_predict.csv&amp;quot;, labelsInfoTest, separator=&#39;,&#39;, header=true)  とりあえず、simpleなランダムフォレストを作って登録もできた。Loglossは0.76522ぐらいだった。</description>
+using DataFramesusing DecisionTreeusing ScikitLearntrain = readtable(&amp;#34;./numerai_training_data.csv&amp;#34;)test = readtable(&amp;#34;./numerai_tournament_data.csv&amp;#34;)yTrain_array = Array(train[:, :target] * 1.0)xTrain_array = Array(train[:,4:53])model = RandomForestRegressor()ScikitLearn.fit!(model, xTrain_array, yTrain_array)predTest = ScikitLearn.predict(model, Array(test[:,4:53]))labelsInfoTest = DataFrame()labelsInfoTest[:id] = test[:id]labelsInfoTest[:probability] = predTestwritetable(&amp;#34;numerai_predict.csv&amp;#34;, labelsInfoTest, separator=&amp;#39;,&amp;#39;, header=true)とりあえず、simpleなランダムフォレストを作って登録もできた。Loglossは0.76522ぐらいだった。</description>
     </item>
     
     <item>
@@ -687,7 +650,6 @@ using DataFrames using DecisionTree using ScikitLearn train = readtable(&amp;quo
 性別と等級から年齢の平均は異なりそうで、それを NaN 値に入れることを考えた。
 まずは、実際にどれくらい違いがでるのかを確認してみる。
 箱ひげ図 を表示できれば良さそうなので、Julia の Gadfly ライブラリを使って、図を表示してみる。
-
 やっぱり差異はありそうなので、今後の :Age の NaN 値にはとりあえず、この平均を入れていくことにする。</description>
     </item>
     
@@ -699,14 +661,14 @@ using DataFrames using DecisionTree using ScikitLearn train = readtable(&amp;quo
       <guid>https://blog.regonn.tokyo/rails/2017-10-03-rails-secrets-float/</guid>
       <description>困ったこと Railsで Slack OAuth 認証を実装していたら、Slack の client_id が 4167427656.251487306806 のような 数字 + .(ドット) + 数字 の形式が使われてた。
 client_id は環境変数として使いたかったため
-SLACK_CLIENT_ID=&#39;4167427656.251487306806&#39;  のように設定し secrets.yml には次のように書く
-shared: client_id: &amp;lt;%= ENV[&#39;SLACK_CLIENT_ID&#39;] %&amp;gt;  そして、Railsで値を呼ぼうとすると
-&amp;gt; Rails.application.secrets.client_id =&amp;gt; 4167427656.2514873  のように設定した値と異なって表示されてしまう。
+SLACK_CLIENT_ID=&#39;4167427656.251487306806&#39;のように設定し secrets.yml には次のように書く
+shared:client_id: &amp;lt;%= ENV[&amp;#39;SLACK_CLIENT_ID&amp;#39;] %&amp;gt;そして、Railsで値を呼ぼうとすると
+&amp;gt; Rails.application.secrets.client_id=&amp;gt; 4167427656.2514873のように設定した値と異なって表示されてしまう。
 原因 型を確認してみると
-&amp;gt; Rails.application.secrets.client_id.class =&amp;gt; Float  となっていて、Float型で読み込まれてしまっており、浮動小数点数の精度の影響で期待した値にならなかった。
+&amp;gt; Rails.application.secrets.client_id.class=&amp;gt; Floatとなっていて、Float型で読み込まれてしまっており、浮動小数点数の精度の影響で期待した値にならなかった。
 解決策 String型で読み込めるように書いてあげる。
-shared: client_id: &amp;quot;&amp;lt;%= ENV[&#39;SLACK_CLIENT_ID&#39;] %&amp;gt;&amp;quot;  こうすることで正しく文字として呼び出せる。
-&amp;gt; Rails.application.secrets.client_id =&amp;gt; &amp;quot;4167427656.251487306806&amp;quot;  あんまり、このような書き方で環境変数を呼んだことがなかったのでハマってしまった。 他の書き方で良さそうなものがありましたら教えてください。</description>
+shared:client_id: &amp;#34;&amp;lt;%= ENV[&amp;#39;SLACK_CLIENT_ID&amp;#39;] %&amp;gt;&amp;#34;こうすることで正しく文字として呼び出せる。
+&amp;gt; Rails.application.secrets.client_id=&amp;gt; &amp;quot;4167427656.251487306806&amp;quot;あんまり、このような書き方で環境変数を呼んだことがなかったのでハマってしまった。 他の書き方で良さそうなものがありましたら教えてください。</description>
     </item>
     
     <item>
@@ -720,7 +682,7 @@ shared: client_id: &amp;quot;&amp;lt;%= ENV[&#39;SLACK_CLIENT_ID&#39;] %&amp;gt;
 WebSpeachAPIというブラウザの機能で読み上げるようにしてあるので、最新のWEBブラウザだったら動くはず。
 アプリ コチラで公開している。
 ※アクセスして、ブラウザが対応していると最初に音が出るので注意。
-設定方法</description>
+設定方法 </description>
     </item>
     
     <item>
@@ -734,7 +696,7 @@ WebSpeachAPIというブラウザの機能で読み上げるようにしてあ�
 名前は、棒読みちゃんよりWebSpeechAPIの音声の人の方がしっかりした声なので、棒読みさんと名付ける。
 regonn/bouyomi-san-youtube-live.dart
 ローカルにDart環境が揃っていれば、Dart project scaffolding generatorのstagehandを使って web-simple モードで生成すればすぐに開発が始められる。
-コード main.dart import &#39;dart:html&#39;; import &#39;dart:async&#39;; import &#39;package:googleapis_auth/auth_browser.dart&#39; as auth; import &#39;package:googleapis/youtube/v3.dart&#39; as youtube; DateTime lastMessagedAt = new DateTime.now(); void main() { InputElement apiKeyInput = querySelector(&#39;#api-key&#39;); InputElement channelIdInput = querySelector(&#39;#channel-id&#39;); ButtonElement setButton = querySelector(&#39;#set-button&#39;); displayOutput(&#39;APIキーとチャンネルを設定してください。&#39;); speak(&#39;起動しました。エーピーアイキーとチャンネルを設定してください。&#39;); setButton.onClick.listen((_) { var apiKey = apiKeyInput.value; var client = auth.clientViaApiKey(apiKey); var api = new youtube.YoutubeApi(client); api.search.list(&amp;quot;id&amp;quot;, channelId: channelIdInput.value, type: &#39;video&#39;, eventType: &#39;live&#39;) .</description>
+コード main.dart import &amp;#39;dart:html&amp;#39;;import &amp;#39;dart:async&amp;#39;;import &amp;#39;package:googleapis_auth/auth_browser.dart&amp;#39; as auth;import &amp;#39;package:googleapis/youtube/v3.dart&amp;#39; as youtube;DateTime lastMessagedAt = new DateTime.now();void main() {InputElement apiKeyInput = querySelector(&amp;#39;#api-key&amp;#39;);InputElement channelIdInput = querySelector(&amp;#39;#channel-id&amp;#39;);ButtonElement setButton = querySelector(&amp;#39;#set-button&amp;#39;);displayOutput(&amp;#39;APIキーとチャンネルを設定してください。&amp;#39;);speak(&amp;#39;起動しました。エーピーアイキーとチャンネルを設定してください。&amp;#39;);setButton.onClick.listen((_) {var apiKey = apiKeyInput.value;var client = auth.clientViaApiKey(apiKey);var api = new youtube.YoutubeApi(client);api.search.list(&amp;#34;id&amp;#34;, channelId: channelIdInput.value, type: &amp;#39;video&amp;#39;, eventType: &amp;#39;live&amp;#39;).</description>
     </item>
     
     <item>
@@ -753,7 +715,7 @@ Workaround chromedriver lack of support for system modals when headless by twalp
 あと、引数を渡すと、モーダルの内容確認してくれたり、指定した時間(デフォルトはCapybara.default_max_wait_timeなので、設定しなくてもOK)待ってくれたりします。
 今後 Chrome Headless へ移行する予定なら、先に対応しておくと楽になりそうです。
 移行作業 既存のテストコードに対して、
-- page.driver.browser.switch_to.alert.accept + page.accept_confirm  にするだけでOKです。</description>
+- page.driver.browser.switch_to.alert.accept+ page.accept_confirmにするだけでOKです。</description>
     </item>
     
     <item>
@@ -763,13 +725,13 @@ Workaround chromedriver lack of support for system modals when headless by twalp
       
       <guid>https://blog.regonn.tokyo/programmer/2017-02-03-mac-osx-process/</guid>
       <description>最近 Rails 開発で puma-dev とかを入れていると、fsevent_watch プロセスが量産されて、プロセス上限数に達し
-fork: Resource temporarily unavailable  というエラーが出て開発が中断される。
+fork: Resource temporarily unavailableというエラーが出て開発が中断される。
 色々なところで議論もされていて、まだ根本的な解決はされていない様子
  fork: Resource temporarily unavailable occurring since installing · Issue #56 · puma/puma-dev The listen gem breaks my laptop · Issue #26158 · rails/rails  listen gem を削除したり development.rb を修正する必要があるみたいだけど、Railsアプリのコードをいじってしまうと他の人の開発環境にも影響が出るので、自分の Mac のプロセス上限を上げることに。
 以前の MacOSX だと、 /etc/launchd.conf をいじれば良さそうだったけど、Sierraではそんなファイルが存在していなく、調べると
 Open Files Limit
 という記事で、次の2つのファイルを作ることで対応できるみたい。
-/Library/LaunchDaemons/limit.maxfiles.plist &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;quot;-//Apple//DTD PLIST 1.0//EN&amp;quot; &amp;quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;quot;&amp;gt; &amp;lt;plist version=&amp;quot;1.0&amp;quot;&amp;gt; &amp;lt;dict&amp;gt; &amp;lt;key&amp;gt;Label&amp;lt;/key&amp;gt; &amp;lt;string&amp;gt;limit.</description>
+/Library/LaunchDaemons/limit.maxfiles.plist &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt;&amp;lt;dict&amp;gt;&amp;lt;key&amp;gt;Label&amp;lt;/key&amp;gt;&amp;lt;string&amp;gt;limit.maxfiles&amp;lt;/string&amp;gt;&amp;lt;key&amp;gt;ProgramArguments&amp;lt;/key&amp;gt;&amp;lt;array&amp;gt;&amp;lt;string&amp;gt;launchctl&amp;lt;/string&amp;gt;&amp;lt;string&amp;gt;limit&amp;lt;/string&amp;gt;&amp;lt;string&amp;gt;maxfiles&amp;lt;/string&amp;gt;&amp;lt;string&amp;gt;200000&amp;lt;/string&amp;gt;&amp;lt;string&amp;gt;200000&amp;lt;/string&amp;gt;&amp;lt;/array&amp;gt;&amp;lt;key&amp;gt;RunAtLoad&amp;lt;/key&amp;gt;&amp;lt;true/&amp;gt;&amp;lt;key&amp;gt;ServiceIPC&amp;lt;/key&amp;gt;&amp;lt;false/&amp;gt;&amp;lt;/dict&amp;gt;&amp;lt;/plist&amp;gt;/Library/LaunchDaemons/limit.</description>
     </item>
     
     <item>
@@ -778,7 +740,7 @@ Open Files Limit
       <pubDate>Sun, 15 Jan 2017 09:41:28 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/data-science/2017-01-15-tanaka-tom/</guid>
-      <description> 田中TOMという名前でYoutuberやってます。 機械学習について勉強して学んだことを動画でまとめていきます。
+      <description>田中TOMという名前でYoutuberやってます。 機械学習について勉強して学んだことを動画でまとめていきます。
 Random Forestで分類問題  Random Forest で分類問題 part1 決定木モデル 理論編 Random Forest で分類問題 part2 決定木モデル 実装編 Random Forest で分類問題 part3 Random Forest 理論編 Random Forest で分類問題 part4 Random Forest 実装編  Kerasで時系列データ予測 簡単にNN(ニューラルネットワーク)が構築できる Keras で時系列データの機械学習を行う。
  Kerasで時系列データ予測 part1 環境構築 Kerasで時系列データ予測 part2 Keras Kerasで時系列データ予測 part3 再帰型ニューラルネットワーク Kerasで時系列データ予測 part4 時系列データ予測  ゼロから作るDeep Learning 機械学習の Deep Learning について自分達が学習した内容をまとめて動画にしています。 参考書はゼロから作るDeep Learning ―Pythonで学ぶディープラーニングの理論と実装です。
  Deep Learning 第1回:まずは環境構築だ！ Deep Learning 第2回:パーセプトロンを実装しよう Deep Learning 第3回:ニューラルネットワーク その1 Deep Learning 第4回:ニューラルネットワーク その2 Deep Learning 第5回:ニューラルネットワークの学習機能を実装 Deep Learning 第6回:誤差逆伝播を利用して学習処理を早くする Deep Learning 第7回:誤差逆伝播を用いてニューラルネットワークを実装 Deep Learning 第8回:機械学習機能を実装したので、ここまでのまとめ Deep Learning ちょっと横道 MNIST 以外のデータで機械学習を試す Deep Learning ちょっと横道 その2 ニューラルネットワークの改善 Deep Learning 第9回:パラメータの自動最適化 Deep Learning 第10回:パラメータの自動最適化(過学習編) Deep Learning 第11回:畳み込みニューラルネットワーク  </description>
@@ -793,12 +755,12 @@ Random Forestで分類問題  Random Forest で分類問題 part1 決定木モ�
       <description>たまたま知った カレシ・カノジョできないエンジニア Advent Calendar 2016 しかし、明日(12月8日)が埋まってない！ ということで、彼氏・彼女がいないからこそできる家を仕事場にして会社に提供している話を酒に酔った勢いで書いてみました。
 リモートワーク 最近はリモートワークのニュースやブログ記事もちょくちょく出てきますね。 リモートワークは通勤がなくなるなどメリット満載ですが、私のように入社3年ぐらいの若手？で独身彼女無しだと勝手が違ってきます。
  リモートワークをすると家に他に誰もいないのでリアルで人と会う機会が減ってくる 日中家にいるので光熱費が高くなる 会社からちゃんと仕事してるか疑われる  それを解決するのが 住み込み型ワークプレイス です。これは、 他のリモートワークの人を呼んで自分の家を仕事場にしてしまう 方法です。
-経緯 私の働いているソニックガーデンでは6月頃オフィスの引っ越しがありました。 社員が増えたので物理的なオフィスをやめました 〜 これからは「分散型ワークプレイス」へ | Social Change! 記事の中でも書かれていますが、ちょうど町田近辺で他の社員の人がリモートワークできる場所を探してました。 オフィスが家から遠くなり、せっかくなので町田に引っ越してリモートワークを実践してみました。  こんな感じで自分含め最大3人まで作業できる環境
+経緯 私の働いているソニックガーデンでは6月頃オフィスの引っ越しがありました。 社員が増えたので物理的なオフィスをやめました 〜 これからは「分散型ワークプレイス」へ | Social Change! 記事の中でも書かれていますが、ちょうど町田近辺で他の社員の人がリモートワークできる場所を探してました。 オフィスが家から遠くなり、せっかくなので町田に引っ越してリモートワークを実践してみました。 こんな感じで自分含め最大3人まで作業できる環境
 感じたメリット  人との会話が増える 食費・光熱費が節約できて広い部屋を借りられる リモートワークのメリットをそのまま継承できる 会社も安心してリモートワークを実践できる  人との会話が増える これは、そのままですが、社員の人が家にくるため、自然と会話が生まれます。もう、これで寂しくないです。
 食費光熱費が節約できて広い部屋を借りられる 会社との契約にもよりますが、自分の部屋を会社に貸しているので、家賃と光熱費の補助が受けられます。
 会社的にも、利用する社員数×交通費やコワーキングスペースを借りるより、補助の方が安くなると説得できればオッケーも出やすいかも。
-食費も自炊する機会が増えるので減ってきます。  最近もキャベツの芯を味噌汁に入れると美味しく食べられることに気がつきました。
-リモートワークのメリットをそのまま継承できる やっていることはリモートワークなので、そのままリモートワークのメリットも受けられます。  この前の11月にあった寒い雪の日には家で作業しながら甘酒飲んだり  こたつでヌクヌク作業ができます。
+食費も自炊する機会が増えるので減ってきます。 最近もキャベツの芯を味噌汁に入れると美味しく食べられることに気がつきました。
+リモートワークのメリットをそのまま継承できる やっていることはリモートワークなので、そのままリモートワークのメリットも受けられます。 この前の11月にあった寒い雪の日には家で作業しながら甘酒飲んだり こたつでヌクヌク作業ができます。
 デメリット 家に彼氏・彼女を連れ込めない よく「この状態だと家に彼女を連れ込めないね」と言われます。それでも大丈夫です。彼女できませんから。。。
 まとめ 彼氏・彼女がいないなら、家を住み込み型ワークプレイスにすると色々捗るという話。</description>
     </item>
@@ -823,22 +785,27 @@ Random Forestで分類問題  Random Forest で分類問題 part1 決定木モ�
 自己紹介 私は株式会社ソニックガーデンで働いているWebプログラマです。 ソニックガーデンではリモートワークを積極的に取り入れており、代表の倉貫がリモートワークに関する本を出版していたり、 RemottyやF-Chair+といった、リモートワークに必要なツールを開発しています。
 私自身も週に1回だけ自由が丘のオフィスへ行き、普段は町田の自宅(兼ワークプレイスという位置付け)で働いています。 日頃からリモートワークを実践しているので、 長野へ旅をしながらのリモートワークしても何もやることは変わらないのでは？ と思い ときどきナガノ に応募してみました。
 移動中でもリモートワーク まずは当日、目的地の長野へ向かいます。上田には新幹線、松本には 特急あずさ で向かいました。 どちらも運良く席が確保できたので、早速車内でリモートワークをすることに。 基本的に作業はできましたが、長野に向かう途中はトンネルが多いのでネット通信を定期的に使うような作業には向いてませんでした。
-
 画面に映っているのはRemottyです。Remottyを使うことで、他の人が実際に作業しているのか(声をかけられるのか)がわかったり、 自分専用のチャットルームが用意されているので、私に用がある人はこのチャットに来て書き込んできます。
 腹ごしらえ 午前中かお昼に目的地へ着けるので旅行気分で昼食から始まります。
 長野といえば蕎麦だったりソースカツ丼が有名なので、ググって良さそうな店を調べます。
 旅をしながらのリモートワークだとこういった、お昼の過ごし方もできるので素晴らしいですね。
- 上田駅近く&amp;rdquo;刀屋&amp;rdquo;の蕎麦(これで並盛り)
+上田駅近く&amp;quot;刀屋&amp;quot;の蕎麦(これで並盛り)
 コワーキングスペースで作業 お昼を食べたら、食後の運動も兼ねて散策しながらコワーキングスペースへ向かいます。
- 道中も綺麗な景色に出会えます
+道中も綺麗な景色に出会えます
 今回、コワーキングスペースは
  上田ではHanaLab Camp (FBページ) 松本ではKnowers (FBページ)  で作業を行いました。
 基本コワーキングのドロップイン(当日のみ利用)であれば相場は 1000円程度 で利用できます。 その値段で、Wifi・電源使い放題(フリードリンクのところも)なのでかなり助かります。
- 松本のコワーキングスペースKnowers
+松本のコワーキングスペースKnowers
 どこもオシャレな内装のところが多いです。
-ミーティングもリモートで ミーティングもリモートで行います。ソニックガーデンでWEB会議には &amp;ldquo;appear.in&amp;rdquo; &amp;ldquo;Google ハングアウト&amp;rdquo; &amp;ldquo;Zoom&amp;rdquo; をよく利用しています。 今回はネイティブのアプリでブラウザが重くならないZoomを使ってミーティングしました。  画面共有を行いコードを見てもらっている
-仕事が終わったら だいたい就業時間が終わると19時ぐらいなので、比較的時間に余裕があります。 観光地が近いので、上田の時はローカル線に乗って別所温泉に行くことに。 
-夜も楽しむ(もちろんプログラミング) 温泉に入っても夜はまだまだこれから、PC作業ができる場所を探します。</description>
+ミーティングもリモートで ミーティングもリモートで行います。ソニックガーデンでWEB会議には &amp;ldquo;appear.in&amp;rdquo; &amp;ldquo;Google ハングアウト&amp;rdquo; &amp;ldquo;Zoom&amp;rdquo; をよく利用しています。 今回はネイティブのアプリでブラウザが重くならないZoomを使ってミーティングしました。 画面共有を行いコードを見てもらっている
+仕事が終わったら だいたい就業時間が終わると19時ぐらいなので、比較的時間に余裕があります。 観光地が近いので、上田の時はローカル線に乗って別所温泉に行くことに。 夜も楽しむ(もちろんプログラミング) 温泉に入っても夜はまだまだこれから、PC作業ができる場所を探します。
+長野なので日本酒を飲みたい気もしますが、飲み屋だと作業はしにくいので、そういう時は夜遅くまでやっているカフェに行ったりします。
+夜遅くまでやっているカフェだとお酒も提供していたり、地元のりんごを使ったスイーツなども食べることができ、そのまま作業もできるので気に入っています。
+お酒が入った方が、ずっと解決しなかったバグが修正できたりするからまた不思議ですね。
+ジンリッキーとリンゴのタルトタタン
+食べ終われば作業を開始する
+帰りも楽な長野の近さ 帰りもすぐ帰れるのが良いです。宿泊した次の日のお昼に東京で予定が入っていましたが、新幹線を使えば朝はゆったりしながら帰ることができました。
+所感 こういった旅気分を味わいながら、仕事ができるといいですね。仕事の効率的にも普段とそこまで変わらなかったです。(サブディスプレイがないのが少し辛い)</description>
     </item>
     
     <item>
@@ -850,7 +817,7 @@ Random Forestで分類問題  Random Forest で分類問題 part1 決定木モ�
       <description>目的 TensorFlow を使った為替(FX)のトレードシステムを作るチュートリアル ～システムのセットアップからトレードまで～ で公開されているサンプルコードを実行してみて、トレードの成績は良いものの、取引回数が減ってしまうので、複数通貨で取引できるようにしてみた。さらに今回は Digital Ocean VPS で実際に動かすところまでやってみる。
 ※ 実際の取引は自己責任でお願いしますね。
 取引 Agent のコード サンプルコードを参考に複数通貨対応していった感じ。Tensorflow 側のコードはいじってないです。 ちょっとログを出力する関係でイマイチな部分もある。 Currency クラスを作ってそのインスタンスを複数持つことで対応した。
-# tensorflow_agent.rb # coding: utf-8 require &#39;jiji/model/agents/agent&#39; require &#39;httpclient&#39; require &#39;json&#39; # ここで通貨ペアを複数指定。ただし、jiji上で同時にバックテストができるのは5通貨ペアまで。 TRADE_CURRENCIES = %i(USDJPY EURUSD USDJPY).freeze # 通貨単位。最高で 通貨ペア×通貨単位 分保有することがあるので調整してください。 CURRENCY_UNIT = 10000 TENSORFLOW_API_URL = &amp;quot;http://tensorflow:5000/api/estimator&amp;quot;.freeze class TensorFlowAgent include Jiji::Model::Agents::Agent def self.description &amp;lt;&amp;lt;-STR TensorFlowと連携してトレードするエージェントのサンプル STR end def self.property_infos [ Property.new(&#39;exec_mode&#39;, &#39;動作モード(&amp;quot;collect&amp;quot; or &amp;quot;trade&amp;quot; or &amp;quot;test&amp;quot;)&#39;, &amp;quot;collect&amp;quot;) ] end def post_create @mode = create_mode(@exec_mode) @currencies = TRADE_CURRENCIES.</description>
+# tensorflow_agent.rb # coding: utf-8 require &amp;#39;jiji/model/agents/agent&amp;#39;require &amp;#39;httpclient&amp;#39;require &amp;#39;json&amp;#39;# ここで通貨ペアを複数指定。ただし、jiji上で同時にバックテストができるのは5通貨ペアまで。 TRADE_CURRENCIES = %i(USDJPY EURUSD USDJPY).freeze# 通貨単位。最高で 通貨ペア×通貨単位 分保有することがあるので調整してください。 CURRENCY_UNIT = 10000TENSORFLOW_API_URL = &amp;#34;http://tensorflow:5000/api/estimator&amp;#34;.freezeclass TensorFlowAgentinclude Jiji::Model::Agents::Agentdef self.description&amp;lt;&amp;lt;-STRTensorFlowと連携してトレードするエージェントのサンプルSTRenddef self.property_infos[Property.new(&amp;#39;exec_mode&amp;#39;,&amp;#39;動作モード(&amp;#34;collect&amp;#34; or &amp;#34;trade&amp;#34; or &amp;#34;test&amp;#34;)&amp;#39;,&amp;#34;collect&amp;#34;)]enddef post_create@mode = create_mode(@exec_mode)@currencies = TRADE_CURRENCIES.</description>
     </item>
     
     <item>
@@ -862,7 +829,7 @@ Random Forestで分類問題  Random Forest で分類問題 part1 決定木モ�
       <description>はじめに 近々、優勝賞金1000万円の LINE BOT AWARDS が開催されるらしいので、準備がてら雑談BOTを作ってみることに。
 利用したサービス  Line Messaging API Ruby Heroku UserLocal人工知能ボットAPI  実際のコード リポジトリ GitHub regonn/line-bot-ruby-heroku で公開しています。 Heroku ボタンも用意したので皆さんの Heroku にデプロイできるようになっています。
 実際に動かす場合には、Herokuの環境変数に Line Developers 画面で取得した LINE_CHANNEL_SECRET と LINE_CHANNEL_TOKEN あと、 User Local で取得した USR_LOCAL_API_KEY の設定が必要です。
-コードの解説 app.rb require &#39;sinatra&#39; require &#39;line/bot&#39; require &#39;rest-client&#39; def client @client ||= Line::Bot::Client.new { |config| config.channel_secret = ENV[&amp;quot;LINE_CHANNEL_SECRET&amp;quot;] config.channel_token = ENV[&amp;quot;LINE_CHANNEL_TOKEN&amp;quot;] } end def get_user_local_bot_reply(word) response = RestClient.get &#39;https://chatbot-api.userlocal.jp/api/chat&#39;, { params: { key: ENV[&#39;USR_LOCAL_API_KEY&#39;], message: CGI.</description>
+コードの解説 app.rb require &amp;#39;sinatra&amp;#39;require &amp;#39;line/bot&amp;#39;require &amp;#39;rest-client&amp;#39;def client@client ||= Line::Bot::Client.new { |config|config.channel_secret = ENV[&amp;#34;LINE_CHANNEL_SECRET&amp;#34;]config.channel_token = ENV[&amp;#34;LINE_CHANNEL_TOKEN&amp;#34;]}enddef get_user_local_bot_reply(word)response = RestClient.get &amp;#39;https://chatbot-api.userlocal.jp/api/chat&amp;#39;, { params: { key: ENV[&amp;#39;USR_LOCAL_API_KEY&amp;#39;], message: CGI.</description>
     </item>
     
     <item>
@@ -886,8 +853,7 @@ Random Forestで分類問題  Random Forest で分類問題 part1 決定木モ�
 オープンソースベースのプログラミング学習サービス freeCodeCamp の東京コミュニティを立ち上げて1年弱が経つので、勉強会の振り返り
 2016/06/27 おこなった freeCodeCamp Tokyo の勉強会では反省を生かして、ペアプログラミングなどを取り入れてみました。今回は、その勉強会のレポート記事です。
 勉強会の雰囲気 イベントの冒頭部分を動画で撮ったのと、発表資料を共有しておきます。
-動画 
-発表スライドリンク
+動画 発表スライドリンク
 所感 場所 今まで使っていたソニックガーデンの渋谷オフィスが移転に伴って、使えなくなったので、今回から渋谷にある株式会社フォークさんのオフィスをお借りして開催しました。オシャレな空間で場所も広いので、ペアプロ中に他のペアの人達の声も特に気にならずに作業ができました。
 ペアプロ導入 ランダムに組んでペアプログラミングをしてもらいましたが、それなりに良かったかなと思います。普段の勉強会だと、他の人と交流することもなく終わってしまう場合もあるので、コードについて話せる機会ができているといいですね。
 問題の難しさ 今回は、 steamroller という、freeCodeCamp の問題を解いてもらいました。freeCodeCamp のコンテンツを利用することで、私たち側の用意に時間が掛からないのと、実際に freeCodeCamp の学習が一つ終わるので良さそうでした。ただ、今回選んだ steamroller は再帰処理などの少し難しい問題だったので、次回やるときには難易度の異なる問題を2種類用意しておいて、先に簡単な方をやってもらって、そのあとにストレッチ問題として挑戦してもらうと、とりあえず発表できる内容ができるのでいいのかなと思います。
@@ -932,16 +898,8 @@ Random Forestで分類問題  Random Forest で分類問題 part1 決定木モ�
 実装したサイトの説明 まず作っていたサイトについて説明しておきますと、 企業がイベントを開催した際にフィードバックを受けるためのアンケートを WEB 上で回答してもらい、その集計結果が見えるというサービス です。機能としては少なく、企業管理側のイベントページの作成と詳細ページを見ることができるだけです。
 Before and After まず、サイトがどう変わったかの画像を載せておきます。(サイトが特定される情報の部分は隠してあります。)
 Before まずは、デザイン修正前の画像です。どのページもすごい Bootstrap 臭がプンプンしてますね。
-ログイン画面 
-ログイン後の画面 
-イベント詳細ページ 
-イベント作成ページ 
-After 続いて、デザイナーから指摘を受けて修正したものです、全体的に洗練されてますね。（デザイナーの方にコードを触ってもらったわけではなく、指摘部分を私が直しているので、まだまだ改善の余地はありそうですが）
-ログイン画面 
-ログイン後の画面 
-イベント詳細ページ 
-イベント作成ページ 
-最初に注意を受けた部分 デザイナーの人に見せてまず言われたことが次の 2 つです
+ログイン画面 ログイン後の画面 イベント詳細ページ イベント作成ページ After 続いて、デザイナーから指摘を受けて修正したものです、全体的に洗練されてますね。（デザイナーの方にコードを触ってもらったわけではなく、指摘部分を私が直しているので、まだまだ改善の余地はありそうですが）
+ログイン画面 ログイン後の画面 イベント詳細ページ イベント作成ページ 最初に注意を受けた部分 デザイナーの人に見せてまず言われたことが次の 2 つです
  デザインのコンセプトを決める 基本 Bootstrap の機能は Grid システムだけにしてみる  それぞれについて書いていきます。
 デザインのコンセプトを決める デザインのコンセプトを決めないでいるため、 Bootstrap の色がそのまま使われてしまっているなど、オリジナル感が出しにくくなってしまっていました 。最初に、どのようなデザインにするのかコンセプトを決めることが必要のようです。
 そこで、依頼者からの話などをもとに次のようなコンセプトに決めました。
@@ -956,7 +914,6 @@ After 続いて、デザイナーから指摘を受けて修正したもので�
       <guid>https://blog.regonn.tokyo/programmer/2015-12-15-pair-programming/</guid>
       <description>ペアプログラミング この記事はソニックガーデン Advent Calendar 2015の15日目の記事です。 今回はソニックガーデンで私が行っているペアプログラミングについて書いていきます。
 私は新卒2年目で技術的にもまだまだ未熟のため、ソニックガーデンの師匠レベルの人に毎週1時間だけ時間をもらって、ペアプロをしてもらっています。 たった週に1時間やるだけでも学べることが多かったのと、実は 「ふりかえり（※）」でもこの方式で進めていくと日々成長できる ということがわかりました。
- * ソニックガーデンではKPTと呼ばれる方式で「ふりかえり」をおこない、働き方を改善していっています。自律的に現場を改善できるチームをつくるための「ふりかえり」の進め方 〜 KPTと進め方のノウハウ 
 ペアプログラミングは、普通はdriver（実装する人）とobserver（driverの実装を見ながら設計を考えたり、 リファクタできるところなどを考えながら進めていく人）に分かれますが、弟子と師匠のようにレベルの差が出てくると、 家庭教師と背後霊という方が合いそうなので、そう名付けました。それぞれについて見ていきます。
 家庭教師（自分が実装する） 家庭教師はそのままです。私が実装していくのを見てもらいます。
 ペアプログラミング内でやる内容は自由ですが、私はその週で実装をしていて、実装が複雑になってきて気になる場所を質問してどうリファクタしたらいいかや、 新しく見つけたライブラリが使えそうかなどを聞いたりしてます。
@@ -967,10 +924,10 @@ After 続いて、デザイナーから指摘を受けて修正したもので�
 ペアプログラミングのobserverに求められる設計については行わずに、師匠レベルの人がどのように実装しているか、 どのようなツールやコマンドを使っているかをただ後ろから眺めているだけなので背後霊と名付けました。
 その都度、気になった所を質問していきます。実装されたコードはあとで差分等は確認できるので、 書かれているコードを理解しながら追うよりも、どのように作業を進めているかを確認していきます 。
 例えば、自分の知らないエディタの機能が使われていたり、どこの部分から実装に取り掛かるのか等を見ていき、自分だったらどうするかの比較をしてみたりするのも面白いです。
-&amp;ldquo;ふりかえり&amp;rdquo;も基本はこの形でやる プログラミングではこのやり方で成長を実感できていて、さらに普段の&amp;rdquo;ふりかえり&amp;rdquo;でも行えると技術面以外の所でも日々の成長ができていけると気づきました。
-ソニックガーデンでは弟子は毎週個人の&amp;rdquo;ふりかえり&amp;rdquo;を行っています。 &amp;ldquo;ふりかえり&amp;rdquo;を小口化して、毎日自分だけで&amp;rdquo;ふりかえり&amp;rdquo;をしてみて、そこで行った内容を週毎の個人の&amp;rdquo;ふりかえり&amp;rdquo;で見てもらいます。
-その習慣ができてくると、日々自分の働き方の反省と改善のサイクルができてきます し、週毎の個人の&amp;rdquo;ふりかえり&amp;rdquo;では、 家庭教師のように、師匠レベルの視点で見てもらいフィードバックがもらえます。
-では背後霊はどうするのかというと、それは 現在師匠レベルの人達が過去に行った&amp;rdquo;ふりかえり&amp;rdquo;を見てみること です。 &amp;ldquo;ふりかえり&amp;rdquo;の資料は、過去の分も残ってることが多いと思うので、現在の師匠レベルの人達が成長するために行ってきた&amp;rdquo;ふりかえり&amp;rdquo;を見ることで、 どのような部分で悩んでいて、そこからどのように問題を解決してきたかの道筋が見えてきます。
+&amp;ldquo;ふりかえり&amp;quot;も基本はこの形でやる プログラミングではこのやり方で成長を実感できていて、さらに普段の&amp;quot;ふりかえり&amp;quot;でも行えると技術面以外の所でも日々の成長ができていけると気づきました。
+ソニックガーデンでは弟子は毎週個人の&amp;quot;ふりかえり&amp;quot;を行っています。 &amp;ldquo;ふりかえり&amp;quot;を小口化して、毎日自分だけで&amp;quot;ふりかえり&amp;quot;をしてみて、そこで行った内容を週毎の個人の&amp;quot;ふりかえり&amp;quot;で見てもらいます。
+その習慣ができてくると、日々自分の働き方の反省と改善のサイクルができてきます し、週毎の個人の&amp;quot;ふりかえり&amp;quot;では、 家庭教師のように、師匠レベルの視点で見てもらいフィードバックがもらえます。
+では背後霊はどうするのかというと、それは 現在師匠レベルの人達が過去に行った&amp;quot;ふりかえり&amp;quot;を見てみること です。 &amp;ldquo;ふりかえり&amp;quot;の資料は、過去の分も残ってることが多いと思うので、現在の師匠レベルの人達が成長するために行ってきた&amp;quot;ふりかえり&amp;quot;を見ることで、 どのような部分で悩んでいて、そこからどのように問題を解決してきたかの道筋が見えてきます。
 以上のことを意識して技術だけでなく、働き方の部分でも日々成長していきたいです。
 ソニックガーデン Advent Calendar 2015</description>
     </item>
@@ -984,7 +941,7 @@ After 続いて、デザイナーから指摘を受けて修正したもので�
       <description>FAQ この記事はソニックガーデン Advent Calendar 2015の12日目の記事です。 今回はソニックガーデンのプログラマによく聞かれる質問に対して答えていきます。
 プログラマはどれくらいいますか？ ソニックガーデンでは全員がプログラマです。現在社員は12名います。
 営業はどうしていますか？ 先ほども書きましたが、ソニックガーデンは全員がプログラマなので、営業の人はいません。 ソニックガーデンのビジョンの1つに 情報をオープンにし常に公明正大であること とあり、 広告費にはほとんどお金をかけないで、代表倉貫によるブログ（Social Change!）や、 ソーシャルメディアを通じて、ノウハウなどの情報を公開していき、注目を集めるスタイルを目指しています。
-ディレクター・企画担当者はいますか？ もちろん企画担当者という人もいません。 ソニックガーデンでは受託と自社サービスを開発していて、受託開発の場合だと企画はお客様に担当していただき、 自社サービスの場合ですと、最近は「部活」という制度が始まり、作りたいものがあれば自分で作って企画も勝手にしていけばいいという風潮です。 上司をなくせばうまくいく「ホラクラシー」採用と育成の仕組み 〜 ギルドを２年やって得た学び（この記事の中の&amp;rsquo;会社公認の「部活」がイノベーションを生むかも&amp;rsquo;の部分で部活が取り上げられています）
+ディレクター・企画担当者はいますか？ もちろん企画担当者という人もいません。 ソニックガーデンでは受託と自社サービスを開発していて、受託開発の場合だと企画はお客様に担当していただき、 自社サービスの場合ですと、最近は「部活」という制度が始まり、作りたいものがあれば自分で作って企画も勝手にしていけばいいという風潮です。 上司をなくせばうまくいく「ホラクラシー」採用と育成の仕組み 〜 ギルドを２年やって得た学び（この記事の中の&#39;会社公認の「部活」がイノベーションを生むかも&#39;の部分で部活が取り上げられています）
 デザインはどうしていますか？ ソニックガーデンではデザインメンターという制度を取り入れています。 詳しくは次の記事に書いてあります。 【前編】エンジニアの会社でデザインがうまくいくワケ〜「エンジニア病」にはダメ出しされよう
 テスターはいますか？　また、テストの体制はどうなってますか？ ソニックガーデンではテスターという専門の人はいません、その代わりに受託開発でリリースする前には、社内メンバーに触ってもらってバグを見つけたり、 全体コードレビュー（rails newからリリースまでの差分を見る）を行います。 ソニックガーデンではバグを無くそうと躍起になるのでなく（もちろんバグはない方が望ましいですが）、 バグは発生するものという認識で発生した際にどのようにすぐ対処できるかを考えて開発・運用 を行っています。
 テストコードに関しては、ソニックガーデンでは継続して開発を進めていて、テストコードも継続して増やしていきます。 機能が増えたらテストコードも書きますが、 バグがあった時にも先にテストを書いてしまいテストの担保する部分を増やしたりしてます。
@@ -1013,9 +970,9 @@ After 続いて、デザイナーから指摘を受けて修正したもので�
 （忙しい人用に4行でまとめました。飛びたい場合はコチラ）
 素直なコードになる前は？ まず素直なコードに達するまでは、どんなコードと呼べるかを考えたら、 自己中なコード だなと思いました。
 例えばRailsで次のようなコードはかなり自己中なコードです。
-# 1ヶ月(30日), 2592000秒 def self.delete_expired_events all.each do |event| if Time.now.utc - event.created_at &amp;gt; 2592000 event.destroy end end end  コメントはありますが、2592000という文字が何を意味するのか捉えにくい（[マジックナンバー](https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B8%E3%83%83%E3%82%AF%E3%83%8A%E3%83%B3%E3%83%90%E3%83%BC_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0)と呼ばれてる）ですし、 もし2か月後に変更するときに 2592000 * 2 みたいになると、余計混乱の元です。
+# 1ヶ月(30日), 2592000秒def self.delete_expired_eventsall.each do |event|if Time.now.utc - event.created_at &amp;gt; 2592000event.destroyendendendコメントはありますが、2592000という文字が何を意味するのか捉えにくい（[マジックナンバー](https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B8%E3%83%83%E3%82%AF%E3%83%8A%E3%83%B3%E3%83%90%E3%83%BC_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0)と呼ばれてる）ですし、 もし2か月後に変更するときに 2592000 * 2 みたいになると、余計混乱の元です。
 じゃあ素直なコードは？ さっきのコードの例だと、素直なコードは
-def self.destroy_expired_events where(&amp;quot;created_at &amp;lt;= ?&amp;quot;, Time.current.months_ago(1)).destroy_all end  みたいになります。if文がなくなって1行になったり、 months_ago メソッドを使っているため、どの条件でイベントを削除したいのかがわかりやすくなりました。
+def self.destroy_expired_eventswhere(&amp;quot;created_at &amp;lt;= ?&amp;quot;, Time.current.months_ago(1)).destroy_allendみたいになります。if文がなくなって1行になったり、 months_ago メソッドを使っているため、どの条件でイベントを削除したいのかがわかりやすくなりました。
 RubyやRailsのメジャーな書き方やメソッドをちゃんと使いこなせているようになると素直なコードは書けるようになってきます。 ここまでくると可読性も上がり、他の人や将来の自分が見ても理解しやすいコードになっています。
 次のステージへ もし、この次があるとしたらそれは、コードの全体や運用での観点でコードが考えられているのだと思います。 例えば、
  ステージング環境でちゃんとデータが消されるかを確認したいんだけど1か月待たないといけないの？　。 運用してから削除する日数（月単位でない）を決めたいから簡単に変えられるようにしておきたい。 他にもユーザーが特定の日数以前のデータを消せるように def self.</description>
@@ -1033,7 +990,7 @@ RubyやRailsのメジャーな書き方やメソッドをちゃんと使いこ�
 「ソニックガーデンでは当たり前なんだけど、世間一般では珍しい取り組みや考え方」 というテーマで当時ソニックガーデンで働いていた、7名が記事を書いています。
 このアドベントカレンダーが作られてから約3年が経っていますが、普通3年経てば変化の早いIT業界で周りの環境も大幅に変わり記事の内容は古い情報になってしまいがちです。
 しかし、今読み返してみてもソニックガーデン流の働き方の本質は変わっていなく、 ソニックガーデンのプログラマとして働くための考え方 が書かれていると思います。
-代表の倉貫が「当たり前を疑うことができるか？　」という記事の中で
+代表の倉貫が「**当たり前を疑うことができるか？　**」という記事の中で
  そしてこれは、自分たち自身にもあてはまります。すでに自分たちが「当たり前」と思っていることも、自分の頭で考え直して、疑ってかかる必要があります。 そうして、自分たちで自分たちの「当たり前」を壊していける組織が、強い組織になるのではないでしょうか。
  と書いていて、これは普段行われる「振り返り」にも出てくるもので、 自分の勝手な思い込みだったものを「そもそも何の目的だったのか？」から考え直すことで 自分の当たり前を壊すことで自分自身の成長 につながり、それが組織全体の成長にもつながっている気がします。
 今回のソニックガーデンアドベントカレンダー 今回のアドベントカレンダーでは前回と比べて、人数も増えたので25日分作ってみようという話になりました（この記事を書いている2015/11/30の時点だと、かなりの空きが目立ちますが…）。
@@ -1056,8 +1013,10 @@ RubyやRailsのメジャーな書き方やメソッドをちゃんと使いこ�
 マッチして欲しいのは [ ] で囲んだ所(今回は@のみもマッチする)
 &amp;quot;[@banana] [@] tomato [@orange] regonn@sonicgarden.jp &amp;quot;
 そこで次のようなコードになりました。
-mentionMatch.swift import UIKit let string = &amp;quot;@banana @ tomato @orange regonn@sonicgarden.jp &amp;quot; let regrex = try? NSRegularExpression(pattern: &amp;quot;(?&amp;lt;=^|\\s)(@\\w*)&amp;quot;, options: NSRegularExpressionOptions.CaseInsensitive) let matches = regrex!.matchesInString(string, options: [], range: NSMakeRange(0, string.characters.count)) for match in matches { print(match.range) } =&amp;gt; (0,7) (8,1) (17,7)  ちゃんと 3 か所にマッチできていることが確認できます。
-今回の正規表現は</description>
+mentionMatch.swift import UIKitlet string = &amp;#34;@banana @ tomato @orange regonn@sonicgarden.jp &amp;#34;let regrex = try? NSRegularExpression(pattern: &amp;#34;(?&amp;lt;=^|\\s)(@\\w*)&amp;#34;, options: NSRegularExpressionOptions.CaseInsensitive)let matches = regrex!.matchesInString(string, options: [], range: NSMakeRange(0, string.characters.count))for match in matches {print(match.range)}=&amp;gt; (0,7)(8,1)(17,7)ちゃんと 3 か所にマッチできていることが確認できます。
+今回の正規表現は
+(?&amp;lt;=^|\\s)(@\\w*)
+となりました(もし@単体はマッチさせたくないのなら最後をw+に変更)</description>
     </item>
     
     <item>
@@ -1092,7 +1051,8 @@ ITでベンチャー企業と聞くと、バンバン資金調達を繰り返し
 しかし、そのリスクを取ってでもソニックガーデンでは新卒を採用しています。 代表の倉貫は目指す会社を寿司屋の銀座久兵衛によく例えます 。
 銀座久兵衛に学ぶ一流の職人の育てかた 〜 スケールだけではない文化を広める一つのスタイル
 新卒で入ると弟子として採用され、最初の数年は修行を積んで一人前になっていきます。
-私の他にも今年も1人女性のプログラマが新卒で入社しています。</description>
+私の他にも今年も1人女性のプログラマが新卒で入社しています。
+夜遅くまで働いていると注意される ITベンチャー企業は他にも、夜遅くまでとにかく働いて、常にエンジンフルスロットルで突き進むイメージもありますが、 ソニックガーデンでは、夜遅くまで作業をしていると逆に怒られます。</description>
     </item>
     
     <item>
@@ -1107,7 +1067,7 @@ ITでベンチャー企業と聞くと、バンバン資金調達を繰り返し
 そして、何度もやっていき、知識がついてくると、今までのメモにも無駄な部分や改良できる部分ができてきます、 それを繰り返すことで、まるで 秘伝のタレのように自分に合った環境を短時間で整えることができるようになってきます 。
 綺麗な開発環境は、メンテナンスや拡張もしやすくなるのでコードと一緒 ですね。
 自分の環境をいつでも使えるように ちなみに私のMac用の初期構築はこれです。tare.md 参考リンクにtherubyracer gemのエラー対処の記事が多いですが、こんな感じで構築中に躓いたところは参考リンクと一緒に書いておいて、 毎回必ず起こるのであれば、レシピの中に対処法を書いてしまいます。
-他にも.vimrcや.zshrc等のエディタやターミナルもまとめてdotfilesをGitで管理していて公開している人も多いです。 （ちなみに、私の働いているソニックガーデンの人もdotfiles公開してるかなと&amp;rsquo;sonicgarden dotfiles&amp;rsquo;でググってみたら、 maedanaさんのGithubリポジトリmaedana/dotfilesが出てきました。 最初の更新が7年前ですけど、2015/08/16の時点で30日前に更新されているので、タレが継ぎ足されてるみたいですね）
+他にも.vimrcや.zshrc等のエディタやターミナルもまとめてdotfilesをGitで管理していて公開している人も多いです。 （ちなみに、私の働いているソニックガーデンの人もdotfiles公開してるかなと&amp;rsquo;sonicgarden dotfiles&#39;でググってみたら、 maedanaさんのGithubリポジトリmaedana/dotfilesが出てきました。 最初の更新が7年前ですけど、2015/08/16の時点で30日前に更新されているので、タレが継ぎ足されてるみたいですね）
 常にタレの美味しさを更新しよう 常に技術のトレンドは変わっていくので、タレも継ぎ足ししていかないといけません 。例えばさっきのMacの初期構築のタレだと、 今まではブラウザ等のソフトは、いちいちサイトに行ってインストールしていたんですが、Homebrew Caskを使うと、 リストに登録されていれば普段.dmgファイルをダウンロードしてインストールしているソフトを一括でインストールしたり、 アンインストールもbrewコマンドのように使えて、安定して動いていたので最近タレに追加しました。 ある程度、タレの美味しさも保つためには安定して使えるかの検証もしてから、追加するといいです。
 タレ作りは初めてのサーバー構築等でも効果アリ！ 自分の環境だけでなくサーバー構築の際にもタレは使えます。 例えば、Linuxのサーバー構築とかraspberry pi等の構築が毎回必要なものも、構築していきながら毎回打ち込んだコマンドを記録しておいて、 進めていきます。
 もし結局使わなかったライブラリや間違えていた設定等は、後で打ち込んだコマンド一覧から消しておけば、スッキリしたタレが出来上がり、 他の人にサーバー構築をしてもらうときにも役に立ちます。
@@ -1126,15 +1086,15 @@ ITでベンチャー企業と聞くと、バンバン資金調達を繰り返し
       <description>リモートワークには日記システム 最近は地方で働くリモートワークの考え方が広まってきましたが、 リモートワークを導入する際の問題の 1 つに コミュニケーション不足の発生 があります。 普段オフィスに一緒に過ごしているならば、お昼を食べにいったりと交流の機会もありますが、 同じプロジェクトを進める等の接点がない限り、なかなかお互いを知り合う機会がないと思います。
 私が働いているソニックガーデンではリモートワークを推進していて、 remottyというリアルタイムの顔が見えるチャットシステムを自分達で開発することで、 コミュニケーション不足問題を解決していますが、 日報ではなく日記を書く ことも、効果があると思ったので紹介します。
 日報と日記？ まず、日報と日記って何が違うのかが曖昧だと説明しにくいので、最初に私が思っている日報と日記の違いを説明します。 ベン図にしてみました、どんな内容が日報と日記に含まれているのかを書いています。
-
 日報は日記の中の仕事の一部という位置づけです。 なので、日記にしたことで、今まで日報で書いていた内容がなくなるということは無い と考えています。
 日報の目的 日報では、その日の業務内容をタイムスケジュールと一緒に、業務内容や所感、気付きといったものが書かれています。 目的としては、上司に業務の進捗や不明点、所感といったものを伝える ことで、 上司が部下の進捗を把握できたり、日報を書く人が自分で PDCA サイクルを回せるようになることが念頭に置かれています。
 この 部下 → 上司 といった一方通行の流れや、 自分自身のこと で留まってしまうため コミュニケーション に関することは考慮されていません。
 そこで、日報の枠を飛び出して、日記にしていくことでコミュニケーションの部分が増えてきます。
 日記の内容 日記では、書ける範囲が急に広がります。例を上げると
  家族（娘の誕生日だった等の情報で家族構成がわかる） 飲み会（◯◯ さんとざっくばらんに話して、意外な一面を知って書いておく） 趣味（オフィスで苔を育ててますなど、話のネタができる） 仕事のグチ（このシステムすごい UI がダメで使いにくいなど、問題点を共有） モヤモヤしてること（どうすれば開発効率が上がるのか等普段気にしていることを周りに知ってもらえる） 忙しさ（◯◯ に時間が取られて仕事が進まない等、これも問題点として共有できる） 振り返り（振り返りの内容を書くことで他の人達も、自分の振り返りの参考にできる）  等の話が書かれているので、これらを知ることができるだけでもチームとしてのコミュニケーションができてくると思います。
-日報を書く文化でなく読み合う文化 日報は書くことも大事ですが、お互いに読み合う文化も同時に大事です。 日報のように上司だけが読むのではなく、みんなで読み合うことで、お互いのことを知ることができる ようになります。 ソニックガーデンが自前で作っている日記ツールでは、投稿するとメールがメンバー全員に送信され、誰が日記を読んだのかもわかりますし、 気に入ったものには&amp;rsquo;イイね&amp;rsquo;ももらえるので、ちゃんと読んでもらっていることがわかって安心します。
-経営者が何をしているのかも知ることができる 経営者も日記を同様に書くことで普段何しているのかを、社員に知ってもらえます。 ソニックガーデンでも代表の倉貫が毎日日記を投稿しているので、普段なかなか知ることができない、 経営方針に関することも書かれていて、社員は どういう風に会社が動いているのかのイメージもしやすい です。 「ザ・ビジョン」という本で、CEO が毎朝全社員に向けて、メールを送ることで社員のビジョンを同じ方向に向けていく話がありますが、 それと似ているかもしれません。</description>
+日報を書く文化でなく読み合う文化 日報は書くことも大事ですが、お互いに読み合う文化も同時に大事です。 日報のように上司だけが読むのではなく、みんなで読み合うことで、お互いのことを知ることができる ようになります。 ソニックガーデンが自前で作っている日記ツールでは、投稿するとメールがメンバー全員に送信され、誰が日記を読んだのかもわかりますし、 気に入ったものには&#39;イイね&#39;ももらえるので、ちゃんと読んでもらっていることがわかって安心します。
+経営者が何をしているのかも知ることができる 経営者も日記を同様に書くことで普段何しているのかを、社員に知ってもらえます。 ソニックガーデンでも代表の倉貫が毎日日記を投稿しているので、普段なかなか知ることができない、 経営方針に関することも書かれていて、社員は どういう風に会社が動いているのかのイメージもしやすい です。 「ザ・ビジョン」という本で、CEO が毎朝全社員に向けて、メールを送ることで社員のビジョンを同じ方向に向けていく話がありますが、 それと似ているかもしれません。
+ザ・ビジョン 進むべき道は見えているか</description>
     </item>
     
     <item>
@@ -1145,17 +1105,15 @@ ITでベンチャー企業と聞くと、バンバン資金調達を繰り返し
       <guid>https://blog.regonn.tokyo/programmer/2015-08-02-rsap/</guid>
       <description>だれでもプログラミングで行き詰まる時 プログラミングを始めたばかりの人だと、プログラミングをしていて実装に行き詰まることが多くあります。 もちろん、一人前のプログラマでも新しい技術を使うときとかには、行き詰まることもあります。 しかし、そこでも 新米プログラマと一人前プログラマでは行き詰まらないためにすることの違い があり、 効率的に開発が行えるかが関わってくるのでは？　と考えていたら RSAP という言葉を知りました。
 RSAPって？ 最近FreeCodeCampというサービスで学習をしていますが、 そこの初心者向けの記事に次のようなものがありました。 How do I get help when I get stuck? この記事でRSAPというという言葉が使われていて、行き詰まらないためにする行動の頭文字が使われています。 RSAPについて順に説明していきます。
-R(ead the documentation or error) 
-公式ドキュメントとエラーをちゃんと読もう ということです。 オープンソースのライブラリであれば、大抵ドキュメントも更新されていますし、公式のチュートリアルもあることが多いです。 そのコードを見ながら、まず、公式通りにやって動くのかを試して、自分がやろうとしていることと照らしあわせて変更していきます。 ここらへんは、以前のこの記事で書いています。(プログラミングにおいて大切な&amp;rsquo;スパイクを打つ&amp;rsquo;とは？)
+R(ead the documentation or error) 公式ドキュメントとエラーをちゃんと読もう ということです。 オープンソースのライブラリであれば、大抵ドキュメントも更新されていますし、公式のチュートリアルもあることが多いです。 そのコードを見ながら、まず、公式通りにやって動くのかを試して、自分がやろうとしていることと照らしあわせて変更していきます。 ここらへんは、以前のこの記事で書いています。(プログラミングにおいて大切な&#39;スパイクを打つ&#39;とは？)
 一人前のプログラマは、コードの意味を理解し、ドキュメントの指示に従える能力を持っている のだと思います。 英語で大変かもしれませんが、次第になれますし、コードも一緒に書かれているはずなので、見よう見まねでやってみることもできるはずです。
 エラーについては、この記事で詳しく書いています。(新米プログラマが身につけておきたいデバッグに必要な３つのこと)
 ある程度コードが読めるようになってきたら、使っているオープンソースのライブラリを読むという行為も非常に役に立ちます。 もしかしたら、ドキュメントには書かれていない機能に気づけたり、エラーの原因をより厳密に捉えることができます。
 自分が参加しているプロジェクトでも、プルリクやコミットログ等を追って、何が変更されたのかや、以前のコードが書かれた理由を知ることができると、 より開発を進めやすくなると思います。
-S(earch Google) 
-ググレカスです。大事なことですが、 調べ方にもやはりコツはあったりします 。 例えば、英語のみで検索してみると情報量が倍以上に増えますし、 期間（1年以内に更新があったもの等）を条件に組み込むことで古い書き方は除外したり、 エラーの時は、エラー文をそのまま貼り付けてみるのも効果的なことだと思います。
-初心者が躓くことの1つの要因に 用語がわからない があります。 例えばRuby言語で:hogeみたいに:(セミコロン)が先頭についているオブジェクトって、 何て呼べばいいのかわからないと検索しにくいですよね。&amp;rsquo;:&amp;lsquo;みたいな記号だとgoogleの検索対象に含まれない場合もあります。 もし、これがSymbolクラスだと名前がわかっていると検索もしやすくなります。 そして、用語が日本語でも英語でもわかってくると自分で検索もできるようになってくるので、 「こういう書き方って何て呼べばいいんだ？」ということを先輩プログラマに聞いてみたりしてみると良いと思います。 ただし、プログラミング言語が違うと同じ言葉でも概念が変わったりするので、そこら辺は注意が必要です。
-A(sk your friends for help) 
-ここまでやってみて解決しなければ次は他の人に尋ねる（助けを求める）段階です。もちろん相手だって暇ではないので、なるべく手短に済ませることがお互いに負担が少ないですが、 尋ねる相手は神ではないので、1のことを喋って10のことを理解できません 違う作業をしていることだってありますし、昔書いたコードで思い出すのに時間がかかるかもしれません。 しっかりと、何のプロジェクトで何のタスクで何に手間取っているのかを説明しなければならないので、ある程度要点を整理しないといけません。</description>
+S(earch Google) ググレカスです。大事なことですが、 調べ方にもやはりコツはあったりします 。 例えば、英語のみで検索してみると情報量が倍以上に増えますし、 期間（1年以内に更新があったもの等）を条件に組み込むことで古い書き方は除外したり、 エラーの時は、エラー文をそのまま貼り付けてみるのも効果的なことだと思います。
+初心者が躓くことの1つの要因に 用語がわからない があります。 例えばRuby言語で:hogeみたいに:(セミコロン)が先頭についているオブジェクトって、 何て呼べばいいのかわからないと検索しにくいですよね。&#39;:&amp;lsquo;みたいな記号だとgoogleの検索対象に含まれない場合もあります。 もし、これがSymbolクラスだと名前がわかっていると検索もしやすくなります。 そして、用語が日本語でも英語でもわかってくると自分で検索もできるようになってくるので、 「こういう書き方って何て呼べばいいんだ？」ということを先輩プログラマに聞いてみたりしてみると良いと思います。 ただし、プログラミング言語が違うと同じ言葉でも概念が変わったりするので、そこら辺は注意が必要です。
+A(sk your friends for help) ここまでやってみて解決しなければ次は他の人に尋ねる（助けを求める）段階です。もちろん相手だって暇ではないので、なるべく手短に済ませることがお互いに負担が少ないですが、 尋ねる相手は神ではないので、1のことを喋って10のことを理解できません 違う作業をしていることだってありますし、昔書いたコードで思い出すのに時間がかかるかもしれません。 しっかりと、何のプロジェクトで何のタスクで何に手間取っているのかを説明しなければならないので、ある程度要点を整理しないといけません。
+さらに、 一人前になってくると一人で質問と回答ができてくるようになります。 どういうことか説明しますと、ITの業界用語にラバーダッキング という言葉があります。一人前のプログラマは例えオモチャのアヒルでさえ質問してみると答えがでてくるらしいです。 自分以外の物に説明するために要点を整理して、自分の考えなどをアウトプットしていくうちに自然と自分の中で答えが生まれてくる ようになるみたいです。</description>
     </item>
     
     <item>
@@ -1167,13 +1125,13 @@ A(sk your friends for help)
       <description>もはや当たり前のコードレビュー 2人以上で開発をしていて、コードの質を上げたり、お互いに成長するために、まず行われているのがコードレビューだと思います。 他の人にコードを見てもらうことで、どこが悪いのかを指摘してもらったり、今まで知らなかった書き方を教えてもらったりします。
 教育の観点でも優れていて、学べることも多いので、最初は書いたコードを見てもらう機会が多くあるはずです。 新米プログラマだから多少コードがひどくても許してもらえるかもしれませんが、 コードレビューで突っ込まれる可能性が高い部分はなるべく減らしておいたほうが、コードを見る人にも見てもらう人にも負担が少なくてすみます。 円滑なコードレビューを行うために、新米プログラマがレビューの申請を出す前に注意しておくといい項目をまとめてみました。
 あまり、特定の言語に依存しない内容にしてあります。
- もし、記事を読んでいて、「こんなの当たり前じゃないか、もう少し高度な内容をしりたい」という人がいらっしゃいましたら、 手前味噌ですがこちらのスライドも参考にしてもらうといいかもしれません。 ソニックガーデンで取り組んでいるコードレビューについても書かれています。 デキるプログラマだけが知っているコードレビュー7つの秘訣
-1. コピーしてきたから正解ではない よくあるパターンに、同じプロジェクトで似たような実装があったので、そこを参考にしました と説明することがあります。 しかし、同じプロジェクトで実装されていたからといって、それが本当に正しいコードだという保証はありません。 一度コードレビューを通っているはずなので、コードの質は担保されているかもしれませんが、 もしかしたら、記述が古いかもしれない（Railsだとよくある）ですし、昔書かれたコードでリファクタしたい場所なのかもしれません。
+もし、記事を読んでいて、「こんなの当たり前じゃないか、もう少し高度な内容をしりたい」という人がいらっしゃいましたら、 手前味噌ですがこちらのスライドも参考にしてもらうといいかもしれません。 ソニックガーデンで取り組んでいるコードレビューについても書かれています。 デキるプログラマだけが知っているコードレビュー7つの秘訣1. コピーしてきたから正解ではない よくあるパターンに、同じプロジェクトで似たような実装があったので、そこを参考にしました と説明することがあります。 しかし、同じプロジェクトで実装されていたからといって、それが本当に正しいコードだという保証はありません。 一度コードレビューを通っているはずなので、コードの質は担保されているかもしれませんが、 もしかしたら、記述が古いかもしれない（Railsだとよくある）ですし、昔書かれたコードでリファクタしたい場所なのかもしれません。
 2. 将来必要なものは今は必要でない 今度○○を実装するときに必要だと思って、あえて残してあります。 みたいなこともよくあります。 しかし、それだと 本当に将来使われるかわからない、現時点で無駄なコードが本番環境に反映されてしまいます。 これは YAGNI(You ain&amp;rsquo;t gonna need it)の原則 と呼ばれるくらいプログラミングではよく遭遇する場面です。 プログラミングのスキルが向上すると、保守性や可読性だけでなく、拡張も容易なコードになっていきます。 なので、将来を見据えてコードを書くのでなく、その時点で必要なものだけを実装することを心がけると、自然とコードの量も減り、 意図が伝わりやすい実装になります。
 3. コードで表せなくなって、はじめてコメントを利用する 何をしているコードなのかが伝わるか不安になり、コメントを必要以上に書いてしまうと、逆に「なんでこのコメント書いたの？」 と質問されてしまう場合があります。大抵レビューしてくれる人は自分よりプログラミングが出来る人のはずなので、 メソッドや変数の命名が適切であれば読み取ってもらえます（その命名が難しいんですが…）。
 では、どういう時にコメントが必要かというと例えば次のような場合です
-# 会社設立が2009年なのでそれ以降を選択肢に表示 = f.input :hired_date, label: &#39;入社日&#39;, start_year: 2009, end_year: Date.current.year  上記のコードは入社日を入力してもらうフォームの例ですが、 もし突然start\_year: 2009というコードが現れると「なんで2009が決め打ちで出てくるんだ？」 と疑問が出てきます。このように コードでは表現できない部分にコメントを書いておくと、コードを見ている人を悩ませなくてすみます。 （この例の場合だと、コメントでなくてもestablished_year = 2009みたいな変数、定数でコメントをなくすこともできますが）
-4. テストとマージは大丈夫？ これはコミット毎にも確認しておきたいことですが、コードレビューをしてもらう時には、 テストが通っていて、マージ可能か を確認したほうがいいです。 もし、テストが通っていなければ、まだ作業が完了していないことになりますし、マージできない状態だったら、 「コード的にはいいけど、マージできないので修正してね」といった無駄なコメントのやりとりが増えてしまいます。 OKだったらそのまま取り込んで貰えるコード を出したいですね。</description>
+# 会社設立が2009年なのでそれ以降を選択肢に表示 = f.input :hired_date, label: &amp;#39;入社日&amp;#39;, start_year: 2009, end_year: Date.current.year上記のコードは入社日を入力してもらうフォームの例ですが、 もし突然start\_year: 2009というコードが現れると「なんで2009が決め打ちで出てくるんだ？」 と疑問が出てきます。このように コードでは表現できない部分にコメントを書いておくと、コードを見ている人を悩ませなくてすみます。 （この例の場合だと、コメントでなくてもestablished_year = 2009みたいな変数、定数でコメントをなくすこともできますが）
+4. テストとマージは大丈夫？ これはコミット毎にも確認しておきたいことですが、コードレビューをしてもらう時には、 テストが通っていて、マージ可能か を確認したほうがいいです。 もし、テストが通っていなければ、まだ作業が完了していないことになりますし、マージできない状態だったら、 「コード的にはいいけど、マージできないので修正してね」といった無駄なコメントのやりとりが増えてしまいます。 OKだったらそのまま取り込んで貰えるコード を出したいですね。
+5.　新しく生まれた問題は別issue コードレビューを一度してから指摘されたところを修正しているときに「ここも直す必要あるのでは？」や 「ここコメントで注意されてたから、一緒に直してしまおう」と、 最初のコードレビューの内容とは異なる部分を新たに実装してしまうと不都合な場合があります。 もし、加えた実装の部分に、また指摘が入ってしまったら、最初の目的は実装されているはずなのに、 マージすることができない状況なってしまいます。 すると、コードレビューに関わっていない周りの人からは仕事の進捗が進んでいないように見られてしまいますし、 レビューをする人も既に見て大丈夫だった部分を、もう一度見なければならなくなります。</description>
     </item>
     
     <item>
@@ -1196,14 +1154,15 @@ A(sk your friends for help)
 モデルのリファクタの影響（想像）で、計算が正しく表示されていない（事実）です。hogeメッソドが怪しいと思う（想像）のですが（以下略）。
 このような質問をされると、優れたプログラマなら &amp;ldquo;なんでhogeメソッドだと思ったの？&amp;rdquo; と聞いてくれるかもしれませんが 、何も背景知識が無かったりしたら、質問された側は &amp;ldquo;じゃあ、そのhogeメソッドをみてみるか&amp;rdquo; となり、 もし違うメソッドやモデル以外のところに原因があった場合に、2人で余計なところに時間を使ってしまう事態が起こります。
 デバッグ作業で大事なのは どこまでが事実（実際に起ったこと、検証したこと）で、どこまでが予想（自分が考えた部分なのか） を切り分けることです。 実際にホワイトボード等に、何が事実で、何が想像なのかを箇条書きでもいいので書き出してみると、より理解が深まりますし、 どういったアプローチ（次にどこを調べるか）の参考になります。
-実際のプログラムの挙動 は事実ですし、 出力されたログ や 既に検証したこと も事実です。しかし、そこから導き出した&amp;rdquo;モデルが影響している&amp;rdquo;は想定なので、 そこはちゃんと切り分けて、もし質問するなら
+実際のプログラムの挙動 は事実ですし、 出力されたログ や 既に検証したこと も事実です。しかし、そこから導き出した&amp;quot;モデルが影響している&amp;quot;は想定なので、 そこはちゃんと切り分けて、もし質問するなら
 計算が正しく表示されていなくて（事実）、ログに計算の経過を出力してみたらhogeメソッドの返す値が空になっている（事実）ので、 hogeメソッドが怪しいと思うのですが（想像）（以下略）。
 と質問すれば、質問された側も事実がどこまでか理解しやすいので、たとえ見当違いな想像をしていたとしても、事実をもとに原因を考えてくれます。
 3. エラーはローカルで再現し、面倒ならテストを先に書け バグの中には 本番環境でしかエラーが発生しない という事態もよく起こります。こういう状態の時に、 いちいち本番環境やステージングの環境でやろうとすると、大事なデータを書き換えてしまったりしてリスクが高すぎますし、 修正する毎にデプロイをするため、デバッグ作業に時間がかかってしまいます。
 本番環境でのみ発生するエラーをローカルで再現する ことをしてみましょう。 例えばAWSのS3(クラウドのファイルサーバー)にアップロード後に失敗するバグだったら、 自分でローカル用のS3を作ってみたり、アップロードが面倒ならコンソールで試してみるということもできます。 Railsでコンソールからファイルをアップロードする方法 
 自分の環境なので、どんどんいじっても他に影響も出ませんし、いろいろ検証しやすくなります。
 あと、再現が面倒なときはテストを先に書いてしまう というのも効率的にデバッグができます。
-以前、とあるアプリで5つ以上のデータを削除しようとするとエラーが発生するバグと闘っていた時に、 毎回ブラウザ上で5つデータを作って再現させていました。何回も検証しようとするとそのたびに5つデータを作らないといけないので非効率ですね。</description>
+以前、とあるアプリで5つ以上のデータを削除しようとするとエラーが発生するバグと闘っていた時に、 毎回ブラウザ上で5つデータを作って再現させていました。何回も検証しようとするとそのたびに5つデータを作らないといけないので非効率ですね。
+そんな時には、先にテストを書いてしまえば、いちいちデータを作成しなくても大丈夫ですし、今後もテストとして残るので、そこが担保されるようになります。 TDD（テスト駆動開発）をしろとまで言いませんが、こういった バグに出会ったら先にテストを書いていくと自然とテストで保証されるところも増えていく ので一石二鳥ですね。</description>
     </item>
     
     <item>
@@ -1216,7 +1175,7 @@ A(sk your friends for help)
 Rack::Test::UploadedFileを使うと簡単にできました。
 例えば public/sample.jpg というファイルがあるとします。
 するとコンソール上で次のようにすることでアップロードできます。
-&amp;gt; file = Rack::Test::UploadedFile.new(&amp;quot;public/sample.jpg&amp;quot;, &amp;quot;image/jpeg&amp;quot;) =&amp;gt; #&amp;lt;Rack::Test::UploadedFile:0x007fd769dfa140 @content_type=&amp;quot;image/jpeg&amp;quot;, @original_filename=&amp;quot;sample.jpg&amp;quot;, @tempfile=#&amp;lt;Tempfile:/var/folders/8l/nqm1cg1d7nv6hgsww_s04vxw0000gn/T/sample.jpg20150712-55981-1ora8cn&amp;gt;&amp;gt; &amp;gt; Item.create(file: file, name: &amp;quot;sample file&amp;quot;)  まとめて画像をローカルにアップロードしたい時とかも簡単に扱えるので便利ですね。</description>
+&amp;gt; file = Rack::Test::UploadedFile.new(&amp;quot;public/sample.jpg&amp;quot;, &amp;quot;image/jpeg&amp;quot;)=&amp;gt; #&amp;lt;Rack::Test::UploadedFile:0x007fd769dfa140 @content_type=&amp;quot;image/jpeg&amp;quot;, @original_filename=&amp;quot;sample.jpg&amp;quot;, @tempfile=#&amp;lt;Tempfile:/var/folders/8l/nqm1cg1d7nv6hgsww_s04vxw0000gn/T/sample.jpg20150712-55981-1ora8cn&amp;gt;&amp;gt;&amp;gt; Item.create(file: file, name: &amp;quot;sample file&amp;quot;)まとめて画像をローカルにアップロードしたい時とかも簡単に扱えるので便利ですね。</description>
     </item>
     
     <item>
@@ -1227,26 +1186,22 @@ Rack::Test::UploadedFileを使うと簡単にできました。
       <guid>https://blog.regonn.tokyo/programmer/2015-07-04-spike/</guid>
       <description>求められるライブ設計力！ 私が勤めているソニックガーデンでは、ライブ設計力というものが求められます。 というのも、お客さんの要望を聞いている間に、ある程度自分の中でデータの構成を考えて、 ミーティング中に実装で必要な情報が揃っているのかを常に考えなければなりません。
 ソニックガーデンでは、受託開発で 要件定義をしない ことを実践しています。毎週ミーティングをして、 その週に必要な開発だけを実装します 。そのため、
-要望を聞く
-↓
-一度会社に戻ってタスクの見積もりを出す
-↓
-これでよいか顧客先に尋ねる
+要望を聞く↓一度会社に戻ってタスクの見積もりを出す↓これでよいか顧客先に尋ねる
 という流れを同じミーティング内でおこない、その場で設計ができていないといけません。
 なぜ、この方法でうまくいくのか気になった人は弊社代表倉貫の著書に詳しく書かれていますのでご一読下さい。
-「納品」をなくせばうまくいくソフトウェア業界の&amp;rdquo;常識&amp;rdquo;を変えるビジネスモデル
+「納品」をなくせばうまくいくソフトウェア業界の&amp;quot;常識&amp;quot;を変えるビジネスモデル
 私は修行中の身で、技術的にも知らないことが多いです、そんな状態ではその場で構築していくライブ設計は難しいです。 ではどうやってライブ設計力を鍛えていくのかというと、そこで スパイク の登場です。
 スパイクを打つとは スパイクはアジャイル開発や XP（エクストリームプログラミング）の用語なんですが、 もともとはロッククライミングの時に打ち付ける Spike（命綱を止めておくために岩に埋め込む金属）が由来だそうです。 ロッククライミングではスパイクを打つことでリスクを減らし、プログラミングでは技術的判断の見積もりのリスクを減らしてくれます。
 プログラミングにおいて スパイクを打つ とは、簡単に説明するなら
 タスク全工程の分からない（曖昧な）部分を無くしてから実装に取り掛かる
 ただ、それだけです。
 スパイクを打つ流れ スパイクを打つ際の流れを図にしてみました。それぞれを順に見ていきます。
-
 (1)タスクのゴールを決める 最初にタスクのゴールを決めます。これは、以前の記事 認識合わせで注意したいこと(チケット管理のタスク編) で書いた、 チケット（タスク）作成者が何を実現しようとしているのかを理解する 必要があります。 このチケットで最終的に実現したいことができるようになるには？ を考えてゴールを決めます。
 (2)タスクを分割 ゴールを決定したら次に、ゴールまでの実装を考えてみます。その中で　自分の触ったことのない技術だったり、実装方法が分からない 部分が存在するはずです、 その際は、 技術調査をおこない、簡単なサンプルプロジェクト等を作ったりして、実際に動くことを確認してみます。
 この時に、 Qiita や StackOverflow にコードが載っていたからこれでいいやで終わらせると後で痛い目に会うかもしれません。 実際に動かしてみたり、自分の達成したい実装に変えた時にもちゃんと動くことを確認しないと調査は終わった という状況にしてはいけません。
 調査を終えると、今まで 大きかったタスクも、何をすればいいのか明確になり、分割することが可能になる ので、 よりタスクを細かくして Unknown の部分がなくなるまでタスクをバラしていきます。 ロッククライミングで例えるならスパイクの打ち忘れは死をまねきます。 そんな、意気込みでタスクを分割するといいです。 目安としては、 ソニックガーデンでは実装するコードが思い描けている状態まで落としていきます。
-この部分は、時間に追われていたりすると面倒な作業ですが、行き当たりばったりで実装していると、 途中で実装方法が無理だと気づいて大きな手戻りが発生する場合があるので、このような事態も防ぎたい です。</description>
+この部分は、時間に追われていたりすると面倒な作業ですが、行き当たりばったりで実装していると、 途中で実装方法が無理だと気づいて大きな手戻りが発生する場合があるので、このような事態も防ぎたい です。
+(3)コードのみの状態 この状態までなったら、コードの状態までタスクが分かれているので、実装するだけです。 しかも、他のメリットとして、細かくタスクが分かれている&amp;amp;疑問点が 1 つもない状態なので、 精度の高い全体の見積もりが可能です。 余談ですが、とあるソニックガーデンの岡山県に住むプログラマはコードまで頭の中でできているので、 実装中は喋りながらでもプログラミングができるらしいです。すごいですね。</description>
     </item>
     
     <item>
@@ -1261,7 +1216,6 @@ Rack::Test::UploadedFileを使うと簡単にできました。
 新卒で入る場合に弟子制度というものがあり、弟子の場合は師匠の下について日々修行を積み、他のメンバー全員が実力を認めることで 一人前になれて受託の案件が持てるようになったりします。
 「修行」「弟子」「関門」「脱落」の謎を解け！　精鋭部隊が集まる採用の秘密
 今まで私は一人前になるということは次のようなことだと思ってました。
-
 試験であったり、何かの基準であったりを達成することで、 師匠に認められ、一人前になり色々任されることが増えて、「◯◯の役職になったから予算を多く扱える」 という企業の昇進と同じと思っていました。
 しかし、このイメージが成り立つのは 大勢の人がいる企業で、各々の能力を管理するために必要 であって10人規模のベンチャー企業には当てはまりませんでした。
 そもそも、ソニックガーデンには人事部なんて存在しませんし（というかプログラマしかいないし）。 、弟子が一人前かどうかを確かめるための試験であったり基準なんてものは、 求められるものが常に変化し続けるビジネスの世界では、そんなものは用意できない はずです。
@@ -1275,7 +1229,6 @@ Rack::Test::UploadedFileを使うと簡単にできました。
 ひたすら他の人（師匠クラス）の人達のチケット（タスク）を奪っていく
 ただそれだけです。
 最初の自分のイメージですと、一人前⇒できることが増える という順序になっていましたが、 実際は逆で できることを増やす⇒一人前 が成り立ちます。
-
 つまり、 弟子と師匠という線引をせずにやってみる・参加してみて、できることを増やす ことが 一人前になるために必要な道なのだとわかりました。
 もし任せて失敗をしたら？ しかし、この方法だと、失敗することだってよく起こります。 師匠がやっていることを弟子がやろうとしているので当たり前です。 時には取り返しのつかないような被害の大きい失敗もあるはずです。
 ここでは、「失敗しないためには？」の話はしません。失敗は起きるものとして考えます。 もちろん、ベンチャーでメンバー同士のやっていることを把握できていれば、 危ない場合には師匠クラスや同僚の人達がサポートしてくれることもありますが、 以前、社長の倉貫さんが言ってくれたのは
@@ -1296,10 +1249,10 @@ Start Rails 5 development :tada: · rails/rails@f25ad07
 どうやら標準でGemに追加されたみたいです。
 This week in Rails: tokens migrations, method_source and more | Riding Rails
 取り込まれた経緯 取り込まれた経緯を見てみますと、どうやらDHHがRails console上で次のようにmethodが書かれている場所を取得しても
-irb(main):001:0&amp;gt; User.first.method(:yo).source_location User Load (0.7ms) SELECT &amp;quot;users&amp;quot;.* FROM &amp;quot;users&amp;quot; ORDER BY &amp;quot;users&amp;quot;.&amp;quot;id&amp;quot; ASC LIMIT 1 =&amp;gt; [&amp;quot;/Users/regonn/sample/app/models/user.rb&amp;quot;, 23]  と表示されるだけ(メソッド名は気にしないでください)で いちいちクリップボードにPathをコピーして該当のLineに飛ばないと行けないんだけど、もっとシンプルに出来るんじゃない？ というIssueを上げていました。 pryでもやりたいことはできたんですが(DHHも納得して一度Issueが閉じられた)、method_source gemがあまりにも期待していている挙動だったので、このGemが採用されたみたいです。
+irb(main):001:0&amp;gt; User.first.method(:yo).source_locationUser Load (0.7ms) SELECT &amp;quot;users&amp;quot;.* FROM &amp;quot;users&amp;quot; ORDER BY &amp;quot;users&amp;quot;.&amp;quot;id&amp;quot; ASC LIMIT 1=&amp;gt; [&amp;quot;/Users/regonn/sample/app/models/user.rb&amp;quot;, 23]と表示されるだけ(メソッド名は気にしないでください)で いちいちクリップボードにPathをコピーして該当のLineに飛ばないと行けないんだけど、もっとシンプルに出来るんじゃない？ というIssueを上げていました。 pryでもやりたいことはできたんですが(DHHも納得して一度Issueが閉じられた)、method_source gemがあまりにも期待していている挙動だったので、このGemが採用されたみたいです。
 実際に使ってみた method_source gemを使うと次のようにメソッドの中身をコンソール上で見ることができます。
 参照先のmodelファイル
-class User &amp;lt; ActiveRecord::Base #Say Yo! #Yoを返すYo! #TODO push Yo API def yo if self.</description>
+class User &amp;lt; ActiveRecord::Base#Say Yo! #Yoを返すYo! #TODO push Yo API def yoif self.</description>
     </item>
     
     <item>
@@ -1311,7 +1264,7 @@ class User &amp;lt; ActiveRecord::Base #Say Yo! #Yoを返すYo! #TODO push Yo AP
       <description>2015年には1.0が公開される予定のRust言語の勉強のために、Unixコマンドを簡略化してRustで実装してみた。
 すでに、uutils/coreutilsプロジェクトでcatコマンドは実装されていますが、今回はふつうのlinuxプログラミングという本のサンプルコードを参考にしました。
 ※ コードはここのレポジトリに公開するので、「もっとこう書けるよ」みたいなのがあれば、プルリクお願いします。
-C言語でのcat #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;sys/stat.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; static void do_cat(const char *path); static void die(const char *s); int main(int argc, char *argv[]) { int i; if (argc &amp;lt; 2) { fprintf(stderr, &amp;quot;%s: file name not given\n&amp;quot;, argv[0]); exit(1); } for (i = 1; i &amp;lt; argc; i++) { do_cat(argv[i]); } exit(0); } #define BUFFER_SIZE 2048 static void do_cat(const char *path) { int fd; unsigned char buf[BUFFER_SIZE]; int n; fd = open(path, O_RDONLY); if (fd &amp;lt; 0) die(path); for (;;) { n = read(fd, buf, sizeof buf); if (n &amp;lt; 0) die(path); if (n == 0) break; if (write(STDOUT_FILENO, buf, n) &amp;lt; 0) die(path); } if (close(fd) &amp;lt; 0) die(path); } static void die(const char *s) { perror(s); exit(1); }  オプションとかは実装せず、ファイルの内容を読み取り標準出力する。</description>
+C言語でのcat #include &amp;lt;stdio.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;unistd.h&amp;gt;#include &amp;lt;sys/types.h&amp;gt;#include &amp;lt;sys/stat.h&amp;gt;#include &amp;lt;fcntl.h&amp;gt;static void do_cat(const char *path);static void die(const char *s);intmain(int argc, char *argv[]){int i;if (argc &amp;lt; 2) {fprintf(stderr, &amp;#34;%s: file name not given\n&amp;#34;, argv[0]);exit(1);}for (i = 1; i &amp;lt; argc; i++) {do_cat(argv[i]);}exit(0);}#define BUFFER_SIZE 2048static voiddo_cat(const char *path){int fd;unsigned char buf[BUFFER_SIZE];int n;fd = open(path, O_RDONLY);if (fd &amp;lt; 0) die(path);for (;;) {n = read(fd, buf, sizeof buf);if (n &amp;lt; 0) die(path);if (n == 0) break;if (write(STDOUT_FILENO, buf, n) &amp;lt; 0) die(path);}if (close(fd) &amp;lt; 0) die(path);}static void die(const char *s){perror(s);exit(1);}オプションとかは実装せず、ファイルの内容を読み取り標準出力する。</description>
     </item>
     
     <item>
@@ -1346,15 +1299,16 @@ C言語でのcat #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;
       <guid>https://blog.regonn.tokyo/rails/2014-11-07-rails-datetime/</guid>
       <description>困った内容 RubyでDatetimeの比較についてです。
 次のような場合を想定します。
-foo, hoge #どちらも、Datetimeかnilの可能性がある  この2つの変数を比較して、新しい方の値を取得したいです。 しかし、Google先生にRuby Time 比較を聞いても。
+foo, hoge #どちらも、Datetimeかnilの可能性がある この2つの変数を比較して、新しい方の値を取得したいです。 しかし、Google先生にRuby Time 比較を聞いても。
 &amp;lt;=&amp;gt;演算子を使うと-1 0 1 nilを返してくれるよ！
 という結果しか出てきませんでした（私の検索力が低いせいもありますが。。。。）
 欲しいのは どちらが大きいかの情報 ではなく、 大きかった方の値 だし、もし片方にnilが含まれていた場合だと
-&amp;gt; foo = DateTime.now =&amp;gt; Tue, 04 Nov 2014 19:48:53 &amp;gt; hoge = nil =&amp;gt; nil &amp;gt; foo &amp;lt;=&amp;gt; hoge =&amp;gt; nil  となりどちらがnilなのか分かりません。
+&amp;gt; foo = DateTime.now=&amp;gt; Tue, 04 Nov 2014 19:48:53&amp;gt; hoge = nil=&amp;gt; nil&amp;gt; foo &amp;lt;=&amp;gt; hoge=&amp;gt; nilとなりどちらがnilなのか分かりません。
 さらに、普通の比較演算子でtrue falseでの結果を知ろうとしても
-foo &amp;lt; hoge # ArgumentError: comparison of DateTime with nil failed  となりnilが含まれているとエラーになってしまいます。
+foo &amp;lt; hoge# ArgumentError: comparison of DateTime with nil failed となりnilが含まれているとエラーになってしまいます。
 だからといって
-if foo.present? and hoge.present? foo &amp;lt; hoge end  みたいに書いていっても、最終的に値を取得するまでの条件分岐が複雑になりそうで嫌でした。</description>
+if foo.present? and hoge.present?foo &amp;lt; hogeendみたいに書いていっても、最終的に値を取得するまでの条件分岐が複雑になりそうで嫌でした。
+ダメなコード まず、nilの値で時間の比較をしないようにダミーの値を持たせて三項演算子で値を取得する方法を考えました。</description>
     </item>
     
     <item>
@@ -1371,7 +1325,7 @@ if foo.present? and hoge.present? foo &amp;lt; hoge end  みたいに書いて�
 振り返りの悪い例 例えば次のような振り返りがあったとします。
 今日はタスクが時間内に終らなかったので、明日は時間を意識してタスクを行っていきます！
 この振り返りを例にして修正していきたいと思います。順に追っていくと理解しやすいように書いています。
-1. トライ（次にやること）を「〜します！」で終わらせない 「~します」をトライとして次の日以降に行おうとしても、大抵の場合は明日も同じように過ごし繰り返すことになります、 意識するだけでは何も変わりません。トライは具体的にして、少しでも工夫をしていきます。例えば今回の悪い例を直すとすると、
+1. トライ（次にやること）を「〜します！」で終わらせない 「~します」をトライとして次の日以降に行おうとしても、大抵の場合は明日も同じように過ごし繰り返すことになります、 **意識するだけでは何も変わりません。トライは具体的にして、少しでも工夫をしていきます。**例えば今回の悪い例を直すとすると、
 明日は実際に時間を計測して、どこに時間が多く取られているのかを確認します。
 のようにすると、具体的に行動としてトライ（次にやること）に落とせました。 昨日とは少しでもいいから違うことをやってみる、「トライなのだから、また失敗して仕方ない」 そういう姿勢でいくと、改善するかもしれません。
 2. 失敗原因はとことん追求（だけど責めないで） 最近読んだマッキンゼーの本 マッキンゼー流入社1年目問題解決の教科書 でも、この話題について書いてありました。常にイシュー（問題）は何かを考えてバリュー（価値）を出していくマッキンゼー。 コンサルティングのプロ達も問題を考える場合に次のことに注意しているみたいです。
@@ -1387,7 +1341,7 @@ if foo.present? and hoge.present? foo &amp;lt; hoge end  みたいに書いて�
 という新たな問題がわかりました。つまり
 連絡ができていたのならば「タスクが終らなかった」は問題ではなくて
  進捗が見える状態になっていなかった 報告できる体制が整っていなかった  というのが、より根本的な問題だったということになります。
-4. そもそもの目的を思い出す  では「そもそも問題なのか」を考えましたが、今度は「そもそも何を達成するためだっけ？」と考えます。 今回の悪い振り返りの例だったら、次の様に考えていきます。  「そもそも、なんでそのタスクを終わらせなきゃいけないの？」</description>
+4. そもそもの目的を思い出す では「そもそも問題なのか」を考えましたが、今度は「そもそも何を達成するためだっけ？」と考えます。 今回の悪い振り返りの例だったら、次の様に考えていきます。  「そもそも、なんでそのタスクを終わらせなきゃいけないの？」</description>
     </item>
     
     <item>
@@ -1455,16 +1409,14 @@ if foo.present? and hoge.present? foo &amp;lt; hoge end  みたいに書いて�
       
       <guid>https://blog.regonn.tokyo/programmer/2014-09-21-recognition-alignment/</guid>
       <description>4月に新卒で入った会社もそろそろ半年が経とうとしていて、私にも色々なタスクが振られるようになってきました。 タスクを進めていく上で、どんな時でも認識合わせは必要になると思います。 今回はウェブページ編集タスクでの認識合わせを行うときに意識する基本的なことをまとめておきました。
-なるべく認識合わせを行い、手戻り（認識の齟齬）が発生しないようにしていきたいです。
+なるべく認識合わせを行い、**手戻り（認識の齟齬）**が発生しないようにしていきたいです。
 1. 状況（物理的距離・信頼度）によって認識合わせの方法は変わる もちろん、これを行えば良いという銀の弾丸は存在しませんが、状況を分けることで少し方法が定まってくると思います。 物理的距離 と 信頼度 による場合分けをしてみました。どの状況でも大事な事は、 なるべく相手の承認を得るまでの自分の作業量を少なくする（最短経路を通る）事 です。
-
 1.1信頼度が低い（初めてのお客さん）・距離が遠い（ウェブ上でのみ対応）の場合 完成図をスクリーンショットで作成する。注意したいのは、 ChromeやFirefox（もちろんIEでも）のデバッグ機能でスタイルシートの値だけを編集したり、HTMLタグを移動する等して、HTMLファイルをいじろうとしないことです。 HTMLを編集してしまうと、完成図をみせてから、「う〜ん違うな〜」と言われてしまったら、 その都度HTMLを作っていかないといけません。なるべく最小限の作業量で、まず了承を取ってから取り掛かった方がやりやすいです。
 1.2信頼度が高い（既に何回かやりとりしてる人）・距離が遠い場合 既に相手の人柄が分かっている場合などは、Skype等で画面共有をしながら、 了解を得るのが適切だと思います。画像をいちいち作ってやり取りをするより、ここでもブラウザ上でやるとスムーズです。
 1.3信頼度が低い・距離が近い 初めてのお客さんとオフィスで話す場合などには、先に全体の画面をホワイトボードに書いておいたり準備しておくと、 お客さんも理解しやすいし、確認漏れも減ると思います。ただし、ホワイトボードだけだと実際の画面とイメージが異なることもあるので、 その後に作ってる途中で確認するとより確実になります。
 1.4信頼度が高い・距離が近い 近くにいるなら、ホワイトボードに画面を書くなどして、ぱぱっと話をして決めてしまうのが楽です。 しかし、後で認識のズレがあると大変なので、決めたことは一度文章にして相手にも共有しておくと、確認してもらえるはず。
 2. 実際に質問をするときに気をつけること ここからは実際に質問をする（資料を作るとき）に注意していくことを書いていきます。
 2.1相手にどこに注目させたいかを分かりやすく Before・Afterの画面を用意するとわかりやすいですが、さらにどこを変更したのかを書いておくと、 相手がすぐに気がついて、相手の作業量も減ります。 EvernoteのSkitchを使うと、 スクリーンショットで矢印や四角で囲むことができるので目立たせやすいです。
-
 2.2相手への質問をひとつの文にまとめようとしない 例えば
 「Aの画面とBの画面を新しく作りましたが、Aの一部は今後必要なくなるので削除して構わないと思いますし、 Bではもうすこし明るい色がマッチすると思うのですがどうでしょうか？」
 という質問（日本語が変なのは無視して下さい）をされて、質問をされた方はAについてコメントすればいいのか、 Bの改良点について話せば良いのか分からない状態になってしまいます。
@@ -1484,8 +1436,8 @@ if foo.present? and hoge.present? foo &amp;lt; hoge end  みたいに書いて�
       <guid>https://blog.regonn.tokyo/book/2014-09-15-week-connection/</guid>
       <description>ゲンロンカフェという、思想家の東浩紀（あずま　ひろき）さんが開催しているイベントに参加し、 東さんの考えに興味を持ったので弱いつながりという本を買って読んでみた。
 話の内容は、今のIT社会で世界のあらゆる情報にアクセスすることができるようになった。しかし、その情報にたどり着く機会があるのか？ という考えで、google等の検索エンジンは私達が調べる言葉を分析して、一番求めているもの（考えが近いもの）を表示してくれるようになり。 amazonでも個人に合った商品を提示してくれる。最近のGunosy等のニュースサービスでも個人に適したニュースを配信してくれる。
-そうなると私達は自分の満足できる（ハズレの無い）情報を得ることができるようになっている。 しかし、それは強いつながりになってしまって、所属するコミュニティを限定させてしまい、 新しい考えや体験を離れさせてしまっている可能性がある。 それよりも、もっとノイズにまみれたもの（弱いつながり）が人生を豊かにしてくれる。 東さんは海外へ旅（観光）をしに行くことで、（日本でいたら）普段検索しない、新しい考え方に出会えると言っている（詳しくは本で）。
-この、ノイズを混ぜていくということを、東さんは色々な分野でチャレンジしている。 アカデミックな分野でも「文系」「理系」で分けてしまうことがナンセンスで、あえて中間の領域を作ってあげることで、 一般の人も「科学」について知ってくれるという考え方だ。 私も科学を広めるという活動に興味があって調べたりもしたが、 どれも 「理系は面白いよ」「理系はこんなことが分かるよ」みたいに無理やり引っ張っていき「理系」という枠に囲い込みをしてやろうというイメージが個人的にする。そうなると、結局科学を「分かる人」と「分からない人」の二極化しか生まれず。広く科学を知ってもらうには全員に「理系」になってもらうしかない。政治にだって同じことが言えて、政治に関心がおこらないのも「わからないから」という理由で終わってしまうことがあり、「政治について考える人」「政治について何も考えない人」の二極化してしまう。どこにもノイズというものは残しておく必要がある。
+そうなると私達は自分の満足できる（ハズレの無い）情報を得ることができるようになっている。 しかし、それは強いつながりになってしまって、所属するコミュニティを限定させてしまい、 新しい考えや体験を離れさせてしまっている可能性がある。 それよりも、**もっとノイズにまみれたもの（弱いつながり）**が人生を豊かにしてくれる。 東さんは海外へ旅（観光）をしに行くことで、（日本でいたら）普段検索しない、新しい考え方に出会えると言っている（詳しくは本で）。
+この、ノイズを混ぜていくということを、東さんは色々な分野でチャレンジしている。 アカデミックな分野でも「文系」「理系」で分けてしまうことがナンセンスで、あえて中間の領域を作ってあげることで、 一般の人も「科学」について知ってくれるという考え方だ。 私も科学を広めるという活動に興味があって調べたりもしたが、 どれも **「理系は面白いよ」「理系はこんなことが分かるよ」みたいに無理やり引っ張っていき「理系」という枠に囲い込みをしてやろうというイメージが個人的にする。**そうなると、結局科学を「分かる人」と「分からない人」の二極化しか生まれず。広く科学を知ってもらうには全員に「理系」になってもらうしかない。政治にだって同じことが言えて、政治に関心がおこらないのも「わからないから」という理由で終わってしまうことがあり、「政治について考える人」「政治について何も考えない人」の二極化してしまう。どこにもノイズというものは残しておく必要がある。
 ノイズを含ませることで普段の自分では考えないことを考えさせてくれる。 今のITサービスでオススメは表示してくれるけど、自分にマッチしない情報は全く教えてくれなくなっている 。 IT分野で働いている私としては、あえてノイズを作ってくれる何かを作ってみるのも面白いかもしれない。</description>
     </item>
     
@@ -1533,11 +1485,11 @@ Less is more（より少ないことは、より豊かなこと）
       <description>はじめに 今までRailsのscaffoldは、素早くアプリを作るためのツールだと思っていました。しかし、scaffoldはRailsの規約が適用されているバイブル的な存在であり、scaffoldに従って書くことで効率的にサイトを作っていくことができる！と教わったので、生成されるコードで気になる所を調べてみました。その時のメモ。
 ※このメモを書いたのは2013年7月で書いた時点ではRails触って3ヶ月位だったので情報が間違っているor古くなっている可能性があります。
 scaffold差分 生成されるコード 実行コード
-$ rails generate scaffold Item name:string price:integer description:text  migrateファイル class CreateItems &amp;lt; ActiveRecord::Migration def change create_table :items do |t| t.string :name t.integer :price t.text :description t.timestamps end end end   ActiveRecordのclassを継承していますが、これはSQLでリレーショナルデータベースを扱う際に必要なもの  Ruby on Rails3で学ぶWeb開発のキホン（3）：「ActiveRecord」の基本とデータの参照 (1&amp;frasl;2) - ＠IT
+$ rails generate scaffold Item name:string price:integer description:textmigrateファイル class CreateItems &amp;lt; ActiveRecord::Migrationdef changecreate_table :items do |t|t.string :namet.integer :pricet.text :descriptiont.timestampsendendend ActiveRecordのclassを継承していますが、これはSQLでリレーショナルデータベースを扱う際に必要なもの  Ruby on Rails3で学ぶWeb開発のキホン（3）：「ActiveRecord」の基本とデータの参照 (1/2) - ＠IT
  NOSQLでは使われないみたい  MongoDB を Rails から使う、導入編 - happy lie, happy life
 これで無事に、migrateができました。失敗したorやり直したい時には
-$ rake db:migrate:redo [STEP=ステップ数]  で戻すことができます。
-config/routes.rb Sample::Application.routes.draw do resources :items end   resources :itemsがscaffoldで生成されています。これによって、routingが追加されてきます。ちなみに、 resource :itemとすれば、単体で扱う場合に重宝するみたいです。  Ruby on Rails ルーティング - ayaketanのプログラミング勉強日記</description>
+$ rake db:migrate:redo [STEP=ステップ数]で戻すことができます。
+config/routes.rb Sample::Application.routes.draw doresources :itemsend resources :itemsがscaffoldで生成されています。これによって、routingが追加されてきます。ちなみに、 resource :itemとすれば、単体で扱う場合に重宝するみたいです。  Ruby on Rails ルーティング - ayaketanのプログラミング勉強日記</description>
     </item>
     
     <item>
@@ -1578,7 +1530,7 @@ replace(/&amp;amp;gt;/g,&#39; &#39;) でマッチしてくれた。</description
       <description>Railsに触って半年ぐらい経つけど、未だにrails newした時に出来上がるGemfileの中身を理解していたなかったので調べてみた。
 「そもそもGemfileとは？」という人はこちらへ⇒http://xxxcaqui.hatenablog.com/entry/2013/02/11/013421
 rails newで生成されるGemfile
-source &#39;https://rubygems.org&#39; # Bundle edge Rails instead: gem &#39;rails&#39;, github: &#39;rails/rails&#39; gem &#39;rails&#39;, &#39;4.0.0&#39; # Use sqlite3 as the database for Active Record gem &#39;sqlite3&#39; # Use SCSS for stylesheets gem &#39;sass-rails&#39;, &#39;~&amp;gt; 4.0.0&#39; # Use Uglifier as compressor for JavaScript assets gem &#39;uglifier&#39;, &#39;&amp;gt;= 1.3.0&#39; # Use CoffeeScript for .js.coffee assets and views gem &#39;coffee-rails&#39;, &#39;~&amp;gt; 4.0.0&#39; # See https://github.com/sstephenson/execjs#readme for more supported runtimes # gem &#39;therubyracer&#39;, platforms: :ruby # Use jquery as the JavaScript library gem &#39;jquery-rails&#39; # Turbolinks makes following links in your web application faster.</description>
+source &amp;#39;https://rubygems.org&amp;#39;# Bundle edge Rails instead: gem &amp;#39;rails&amp;#39;, github: &amp;#39;rails/rails&amp;#39; gem &amp;#39;rails&amp;#39;, &amp;#39;4.0.0&amp;#39;# Use sqlite3 as the database for Active Record gem &amp;#39;sqlite3&amp;#39;# Use SCSS for stylesheets gem &amp;#39;sass-rails&amp;#39;, &amp;#39;~&amp;gt; 4.0.0&amp;#39;# Use Uglifier as compressor for JavaScript assets gem &amp;#39;uglifier&amp;#39;, &amp;#39;&amp;gt;= 1.3.0&amp;#39;# Use CoffeeScript for .js.coffee assets and views gem &amp;#39;coffee-rails&amp;#39;, &amp;#39;~&amp;gt; 4.0.0&amp;#39;# See https://github.</description>
     </item>
     
   </channel>

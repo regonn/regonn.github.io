@@ -405,29 +405,16 @@
 
     
 
-    
-
-<p><a href="https://tech-regonn.github.io/julia/2018/02/16/julia-csv-dataframes.html" target="_blank">以前の記事</a> で紹介した</p>
-
-<pre><code class="language-julia">DataFrame(load(&quot;./input/train.csv&quot;))
-</code></pre>
-
-<p>だと、どうやら数字が先頭のカラム名をそのまま扱ってしまう。</p>
-
-<p><a href="https://stackoverflow.com/questions/34858166/julia-dataframe-columns-starting-with-number" target="_blank">Julia DataFrame columns starting with number? - Stack Overflow</a></p>
-
+    <p><a href="https://tech-regonn.github.io/julia/2018/02/16/julia-csv-dataframes.html">以前の記事</a> で紹介した</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">DataFrame(load(<span style="color:#e6db74">&#34;./input/train.csv&#34;</span>))
+</code></pre></div><p>だと、どうやら数字が先頭のカラム名をそのまま扱ってしまう。</p>
+<p><a href="https://stackoverflow.com/questions/34858166/julia-dataframe-columns-starting-with-number">Julia DataFrame columns starting with number? - Stack Overflow</a></p>
 <p>によると、 <code>:2aa</code> という表記は Julia 上シンボルではなく <code>1:2aa</code> というレンジの扱いになってしまうため、<code>&quot;1st&quot;</code>というカラムが存在しているからといって、<code>df[:1st]</code> と書いても想定しているカラムを取得できない。</p>
-
 <p>DataFrame.readtable だと、いい感じにカラム名の先頭を <code>&quot;1st&quot; =&gt; &quot;x1st&quot;</code> のように <code>x</code> を入れてくれていた(これも、実際データ触る時邪魔な気もするけど)</p>
-
 <h2 id="解決方法">解決方法</h2>
-
 <p>ちゃんとシンボルだと指定してあげればいいので、</p>
-
-<pre><code class="language-julia">df[Symbol(&quot;1st&quot;)]
-</code></pre>
-
-<p>としてあげれば取得できる。少し不格好だが嫌いじゃない。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">df[<span style="color:#66d9ef">Symbol</span>(<span style="color:#e6db74">&#34;1st&#34;</span>)]
+</code></pre></div><p>としてあげれば取得できる。少し不格好だが嫌いじゃない。</p>
 
 
   </div>

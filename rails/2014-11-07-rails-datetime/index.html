@@ -401,137 +401,99 @@
 
     
 
-    
-
-<h1 id="困った内容">困った内容</h1>
-
+    <h1 id="困った内容">困った内容</h1>
 <p>RubyでDatetimeの比較についてです。</p>
-
 <p>次のような場合を想定します。</p>
-
-<pre><code class="language-ruby">foo, hoge #どちらも、Datetimeかnilの可能性がある
-</code></pre>
-
-<p>この2つの変数を比較して、新しい方の値を取得したいです。
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">foo, hoge <span style="color:#75715e">#どちらも、Datetimeかnilの可能性がある</span>
+</code></pre></div><p>この2つの変数を比較して、新しい方の値を取得したいです。
 しかし、Google先生に<code>Ruby Time 比較</code>を聞いても。</p>
-
 <p><code>&lt;=&gt;演算子を使うと-1 0 1 nilを返してくれるよ！</code></p>
-
 <p>という結果しか出てきませんでした（私の検索力が低いせいもありますが。。。。）</p>
-
 <p>欲しいのは <strong>どちらが大きいかの情報</strong> ではなく、 <strong>大きかった方の値</strong> だし、もし片方にnilが含まれていた場合だと</p>
-
-<pre><code class="language-irb">&gt; foo = DateTime.now
+<pre><code class="language-irb" data-lang="irb">&gt; foo = DateTime.now
 =&gt; Tue, 04 Nov 2014 19:48:53
 &gt; hoge = nil
 =&gt; nil
 &gt; foo &lt;=&gt; hoge
 =&gt; nil
-</code></pre>
-
-<p>となりどちらがnilなのか分かりません。</p>
-
+</code></pre><p>となりどちらがnilなのか分かりません。</p>
 <p>さらに、普通の比較演算子でtrue falseでの結果を知ろうとしても</p>
-
-<pre><code class="language-ruby">foo &lt; hoge
-# ArgumentError: comparison of DateTime with nil failed
-</code></pre>
-
-<p>となりnilが含まれているとエラーになってしまいます。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">foo <span style="color:#f92672">&lt;</span> hoge
+<span style="color:#75715e"># ArgumentError: comparison of DateTime with nil failed</span>
+</code></pre></div><p>となりnilが含まれているとエラーになってしまいます。</p>
 <p>だからといって</p>
-
-<pre><code class="language-ruby">if foo.present? and hoge.present?
-  foo &lt; hoge
-end
-</code></pre>
-
-<p>みたいに書いていっても、最終的に値を取得するまでの条件分岐が複雑になりそうで嫌でした。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">if</span> foo<span style="color:#f92672">.</span>present? <span style="color:#f92672">and</span> hoge<span style="color:#f92672">.</span>present?
+  foo <span style="color:#f92672">&lt;</span> hoge
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>みたいに書いていっても、最終的に値を取得するまでの条件分岐が複雑になりそうで嫌でした。</p>
 <h2 id="ダメなコード">ダメなコード</h2>
-
 <p>まず、nilの値で時間の比較をしないようにダミーの値を持たせて三項演算子で値を取得する方法を考えました。</p>
-
-<pre><code class="language-ruby">bar = foo || DateTime.new(0) # bar = DateTime.nowの値
-piyo = hoge || DateTime.new(0) # piyo = Thu, 01 Jan 0000 00:00:00 の値
-bar &gt; piyo ? bar : piyo # DateTime.nowの値
-</code></pre>
-
-<p>こうすればnilだったら、古い値が入るので一番新しい時間が取得できます。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">bar <span style="color:#f92672">=</span> foo <span style="color:#f92672">||</span> <span style="color:#66d9ef">DateTime</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">0</span>) <span style="color:#75715e"># bar = DateTime.nowの値</span>
+piyo <span style="color:#f92672">=</span> hoge <span style="color:#f92672">||</span> <span style="color:#66d9ef">DateTime</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">0</span>) <span style="color:#75715e"># piyo = Thu, 01 Jan 0000 00:00:00 の値</span>
+bar <span style="color:#f92672">&gt;</span> piyo ? bar : piyo <span style="color:#75715e"># DateTime.nowの値</span>
+</code></pre></div><p>こうすればnilだったら、古い値が入るので一番新しい時間が取得できます。</p>
 <p>けど、 <strong>DateTime.new(0)なんて書き方見たことないし</strong> (西暦0年1月1日が木曜日なのは分かった) <strong>何かDateTimeを比較できる良いメソッドとかあるんじゃない？</strong> と思って色々調べましたがDateTimeを扱えるメソッドには想定している結果を返してくれるメッソドはありませんでした。</p>
-
 <h2 id="良いコード">良いコード</h2>
-
 <p>仕方がないのでRails出来る人に聞くとすぐに解決</p>
-
-<pre><code class="language-ruby">[foo, hoge].compact.max
-</code></pre>
-
-<p>で新しい値が取得できるようになりました！
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#f92672">[</span>foo, hoge<span style="color:#f92672">].</span>compact<span style="color:#f92672">.</span>max
+</code></pre></div><p>で新しい値が取得できるようになりました！
 compactでnilを取り除き、maxで比較するのか。</p>
-
 <p>これだと両方nilでもnilを返してくれるのでif文は返り値がnilかどうかの1回で済みました。</p>
-
 <p>教えてもらった人に
 <strong>一つ一つを比較しようとしているのは、せっかくのRubyの特徴を活かせていない</strong>
 という教訓をもらいました。</p>
-
 <p>この、たとえ2つの比較であっても視界を広くして配列として扱うって考え方なかなか身につかないな〜。</p>
-
 <p>2014/11/06追記（コメントでテストの要望があったので書いてみました)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">require <span style="color:#e6db74">&#39;date&#39;</span>
 
-<pre><code class="language-ruby">require 'date'
+describe <span style="color:#e6db74">&#39;Compare dates&#39;</span> <span style="color:#66d9ef">do</span>
+  let(<span style="color:#e6db74">:today</span>) { <span style="color:#66d9ef">DateTime</span><span style="color:#f92672">.</span>now }
+  <span style="color:#75715e"># DateTimeはDateのサブクラスなので数字の足し算・引き算は日にち単位で行われる</span>
+  <span style="color:#75715e"># DateTime.yesterday とやってしまうとDate型になるので注意</span>
+  let(<span style="color:#e6db74">:yesterday</span>) { today <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> }
+  subject { <span style="color:#f92672">[</span>date_A, date_B<span style="color:#f92672">].</span>compact<span style="color:#f92672">.</span>max }
 
-describe 'Compare dates' do
-  let(:today) { DateTime.now }
-  # DateTimeはDateのサブクラスなので数字の足し算・引き算は日にち単位で行われる
-  # DateTime.yesterday とやってしまうとDate型になるので注意
-  let(:yesterday) { today - 1 }
-  subject { [date_A, date_B].compact.max }
+  context <span style="color:#e6db74">&#39;nilを含んでいない&#39;</span> <span style="color:#66d9ef">do</span>
+    context <span style="color:#e6db74">&#39;date_Aの方が古い&#39;</span> <span style="color:#66d9ef">do</span>
+      let(<span style="color:#e6db74">:date_A</span>) { yesterday }
+      let(<span style="color:#e6db74">:date_B</span>) { today }
+      it { is_expected<span style="color:#f92672">.</span>to eq today }
+    <span style="color:#66d9ef">end</span>
 
-  context 'nilを含んでいない' do
-    context 'date_Aの方が古い' do
-      let(:date_A) { yesterday }
-      let(:date_B) { today }
-      it { is_expected.to eq today }
-    end
+    context <span style="color:#e6db74">&#39;data_Bの方が古い&#39;</span> <span style="color:#66d9ef">do</span>
+      let(<span style="color:#e6db74">:date_A</span>) { today }
+      let(<span style="color:#e6db74">:date_B</span>) { yesterday }
+      it { is_expected<span style="color:#f92672">.</span>to eq today }
+    <span style="color:#66d9ef">end</span>
 
-    context 'data_Bの方が古い' do
-      let(:date_A) { today }
-      let(:date_B) { yesterday }
-      it { is_expected.to eq today }
-    end
+    context <span style="color:#e6db74">&#39;両方同じ値&#39;</span> <span style="color:#66d9ef">do</span>
+      let(<span style="color:#e6db74">:date_A</span>) { today }
+      let(<span style="color:#e6db74">:date_B</span>) { today }
+      it { is_expected<span style="color:#f92672">.</span>to eq today }
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
 
-    context '両方同じ値' do
-      let(:date_A) { today }
-      let(:date_B) { today }
-      it { is_expected.to eq today }
-    end
-  end
+  context <span style="color:#e6db74">&#39;nilを含んでいる&#39;</span> <span style="color:#66d9ef">do</span>
+    context <span style="color:#e6db74">&#39;date_Aがnil&#39;</span> <span style="color:#66d9ef">do</span>
+      let(<span style="color:#e6db74">:date_A</span>) { <span style="color:#66d9ef">nil</span> }
+      let(<span style="color:#e6db74">:date_B</span>) { today }
+      it { is_expected<span style="color:#f92672">.</span>to eq today }
+    <span style="color:#66d9ef">end</span>
 
-  context 'nilを含んでいる' do
-    context 'date_Aがnil' do
-      let(:date_A) { nil }
-      let(:date_B) { today }
-      it { is_expected.to eq today }
-    end
+    context <span style="color:#e6db74">&#39;date_Bがnil&#39;</span> <span style="color:#66d9ef">do</span>
+      let(<span style="color:#e6db74">:date_A</span>) { today }
+      let(<span style="color:#e6db74">:date_B</span>) { <span style="color:#66d9ef">nil</span> }
+      it { is_expected<span style="color:#f92672">.</span>to eq today }
+    <span style="color:#66d9ef">end</span>
 
-    context 'date_Bがnil' do
-      let(:date_A) { today }
-      let(:date_B) { nil }
-      it { is_expected.to eq today }
-    end
-
-    context '両方nil' do
-      let(:date_A) { nil }
-      let(:date_B) { nil }
-      it { is_expected.to be nil }
-    end
-  end
-end
-</code></pre>
-
+    context <span style="color:#e6db74">&#39;両方nil&#39;</span> <span style="color:#66d9ef">do</span>
+      let(<span style="color:#e6db74">:date_A</span>) { <span style="color:#66d9ef">nil</span> }
+      let(<span style="color:#e6db74">:date_B</span>) { <span style="color:#66d9ef">nil</span> }
+      it { is_expected<span style="color:#f92672">.</span>to be <span style="color:#66d9ef">nil</span> }
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div>
 
   </div>
   <footer class="my4">

@@ -405,22 +405,14 @@
 
     
 
-    
-
-<p><a href="https://qiita.com/advent-calendar/2017/julialang" target="_blank">Julia Advent Calendar 2017</a>の19日目の記事です。
-普段はデータサイエンスに関する動画を投稿しています。<a href="https://www.youtube.com/channel/UCWXXSB94_CUAYD7XgdLzvBg" target="_blank">田中TOM - YouTube</a>
+    <p><a href="https://qiita.com/advent-calendar/2017/julialang">Julia Advent Calendar 2017</a>の19日目の記事です。
+普段はデータサイエンスに関する動画を投稿しています。<a href="https://www.youtube.com/channel/UCWXXSB94_CUAYD7XgdLzvBg">田中TOM - YouTube</a>
 最近データサイエンスのコンペティションサイトのKaggleで遊んでいて、Julia言語でデータサイエンス系の処理をやっている身としては、JuliaのKernelを登録したい。</p>
-
 <p>しかし、Juliaでの登録自体はできるものの、エラーが起きてしまいコードが実行されない、そのため殆どのコンペティションではJuliaのKernelが登録されていないのが現状。</p>
-
-<p>Kaggleのgithubページを見ると、<a href="https://github.com/Kaggle/docker-python" target="_blank">Kaggle/docker-python: Kaggle Python docker image</a> や <a href="https://github.com/Kaggle/docker-rstats" target="_blank">Kaggle/docker-rstats: Kaggle R docker image</a> といったPythonやR言語向けKernel dockerはちゃんとメンテナンスされているっぽい。</p>
-
-<p>同じようにjuliaも <a href="https://github.com/Kaggle/docker-julia" target="_blank">Kaggle/docker-julia</a> でリポジトリは存在しているが、残念ながらメンテナスがされていない。</p>
-
+<p>Kaggleのgithubページを見ると、<a href="https://github.com/Kaggle/docker-python">Kaggle/docker-python: Kaggle Python docker image</a> や <a href="https://github.com/Kaggle/docker-rstats">Kaggle/docker-rstats: Kaggle R docker image</a> といったPythonやR言語向けKernel dockerはちゃんとメンテナンスされているっぽい。</p>
+<p>同じようにjuliaも <a href="https://github.com/Kaggle/docker-julia">Kaggle/docker-julia</a> でリポジトリは存在しているが、残念ながらメンテナスがされていない。</p>
 <p>このままだと世界中のJulia愛好家がKaggleで活躍できないので、今回はローカルDockerfileを実行しつつ最新のJuliaの安定版が起動するように変更していく。そしていずれ、JuliaのKernelがKaggle上で動いてくれて、メンテも継続されていくのが夢。</p>
-
 <h2 id="元のdockerファイル">元のDockerファイル</h2>
-
 <pre><code># kaggle/julia dockerfile
 
 FROM ubuntu:16.04
@@ -497,45 +489,28 @@ RUN julia -e &quot;Base.compilecache(\&quot;BinDeps\&quot;)&quot; &amp;&amp; \
     julia -e &quot;using IJulia&quot;
 
 CMD [&quot;julia&quot;]
-</code></pre>
-
-<p>コード自体は以前ブログで書いた<a href="https://kaggle.regonn.tokyo/2017/12/04/aws-ec2-%e3%81%a7-julia-%e3%82%92%e6%a7%8b%e7%af%89%e3%81%97%e3%81%a6-mxnet-jl-%e3%82%92-gpu-%e4%bd%bf%e3%81%a3%e3%81%a6%e8%a8%88%e7%ae%97%e3%81%97%e3%81%9f%e3%81%84/" target="_blank">AWS EC2 に Julia 開発環境を構築し MXNet.jl でGPU処理したい</a>時にEC2のUbuntuインスタンスでJuliaのv0.6.1を構築するときに参考にして、動かせたので問題なさそう。</p>
-
-<p>12月14日にJuliaの<a href="https://github.com/JuliaLang/julia/releases/tag/v0.6.2" target="_blank">v0.6.2</a>がリリースされていたので、最新版にしてあげる。</p>
-
-<pre><code class="language-diff">-cd julia &amp;&amp; git checkout v0.6.0 &amp;&amp; \
-+cd julia &amp;&amp; git checkout v0.6.2 &amp;&amp; \
-</code></pre>
-
-<h2 id="docker-build-実行">docker build 実行</h2>
-
+</code></pre><p>コード自体は以前ブログで書いた<a href="https://kaggle.regonn.tokyo/2017/12/04/aws-ec2-%e3%81%a7-julia-%e3%82%92%e6%a7%8b%e7%af%89%e3%81%97%e3%81%a6-mxnet-jl-%e3%82%92-gpu-%e4%bd%bf%e3%81%a3%e3%81%a6%e8%a8%88%e7%ae%97%e3%81%97%e3%81%9f%e3%81%84/">AWS EC2 に Julia 開発環境を構築し MXNet.jl でGPU処理したい</a>時にEC2のUbuntuインスタンスでJuliaのv0.6.1を構築するときに参考にして、動かせたので問題なさそう。</p>
+<p>12月14日にJuliaの<a href="https://github.com/JuliaLang/julia/releases/tag/v0.6.2">v0.6.2</a>がリリースされていたので、最新版にしてあげる。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-diff" data-lang="diff"><span style="color:#f92672">-cd julia &amp;&amp; git checkout v0.6.0 &amp;&amp; \
+</span><span style="color:#f92672"></span><span style="color:#a6e22e">+cd julia &amp;&amp; git checkout v0.6.2 &amp;&amp; \
+</span></code></pre></div><h2 id="docker-build-実行">docker build 実行</h2>
 <p>とりあえずバージョンは上げたので <code>docker build</code> をする。結構長い間メンテされてないしエラーになると思ったらやっぱりエラーで止まる。</p>
-
 <pre><code>make[2]: *** [getarch_2nd] Error 1
 Makefile:123: *** OpenBLAS: Detecting CPU failed. Please set TARGET explicitly, e.g. make TARGET=your_cpu_target. Please read README for the detail..  Stop.
 *** Clean the OpenBLAS build with 'make -C deps clean-openblas'. Rebuild with 'make OPENBLAS_USE_THREAD=0' if OpenBLAS had trouble linking libpthread.so, and with 'make OPENBLAS_TARGET_ARCH=NEHALEM' if there were errors building SandyBridge support. Both these options can also be used simultaneously. ***
 /usr/local/src/julia/deps/blas.mk:111: recipe for target 'scratch/openblas-85636ff1a015d04d3a8f960bc644b85ee5157135/build-compiled' failed
 make[1]: *** [scratch/openblas-85636ff1a015d04d3a8f960bc644b85ee5157135/build-compiled] Error 1
-</code></pre>
-
-<h2 id="エラー対処">エラー対処</h2>
-
+</code></pre><h2 id="エラー対処">エラー対処</h2>
 <p>OpenBLASという行列演算ライブラリでエラーがでてた。
 <code>TARGET=your_cpu_target</code> してねって書いてあったから、<code>echo &quot;TARGET=core2&quot; &gt; Make.user</code> を追加してみたけど、同じエラーになってしまった。無念。。。</p>
-
 <p>調べてv0.4の時に似たようなエラーに遭遇している人がいて、この場合OPENBLAS_TARGET_ARCHを設定したらビルドが通ったみたい。
-<a href="http://machakann.hatenablog.com/entry/2015/10/13/005350" target="_blank">julialang v0.4 - 書いたものなど</a></p>
-
+<a href="http://machakann.hatenablog.com/entry/2015/10/13/005350">julialang v0.4 - 書いたものなど</a></p>
 <p>エラー文にも書いてあった、<code>echo &quot;OPENBLAS_TARGET_ARCH=NEHALEM&quot; &gt; Make.user &amp;&amp;</code> を加えたら、ちゃんとdocker buildが通った。</p>
-
-<p><code>NEHALEM</code>を指定しているけど、この<a href="https://github.com/JuliaLang/julia/blob/154e50356eb74ee8140fa7a6f6c81caa86da5a52/deps/blas.mk#L89" target="_blank">エラー文はJulia側で出しているみたい</a>。</p>
-
+<p><code>NEHALEM</code>を指定しているけど、この<a href="https://github.com/JuliaLang/julia/blob/154e50356eb74ee8140fa7a6f6c81caa86da5a52/deps/blas.mk#L89">エラー文はJulia側で出しているみたい</a>。</p>
 <h2 id="プルリク作成">プルリク作成</h2>
-
 <p>docker build も通ったのでプルリクを出してみたら、30分ぐらいでマージされた。
-<a href="https://github.com/Kaggle/docker-julia/pull/4" target="_blank">minor update julia and pass build by regonn · Kaggle/docker-julia</a>
+<a href="https://github.com/Kaggle/docker-julia/pull/4">minor update julia and pass build by regonn · Kaggle/docker-julia</a>
 対応の速さからして、別にKaggleもJuliaのサポートを打ち切っているのではなく、ただ人的なリソースが足りてないっぽい？(そういうことを打ち切られていると呼ぶかもしれないけど)</p>
-
 <p>これで、KaggleでJuliaのKernelが動くかといえば、まだ先は長いと思う。(ライブラリがちゃんとv0.6系に対応してなかったりしてるし、docker imageでubuntu使ってるけどjulia公式のimage使えばいいのではと思ってる。)
 けど、この記事をきっかけにKaggleのJulia dockerに関わってくれる人が増えてくれたら嬉しいです。
 ちゃんとDockerがメンテナンスされてきたら、Kaggle側も対応してくれると期待してます。</p>

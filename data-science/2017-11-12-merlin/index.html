@@ -405,84 +405,59 @@
 
     
 
-    
-
-<p><a href="https://qiita.com/advent-calendar/2017/deep-learning-frameworks" target="_blank">Deep Learning フレームワークざっくり紹介 Advent Calendar 2017</a>　 11 日目の記事。</p>
-
-<p>普段は、Kaggle の問題に挑戦する動画を投稿する底辺 YouTuber をやっています <a href="https://www.youtube.com/channel/UCWXXSB94_CUAYD7XgdLzvBg" target="_blank">田中 TOM</a></p>
-
-<p>最近、機械学習関連は Julia 言語をメインで使っていて、以前<a href="https://data-refinement.connpass.com/event/70804/" target="_blank">Julia データサイエンスワークショップ</a>に参加した時、<a href="https://github.com/hshindo/Merlin.jl" target="_blank">Mearlin.jl</a> という国産の DeepLearning ライブラリを知ったので紹介していきます。</p>
-
+    <p><a href="https://qiita.com/advent-calendar/2017/deep-learning-frameworks">Deep Learning フレームワークざっくり紹介 Advent Calendar 2017</a>　 11 日目の記事。</p>
+<p>普段は、Kaggle の問題に挑戦する動画を投稿する底辺 YouTuber をやっています <a href="https://www.youtube.com/channel/UCWXXSB94_CUAYD7XgdLzvBg">田中 TOM</a></p>
+<p>最近、機械学習関連は Julia 言語をメインで使っていて、以前<a href="https://data-refinement.connpass.com/event/70804/">Julia データサイエンスワークショップ</a>に参加した時、<a href="https://github.com/hshindo/Merlin.jl">Mearlin.jl</a> という国産の DeepLearning ライブラリを知ったので紹介していきます。</p>
 <p>このライブラリは奈良先端科学技術大学院大学の進藤氏が自然言語処理分野において、入力のサンプルが異なるためミニバッチ化が難しく並列計算処理を行いにくい問題を解決するために作られました。
 Julia 言語が採用されており、命令形的で動的にモデルを構築しても、Julia の特徴の一つである高速で動かせるメリットが活きて、柔軟に素早く学習を行うことが可能になっています。
-<a href="https://kaigi.org/jsai/webprogram/2016/pdf/732.pdf" target="_blank">参考論文:Julia 言語による深層学習ライブラリの実装と評価</a></p>
-
+<a href="https://kaigi.org/jsai/webprogram/2016/pdf/732.pdf">参考論文:Julia 言語による深層学習ライブラリの実装と評価</a></p>
 <p>詳しい内容は論文を読んでもらいサンプルコードを紹介していきます。</p>
-
 <h2 id="サンプルコード">サンプルコード</h2>
-
 <p>次のような簡単なニューラルネットワークを構築します</p>
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2017-11-12.png" alt="" width="292px" height="506px" layout="fixed" ></amp-img></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h3 id="静的評価の場合">静的評価の場合</h3>
+<h4 id="staticjl">static.jl</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">T <span style="color:#f92672">=</span> <span style="color:#66d9ef">Float32</span>
+n <span style="color:#f92672">=</span> Node(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;x&#34;</span>)
+n <span style="color:#f92672">=</span> Linear(T,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">7</span>)(n)
+n <span style="color:#f92672">=</span> relu(n)
+n <span style="color:#f92672">=</span> Linear(T,<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">3</span>)(n)
+g <span style="color:#f92672">=</span> Graph(n)
 
-<h4 id="static-jl">static.jl</h4>
+x <span style="color:#f92672">=</span> zerograd(rand(T,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">10</span>))
+y <span style="color:#f92672">=</span> g(<span style="color:#e6db74">&#34;x&#34;</span><span style="color:#f92672">=&gt;</span>x)
 
-<pre><code class="language-julia">T = Float32
-n = Node(name=&quot;x&quot;)
-n = Linear(T,10,7)(n)
-n = relu(n)
-n = Linear(T,7,3)(n)
-g = Graph(n)
+params <span style="color:#f92672">=</span> gradient!(y)
+println(x<span style="color:#f92672">.</span>grad)
 
-x = zerograd(rand(T,10,10))
-y = g(&quot;x&quot;=&gt;x)
-
-params = gradient!(y)
-println(x.grad)
-
-opt = SGD(0.01)
+opt <span style="color:#f92672">=</span> SGD(<span style="color:#ae81ff">0.01</span>)
 foreach(opt, params)
-</code></pre>
-
-<p>入力<code>x</code>についてはランダムな値を入れています。
+</code></pre></div><p>入力<code>x</code>についてはランダムな値を入れています。
 この場合、<code>Graph</code>を作って、そこにデータを入力し結果をだしています。
 Theano 等宣言型のフレームワークの書き方。
 画像などの入力の形が一定であるものは扱いやすく高速に処理できる。</p>
-
 <h3 id="動的評価">動的評価</h3>
-
 <p>今度は、動的に入力の行列サイズが変化する場合(自然言語処理等)を考えます。</p>
+<h4 id="dynamicjl">dynamic.jl</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">T <span style="color:#f92672">=</span> <span style="color:#66d9ef">Float32</span>
+x <span style="color:#f92672">=</span> zerograd(rand(T,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">5</span>)) <span style="color:#75715e"># instanciate Var with zero gradients</span>
+y <span style="color:#f92672">=</span> Linear(T,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">7</span>)(x)
+y <span style="color:#f92672">=</span> relu(y)
+y <span style="color:#f92672">=</span> Linear(T,<span style="color:#ae81ff">7</span>,<span style="color:#ae81ff">3</span>)(y)
 
-<h4 id="dynamic-jl">dynamic.jl</h4>
+params <span style="color:#f92672">=</span> gradient!(y)
+println(x<span style="color:#f92672">.</span>grad)
 
-<pre><code class="language-julia">T = Float32
-x = zerograd(rand(T,10,5)) # instanciate Var with zero gradients
-y = Linear(T,10,7)(x)
-y = relu(y)
-y = Linear(T,7,3)(y)
-
-params = gradient!(y)
-println(x.grad)
-
-opt = SGD(0.01)
+opt <span style="color:#f92672">=</span> SGD(<span style="color:#ae81ff">0.01</span>)
 foreach(opt, params)
-</code></pre>
-
-<p>今度は<code>Graph</code>を作らずに直接勾配を求めています。
+</code></pre></div><p>今度は<code>Graph</code>を作らずに直接勾配を求めています。
 このような書き方ができると学習を行う時は for 文で回している中で、毎回異なったサイズの入力データで学習を進めていくことができます。
 Chainer 等命令形のフレームワークの書き方。
 静的評価の時よりも遅くなってしまうが、Julia 言語の最適化によって早く実行することが可能になっています。</p>
-
 <h2 id="mnist-学習のサンプルコード">MNIST 学習のサンプルコード</h2>
-
-<p><a href="https://github.com/hshindo/Merlin.jl/blob/master/examples/mnist/main.jl" target="_blank">Merlin.jl/main.jl at master · hshindo/Merlin.jl</a></p>
-
+<p><a href="https://github.com/hshindo/Merlin.jl/blob/master/examples/mnist/main.jl">Merlin.jl/main.jl at master · hshindo/Merlin.jl</a></p>
 <p>MNIST の学習をしています。実際に実行してみると 10epoch 回してテストデータの正答率が 97%だったので、しっかりと学習が行われているようです。</p>
-
 <h2 id="感想">感想</h2>
-
 <p>個人的には普段から Julia 言語を使っていて、Julia 言語がアカデミックな分野でも選択肢として存在感が出てきたのが嬉しい。
 特に Julia 界隈だと Python のライブラリを呼んで実行する場合が多いので、こういった Julia 言語で書かれたライブラリが増えて高速な動きを出せるようになると、今後も使われる場所が増えてきそうな予感がしています。
 まだまだ Julia 言語自体開発段階で挙動が変わったりするのでオススメするのは少し厳しい状態ですが。。。</p>

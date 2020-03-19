@@ -408,85 +408,69 @@
       </amp-youtube>
     
 
-    
-
-<h1 id="はじめに">はじめに</h1>
-
-<p>近々、優勝賞金1000万円の <a href="https://botawards.line.me/ja/" target="_blank">LINE BOT AWARDS</a> が開催されるらしいので、準備がてら雑談BOTを作ってみることに。</p>
-
+    <h1 id="はじめに">はじめに</h1>
+<p>近々、優勝賞金1000万円の <a href="https://botawards.line.me/ja/">LINE BOT AWARDS</a> が開催されるらしいので、準備がてら雑談BOTを作ってみることに。</p>
 <h1 id="利用したサービス">利用したサービス</h1>
-
 <ul>
-<li><a href="https://developers.line.me/messaging-api/overview" target="_blank">Line Messaging API</a></li>
+<li><a href="https://developers.line.me/messaging-api/overview">Line Messaging API</a></li>
 <li>Ruby</li>
 <li>Heroku</li>
-<li><a href="http://ai.userlocal.jp/" target="_blank">UserLocal人工知能ボットAPI</a></li>
+<li><a href="http://ai.userlocal.jp/">UserLocal人工知能ボットAPI</a></li>
 </ul>
-
 <h1 id="実際のコード">実際のコード</h1>
-
 <h2 id="リポジトリ">リポジトリ</h2>
-
-<p>GitHub <a href="https://github.com/regonn/line-bot-ruby-heroku" target="_blank">regonn/line-bot-ruby-heroku</a> で公開しています。 Heroku ボタンも用意したので皆さんの Heroku にデプロイできるようになっています。</p>
-
+<p>GitHub <a href="https://github.com/regonn/line-bot-ruby-heroku">regonn/line-bot-ruby-heroku</a> で公開しています。 Heroku ボタンも用意したので皆さんの Heroku にデプロイできるようになっています。</p>
 <p>実際に動かす場合には、Herokuの環境変数に Line Developers 画面で取得した  <code>LINE_CHANNEL_SECRET</code> と <code>LINE_CHANNEL_TOKEN</code> あと、 User Local で取得した <code>USR_LOCAL_API_KEY</code> の設定が必要です。</p>
-
 <h2 id="コードの解説">コードの解説</h2>
+<h3 id="apprb">app.rb</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">require <span style="color:#e6db74">&#39;sinatra&#39;</span>
+require <span style="color:#e6db74">&#39;line/bot&#39;</span>
+require <span style="color:#e6db74">&#39;rest-client&#39;</span>
 
-<h3 id="app-rb">app.rb</h3>
-
-<pre><code class="language-ruby">require 'sinatra'
-require 'line/bot'
-require 'rest-client'
-
-def client
-  @client ||= Line::Bot::Client.new { |config|
-    config.channel_secret = ENV[&quot;LINE_CHANNEL_SECRET&quot;]
-    config.channel_token = ENV[&quot;LINE_CHANNEL_TOKEN&quot;]
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">client</span>
+  @client <span style="color:#f92672">||=</span> <span style="color:#66d9ef">Line</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Bot</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Client</span><span style="color:#f92672">.</span>new { <span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>
+    config<span style="color:#f92672">.</span>channel_secret <span style="color:#f92672">=</span> <span style="color:#66d9ef">ENV</span><span style="color:#f92672">[</span><span style="color:#e6db74">&#34;LINE_CHANNEL_SECRET&#34;</span><span style="color:#f92672">]</span>
+    config<span style="color:#f92672">.</span>channel_token <span style="color:#f92672">=</span> <span style="color:#66d9ef">ENV</span><span style="color:#f92672">[</span><span style="color:#e6db74">&#34;LINE_CHANNEL_TOKEN&#34;</span><span style="color:#f92672">]</span>
   }
-end
+<span style="color:#66d9ef">end</span>
 
-def get_user_local_bot_reply(word)
-  response = RestClient.get 'https://chatbot-api.userlocal.jp/api/chat', { params: { key: ENV['USR_LOCAL_API_KEY'], message: CGI.escape(word) } }
-  response_json = JSON.parse(response)
-  response_json['status'] == &quot;success&quot; ? response_json['result'] : '通信エラー'
-end
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_user_local_bot_reply</span>(word)
+  response <span style="color:#f92672">=</span> <span style="color:#66d9ef">RestClient</span><span style="color:#f92672">.</span>get <span style="color:#e6db74">&#39;https://chatbot-api.userlocal.jp/api/chat&#39;</span>, { <span style="color:#e6db74">params</span>: { <span style="color:#e6db74">key</span>: <span style="color:#66d9ef">ENV</span><span style="color:#f92672">[</span><span style="color:#e6db74">&#39;USR_LOCAL_API_KEY&#39;</span><span style="color:#f92672">]</span>, <span style="color:#e6db74">message</span>: <span style="color:#66d9ef">CGI</span><span style="color:#f92672">.</span>escape(word) } }
+  response_json <span style="color:#f92672">=</span> <span style="color:#66d9ef">JSON</span><span style="color:#f92672">.</span>parse(response)
+  response_json<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;status&#39;</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;success&#34;</span> ? response_json<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;result&#39;</span><span style="color:#f92672">]</span> : <span style="color:#e6db74">&#39;通信エラー&#39;</span>
+<span style="color:#66d9ef">end</span>
 
-post '/callback' do
-  body = request.body.read
+post <span style="color:#e6db74">&#39;/callback&#39;</span> <span style="color:#66d9ef">do</span>
+  body <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>body<span style="color:#f92672">.</span>read
 
-  signature = request.env['HTTP_X_LINE_SIGNATURE']
-  unless client.validate_signature(body, signature)
-    error 400 do 'Bad Request' end
-  end
+  signature <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>env<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;HTTP_X_LINE_SIGNATURE&#39;</span><span style="color:#f92672">]</span>
+  <span style="color:#66d9ef">unless</span> client<span style="color:#f92672">.</span>validate_signature(body, signature)
+    error <span style="color:#ae81ff">400</span> <span style="color:#66d9ef">do</span> <span style="color:#e6db74">&#39;Bad Request&#39;</span> <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
 
-  events = client.parse_events_from(body)
-  events.each { |event|
-    case event
-    when Line::Bot::Event::Message
-      case event.type
-      when Line::Bot::Event::MessageType::Text
-        message = {
-          type: 'text',
-          text: get_user_local_bot_reply(event.message['text'])
+  events <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>parse_events_from(body)
+  events<span style="color:#f92672">.</span>each { <span style="color:#f92672">|</span>event<span style="color:#f92672">|</span>
+    <span style="color:#66d9ef">case</span> event
+    <span style="color:#66d9ef">when</span> <span style="color:#66d9ef">Line</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Bot</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Event</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Message</span>
+      <span style="color:#66d9ef">case</span> event<span style="color:#f92672">.</span>type
+      <span style="color:#66d9ef">when</span> <span style="color:#66d9ef">Line</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Bot</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Event</span><span style="color:#f92672">::</span><span style="color:#66d9ef">MessageType</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Text</span>
+        message <span style="color:#f92672">=</span> {
+          <span style="color:#e6db74">type</span>: <span style="color:#e6db74">&#39;text&#39;</span>,
+          <span style="color:#e6db74">text</span>: get_user_local_bot_reply(event<span style="color:#f92672">.</span>message<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;text&#39;</span><span style="color:#f92672">]</span>)
         }
-        client.reply_message(event['replyToken'], message)
-      when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
-        response = client.get_message_content(event.message['id'])
-        tf = Tempfile.open(&quot;content&quot;)
-        tf.write(response.body)
-      end
-    end
+        client<span style="color:#f92672">.</span>reply_message(event<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;replyToken&#39;</span><span style="color:#f92672">]</span>, message)
+      <span style="color:#66d9ef">when</span> <span style="color:#66d9ef">Line</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Bot</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Event</span><span style="color:#f92672">::</span><span style="color:#66d9ef">MessageType</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Image</span>, <span style="color:#66d9ef">Line</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Bot</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Event</span><span style="color:#f92672">::</span><span style="color:#66d9ef">MessageType</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Video</span>
+        response <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>get_message_content(event<span style="color:#f92672">.</span>message<span style="color:#f92672">[</span><span style="color:#e6db74">&#39;id&#39;</span><span style="color:#f92672">]</span>)
+        tf <span style="color:#f92672">=</span> <span style="color:#66d9ef">Tempfile</span><span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#34;content&#34;</span>)
+        tf<span style="color:#f92672">.</span>write(response<span style="color:#f92672">.</span>body)
+      <span style="color:#66d9ef">end</span>
+    <span style="color:#66d9ef">end</span>
   }
 
-  &quot;OK&quot;
-end
-</code></pre>
-
-<p>今回は、 Line 公式 Gem <a href="https://github.com/line/line-bot-sdk-ruby" target="_blank">line-bot-sdk-ruby</a> で公開されているサンプルコードの部分がほとんどです。</p>
-
-<p>追加したのも UserLocal API を叩くための <a href="https://github.com/rest-client/rest-client" target="_blank">rest-client</a> Gem ぐらいです。</p>
-
+  <span style="color:#e6db74">&#34;OK&#34;</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>今回は、 Line 公式 Gem <a href="https://github.com/line/line-bot-sdk-ruby">line-bot-sdk-ruby</a> で公開されているサンプルコードの部分がほとんどです。</p>
+<p>追加したのも UserLocal API を叩くための <a href="https://github.com/rest-client/rest-client">rest-client</a> Gem ぐらいです。</p>
 <p><code>get_user_local_bot_reply</code> メソッドで UserLocalAPI とのやりとりをしています。今回は面倒なので UserLocalAPI 通信に失敗しても <code>'通信エラー'</code> と Line に投稿されます。</p>
 
 

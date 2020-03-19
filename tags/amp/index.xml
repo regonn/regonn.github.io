@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>amp on そこのけそこのけゆとりが通る</title>
@@ -18,12 +18,12 @@
       
       <guid>https://blog.regonn.tokyo/podcast/2018-12-12-podcast-amp/</guid>
       <description>Podcaster Advent Calendar 2018 の 12 日の記事です。 カレンダーの趣旨勘違いしてて、技術的なことをやって記事書いてしまいましたが、普段やっている Podcast も本日 2 つ通常回ですが公開します。
-本日公開 Podcast  12. オフ会後 - regonn&amp;amp;curry.fm  データサイエンス Podcast Twitter: @regonn_curry  9. ふたりは藤木くん - 今夜も strong x strong  底辺 Podcast、ストロングゼロをただ飲んでるだけ Twitter: @strongxstrong_2   Yattecast Yattecast - Podcast サイトをつくるためのテンプレート
+本日公開 Podcast  12. オフ会後 - regonn&amp;amp;curry.fm  データサイエンス Podcast Twitter: @regonn_curry   9. ふたりは藤木くん - 今夜も strong x strong  底辺 Podcast、ストロングゼロをただ飲んでるだけ Twitter: @strongxstrong_2    Yattecast Yattecast - Podcast サイトをつくるためのテンプレート
 今年は新しく２つの Podcast を始めたんですが、始めるきっかけや続けるモチベーションを保てたのは、このテンプレートを使って Github pages により無料で公開できたのが大きいです。
 始めた時の技術的な内容は次の記事にまとめてあります。
 Tech 系 Podcast の始め方
 amp 対応 Yattecast があまりメンテナンスされていないのと、あまりアニメーション等もないので、これは amp 対応したほうがメリットありそうと思って今回挑戦してみました。
-成果  regonn/regonn-cast 差分(コミット単位でみてもらうと何をやったかわかりやすいと思います)  対応したこと  Gemfile 更新  Dependabotを使って今後もライブラリのアップデートに対応して更新していけるようにしました  Google Podcast 対応  ちゃんと対応しているのかは Podcast Publisher Tools で確認できるっぽい  amp 対応  amp-audio でポッドキャストも再生できるように amp-analytics amp-auto-ads(google adsense の自動広告) amp-social-share  Schema.</description>
+成果  regonn/regonn-cast 差分(コミット単位でみてもらうと何をやったかわかりやすいと思います)  対応したこと  Gemfile 更新  Dependabotを使って今後もライブラリのアップデートに対応して更新していけるようにしました   Google Podcast 対応  ちゃんと対応しているのかは Podcast Publisher Tools で確認できるっぽい   amp 対応  amp-audio でポッドキャストも再生できるように amp-analytics amp-auto-ads(google adsense の自動広告) amp-social-share   Schema.</description>
     </item>
     
     <item>

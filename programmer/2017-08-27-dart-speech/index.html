@@ -408,141 +408,110 @@
       </amp-youtube>
     
 
-    
-
-<h1 id="モチベーション">モチベーション</h1>
-
+    <h1 id="モチベーション">モチベーション</h1>
 <p>YouTubeでプログラミングのライブ配信するときに、ニコニコ生放送ではお馴染みの「棒読みちゃん」が欲しかった。
 けど、Mac環境だと使い勝手が悪いのでYouTubeのAPIとWebSpeechAPI(音声合成)でWebブラウザで動く棒読みちゃんを自分で作ってみることに。</p>
-
 <p>趣味でDartを勉強しているのとYouTubeはgoogleだし相性もいいかなと思ってDart実装にチャレンジしてみた。</p>
-
 <p>名前は、棒読みちゃんよりWebSpeechAPIの音声の人の方がしっかりした声なので、棒読みさんと名付ける。</p>
-
-<p><a href="https://github.com/regonn/bouyomi-san-youtube-live.dart" target="_blank">regonn/bouyomi-san-youtube-live.dart</a></p>
-
-<p>ローカルにDart環境が揃っていれば、Dart project scaffolding generatorの<a href="https://github.com/google/stagehand" target="_blank">stagehand</a>を使って <code>web-simple</code> モードで生成すればすぐに開発が始められる。</p>
-
+<p><a href="https://github.com/regonn/bouyomi-san-youtube-live.dart">regonn/bouyomi-san-youtube-live.dart</a></p>
+<p>ローカルにDart環境が揃っていれば、Dart project scaffolding generatorの<a href="https://github.com/google/stagehand">stagehand</a>を使って <code>web-simple</code> モードで生成すればすぐに開発が始められる。</p>
 <h1 id="コード">コード</h1>
+<h3 id="maindart">main.dart</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:html&#39;</span>;
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:async&#39;</span>;
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:googleapis_auth/auth_browser.dart&#39;</span> <span style="color:#66d9ef">as</span> auth;
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:googleapis/youtube/v3.dart&#39;</span> <span style="color:#66d9ef">as</span> youtube;
 
-<h3 id="main-dart">main.dart</h3>
+DateTime lastMessagedAt <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DateTime.now();
 
-<pre><code class="language-dart">import 'dart:html';
-import 'dart:async';
-import 'package:googleapis_auth/auth_browser.dart' as auth;
-import 'package:googleapis/youtube/v3.dart' as youtube;
+<span style="color:#66d9ef">void</span> main() {
+  InputElement apiKeyInput <span style="color:#f92672">=</span> querySelector(<span style="color:#e6db74">&#39;#api-key&#39;</span>);
+  InputElement channelIdInput <span style="color:#f92672">=</span> querySelector(<span style="color:#e6db74">&#39;#channel-id&#39;</span>);
+  ButtonElement setButton <span style="color:#f92672">=</span> querySelector(<span style="color:#e6db74">&#39;#set-button&#39;</span>);
 
-DateTime lastMessagedAt = new DateTime.now();
-
-void main() {
-  InputElement apiKeyInput = querySelector('#api-key');
-  InputElement channelIdInput = querySelector('#channel-id');
-  ButtonElement setButton = querySelector('#set-button');
-
-  displayOutput('APIキーとチャンネルを設定してください。');
-  speak('起動しました。エーピーアイキーとチャンネルを設定してください。');
+  displayOutput(<span style="color:#e6db74">&#39;APIキーとチャンネルを設定してください。&#39;</span>);
+  speak(<span style="color:#e6db74">&#39;起動しました。エーピーアイキーとチャンネルを設定してください。&#39;</span>);
 
   setButton.onClick.listen((_) {
-    var apiKey = apiKeyInput.value;
-    var client = auth.clientViaApiKey(apiKey);
-    var api = new youtube.YoutubeApi(client);
-    api.search.list(&quot;id&quot;, channelId: channelIdInput.value, type: 'video', eventType: 'live')
+    <span style="color:#66d9ef">var</span> apiKey <span style="color:#f92672">=</span> apiKeyInput.value;
+    <span style="color:#66d9ef">var</span> client <span style="color:#f92672">=</span> auth.clientViaApiKey(apiKey);
+    <span style="color:#66d9ef">var</span> api <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> youtube.YoutubeApi(client);
+    api.search.list(<span style="color:#e6db74">&#34;id&#34;</span>, channelId: channelIdInput.value, type: <span style="color:#e6db74">&#39;video&#39;</span>, eventType: <span style="color:#e6db74">&#39;live&#39;</span>)
       .then((youtube.SearchListResponse response) {
-        var liveVideoId = null;
-        if (response.items != null) {
-          liveVideoId = response.items.first.id.videoId;
-          api.videos.list(&quot;liveStreamingDetails,snippet&quot;, id: liveVideoId).then((youtube.VideoListResponse videoResponse) {
-            var liveChatId = null;
-            if (videoResponse.items != null) {
-              var video = videoResponse.items.first;
-              liveChatId = video.liveStreamingDetails.activeLiveChatId;
-              var title = video.snippet.title;
-              speak('$title のチャンネルに設定されました');
+        <span style="color:#66d9ef">var</span> liveVideoId <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+        <span style="color:#66d9ef">if</span> (response.items <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+          liveVideoId <span style="color:#f92672">=</span> response.items.first.id.videoId;
+          api.videos.list(<span style="color:#e6db74">&#34;liveStreamingDetails,snippet&#34;</span>, id: liveVideoId).then((youtube.VideoListResponse videoResponse) {
+            <span style="color:#66d9ef">var</span> liveChatId <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+            <span style="color:#66d9ef">if</span> (videoResponse.items <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+              <span style="color:#66d9ef">var</span> video <span style="color:#f92672">=</span> videoResponse.items.first;
+              liveChatId <span style="color:#f92672">=</span> video.liveStreamingDetails.activeLiveChatId;
+              <span style="color:#66d9ef">var</span> title <span style="color:#f92672">=</span> video.snippet.title;
+              speak(<span style="color:#e6db74">&#39;</span><span style="color:#e6db74">$</span>title<span style="color:#e6db74"> のチャンネルに設定されました&#39;</span>);
               displayOutput(title);
-              lastMessagedAt = new DateTime.now();
-              const duration = const Duration(seconds:5);
-              new Timer.periodic(duration, (Timer t) =&gt; speakNewMessages(api, liveChatId));
+              lastMessagedAt <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DateTime.now();
+              <span style="color:#66d9ef">const</span> duration <span style="color:#f92672">=</span> <span style="color:#66d9ef">const</span> Duration(seconds:<span style="color:#ae81ff">5</span>);
+              <span style="color:#66d9ef">new</span> Timer.periodic(duration, (Timer t) <span style="color:#f92672">=&gt;</span> speakNewMessages(api, liveChatId));
             }
           });
         }
       })
       .catchError((e) {
-        const errorText = 'ライブ情報の取得に失敗しました。入力情報が正しくない可能性または、ライブ放送が行われていない可能性があります。';
+        <span style="color:#66d9ef">const</span> errorText <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ライブ情報の取得に失敗しました。入力情報が正しくない可能性または、ライブ放送が行われていない可能性があります。&#39;</span>;
         speak(errorText);
         displayOutput(errorText);
       });
   });
 }
 
-void speakNewMessages(youtube.YoutubeApi api, String liveChatId) {
-  api.liveChatMessages.list(liveChatId, 'snippet').then((youtube.LiveChatMessageListResponse messagesResponse) {
-    if (messagesResponse.items != null) {
-      var speakMessages = messagesResponse.items.where((item)=&gt; item.snippet.publishedAt.isAfter(lastMessagedAt)).toList();
-      for(youtube.LiveChatMessage message in speakMessages ){
-        lastMessagedAt = message.snippet.publishedAt;
+<span style="color:#66d9ef">void</span> speakNewMessages(youtube.YoutubeApi api, <span style="color:#66d9ef">String</span> liveChatId) {
+  api.liveChatMessages.list(liveChatId, <span style="color:#e6db74">&#39;snippet&#39;</span>).then((youtube.LiveChatMessageListResponse messagesResponse) {
+    <span style="color:#66d9ef">if</span> (messagesResponse.items <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+      <span style="color:#66d9ef">var</span> speakMessages <span style="color:#f92672">=</span> messagesResponse.items.where((item)<span style="color:#f92672">=&gt;</span> item.snippet.publishedAt.isAfter(lastMessagedAt)).toList();
+      <span style="color:#66d9ef">for</span>(youtube.LiveChatMessage message <span style="color:#66d9ef">in</span> speakMessages ){
+        lastMessagedAt <span style="color:#f92672">=</span> message.snippet.publishedAt;
         speak(message.snippet.displayMessage);
       }
     }
   });
 }
 
-void speak(String text) {
-  var u = new SpeechSynthesisUtterance();
-  u.text = text;
-  u.lang = 'ja-JP';
-  u.rate = 1.4;
+<span style="color:#66d9ef">void</span> speak(<span style="color:#66d9ef">String</span> text) {
+  <span style="color:#66d9ef">var</span> u <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SpeechSynthesisUtterance();
+  u.text <span style="color:#f92672">=</span> text;
+  u.lang <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ja-JP&#39;</span>;
+  u.rate <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.4</span>;
   window.speechSynthesis.speak(u);
 }
 
-void displayOutput(String text) {
-  querySelector('#output').text = text;
+<span style="color:#66d9ef">void</span> displayOutput(<span style="color:#66d9ef">String</span> text) {
+  querySelector(<span style="color:#e6db74">&#39;#output&#39;</span>).text <span style="color:#f92672">=</span> text;
 }
-</code></pre>
-
-<p>LiveChatIdを取得するために、2回apiを叩いているためネストしてしまって読みにくいが、特に難しいことはしていない。</p>
-
+</code></pre></div><p>LiveChatIdを取得するために、2回apiを叩いているためネストしてしまって読みにくいが、特に難しいことはしていない。</p>
 <p>APIの仕様上、最低のコメント取得が200個なので、過去のものを読み込まないように <code>lastMessagedAt</code> を変数で持っておいて、ボタンを押して開始したタイミングだったり、読み上げたメッセージの時間で更新をかけて、同じものは読み上げないようにしている。</p>
-
 <h1 id="dartを触ってみて">Dartを触ってみて</h1>
-
 <h2 id="良いところ">良いところ</h2>
-
 <p>一度はJavascriptの置き換えを狙った言語でもあって、とてもHTMLとの相性が良い。</p>
-
 <p>WebSpeechAPIで読み上げる部分も</p>
-
-<pre><code class="language-dart">void speak(String text) {
-  var u = new SpeechSynthesisUtterance();
-  u.text = text;
-  u.lang = 'ja-JP';
-  u.rate = 1.4;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">void</span> speak(<span style="color:#66d9ef">String</span> text) {
+  <span style="color:#66d9ef">var</span> u <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SpeechSynthesisUtterance();
+  u.text <span style="color:#f92672">=</span> text;
+  u.lang <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ja-JP&#39;</span>;
+  u.rate <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.4</span>;
   window.speechSynthesis.speak(u);
 }
-</code></pre>
-
-<p>のように簡単に記述できるし、クリックの管理も</p>
-
-<pre><code class="language-dart">ButtonElement setButton = querySelector('#set-button');
+</code></pre></div><p>のように簡単に記述できるし、クリックの管理も</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">ButtonElement setButton <span style="color:#f92672">=</span> querySelector(<span style="color:#e6db74">&#39;#set-button&#39;</span>);
 setButton.onClick.listen((_) {})
-</code></pre>
-
-<p>みたいに、jQueryを書かないで実装できてしまうので良かった。</p>
-
+</code></pre></div><p>みたいに、jQueryを書かないで実装できてしまうので良かった。</p>
 <p>外部のパッケージもAPI取得で使う二つしか使わなかった。</p>
-
-<pre><code class="language-dart">import 'package:googleapis_auth/auth_browser.dart' as auth;
-import 'package:googleapis/youtube/v3.dart' as youtube;
-</code></pre>
-
-<h2 id="悪いところ">悪いところ</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:googleapis_auth/auth_browser.dart&#39;</span> <span style="color:#66d9ef">as</span> auth;
+<span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:googleapis/youtube/v3.dart&#39;</span> <span style="color:#66d9ef">as</span> youtube;
+</code></pre></div><h2 id="悪いところ">悪いところ</h2>
 <p>ご存知の通り、Dart言語は一度は盛んになりかけて現在は下火なので、最新のコードサンプルが少なかったりライブラリが古いものが多い。</p>
-
-<p>Google公式のものは比較的新しいが、<a href="https://github.com/dart-lang/googleapis_examples" target="_blank">googleapi のサンプルコード</a>も三年前とかで、本当に動くのか不安になった。</p>
-
+<p>Google公式のものは比較的新しいが、<a href="https://github.com/dart-lang/googleapis_examples">googleapi のサンプルコード</a>も三年前とかで、本当に動くのか不安になった。</p>
 <h2 id="デモサイト">デモサイト</h2>
-
-<p><a href="https://bouyomisan.regonn.tokyo/" target="_blank">コチラ</a>で実際に動きを確認できます。(実際に動かすにはYouTubeDataAPI v3が有効になっているAPIキーが必要です。)</p>
+<p><a href="https://bouyomisan.regonn.tokyo/">コチラ</a>で実際に動きを確認できます。(実際に動かすにはYouTubeDataAPI v3が有効になっているAPIキーが必要です。)</p>
 
 
   </div>

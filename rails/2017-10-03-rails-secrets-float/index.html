@@ -401,56 +401,30 @@
 
     
 
-    
-
-<h1 id="困ったこと">困ったこと</h1>
-
+    <h1 id="困ったこと">困ったこと</h1>
 <p>Railsで Slack OAuth 認証を実装していたら、Slack の client_id が <code>4167427656.251487306806</code> のような <code>数字 + .(ドット) + 数字</code> の形式が使われてた。</p>
-
 <p>client_id は環境変数として使いたかったため</p>
-
 <pre><code>SLACK_CLIENT_ID='4167427656.251487306806'
-</code></pre>
-
-<p>のように設定し secrets.yml には次のように書く</p>
-
-<pre><code class="language-config/secrets.yml">shared:
-  client_id: &lt;%= ENV['SLACK_CLIENT_ID'] %&gt;
-</code></pre>
-
-<p>そして、Railsで値を呼ぼうとすると</p>
-
+</code></pre><p>のように設定し secrets.yml には次のように書く</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-config/secrets.yml" data-lang="config/secrets.yml">shared:
+  <span style="color:#66d9ef">client_id</span>: &lt;%= ENV[<span style="color:#e6db74">&#39;SLACK_CLIENT_ID&#39;</span>] %<span style="color:#e6db74">&gt;
+</span></code></pre></div><p>そして、Railsで値を呼ぼうとすると</p>
 <pre><code>&gt; Rails.application.secrets.client_id
 =&gt; 4167427656.2514873
-</code></pre>
-
-<p>のように設定した値と異なって表示されてしまう。</p>
-
+</code></pre><p>のように設定した値と異なって表示されてしまう。</p>
 <h1 id="原因">原因</h1>
-
 <p>型を確認してみると</p>
-
 <pre><code>&gt; Rails.application.secrets.client_id.class
 =&gt; Float
-</code></pre>
-
-<p>となっていて、Float型で読み込まれてしまっており、浮動小数点数の精度の影響で期待した値にならなかった。</p>
-
+</code></pre><p>となっていて、Float型で読み込まれてしまっており、浮動小数点数の精度の影響で期待した値にならなかった。</p>
 <h1 id="解決策">解決策</h1>
-
 <p>String型で読み込めるように書いてあげる。</p>
-
-<pre><code class="language-config/secrets.yml">shared:
-  client_id: &quot;&lt;%= ENV['SLACK_CLIENT_ID'] %&gt;&quot;
-</code></pre>
-
-<p>こうすることで正しく文字として呼び出せる。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-config/secrets.yml" data-lang="config/secrets.yml">shared:
+  <span style="color:#66d9ef">client_id</span>: <span style="color:#e6db74">&#34;&lt;%= ENV[&#39;SLACK_CLIENT_ID&#39;] %&gt;&#34;</span>
+</code></pre></div><p>こうすることで正しく文字として呼び出せる。</p>
 <pre><code>&gt; Rails.application.secrets.client_id
 =&gt; &quot;4167427656.251487306806&quot;
-</code></pre>
-
-<p>あんまり、このような書き方で環境変数を呼んだことがなかったのでハマってしまった。
+</code></pre><p>あんまり、このような書き方で環境変数を呼んだことがなかったのでハマってしまった。
 他の書き方で良さそうなものがありましたら教えてください。</p>
 
 

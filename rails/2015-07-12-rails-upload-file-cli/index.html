@@ -403,20 +403,14 @@
 
     <p>ファイルアップロードのデバッグ作業をしているときに、何回もファイルアップロードが面倒だったのですが、
 Railsのコンソールでアップロードできる方法を知ったので忘れないように共有しておきます。</p>
-
 <p>Rack::Test::UploadedFileを使うと簡単にできました。</p>
-
 <p>例えば <code>public/sample.jpg</code> というファイルがあるとします。</p>
-
 <p>するとコンソール上で次のようにすることでアップロードできます。</p>
-
 <pre><code>&gt; file = Rack::Test::UploadedFile.new(&quot;public/sample.jpg&quot;, &quot;image/jpeg&quot;)
 =&gt; #&lt;Rack::Test::UploadedFile:0x007fd769dfa140 @content_type=&quot;image/jpeg&quot;, @original_filename=&quot;sample.jpg&quot;, @tempfile=#&lt;Tempfile:/var/folders/8l/nqm1cg1d7nv6hgsww_s04vxw0000gn/T/sample.jpg20150712-55981-1ora8cn&gt;&gt;
 
 &gt; Item.create(file: file, name: &quot;sample file&quot;)
-</code></pre>
-
-<p>まとめて画像をローカルにアップロードしたい時とかも簡単に扱えるので便利ですね。</p>
+</code></pre><p>まとめて画像をローカルにアップロードしたい時とかも簡単に扱えるので便利ですね。</p>
 
 
   </div>

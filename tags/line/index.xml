@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>line on そこのけそこのけゆとりが通る</title>
@@ -20,7 +20,7 @@
       <description>はじめに 近々、優勝賞金1000万円の LINE BOT AWARDS が開催されるらしいので、準備がてら雑談BOTを作ってみることに。
 利用したサービス  Line Messaging API Ruby Heroku UserLocal人工知能ボットAPI  実際のコード リポジトリ GitHub regonn/line-bot-ruby-heroku で公開しています。 Heroku ボタンも用意したので皆さんの Heroku にデプロイできるようになっています。
 実際に動かす場合には、Herokuの環境変数に Line Developers 画面で取得した LINE_CHANNEL_SECRET と LINE_CHANNEL_TOKEN あと、 User Local で取得した USR_LOCAL_API_KEY の設定が必要です。
-コードの解説 app.rb require &#39;sinatra&#39; require &#39;line/bot&#39; require &#39;rest-client&#39; def client @client ||= Line::Bot::Client.new { |config| config.channel_secret = ENV[&amp;quot;LINE_CHANNEL_SECRET&amp;quot;] config.channel_token = ENV[&amp;quot;LINE_CHANNEL_TOKEN&amp;quot;] } end def get_user_local_bot_reply(word) response = RestClient.get &#39;https://chatbot-api.userlocal.jp/api/chat&#39;, { params: { key: ENV[&#39;USR_LOCAL_API_KEY&#39;], message: CGI.</description>
+コードの解説 app.rb require &amp;#39;sinatra&amp;#39;require &amp;#39;line/bot&amp;#39;require &amp;#39;rest-client&amp;#39;def client@client ||= Line::Bot::Client.new { |config|config.channel_secret = ENV[&amp;#34;LINE_CHANNEL_SECRET&amp;#34;]config.channel_token = ENV[&amp;#34;LINE_CHANNEL_TOKEN&amp;#34;]}enddef get_user_local_bot_reply(word)response = RestClient.get &amp;#39;https://chatbot-api.userlocal.jp/api/chat&amp;#39;, { params: { key: ENV[&amp;#39;USR_LOCAL_API_KEY&amp;#39;], message: CGI.</description>
     </item>
     
   </channel>

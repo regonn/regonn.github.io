@@ -405,372 +405,341 @@
 
     
 
-    
-
-<h1 id="目的">目的</h1>
-
-<p><a href="http://qiita.com/jiji_platform/items/268377c542706e6f44b1" target="_blank">TensorFlow を使った為替(FX)のトレードシステムを作るチュートリアル ～システムのセットアップからトレードまで～</a> で公開されているサンプルコードを実行してみて、トレードの成績は良いものの、取引回数が減ってしまうので、複数通貨で取引できるようにしてみた。さらに今回は <a href="https://www.digitalocean.com/" target="_blank">Digital Ocean VPS</a> で実際に動かすところまでやってみる。</p>
-
+    <h1 id="目的">目的</h1>
+<p><a href="http://qiita.com/jiji_platform/items/268377c542706e6f44b1">TensorFlow を使った為替(FX)のトレードシステムを作るチュートリアル ～システムのセットアップからトレードまで～</a> で公開されているサンプルコードを実行してみて、トレードの成績は良いものの、取引回数が減ってしまうので、複数通貨で取引できるようにしてみた。さらに今回は <a href="https://www.digitalocean.com/">Digital Ocean VPS</a> で実際に動かすところまでやってみる。</p>
 <p>※ 実際の取引は自己責任でお願いしますね。</p>
-
 <h1 id="取引-agent-のコード">取引 Agent のコード</h1>
-
 <p>サンプルコードを参考に複数通貨対応していった感じ。Tensorflow 側のコードはいじってないです。
 ちょっとログを出力する関係でイマイチな部分もある。
 Currency クラスを作ってそのインスタンスを複数持つことで対応した。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#75715e"># tensorflow_agent.rb</span>
+<span style="color:#75715e"># coding: utf-8</span>
 
-<pre><code class="language-ruby"># tensorflow_agent.rb
-# coding: utf-8
+require <span style="color:#e6db74">&#39;jiji/model/agents/agent&#39;</span>
+require <span style="color:#e6db74">&#39;httpclient&#39;</span>
+require <span style="color:#e6db74">&#39;json&#39;</span>
 
-require 'jiji/model/agents/agent'
-require 'httpclient'
-require 'json'
+<span style="color:#75715e"># ここで通貨ペアを複数指定。ただし、jiji上で同時にバックテストができるのは5通貨ペアまで。</span>
+<span style="color:#66d9ef">TRADE_CURRENCIES</span> <span style="color:#f92672">=</span> <span style="color:#f92672">%</span>i(<span style="color:#66d9ef">USDJPY</span> <span style="color:#66d9ef">EURUSD</span> <span style="color:#66d9ef">USDJPY</span>)<span style="color:#f92672">.</span>freeze
 
-# ここで通貨ペアを複数指定。ただし、jiji上で同時にバックテストができるのは5通貨ペアまで。
-TRADE_CURRENCIES = %i(USDJPY EURUSD USDJPY).freeze
+<span style="color:#75715e"># 通貨単位。最高で 通貨ペア×通貨単位 分保有することがあるので調整してください。</span>
+<span style="color:#66d9ef">CURRENCY_UNIT</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">10000</span>
 
-# 通貨単位。最高で 通貨ペア×通貨単位 分保有することがあるので調整してください。
-CURRENCY_UNIT = 10000
+<span style="color:#66d9ef">TENSORFLOW_API_URL</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;http://tensorflow:5000/api/estimator&#34;</span><span style="color:#f92672">.</span>freeze
 
-TENSORFLOW_API_URL = &quot;http://tensorflow:5000/api/estimator&quot;.freeze
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TensorFlowAgent</span>
+  <span style="color:#66d9ef">include</span> <span style="color:#66d9ef">Jiji</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Model</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Agents</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Agent</span>
 
-class TensorFlowAgent
-  include Jiji::Model::Agents::Agent
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">.</span><span style="color:#a6e22e">description</span>
+    <span style="color:#e6db74">&lt;&lt;-STR
+</span><span style="color:#e6db74"></span><span style="color:#66d9ef">TensorFlowと連携してトレードするエージェントのサンプル</span>
+      <span style="color:#66d9ef">STR</span>
+  <span style="color:#66d9ef">end</span>
 
-  def self.description
-    &lt;&lt;-STR
-TensorFlowと連携してトレードするエージェントのサンプル
-      STR
-  end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">.</span><span style="color:#a6e22e">property_infos</span>
+    <span style="color:#f92672">[</span>
+      <span style="color:#66d9ef">Property</span><span style="color:#f92672">.</span>new(<span style="color:#e6db74">&#39;exec_mode&#39;</span>,
+                   <span style="color:#e6db74">&#39;動作モード(&#34;collect&#34; or &#34;trade&#34; or &#34;test&#34;)&#39;</span>,
+                   <span style="color:#e6db74">&#34;collect&#34;</span>)
+    <span style="color:#f92672">]</span>
+  <span style="color:#66d9ef">end</span>
 
-  def self.property_infos
-    [
-      Property.new('exec_mode',
-                   '動作モード(&quot;collect&quot; or &quot;trade&quot; or &quot;test&quot;)',
-                   &quot;collect&quot;)
-    ]
-  end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">post_create</span>
+    @mode <span style="color:#f92672">=</span> create_mode(@exec_mode)
+    @currencies <span style="color:#f92672">=</span> <span style="color:#66d9ef">TRADE_CURRENCIES</span><span style="color:#f92672">.</span>map { <span style="color:#f92672">|</span>currency_pair<span style="color:#f92672">|</span> <span style="color:#66d9ef">Currency</span><span style="color:#f92672">.</span>new(currency_pair, broker, @mode) }
+  <span style="color:#66d9ef">end</span>
 
-  def post_create
-    @mode = create_mode(@exec_mode)
-    @currencies = TRADE_CURRENCIES.map { |currency_pair| Currency.new(currency_pair, broker, @mode) }
-  end
+  <span style="color:#75715e"># 次のレートを受け取る</span>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">next_tick</span>(tick)
+    timestamp <span style="color:#f92672">=</span> tick<span style="color:#f92672">.</span>timestamp
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">if</span> already_check?(timestamp)
+    @current_timestamp <span style="color:#f92672">=</span> timestamp
+    logger<span style="color:#f92672">.</span>info <span style="color:#e6db74">&#34;check for crossing at </span><span style="color:#e6db74">#{</span>timestamp<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+    @currencies<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>currency<span style="color:#f92672">|</span>
+      currency<span style="color:#f92672">.</span>next_tick(tick)
+      logger<span style="color:#f92672">.</span>info currency<span style="color:#f92672">.</span>do_trade
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
 
-  # 次のレートを受け取る
-  def next_tick(tick)
-    timestamp = tick.timestamp
-    return if already_check?(timestamp)
-    @current_timestamp = timestamp
-    logger.info &quot;check for crossing at #{timestamp}&quot;
-    @currencies.each do |currency|
-      currency.next_tick(tick)
-      logger.info currency.do_trade
-    end
-  end
+  <span style="color:#75715e"># 1日に2回チェックを行う</span>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">already_check?</span>(timestamp)
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span> <span style="color:#66d9ef">if</span> (timestamp<span style="color:#f92672">.</span>hour <span style="color:#f92672">%</span> <span style="color:#ae81ff">12</span>)<span style="color:#f92672">.</span>nonzero?
+    <span style="color:#f92672">!</span>@current_timestamp<span style="color:#f92672">.</span>nil? <span style="color:#f92672">&amp;&amp;</span> @current_timestamp<span style="color:#f92672">.</span>mday <span style="color:#f92672">==</span> timestamp<span style="color:#f92672">.</span>mday <span style="color:#f92672">&amp;&amp;</span> @current_timestamp<span style="color:#f92672">.</span>hour <span style="color:#f92672">==</span> timestamp<span style="color:#f92672">.</span>hour
+  <span style="color:#66d9ef">end</span>
 
-  # 1日に2回チェックを行う
-  def already_check?(timestamp)
-    return true if (timestamp.hour % 12).nonzero?
-    !@current_timestamp.nil? &amp;&amp; @current_timestamp.mday == timestamp.mday &amp;&amp; @current_timestamp.hour == timestamp.hour
-  end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_mode</span>(mode)
+    <span style="color:#66d9ef">case</span> mode
+    <span style="color:#66d9ef">when</span> <span style="color:#e6db74">&#39;trade&#39;</span> <span style="color:#66d9ef">then</span>
+      <span style="color:#66d9ef">TradeMode</span><span style="color:#f92672">.</span>new
+    <span style="color:#66d9ef">when</span> <span style="color:#e6db74">&#39;collect&#39;</span> <span style="color:#66d9ef">then</span>
+      <span style="color:#66d9ef">CollectMode</span><span style="color:#f92672">.</span>new
+    <span style="color:#66d9ef">else</span>
+      <span style="color:#66d9ef">TestMode</span><span style="color:#f92672">.</span>new
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
 
-  def create_mode(mode)
-    case mode
-    when 'trade' then
-      TradeMode.new
-    when 'collect' then
-      CollectMode.new
-    else
-      TestMode.new
-    end
-  end
+  <span style="color:#75715e"># データ収集モード</span>
+  <span style="color:#75715e">#</span>
+  <span style="color:#75715e"># TensorFlowでの予測を使用せずに移動平均のシグナルのみでトレードを行い、</span>
+  <span style="color:#75715e"># 結果をDBに保存する</span>
+  <span style="color:#75715e">#</span>
+  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CollectMode</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_trade?</span>(signal, sell_or_buy)
+      <span style="color:#66d9ef">true</span>
+    <span style="color:#66d9ef">end</span>
 
-  # データ収集モード
-  #
-  # TensorFlowでの予測を使用せずに移動平均のシグナルのみでトレードを行い、
-  # 結果をDBに保存する
-  #
-  class CollectMode
-    def do_trade?(signal, sell_or_buy)
-      true
-    end
+    <span style="color:#75715e"># ポジションが閉じられたら、トレード結果とシグナルをDBに登録する</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">after_position_closed</span>(signal, position)
+      <span style="color:#66d9ef">TradeAndSignals</span><span style="color:#f92672">.</span>create_from(signal, position)<span style="color:#f92672">.</span>save
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
 
-    # ポジションが閉じられたら、トレード結果とシグナルをDBに登録する
-    def after_position_closed(signal, position)
-      TradeAndSignals.create_from(signal, position).save
-    end
-  end
+  <span style="color:#75715e"># テストモード</span>
+  <span style="color:#75715e">#</span>
+  <span style="color:#75715e"># TensorFlowでの予測を使用せずに移動平均のシグナルのみでトレードする</span>
+  <span style="color:#75715e"># トレード結果は収集しない</span>
+  <span style="color:#75715e">#</span>
+  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestMode</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_trade?</span>(signal, sell_or_buy)
+      <span style="color:#66d9ef">true</span>
+    <span style="color:#66d9ef">end</span>
 
-  # テストモード
-  #
-  # TensorFlowでの予測を使用せずに移動平均のシグナルのみでトレードする
-  # トレード結果は収集しない
-  #
-  class TestMode
-    def do_trade?(signal, sell_or_buy)
-      true
-    end
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">after_position_closed</span>(signal, position)
+      <span style="color:#75715e"># do nothing.</span>
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
 
-    def after_position_closed(signal, position)
-      # do nothing.
-    end
-  end
+  <span style="color:#75715e"># 取引モード</span>
+  <span style="color:#75715e">#</span>
+  <span style="color:#75715e"># TensorFlowでの予測を使用してトレードする。</span>
+  <span style="color:#75715e"># トレード結果は収集しない</span>
+  <span style="color:#75715e">#</span>
+  <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TradeMode</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>
+      @client <span style="color:#f92672">=</span> <span style="color:#66d9ef">HTTPClient</span><span style="color:#f92672">.</span>new
+    <span style="color:#66d9ef">end</span>
 
-  # 取引モード
-  #
-  # TensorFlowでの予測を使用してトレードする。
-  # トレード結果は収集しない
-  #
-  class TradeMode
-    def initialize
-      @client = HTTPClient.new
-    end
+    <span style="color:#75715e"># トレードを勝敗予測をtensorflowに問い合わせる</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_trade?</span>(signal, sell_or_buy)
+      body <span style="color:#f92672">=</span> { <span style="color:#e6db74">sell_or_buy</span>: sell_or_buy }<span style="color:#f92672">.</span>merge(signal)
+      body<span style="color:#f92672">.</span>delete(<span style="color:#e6db74">:ma5</span>)
+      body<span style="color:#f92672">.</span>delete(<span style="color:#e6db74">:ma10</span>)
 
-    # トレードを勝敗予測をtensorflowに問い合わせる
-    def do_trade?(signal, sell_or_buy)
-      body = { sell_or_buy: sell_or_buy }.merge(signal)
-      body.delete(:ma5)
-      body.delete(:ma10)
-
-      result = @client.post(TENSORFLOW_API_URL, {
-                              body: JSON.generate(body),
-                              header: {
-                                'Content-Type' =&gt; 'application/json'
+      result <span style="color:#f92672">=</span> @client<span style="color:#f92672">.</span>post(<span style="color:#66d9ef">TENSORFLOW_API_URL</span>, {
+                              <span style="color:#e6db74">body</span>: <span style="color:#66d9ef">JSON</span><span style="color:#f92672">.</span>generate(body),
+                              <span style="color:#e6db74">header</span>: {
+                                <span style="color:#e6db74">&#39;Content-Type&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;application/json&#39;</span>
                               }
                             })
-      # up と予測された場合のみトレード
-      JSON.parse(result.body)[&quot;result&quot;] == &quot;up&quot;
-    end
+      <span style="color:#75715e"># up と予測された場合のみトレード</span>
+      <span style="color:#66d9ef">JSON</span><span style="color:#f92672">.</span>parse(result<span style="color:#f92672">.</span>body)<span style="color:#f92672">[</span><span style="color:#e6db74">&#34;result&#34;</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;up&#34;</span>
+    <span style="color:#66d9ef">end</span>
 
-    def after_position_closed(signal, position)
-      # do nothing.
-    end
-  end
-end
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">after_position_closed</span>(signal, position)
+      <span style="color:#75715e"># do nothing.</span>
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
 
-# トレード結果とその時の各種指標。
-# MongoDBに格納してTensorFlowの学習データにする
-class TradeAndSignals
-  include Mongoid::Document
+<span style="color:#75715e"># トレード結果とその時の各種指標。</span>
+<span style="color:#75715e"># MongoDBに格納してTensorFlowの学習データにする</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TradeAndSignals</span>
+  <span style="color:#66d9ef">include</span> <span style="color:#66d9ef">Mongoid</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Document</span>
 
-  store_in collection: 'tensorflow_example_trade_and_signals'
+  store_in <span style="color:#e6db74">collection</span>: <span style="color:#e6db74">&#39;tensorflow_example_trade_and_signals&#39;</span>
 
-  field :macd_difference,    type: Float # macd - macd_signal
+  field <span style="color:#e6db74">:macd_difference</span>,    <span style="color:#e6db74">type</span>: Float <span style="color:#75715e"># macd - macd_signal</span>
 
-  field :rsi,                type: Float
+  field <span style="color:#e6db74">:rsi</span>,                <span style="color:#e6db74">type</span>: Float
 
-  field :slope_10,           type: Float # 10日移動平均線の傾き
-  field :slope_25,           type: Float # 25日移動平均線の傾き
-  field :slope_50,           type: Float # 50日移動平均線の傾き
+  field <span style="color:#e6db74">:slope_10</span>,           <span style="color:#e6db74">type</span>: Float <span style="color:#75715e"># 10日移動平均線の傾き</span>
+  field <span style="color:#e6db74">:slope_25</span>,           <span style="color:#e6db74">type</span>: Float <span style="color:#75715e"># 25日移動平均線の傾き</span>
+  field <span style="color:#e6db74">:slope_50</span>,           <span style="color:#e6db74">type</span>: Float <span style="color:#75715e"># 50日移動平均線の傾き</span>
 
-  field :ma_10_estrangement, type: Float # 10日移動平均からの乖離率
-  field :ma_25_estrangement, type: Float
-  field :ma_50_estrangement, type: Float
+  field <span style="color:#e6db74">:ma_10_estrangement</span>, <span style="color:#e6db74">type</span>: Float <span style="color:#75715e"># 10日移動平均からの乖離率</span>
+  field <span style="color:#e6db74">:ma_25_estrangement</span>, <span style="color:#e6db74">type</span>: Float
+  field <span style="color:#e6db74">:ma_50_estrangement</span>, <span style="color:#e6db74">type</span>: Float
 
-  field :profit_or_loss,     type: Float
-  field :sell_or_buy,        type: Symbol
-  field :entered_at,         type: Time
-  field :exited_at,          type: Time
+  field <span style="color:#e6db74">:profit_or_loss</span>,     <span style="color:#e6db74">type</span>: Float
+  field <span style="color:#e6db74">:sell_or_buy</span>,        <span style="color:#e6db74">type</span>: <span style="color:#66d9ef">Symbol</span>
+  field <span style="color:#e6db74">:entered_at</span>,         <span style="color:#e6db74">type</span>: <span style="color:#66d9ef">Time</span>
+  field <span style="color:#e6db74">:exited_at</span>,          <span style="color:#e6db74">type</span>: <span style="color:#66d9ef">Time</span>
 
-  def self.create_from(signal_data, position)
-    TradeAndSignals.new do |ts|
-      signal_data.each do |pair|
-        next if pair[0] == :ma5 || pair[0] == :ma10
-        ts.send(&quot;#{pair[0]}=&quot;.to_sym, pair[1])
-      end
-      ts.profit_or_loss = position.profit_or_loss
-      ts.sell_or_buy    = position.sell_or_buy
-      ts.entered_at     = position.entered_at
-      ts.exited_at      = position.exited_at
-    end
-  end
-end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">.</span><span style="color:#a6e22e">create_from</span>(signal_data, position)
+    <span style="color:#66d9ef">TradeAndSignals</span><span style="color:#f92672">.</span>new <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>ts<span style="color:#f92672">|</span>
+      signal_data<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>pair<span style="color:#f92672">|</span>
+        <span style="color:#66d9ef">next</span> <span style="color:#66d9ef">if</span> pair<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">:ma5</span> <span style="color:#f92672">||</span> pair<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">:ma10</span>
+        ts<span style="color:#f92672">.</span>send(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span>pair<span style="color:#f92672">[</span><span style="color:#ae81ff">0</span><span style="color:#f92672">]</span><span style="color:#e6db74">}</span><span style="color:#e6db74">=&#34;</span><span style="color:#f92672">.</span>to_sym, pair<span style="color:#f92672">[</span><span style="color:#ae81ff">1</span><span style="color:#f92672">]</span>)
+      <span style="color:#66d9ef">end</span>
+      ts<span style="color:#f92672">.</span>profit_or_loss <span style="color:#f92672">=</span> position<span style="color:#f92672">.</span>profit_or_loss
+      ts<span style="color:#f92672">.</span>sell_or_buy    <span style="color:#f92672">=</span> position<span style="color:#f92672">.</span>sell_or_buy
+      ts<span style="color:#f92672">.</span>entered_at     <span style="color:#f92672">=</span> position<span style="color:#f92672">.</span>entered_at
+      ts<span style="color:#f92672">.</span>exited_at      <span style="color:#f92672">=</span> position<span style="color:#f92672">.</span>exited_at
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
 
-class Currency
-  def initialize(currency_pair, broker, mode)
-    @currency_pair = currency_pair
-    @broker = broker
-    @mode = mode
-    @cross = Cross.new
-  end
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Currency</span>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize</span>(currency_pair, broker, mode)
+    @currency_pair <span style="color:#f92672">=</span> currency_pair
+    @broker <span style="color:#f92672">=</span> broker
+    @mode <span style="color:#f92672">=</span> mode
+    @cross <span style="color:#f92672">=</span> <span style="color:#66d9ef">Cross</span><span style="color:#f92672">.</span>new
+  <span style="color:#66d9ef">end</span>
 
-  def next_tick(tick)
-    prepare_signals(tick) unless @macd
-    @current_signals = calculate_signals(tick[@currency_pair])
-    @cross.next_data(@current_signals[:ma5], @current_signals[:ma10])
-  end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">next_tick</span>(tick)
+    prepare_signals(tick) <span style="color:#66d9ef">unless</span> @macd
+    @current_signals <span style="color:#f92672">=</span> calculate_signals(tick<span style="color:#f92672">[</span>@currency_pair<span style="color:#f92672">]</span>)
+    @cross<span style="color:#f92672">.</span>next_data(@current_signals<span style="color:#f92672">[</span><span style="color:#e6db74">:ma5</span><span style="color:#f92672">]</span>, @current_signals<span style="color:#f92672">[</span><span style="color:#e6db74">:ma10</span><span style="color:#f92672">]</span>)
+  <span style="color:#66d9ef">end</span>
 
-  def do_trade
-    # 5日移動平均と10日移動平均のクロスでトレード
-    if @cross.cross_up?
-      log_text = buy
-    elsif @cross.cross_down?
-      log_text = sell
-    end
-    log_text || &quot;#{@currency_pair} has no crossing&quot;
-  end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_trade</span>
+    <span style="color:#75715e"># 5日移動平均と10日移動平均のクロスでトレード</span>
+    <span style="color:#66d9ef">if</span> @cross<span style="color:#f92672">.</span>cross_up?
+      log_text <span style="color:#f92672">=</span> buy
+    <span style="color:#66d9ef">elsif</span> @cross<span style="color:#f92672">.</span>cross_down?
+      log_text <span style="color:#f92672">=</span> sell
+    <span style="color:#66d9ef">end</span>
+    log_text <span style="color:#f92672">||</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span>@currency_pair<span style="color:#e6db74">}</span><span style="color:#e6db74"> has no crossing&#34;</span>
+  <span style="color:#66d9ef">end</span>
 
-  def buy
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">buy</span>
     close_exist_positions
-    return &quot;#{@currency_pair} is cross up but tensorflow decided no-go&quot; unless @mode.do_trade?(@current_signals, &quot;buy&quot;)
-    result = @broker.buy(@currency_pair, CURRENCY_UNIT)
-    @current_position = @broker.positions[result.trade_opened.internal_id]
-    @current_hold_signals = @current_signals
-    &quot;#{@currency_pair} is cross up and traded&quot;
-  end
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span>@currency_pair<span style="color:#e6db74">}</span><span style="color:#e6db74"> is cross up but tensorflow decided no-go&#34;</span> <span style="color:#66d9ef">unless</span> @mode<span style="color:#f92672">.</span>do_trade?(@current_signals, <span style="color:#e6db74">&#34;buy&#34;</span>)
+    result <span style="color:#f92672">=</span> @broker<span style="color:#f92672">.</span>buy(@currency_pair, <span style="color:#66d9ef">CURRENCY_UNIT</span>)
+    @current_position <span style="color:#f92672">=</span> @broker<span style="color:#f92672">.</span>positions<span style="color:#f92672">[</span>result<span style="color:#f92672">.</span>trade_opened<span style="color:#f92672">.</span>internal_id<span style="color:#f92672">]</span>
+    @current_hold_signals <span style="color:#f92672">=</span> @current_signals
+    <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span>@currency_pair<span style="color:#e6db74">}</span><span style="color:#e6db74"> is cross up and traded&#34;</span>
+  <span style="color:#66d9ef">end</span>
 
-  def sell
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sell</span>
     close_exist_positions
-    return &quot;#{@currency_pair} is cross down but tensorflow decided no-go&quot; unless @mode.do_trade?(@current_signals, &quot;sell&quot;)
-    result = @broker.sell(@currency_pair, CURRENCY_UNIT)
-    @current_position = @broker.positions[result.trade_opened.internal_id]
-    @current_hold_signals = @current_signals
-    &quot;#{@currency_pair} is cross down and traded&quot;
-  end
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span>@currency_pair<span style="color:#e6db74">}</span><span style="color:#e6db74"> is cross down but tensorflow decided no-go&#34;</span> <span style="color:#66d9ef">unless</span> @mode<span style="color:#f92672">.</span>do_trade?(@current_signals, <span style="color:#e6db74">&#34;sell&#34;</span>)
+    result <span style="color:#f92672">=</span> @broker<span style="color:#f92672">.</span>sell(@currency_pair, <span style="color:#66d9ef">CURRENCY_UNIT</span>)
+    @current_position <span style="color:#f92672">=</span> @broker<span style="color:#f92672">.</span>positions<span style="color:#f92672">[</span>result<span style="color:#f92672">.</span>trade_opened<span style="color:#f92672">.</span>internal_id<span style="color:#f92672">]</span>
+    @current_hold_signals <span style="color:#f92672">=</span> @current_signals
+    <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span>@currency_pair<span style="color:#e6db74">}</span><span style="color:#e6db74"> is cross down and traded&#34;</span>
+  <span style="color:#66d9ef">end</span>
 
-  def close_exist_positions
-    return unless @current_position
-    @current_position.close
-    @mode.after_position_closed(@current_hold_signals, @current_position)
-    @current_position = nil
-    @current_hold_signals = nil
-  end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">close_exist_positions</span>
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">unless</span> @current_position
+    @current_position<span style="color:#f92672">.</span>close
+    @mode<span style="color:#f92672">.</span>after_position_closed(@current_hold_signals, @current_position)
+    @current_position <span style="color:#f92672">=</span> <span style="color:#66d9ef">nil</span>
+    @current_hold_signals <span style="color:#f92672">=</span> <span style="color:#66d9ef">nil</span>
+  <span style="color:#66d9ef">end</span>
 
-  def calculate_signals(tick)
-    price = tick.bid
-    macd = @macd.next_data(price)
-    ma10 = @ma10.next_data(price)
-    ma25 = @ma25.next_data(price)
-    ma50 = @ma50.next_data(price)
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calculate_signals</span>(tick)
+    price <span style="color:#f92672">=</span> tick<span style="color:#f92672">.</span>bid
+    macd <span style="color:#f92672">=</span> @macd<span style="color:#f92672">.</span>next_data(price)
+    ma10 <span style="color:#f92672">=</span> @ma10<span style="color:#f92672">.</span>next_data(price)
+    ma25 <span style="color:#f92672">=</span> @ma25<span style="color:#f92672">.</span>next_data(price)
+    ma50 <span style="color:#f92672">=</span> @ma50<span style="color:#f92672">.</span>next_data(price)
     {
-      ma5:  @ma5.next_data(price),
-      ma10: ma10,
-      macd_difference: macd ? macd[:macd] - macd[:signal] : nil,
-      rsi:  @rsi.next_data(price),
-      slope_10: ma10 ? @ma10v.next_data(ma10) : nil,
-      slope_25: ma25 ? @ma25v.next_data(ma25) : nil,
-      slope_50: ma50 ? @ma50v.next_data(ma50) : nil,
-      ma_10_estrangement: ma10 ? calculate_estrangement(price, ma10) : nil,
-      ma_25_estrangement: ma25 ? calculate_estrangement(price, ma25) : nil,
-      ma_50_estrangement: ma50 ? calculate_estrangement(price, ma50) : nil
+      <span style="color:#e6db74">ma5</span>:  @ma5<span style="color:#f92672">.</span>next_data(price),
+      <span style="color:#e6db74">ma10</span>: ma10,
+      <span style="color:#e6db74">macd_difference</span>: macd ? macd<span style="color:#f92672">[</span><span style="color:#e6db74">:macd</span><span style="color:#f92672">]</span> <span style="color:#f92672">-</span> macd<span style="color:#f92672">[</span><span style="color:#e6db74">:signal</span><span style="color:#f92672">]</span> : <span style="color:#66d9ef">nil</span>,
+      <span style="color:#e6db74">rsi</span>:  @rsi<span style="color:#f92672">.</span>next_data(price),
+      <span style="color:#e6db74">slope_10</span>: ma10 ? @ma10v<span style="color:#f92672">.</span>next_data(ma10) : <span style="color:#66d9ef">nil</span>,
+      <span style="color:#e6db74">slope_25</span>: ma25 ? @ma25v<span style="color:#f92672">.</span>next_data(ma25) : <span style="color:#66d9ef">nil</span>,
+      <span style="color:#e6db74">slope_50</span>: ma50 ? @ma50v<span style="color:#f92672">.</span>next_data(ma50) : <span style="color:#66d9ef">nil</span>,
+      <span style="color:#e6db74">ma_10_estrangement</span>: ma10 ? calculate_estrangement(price, ma10) : <span style="color:#66d9ef">nil</span>,
+      <span style="color:#e6db74">ma_25_estrangement</span>: ma25 ? calculate_estrangement(price, ma25) : <span style="color:#66d9ef">nil</span>,
+      <span style="color:#e6db74">ma_50_estrangement</span>: ma50 ? calculate_estrangement(price, ma50) : <span style="color:#66d9ef">nil</span>
     }
-  end
+  <span style="color:#66d9ef">end</span>
 
-  def prepare_signals(tick)
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">prepare_signals</span>(tick)
     create_signals
-    retrieve_rates(tick.timestamp).each do |rate|
-      calculate_signals(rate.close)
-    end
-  end
+    retrieve_rates(tick<span style="color:#f92672">.</span>timestamp)<span style="color:#f92672">.</span>each <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>rate<span style="color:#f92672">|</span>
+      calculate_signals(rate<span style="color:#f92672">.</span>close)
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
 
-  def create_signals
-    @macd  = Signals::MACD.new
-    @ma5   = Signals::MovingAverage.new(5)
-    @ma10  = Signals::MovingAverage.new(10)
-    @ma25  = Signals::MovingAverage.new(25)
-    @ma50  = Signals::MovingAverage.new(50)
-    @ma5v  = Signals::Vector.new(5)
-    @ma10v = Signals::Vector.new(10)
-    @ma25v = Signals::Vector.new(25)
-    @ma50v = Signals::Vector.new(50)
-    @rsi   = Signals::RSI.new(9)
-  end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_signals</span>
+    @macd  <span style="color:#f92672">=</span> <span style="color:#66d9ef">Signals</span><span style="color:#f92672">::</span><span style="color:#66d9ef">MACD</span><span style="color:#f92672">.</span>new
+    @ma5   <span style="color:#f92672">=</span> <span style="color:#66d9ef">Signals</span><span style="color:#f92672">::</span><span style="color:#66d9ef">MovingAverage</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">5</span>)
+    @ma10  <span style="color:#f92672">=</span> <span style="color:#66d9ef">Signals</span><span style="color:#f92672">::</span><span style="color:#66d9ef">MovingAverage</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">10</span>)
+    @ma25  <span style="color:#f92672">=</span> <span style="color:#66d9ef">Signals</span><span style="color:#f92672">::</span><span style="color:#66d9ef">MovingAverage</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">25</span>)
+    @ma50  <span style="color:#f92672">=</span> <span style="color:#66d9ef">Signals</span><span style="color:#f92672">::</span><span style="color:#66d9ef">MovingAverage</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">50</span>)
+    @ma5v  <span style="color:#f92672">=</span> <span style="color:#66d9ef">Signals</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">5</span>)
+    @ma10v <span style="color:#f92672">=</span> <span style="color:#66d9ef">Signals</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">10</span>)
+    @ma25v <span style="color:#f92672">=</span> <span style="color:#66d9ef">Signals</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">25</span>)
+    @ma50v <span style="color:#f92672">=</span> <span style="color:#66d9ef">Signals</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Vector</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">50</span>)
+    @rsi   <span style="color:#f92672">=</span> <span style="color:#66d9ef">Signals</span><span style="color:#f92672">::</span><span style="color:#66d9ef">RSI</span><span style="color:#f92672">.</span>new(<span style="color:#ae81ff">9</span>)
+  <span style="color:#66d9ef">end</span>
 
-  def retrieve_rates(time)
-    @broker.retrieve_rates(@currency_pair, :one_day, time - 60 * 60 * 24 * 60, time)
-  end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">retrieve_rates</span>(time)
+    @broker<span style="color:#f92672">.</span>retrieve_rates(@currency_pair, <span style="color:#e6db74">:one_day</span>, time <span style="color:#f92672">-</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">24</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">60</span>, time)
+  <span style="color:#66d9ef">end</span>
 
-  def calculate_estrangement(price, ma)
-    ((BigDecimal.new(price, 10) - ma) / ma * 100).to_f
-  end
-end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calculate_estrangement</span>(price, ma)
+    ((<span style="color:#66d9ef">BigDecimal</span><span style="color:#f92672">.</span>new(price, <span style="color:#ae81ff">10</span>) <span style="color:#f92672">-</span> ma) <span style="color:#f92672">/</span> ma <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>)<span style="color:#f92672">.</span>to_f
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
 
-</code></pre>
-
-<h1 id="digital-ocean-へのデプロイ手順">Digital Ocean へのデプロイ手順</h1>
-
+</code></pre></div><h1 id="digital-ocean-へのデプロイ手順">Digital Ocean へのデプロイ手順</h1>
 <h2 id="digital-ocean-上で-droplet-を作成">Digital Ocean 上で Droplet を作成</h2>
-
 <p>サーバーを立ち上げる。Digital Ocean のデザインが全体的にシンプルで好き。
 とりあえず公式だと CentOS で動作確認しているみたいなので、CentOS でサーバーの size は一番小さいやつにしておく。(運用中は基本的に 12 時間に 1 回しかアクション起こさないので、これで十分なはず)</p>
-
-<p><amp-img alt="DigitalOcean"
-  src="/images/2016-10-26-jiji-tensorflow.png"
-  width="1082"
-  height="914"
-  layout="responsive">
-</amp-img></p>
-
+<p><!-- raw HTML omitted -->
+<!-- raw HTML omitted --></p>
 <h2 id="centos-にアクセスして環境構築">CentOS にアクセスして環境構築</h2>
-
 <p>先に、独自ドメインの DNS の設定と、Digital Ocean 側でもメニューの Networks から設定しておく。</p>
-
 <p>また、今回は ssh キーを登録して root にログインしているので、<code>sudo</code> コマンドは使っていないので、適宜必要なところには入れてください。</p>
-
 <p>Digital Ocean の管理画面に書かれている IP アドレスに <code>ssh root@{IPアドレス}</code> でアクセス</p>
-
-<pre><code class="language-sh">
-# 必要なパッケージをインストール
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">
+<span style="color:#75715e"># 必要なパッケージをインストール</span>
 $ yum update -y
 $ yum install -y epel-release
-$ yum install -y docker git certbot # Let's Encrypt を利用するので certbot を入れる
-$ certbot certonly --standalone -d {独自ドメイン} # 持っているドメインを設定して証明書を発行
+$ yum install -y docker git certbot <span style="color:#75715e"># Let&#39;s Encrypt を利用するので certbot を入れる</span>
+$ certbot certonly --standalone -d <span style="color:#f92672">{</span>独自ドメイン<span style="color:#f92672">}</span> <span style="color:#75715e"># 持っているドメインを設定して証明書を発行</span>
 
-# docker の設定
+<span style="color:#75715e"># docker の設定</span>
 $ service docker start
 $ chkconfig docker on
 
-# docker-compose の構築
-$ curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-Linux-x86_64 &gt; /tmp/docker-compose #バージョンは最新の入れれば問題ない?
+<span style="color:#75715e"># docker-compose の構築</span>
+$ curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-Linux-x86_64 &gt; /tmp/docker-compose <span style="color:#75715e">#バージョンは最新の入れれば問題ない?</span>
 $ mv /tmp/docker-compose /usr/local/bin/
 $ chmod +x /usr/local/bin/docker-compose
 
-# jiji の構築
+<span style="color:#75715e"># jiji の構築</span>
 $ git clone https://github.com/unageanu/jiji-with-tensorflow-example.git
 $ mkdir -p jiji-with-tensorflow-example/cert
-$ mv /etc/letsencrypt/archive/{独自ドメイン}/cert1.pem jiji-with-tensorflow-example/cert/server.crt # Let's Encrypt で作成した証明書を移動
-$ mv /etc/letsencrypt/archive/{独自ドメイン}/privkey1.pem jiji-with-tensorflow-example/cert/server.key
+$ mv /etc/letsencrypt/archive/<span style="color:#f92672">{</span>独自ドメイン<span style="color:#f92672">}</span>/cert1.pem jiji-with-tensorflow-example/cert/server.crt <span style="color:#75715e"># Let&#39;s Encrypt で作成した証明書を移動</span>
+$ mv /etc/letsencrypt/archive/<span style="color:#f92672">{</span>独自ドメイン<span style="color:#f92672">}</span>/privkey1.pem jiji-with-tensorflow-example/cert/server.key
 $ cd jiji-with-tensorflow-example
 $ chown root.root cert/server.key
-$ chmod 600 cert/server.key
-$ vi docker-compose.yml # USER_SECRET を更新
-$ vi build/tensorflow/Dockerfile # 3行目に `RUN pip install --upgrade pip` を挿入(最新版のpipでないとエラーになっていたので追加)
+$ chmod <span style="color:#ae81ff">600</span> cert/server.key
+$ vi docker-compose.yml <span style="color:#75715e"># USER_SECRET を更新</span>
+$ vi build/tensorflow/Dockerfile <span style="color:#75715e"># 3行目に `RUN pip install --upgrade pip` を挿入(最新版のpipでないとエラーになっていたので追加)</span>
 $ docker-compose up -d
-</code></pre>
-
-<h2 id="collect-テストを実行">collect テストを実行</h2>
-
+</code></pre></div><h2 id="collect-テストを実行">collect テストを実行</h2>
 <p>立ち上がったサーバー <code>https://{独自ドメイン}:10443</code> にアクセスし、jiji 上でエージェントを登録して collect mode のテストを実行する。</p>
-
 <h2 id="学習させる">学習させる</h2>
-
-<pre><code class="language-sh"># mongo DBに値が記録されているかを確認
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># mongo DBに値が記録されているかを確認</span>
 $ docker exec -it jiji_example__mongodb  mongo
 &gt; use jiji
-&gt; db.tensorflow_example_trade_and_signals.find().count()
-&gt; quit()
+&gt; db.tensorflow_example_trade_and_signals.find<span style="color:#f92672">()</span>.count<span style="color:#f92672">()</span>
+&gt; quit<span style="color:#f92672">()</span>
 
-# 学習させる
+<span style="color:#75715e"># 学習させる</span>
 $ docker exec -it jiji_example__tensorflow /bin/bash
 
-# docker 上での作業
+<span style="color:#75715e"># docker 上での作業</span>
 $ cd /scripts/
 $ python train.py
 
-# たまに server.py が落ちてしまうことがあったので、forever.js を使ってずっと立ち上げ状態にしておく(docker の中をいじるのはあまり行儀が良くないが。。。)
+<span style="color:#75715e"># たまに server.py が落ちてしまうことがあったので、forever.js を使ってずっと立ち上げ状態にしておく(docker の中をいじるのはあまり行儀が良くないが。。。)</span>
 $ apt update
 $ apt install -y nodejs npm
 $ npm install forever -g
 $ ln -s /usr/bin/nodejs /usr/bin/node
 $ forever start -c /usr/bin/python server.py
-</code></pre>
-
-<h2 id="trade-テストを実行">trade テストを実行</h2>
-
+</code></pre></div><h2 id="trade-テストを実行">trade テストを実行</h2>
 <p>今度は trade mode で実行して上手くいっているかを確認。</p>
-
 <h2 id="感想">感想</h2>
-
 <p>今回やってみて、docker の知識とか色々ついた。こういう触れるオモチャ的なものがあると学習って進む感じ。
 jiji にはかなり感謝してます。</p>
 

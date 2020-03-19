@@ -405,93 +405,63 @@
 
     
 
-    
-
-<p>Kaggleをやってると大きめのCSVファイルデータが用意されていて処理に困ったので、今回はそれを Postgresql で処理して容量を減らして再びCSVにしていきます。</p>
-
+    <p>Kaggleをやってると大きめのCSVファイルデータが用意されていて処理に困ったので、今回はそれを Postgresql で処理して容量を減らして再びCSVにしていきます。</p>
 <h2 id="想定ファイル">想定ファイル</h2>
-
 <p>今回は次のようなcsvを扱います。</p>
-
-<h3 id="sample-csv">sample.csv</h3>
-
-<pre><code class="language-csv">uuid,name,price,date
+<h3 id="samplecsv">sample.csv</h3>
+<pre><code class="language-csv" data-lang="csv">uuid,name,price,date
 xxxxxxxxxxxx,tomato,10,2017-10-19
 yyyyyyyyyyyy,banana,8,2017-10-19
-</code></pre>
-
-<h2 id="postgres-に-db-を作ってアクセスする">Postgres に DB を作ってアクセスする</h2>
-
+</code></pre><h2 id="postgres-に-db-を作ってアクセスする">Postgres に DB を作ってアクセスする</h2>
 <ul>
 <li>入力ファイルがあるディレクトリで作業を行う</li>
 <li>sampleという名前のDBを作成する</li>
-
-<li><p>登録されているユーザー名(username)でsample DBにアクセスする</p>
-
-<pre><code class="language-shell">$ ls # 入力ファイルがあるディレクトリで作業を行う
+<li>登録されているユーザー名(username)でsample DBにアクセスする</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ls <span style="color:#75715e"># 入力ファイルがあるディレクトリで作業を行う</span>
 sample.csv
 
 $ createdb sample
 
-$ psql -d sample -U (username)
-</code></pre></li>
-</ul>
-
-<h2 id="table-を作る">Table を作る</h2>
-
+$ psql -d sample -U <span style="color:#f92672">(</span>username<span style="color:#f92672">)</span>
+</code></pre></div><h2 id="table-を作る">Table を作る</h2>
 <ul>
 <li>samplesという Table を作成する。csvと同じ構成になるようにカラムを設定する</li>
-
-<li><p><code>\d</code>で作ったTableが存在するかを確認</p>
-
-<pre><code class="language-postgresql">sample=# CREATE TABLE samples (
-uuid            varchar(80),
-name            varchar(80),
-price           int,
-date            date
-);
-sample=# \d
-     List of relations
-Schema |  Name   | Type  | Owner
---------+---------+-------+--------
-public | samples | table | username
-</code></pre></li>
+<li><code>\d</code>で作ったTableが存在するかを確認</li>
 </ul>
-
-<h2 id="ローカルのcsvをインポートする">ローカルのcsvをインポートする</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-postgresql" data-lang="postgresql">sample<span style="color:#f92672">=#</span> <span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> samples (
+    uuid            varchar(<span style="color:#ae81ff">80</span>),
+    <span style="color:#66d9ef">name</span>            varchar(<span style="color:#ae81ff">80</span>),
+    price           int,
+    date            date
+);
+sample<span style="color:#f92672">=#</span> <span style="color:#960050;background-color:#1e0010">\</span>d
+         List <span style="color:#66d9ef">of</span> relations
+ <span style="color:#66d9ef">Schema</span> <span style="color:#f92672">|</span>  <span style="color:#66d9ef">Name</span>   <span style="color:#f92672">|</span> <span style="color:#66d9ef">Type</span>  <span style="color:#f92672">|</span> <span style="color:#66d9ef">Owner</span>
+<span style="color:#75715e">--------+---------+-------+--------
+</span><span style="color:#75715e"></span> public <span style="color:#f92672">|</span> samples <span style="color:#f92672">|</span> <span style="color:#66d9ef">table</span> <span style="color:#f92672">|</span> username
+</code></pre></div><h2 id="ローカルのcsvをインポートする">ローカルのcsvをインポートする</h2>
 <ul>
 <li>今回は <code>\copy</code> でメタコマンドを使っているが、<code>COPY</code>コマンドを使う場合は絶対パスを指定してあげる</li>
-
-<li><p><code>header</code> を追加することでcsvの最初の行を無視してくれる</p>
-
-<pre><code class="language-postgresql">sample=# \copy samples from 'sample.csv' with csv header;
-COPY 2
-sample=# select * from samples;
- uuid     |  name  | price |    date
---------------+--------+-------+------------
-xxxxxxxxxxxx | tomato |    10 | 2017-10-19
-yyyyyyyyyyyy | banana |     8 | 2017-10-19
-(2 rows)
-</code></pre></li>
+<li><code>header</code> を追加することでcsvの最初の行を無視してくれる</li>
 </ul>
-
-<h2 id="sqlの実行結果をcsvで出力する">SQLの実行結果をcsvで出力する</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-postgresql" data-lang="postgresql">sample<span style="color:#f92672">=#</span> <span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">copy</span> samples <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;sample.csv&#39;</span> <span style="color:#66d9ef">with</span> <span style="color:#66d9ef">csv</span> <span style="color:#66d9ef">header</span>;
+<span style="color:#66d9ef">COPY</span> <span style="color:#ae81ff">2</span>
+sample<span style="color:#f92672">=#</span> <span style="color:#66d9ef">select</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">from</span> samples;
+     uuid     <span style="color:#f92672">|</span>  <span style="color:#66d9ef">name</span>  <span style="color:#f92672">|</span> price <span style="color:#f92672">|</span>    date
+<span style="color:#75715e">--------------+--------+-------+------------
+</span><span style="color:#75715e"></span> xxxxxxxxxxxx <span style="color:#f92672">|</span> tomato <span style="color:#f92672">|</span>    <span style="color:#ae81ff">10</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">2017</span><span style="color:#f92672">-</span><span style="color:#ae81ff">10</span><span style="color:#f92672">-</span><span style="color:#ae81ff">19</span>
+ yyyyyyyyyyyy <span style="color:#f92672">|</span> banana <span style="color:#f92672">|</span>     <span style="color:#ae81ff">8</span> <span style="color:#f92672">|</span> <span style="color:#ae81ff">2017</span><span style="color:#f92672">-</span><span style="color:#ae81ff">10</span><span style="color:#f92672">-</span><span style="color:#ae81ff">19</span>
+(<span style="color:#ae81ff">2</span> <span style="color:#66d9ef">rows</span>)
+</code></pre></div><h2 id="sqlの実行結果をcsvで出力する">SQLの実行結果をcsvで出力する</h2>
 <ul>
-<li><p>ローカルに <code>output.csv</code> が出力される</p>
-
-<pre><code class="language-postgresql">sample=# \copy (SELECT uuid, name, price, date FROM samples WHERE price &gt; 9) to 'output.csv' with csv delimiter ',' header;
-</code></pre></li>
+<li>ローカルに <code>output.csv</code> が出力される</li>
 </ul>
-
-<h3 id="output-csv">output.csv</h3>
-
-<pre><code class="language-csv">uuid,name,price,date
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-postgresql" data-lang="postgresql">sample<span style="color:#f92672">=#</span> <span style="color:#960050;background-color:#1e0010">\</span><span style="color:#66d9ef">copy</span> (<span style="color:#66d9ef">SELECT</span> uuid, <span style="color:#66d9ef">name</span>, price, date <span style="color:#66d9ef">FROM</span> samples <span style="color:#66d9ef">WHERE</span> price <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">9</span>) <span style="color:#66d9ef">to</span> <span style="color:#e6db74">&#39;output.csv&#39;</span> <span style="color:#66d9ef">with</span> <span style="color:#66d9ef">csv</span> <span style="color:#66d9ef">delimiter</span> <span style="color:#e6db74">&#39;,&#39;</span> <span style="color:#66d9ef">header</span>;
+</code></pre></div><h3 id="outputcsv">output.csv</h3>
+<pre><code class="language-csv" data-lang="csv">uuid,name,price,date
 xxxxxxxxxxxx,tomato,10,2017-10-19
-</code></pre>
-
-<p>これで、sqlで処理して容量を減らしたcsvができるようになった。</p>
+</code></pre><p>これで、sqlで処理して容量を減らしたcsvができるようになった。</p>
 
 
   </div>

@@ -401,171 +401,139 @@
 
     
 
-    
-
-<h1 id="はじめに">はじめに</h1>
-
+    <h1 id="はじめに">はじめに</h1>
 <p>今までRailsのscaffoldは、素早くアプリを作るためのツールだと思っていました。しかし、scaffoldはRailsの規約が適用されているバイブル的な存在であり、scaffoldに従って書くことで効率的にサイトを作っていくことができる！と教わったので、生成されるコードで気になる所を調べてみました。その時のメモ。</p>
-
 <p>※このメモを書いたのは2013年7月で書いた時点ではRails触って3ヶ月位だったので情報が間違っているor古くなっている可能性があります。</p>
-
 <h1 id="scaffold差分">scaffold差分</h1>
-
-<p><a href="https://github.com/regonn/scaffold/commit/538f1173ff974537337cfb371a50658696b65460" target="_blank">生成されるコード</a>
+<p><a href="https://github.com/regonn/scaffold/commit/538f1173ff974537337cfb371a50658696b65460">生成されるコード</a>
 実行コード</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ rails generate scaffold Item name:string price:integer description:text
+</code></pre></div><h2 id="migrateファイル">migrateファイル</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CreateItems</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ActiveRecord</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Migration</span>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">change</span>
+    create_table <span style="color:#e6db74">:items</span> <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>t<span style="color:#f92672">|</span>
+      t<span style="color:#f92672">.</span>string <span style="color:#e6db74">:name</span>
+      t<span style="color:#f92672">.</span>integer <span style="color:#e6db74">:price</span>
+      t<span style="color:#f92672">.</span>text <span style="color:#e6db74">:description</span>
 
-<pre><code class="language-sh">$ rails generate scaffold Item name:string price:integer description:text
-</code></pre>
-
-<h2 id="migrateファイル">migrateファイル</h2>
-
-<pre><code class="language-ruby">class CreateItems &lt; ActiveRecord::Migration
-  def change
-    create_table :items do |t|
-      t.string :name
-      t.integer :price
-      t.text :description
-
-      t.timestamps
-    end
-  end
-end
-</code></pre>
-
-<ul>
+      t<span style="color:#f92672">.</span>timestamps
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><ul>
 <li>ActiveRecordのclassを継承していますが、これはSQLでリレーショナルデータベースを扱う際に必要なもの</li>
 </ul>
-
-<p><a href="http://www.atmarkit.co.jp/ait/articles/1104/12/news135.html" target="_blank">Ruby on Rails3で学ぶWeb開発のキホン（3）：「ActiveRecord」の基本とデータの参照 (<sup>1</sup>&frasl;<sub>2</sub>) - ＠IT</a></p>
-
+<p><a href="http://www.atmarkit.co.jp/ait/articles/1104/12/news135.html">Ruby on Rails3で学ぶWeb開発のキホン（3）：「ActiveRecord」の基本とデータの参照 (1/2) - ＠IT</a></p>
 <ul>
 <li>NOSQLでは使われないみたい</li>
 </ul>
-
-<p><a href="http://d.hatena.ne.jp/spitfire_tree/20120913/1347508860" target="_blank">MongoDB を Rails から使う、導入編 - happy lie, happy life</a></p>
-
+<p><a href="http://d.hatena.ne.jp/spitfire_tree/20120913/1347508860">MongoDB を Rails から使う、導入編 - happy lie, happy life</a></p>
 <p>これで無事に、migrateができました。失敗したorやり直したい時には</p>
-
-<pre><code class="language-sh">$ rake db:migrate:redo [STEP=ステップ数]
-</code></pre>
-
-<p>で戻すことができます。</p>
-
-<h2 id="config-routes-rb">config/routes.rb</h2>
-
-<pre><code class="language-ruby">Sample::Application.routes.draw do
-  resources :items
-end
-</code></pre>
-
-<ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ rake db:migrate:redo <span style="color:#f92672">[</span>STEP<span style="color:#f92672">=</span>ステップ数<span style="color:#f92672">]</span>
+</code></pre></div><p>で戻すことができます。</p>
+<h2 id="configroutesrb">config/routes.rb</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">Sample</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Application</span><span style="color:#f92672">.</span>routes<span style="color:#f92672">.</span>draw <span style="color:#66d9ef">do</span>
+  resources <span style="color:#e6db74">:items</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><ul>
 <li>resources :itemsがscaffoldで生成されています。これによって、routingが追加されてきます。ちなみに、 resource :itemとすれば、単体で扱う場合に重宝するみたいです。</li>
 </ul>
-
-<p><a href="http://ayaketan.hatenablog.com/entry/2012/12/19/224456" target="_blank">Ruby on Rails ルーティング - ayaketanのプログラミング勉強日記</a></p>
-
+<p><a href="http://ayaketan.hatenablog.com/entry/2012/12/19/224456">Ruby on Rails ルーティング - ayaketanのプログラミング勉強日記</a></p>
 <ul>
-<li><p>設定されたroutingは <code>rake routes</code> コマンドで確認ができます。</p>
-
-<pre><code>Prefix Verb   URI Pattern               Controller#Action
-items GET    /items(.:format)          items#index
-      POST   /items(.:format)          items#create
-new_item GET    /items/new(.:format)      items#new
+<li>設定されたroutingは <code>rake routes</code> コマンドで確認ができます。</li>
+</ul>
+<pre><code>   Prefix Verb   URI Pattern               Controller#Action
+    items GET    /items(.:format)          items#index
+          POST   /items(.:format)          items#create
+ new_item GET    /items/new(.:format)      items#new
 edit_item GET    /items/:id/edit(.:format) items#edit
- item GET    /items/:id(.:format)      items#show
-      PATCH  /items/:id(.:format)      items#update
-      PUT    /items/:id(.:format)      items#update
-      DELETE /items/:id(.:format)      items#destroy
-</code></pre></li>
-
-<li><p>Rails3とは違ってPATCHが追加されています。</p></li>
+     item GET    /items/:id(.:format)      items#show
+          PATCH  /items/:id(.:format)      items#update
+          PUT    /items/:id(.:format)      items#update
+          DELETE /items/:id(.:format)      items#destroy
+</code></pre><ul>
+<li>Rails3とは違ってPATCHが追加されています。</li>
 </ul>
+<p><a href="http://d.hatena.ne.jp/tkawa/20120325/p1">次期RailsがPATCHメソッドを採用 - ぶろぐ。@はてな</a></p>
+<h2 id="appcontrolleritems_controllerrb">app/controller/items_controller.rb</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ItemsController</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ApplicationController</span>
+  before_action <span style="color:#e6db74">:set_item</span>, <span style="color:#e6db74">only</span>: <span style="color:#f92672">[</span><span style="color:#e6db74">:show</span>, <span style="color:#e6db74">:edit</span>, <span style="color:#e6db74">:update</span>, <span style="color:#e6db74">:destroy</span><span style="color:#f92672">]</span>
 
-<p><a href="http://d.hatena.ne.jp/tkawa/20120325/p1" target="_blank">次期RailsがPATCHメソッドを採用 - ぶろぐ。@はてな</a></p>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>
+    @items <span style="color:#f92672">=</span> <span style="color:#66d9ef">Item</span><span style="color:#f92672">.</span>all
+  <span style="color:#66d9ef">end</span>
 
-<h2 id="app-controller-items-controller-rb">app/controller/items_controller.rb</h2>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">show</span>; <span style="color:#66d9ef">end</span>
 
-<pre><code class="language-ruby">class ItemsController &lt; ApplicationController
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">new</span>
+    @item <span style="color:#f92672">=</span> <span style="color:#66d9ef">Item</span><span style="color:#f92672">.</span>new
+  <span style="color:#66d9ef">end</span>
 
-  def index
-    @items = Item.all
-  end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">edit</span>; <span style="color:#66d9ef">end</span>
 
-  def show; end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create</span>
+    @item <span style="color:#f92672">=</span> <span style="color:#66d9ef">Item</span><span style="color:#f92672">.</span>new(item_params)
 
-  def new
-    @item = Item.new
-  end
+    respond_to <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>format<span style="color:#f92672">|</span>
+      <span style="color:#66d9ef">if</span> @item<span style="color:#f92672">.</span>save
+        format<span style="color:#f92672">.</span>html { redirect_to @item, <span style="color:#e6db74">notice</span>: <span style="color:#e6db74">&#39;Item was successfully created.&#39;</span> }
+        format<span style="color:#f92672">.</span>json { render <span style="color:#e6db74">action</span>: <span style="color:#e6db74">&#39;show&#39;</span>, <span style="color:#e6db74">status</span>: <span style="color:#e6db74">:created</span>, <span style="color:#e6db74">location</span>: @item }
+      <span style="color:#66d9ef">else</span>
+        format<span style="color:#f92672">.</span>html { render <span style="color:#e6db74">action</span>: <span style="color:#e6db74">&#39;new&#39;</span> }
+        format<span style="color:#f92672">.</span>json { render <span style="color:#e6db74">json</span>: @item<span style="color:#f92672">.</span>errors, <span style="color:#e6db74">status</span>: <span style="color:#e6db74">:unprocessable_entity</span> }
+      <span style="color:#66d9ef">end</span>
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
 
-  def edit; end
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update</span>
+    respond_to <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>format<span style="color:#f92672">|</span>
+      <span style="color:#66d9ef">if</span> @item<span style="color:#f92672">.</span>update(item_params)
+        format<span style="color:#f92672">.</span>html { redirect_to @item, <span style="color:#e6db74">notice</span>: <span style="color:#e6db74">&#39;Item was successfully updated.&#39;</span> }
+        format<span style="color:#f92672">.</span>json { head <span style="color:#e6db74">:no_content</span> }
+      <span style="color:#66d9ef">else</span>
+        format<span style="color:#f92672">.</span>html { render <span style="color:#e6db74">action</span>: <span style="color:#e6db74">&#39;edit&#39;</span> }
+        format<span style="color:#f92672">.</span>json { render <span style="color:#e6db74">json</span>: @item<span style="color:#f92672">.</span>errors, <span style="color:#e6db74">status</span>: <span style="color:#e6db74">:unprocessable_entity</span> }
+      <span style="color:#66d9ef">end</span>
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
 
-  def create
-    @item = Item.new(item_params)
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">destroy</span>
+    @item<span style="color:#f92672">.</span>destroy
+    respond_to <span style="color:#66d9ef">do</span> <span style="color:#f92672">|</span>format<span style="color:#f92672">|</span>
+      format<span style="color:#f92672">.</span>html { redirect_to items_url }
+      format<span style="color:#f92672">.</span>json { head <span style="color:#e6db74">:no_content</span> }
+    <span style="color:#66d9ef">end</span>
+  <span style="color:#66d9ef">end</span>
 
-    respond_to do |format|
-      if @item.save
-        format.html { redirect_to @item, notice: 'Item was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @item }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @item.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  <span style="color:#66d9ef">private</span>
 
-  def update
-    respond_to do |format|
-      if @item.update(item_params)
-        format.html { redirect_to @item, notice: 'Item was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @item.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">set_item</span>
+      @item <span style="color:#f92672">=</span> <span style="color:#66d9ef">Item</span><span style="color:#f92672">.</span>find(params<span style="color:#f92672">[</span><span style="color:#e6db74">:id</span><span style="color:#f92672">]</span>)
+    <span style="color:#66d9ef">end</span>
 
-  def destroy
-    @item.destroy
-    respond_to do |format|
-      format.html { redirect_to items_url }
-      format.json { head :no_content }
-    end
-  end
-
-  private
-
-    def set_item
-      @item = Item.find(params[:id])
-    end
-
-    def item_params
-      params.require(:item).permit(:name, :price, :description)
-    end
-end
-</code></pre>
-
-<ul>
-<li><p>before_actionを使うことで、 <code>@item = Item.find(params[:id])</code> を実行しているので、showやeditメソッドがスッキリしてますね。</p></li>
-
-<li><p>action以外のメソッドを追加してしまうと、意図しないコードが直接実行されてしまう可能性があるので、privateメソッドにする必要があるみたいです。</p></li>
-
-<li><p>Rails3でのattr_accessibleはstrong parametersに変更。</p></li>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">item_params</span>
+      params<span style="color:#f92672">.</span>require(<span style="color:#e6db74">:item</span>)<span style="color:#f92672">.</span>permit(<span style="color:#e6db74">:name</span>, <span style="color:#e6db74">:price</span>, <span style="color:#e6db74">:description</span>)
+    <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><ul>
+<li>
+<p>before_actionを使うことで、 <code>@item = Item.find(params[:id])</code> を実行しているので、showやeditメソッドがスッキリしてますね。</p>
+</li>
+<li>
+<p>action以外のメソッドを追加してしまうと、意図しないコードが直接実行されてしまう可能性があるので、privateメソッドにする必要があるみたいです。</p>
+</li>
+<li>
+<p>Rails3でのattr_accessibleはstrong parametersに変更。</p>
+</li>
 </ul>
-
-<p><a href="http://memo.yomukaku.net/entries/sNBzYUI" target="_blank">Rails 4でmass assignmentを防止する方法: strong parameters - memo.yomukaku.net</a></p>
-
+<p><a href="http://memo.yomukaku.net/entries/sNBzYUI">Rails 4でmass assignmentを防止する方法: strong parameters - memo.yomukaku.net</a></p>
 <ul>
 <li>renderとredirect_toの違いですが、renderはそのままデータをviewテンプレートに貼り付けるイメージで、redirectはもう一度URLにリクエストして表示しています。もし、createメソッドのredirect_toをrenderに変更してしまうと、動作はしますが、クライアント側でブラウザバック等を使って何回も容易にに新しいデータをcreateできてしまう危険性が生まれてしまいます。</li>
 </ul>
-
-<p><a href="http://stackoverflow.com/questions/7493767/are-redirect-to-and-render-exchangeable" target="_blank">ruby on rails - Are redirect_to and render exchangeable? - Stack Overflow</a>
+<p><a href="http://stackoverflow.com/questions/7493767/are-redirect-to-and-render-exchangeable">ruby on rails - Are redirect_to and render exchangeable? - Stack Overflow</a>
 (英語ですが一番図が分かりやすかったです。redirectすると間にGETリクエストが入るのが大事みたい。)</p>
-
 <p>##app/views/items/index.html.erb</p>
-
-<pre><code class="language-erb">&lt;h1&gt;Listing items&lt;/h1&gt;
+<pre><code class="language-erb" data-lang="erb">&lt;h1&gt;Listing items&lt;/h1&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -596,34 +564,23 @@ end
 &lt;br&gt;
 
 &lt;%= link_to 'New Item', new_item_path %&gt;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>ほとんどは、htmlが理解できていれば大丈夫そうですが、注目するのはedit_item_path(item)の部分ですね。</li>
 </ul>
-
 <p>controllerのところではredirect_to items_urlが使われていて、XXX_path と XXX_urlで何が違うのか知らなかった。調べてみると相対パスと絶対パスの違いがあるみたい。（link_toなら出力する量が少ないXXX_pathの方がいいらしい）
-<a href="http://shin.hateblo.jp/entry/2013/01/13/124158" target="_blank">Railsの<em>_pathと</em>_urlに関するメモ - $ cat /var/log/shin</a></p>
-
-<h2 id="app-views-items-index-json-jbuilder">app/views/items/index.json.jbuilder</h2>
-
+<a href="http://shin.hateblo.jp/entry/2013/01/13/124158">Railsの*_pathと*_urlに関するメモ - $ cat /var/log/shin</a></p>
+<h2 id="appviewsitemsindexjsonjbuilder">app/views/items/index.json.jbuilder</h2>
 <p>rails4からJSON出力にjbuilderが使われているみたいです。</p>
-
-<pre><code class="language-jbuilder">json.array!(@items) do |item|
+<pre><code class="language-jbuilder" data-lang="jbuilder">json.array!(@items) do |item|
   json.extract! item, :name, :price, :description
   json.url item_url(item, format: :json)
 end
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>これで、JSON形式の出力もview側に書けばいいのでcontrollerがスッキリするみたいですね。</li>
 </ul>
-
-<p><a href="http://f96q.github.io/blog/2013/03/05/rails4-jbuilder/" target="_blank">rails4のjbuilderを使ってみた - ガイアが俺にもっとコード書けと囁いている</a></p>
-
-<h2 id="app-views-items-form-html-erb">app/views/items/_form.html.erb</h2>
-
-<pre><code class="language-erb">&lt;%= form_for(@item) do |f| %&gt;
+<p><a href="http://f96q.github.io/blog/2013/03/05/rails4-jbuilder/">rails4のjbuilderを使ってみた - ガイアが俺にもっとコード書けと囁いている</a></p>
+<h2 id="appviewsitems_formhtmlerb">app/views/items/_form.html.erb</h2>
+<pre><code class="language-erb" data-lang="erb">&lt;%= form_for(@item) do |f| %&gt;
   &lt;% if @item.errors.any? %&gt;
     &lt;div id=&quot;error_explanation&quot;&gt;
       &lt;h2&gt;&lt;%= pluralize(@item.errors.count, &quot;error&quot;) %&gt; prohibited this item from being saved:&lt;/h2&gt;
@@ -652,20 +609,13 @@ end
     &lt;%= f.submit %&gt;
   &lt;/div&gt;
 &lt;% end %&gt;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>実際にどのように変換されるのかは次のサイトが分かりやすかった</li>
 </ul>
-
-<p><a href="http://hbnist76.blog.fc2.com/blog-entry-144.html" target="_blank">「Ruby on Rails Tutorial」ビューのform_forと実際に生成されたHTMLフォーム Ruby on RailsでWebサイト公開！に挑戦中</a></p>
-
+<p><a href="http://hbnist76.blog.fc2.com/blog-entry-144.html">「Ruby on Rails Tutorial」ビューのform_forと実際に生成されたHTMLフォーム Ruby on RailsでWebサイト公開！に挑戦中</a></p>
 <h1 id="おわりに">おわりに</h1>
-
 <p>今回はこれで終了。</p>
-
 <p>Railsの「設定よりも規約」という考えが反映され、普段気にせず使っているコードも、理解を深めていけばいくほどプログラマーにとって便利な動きをしてくれていることがわかってきました。</p>
-
 <p>今回scaffoldを追ってみたことで、以前よりはレールに乗れて脱線することも減るかなと思います。</p>
 
 

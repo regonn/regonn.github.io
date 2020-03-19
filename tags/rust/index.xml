@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>rust on そこのけそこのけゆとりが通る</title>
@@ -20,7 +20,7 @@
       <description>2015年には1.0が公開される予定のRust言語の勉強のために、Unixコマンドを簡略化してRustで実装してみた。
 すでに、uutils/coreutilsプロジェクトでcatコマンドは実装されていますが、今回はふつうのlinuxプログラミングという本のサンプルコードを参考にしました。
 ※ コードはここのレポジトリに公開するので、「もっとこう書けるよ」みたいなのがあれば、プルリクお願いします。
-C言語でのcat #include &amp;lt;stdio.h&amp;gt; #include &amp;lt;stdlib.h&amp;gt; #include &amp;lt;unistd.h&amp;gt; #include &amp;lt;sys/types.h&amp;gt; #include &amp;lt;sys/stat.h&amp;gt; #include &amp;lt;fcntl.h&amp;gt; static void do_cat(const char *path); static void die(const char *s); int main(int argc, char *argv[]) { int i; if (argc &amp;lt; 2) { fprintf(stderr, &amp;quot;%s: file name not given\n&amp;quot;, argv[0]); exit(1); } for (i = 1; i &amp;lt; argc; i++) { do_cat(argv[i]); } exit(0); } #define BUFFER_SIZE 2048 static void do_cat(const char *path) { int fd; unsigned char buf[BUFFER_SIZE]; int n; fd = open(path, O_RDONLY); if (fd &amp;lt; 0) die(path); for (;;) { n = read(fd, buf, sizeof buf); if (n &amp;lt; 0) die(path); if (n == 0) break; if (write(STDOUT_FILENO, buf, n) &amp;lt; 0) die(path); } if (close(fd) &amp;lt; 0) die(path); } static void die(const char *s) { perror(s); exit(1); }  オプションとかは実装せず、ファイルの内容を読み取り標準出力する。</description>
+C言語でのcat #include &amp;lt;stdio.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;#include &amp;lt;unistd.h&amp;gt;#include &amp;lt;sys/types.h&amp;gt;#include &amp;lt;sys/stat.h&amp;gt;#include &amp;lt;fcntl.h&amp;gt;static void do_cat(const char *path);static void die(const char *s);intmain(int argc, char *argv[]){int i;if (argc &amp;lt; 2) {fprintf(stderr, &amp;#34;%s: file name not given\n&amp;#34;, argv[0]);exit(1);}for (i = 1; i &amp;lt; argc; i++) {do_cat(argv[i]);}exit(0);}#define BUFFER_SIZE 2048static voiddo_cat(const char *path){int fd;unsigned char buf[BUFFER_SIZE];int n;fd = open(path, O_RDONLY);if (fd &amp;lt; 0) die(path);for (;;) {n = read(fd, buf, sizeof buf);if (n &amp;lt; 0) die(path);if (n == 0) break;if (write(STDOUT_FILENO, buf, n) &amp;lt; 0) die(path);}if (close(fd) &amp;lt; 0) die(path);}static void die(const char *s){perror(s);exit(1);}オプションとかは実装せず、ファイルの内容を読み取り標準出力する。</description>
     </item>
     
   </channel>

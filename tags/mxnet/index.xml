@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>mxnet on そこのけそこのけゆとりが通る</title>
@@ -25,7 +25,8 @@ AWS の Deep Learning AMI を使って EC2 インスタンス上で 最新の Ju
 けど、この記事を書いた後に使っていた Deep Learning AMI が大幅に変更された。
 AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Services ブログ
 そして、Julia 0.6.1 だとインストールが失敗するためPkg.build(&#39;MXNet&#39;) してビルドして使っていた MXNet.jl も v0.3.0 がリリースされてインストールできるようになったぽい。
-なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。</description>
+なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。
+利用する EC2 環境  インスタンスタイプ: p2.</description>
     </item>
     
     <item>

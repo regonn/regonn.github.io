@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>capybara on そこのけそこのけゆとりが通る</title>
@@ -27,7 +27,7 @@ Workaround chromedriver lack of support for system modals when headless by twalp
 あと、引数を渡すと、モーダルの内容確認してくれたり、指定した時間(デフォルトはCapybara.default_max_wait_timeなので、設定しなくてもOK)待ってくれたりします。
 今後 Chrome Headless へ移行する予定なら、先に対応しておくと楽になりそうです。
 移行作業 既存のテストコードに対して、
-- page.driver.browser.switch_to.alert.accept + page.accept_confirm  にするだけでOKです。</description>
+- page.driver.browser.switch_to.alert.accept+ page.accept_confirmにするだけでOKです。</description>
     </item>
     
   </channel>

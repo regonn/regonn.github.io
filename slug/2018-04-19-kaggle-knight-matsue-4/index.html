@@ -405,50 +405,39 @@
 
     
 
-    
-
-<p>2018/04/18 開催の <a href="https://www.facebook.com/events/247495035794663/" target="_blank">Kaggle Knight Matsue #4</a> でやった作業内容。</p>
-
-<p>Kaggleの<a href="https://www.kaggle.com/c/imaterialist-challenge-furniture-2018" target="_blank">iMaterialist Challenge</a>の作業</p>
-
+    <p>2018/04/18 開催の <a href="https://www.facebook.com/events/247495035794663/">Kaggle Knight Matsue #4</a> でやった作業内容。</p>
+<p>Kaggleの<a href="https://www.kaggle.com/c/imaterialist-challenge-furniture-2018">iMaterialist Challenge</a>の作業</p>
 <h2 id="画像取得スクリプトの改善">画像取得スクリプトの改善</h2>
-
 <p><a href="/julia/2018/03/30/julia-download-images.html">以前作った画像取得スクリプト</a> だと、ラベルの情報が無かったり、先にフォルダを作っておかないとエラーになったりしたので、自動で取得できるように変更する。</p>
-
 <h3 id="スクリプトの仕様">スクリプトの仕様</h3>
-
 <ul>
 <li>ラベル情報を読み取り、ラベルのフォルダに画像を保存</li>
 <li>フォルダが存在していなければ、新しく <code>mkdir</code> でフォルダ作成</li>
 <li>全ての画像を取得するのではなく、それぞれのラベルの画像をn枚毎ダウンロードしたかったので、ラベル毎の枚数を <code>length(readdir(dirname)</code> でファイル数を読み取って、条件に追加する(コードだと100枚にしてある)</li>
 <li>label に <code>missing</code> が存在していたので、その場合は保存しないようにする</li>
-
-<li><p>json ファイルのときは for in で処理出来ていたが、Dataframeの場合は eachrow を使って行毎に処理できるようにする</p>
-
-<pre><code class="language-julia">for row in eachrow(target_rows)
-try
-    dirname = &quot;./images/$(row[:label_id])&quot;
-    filename = &quot;./images/$(row[:label_id])/$(row[:image_id]).jpg&quot;
-    if !isdir(dirname)
-        mkdir(dirname)
-    end
-    if !(ismissing(row[:label_id]).|(isfile(filename)).|(length(readdir(dirname)) &gt; 100))
-        println(filename)
-        t = tempname()
-        download(row[:url], t)
-        img = load(t)
-        square = imresize(img, (80, 80))
-        save(filename, square)
-        rm(t)
-    end
-catch err
-    println(&quot;ERROR: &quot;, err)
-end
-end
-</code></pre></li>
+<li>json ファイルのときは for in で処理出来ていたが、Dataframeの場合は eachrow を使って行毎に処理できるようにする</li>
 </ul>
-
-<p>これで、あとは放置しておけば勝手に指定した枚数毎にラベルの画像がダウンロードできるようになった。途中で止まっても、ちゃんと枚数を数えてから、ダウンロードが再開されるので安心。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> eachrow(target_rows)
+    <span style="color:#66d9ef">try</span>
+        dirname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;./images/</span><span style="color:#e6db74">$</span>(row[<span style="color:#f92672">:</span>label_id])<span style="color:#e6db74">&#34;</span>
+        filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;./images/</span><span style="color:#e6db74">$</span>(row[<span style="color:#f92672">:</span>label_id])<span style="color:#e6db74">/</span><span style="color:#e6db74">$</span>(row[<span style="color:#f92672">:</span>image_id])<span style="color:#e6db74">.jpg&#34;</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>isdir(dirname)
+            mkdir(dirname)
+        <span style="color:#66d9ef">end</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>(ismissing(row[<span style="color:#f92672">:</span>label_id])<span style="color:#f92672">.|</span>(isfile(filename))<span style="color:#f92672">.|</span>(length(readdir(dirname)) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">100</span>))
+            println(filename)
+            t <span style="color:#f92672">=</span> tempname()
+            download(row[<span style="color:#f92672">:</span>url], t)
+            img <span style="color:#f92672">=</span> load(t)
+            square <span style="color:#f92672">=</span> imresize(img, (<span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">80</span>))
+            save(filename, square)
+            rm(t)
+        <span style="color:#66d9ef">end</span>
+    <span style="color:#66d9ef">catch</span> err
+        println(<span style="color:#e6db74">&#34;ERROR: &#34;</span>, err)
+    <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>これで、あとは放置しておけば勝手に指定した枚数毎にラベルの画像がダウンロードできるようになった。途中で止まっても、ちゃんと枚数を数えてから、ダウンロードが再開されるので安心。</p>
 
 
   </div>

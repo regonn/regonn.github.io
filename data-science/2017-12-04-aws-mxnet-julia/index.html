@@ -411,45 +411,26 @@
 
     
 
-    
-
-<p>田中 TOM という名前で、データサイエンスコンペティションサイトの Kaggle の問題に挑戦する YouTube 動画を投稿してます。</p>
-
-<p><a href="https://www.youtube.com/channel/UCWXXSB94_CUAYD7XgdLzvBg" target="_blank">田中 TOM - YouTube</a></p>
-
+    <p>田中 TOM という名前で、データサイエンスコンペティションサイトの Kaggle の問題に挑戦する YouTube 動画を投稿してます。</p>
+<p><a href="https://www.youtube.com/channel/UCWXXSB94_CUAYD7XgdLzvBg">田中 TOM - YouTube</a></p>
 <p>普段 Julia 言語を使って解析をしていて、AWS で Amazon が公式にサポートしている MXNet を GPU 使って処理してみたかったのでチャレンジ。</p>
-
 <p>実は、既に MXNet.jl を AWS で動かして記事にしてました。</p>
-
-<p><a href="https://tech-regonn.github.io/julia/2017/11/11/aws-julia.html" target="_blank">AWS の Deep Learning AMI を使って EC2 インスタンス上で 最新の Julia を動かせるように</a></p>
-
+<p><a href="https://tech-regonn.github.io/julia/2017/11/11/aws-julia.html">AWS の Deep Learning AMI を使って EC2 インスタンス上で 最新の Julia を動かせるように</a></p>
 <p>けど、この記事を書いた後に使っていた Deep Learning AMI が大幅に変更された。</p>
-
-<p><a href="https://aws.amazon.com/jp/blogs/news/getting-started-with-the-aws-deep-learning-conda-and-base-amis/" target="_blank">AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Services ブログ</a></p>
-
-<p>そして、Julia 0.6.1 だとインストールが失敗するため<code>Pkg.build('MXNet')</code> してビルドして使っていた <a href="https://github.com/dmlc/MXNet.jl" target="_blank">MXNet.jl</a> も v0.3.0 がリリースされてインストールできるようになったぽい。</p>
-
+<p><a href="https://aws.amazon.com/jp/blogs/news/getting-started-with-the-aws-deep-learning-conda-and-base-amis/">AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Services ブログ</a></p>
+<p>そして、Julia 0.6.1 だとインストールが失敗するため<code>Pkg.build('MXNet')</code> してビルドして使っていた <a href="https://github.com/dmlc/MXNet.jl">MXNet.jl</a> も v0.3.0 がリリースされてインストールできるようになったぽい。</p>
 <p>なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。</p>
-
 <h2 id="利用する-ec2-環境">利用する EC2 環境</h2>
-
 <ul>
 <li>インスタンスタイプ:  p2.xlarge(GPU を利用するため)</li>
 <li>AMI: Deep Learning AMI with Conda (Ubuntu) - ami-f0725c95</li>
 </ul>
-
 <h2 id="サーバーへ-ssh-ログイン">サーバーへ ssh ログイン</h2>
-
 <p>最後の <code>-L</code> オプションを使うことで、サーバーの 8888 ポートをローカルとしてつかえるので jupyter notebook を使う場合に便利。</p>
-
-<pre><code class="language-shell">$ ssh -i your-key.pem ec2-user@ec2-XXX-XXX-XXX-XXX.compute-1.amazonaws.com -L 8888:localhost:8888
-</code></pre>
-
-<h2 id="julia-のインストール">Julia のインストール</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ssh -i your-key.pem ec2-user@ec2-XXX-XXX-XXX-XXX.compute-1.amazonaws.com -L 8888:localhost:8888
+</code></pre></div><h2 id="julia-のインストール">Julia のインストール</h2>
 <p>Ubuntu だと最新の Julia 0.6.1 がインストールできないのでビルドする。最初から必要なライブラリ系はだいたい揃ってるみたい。並列処理で make するけど、それでも結構時間かかる。</p>
-
-<pre><code class="language-shell">$ sudo su -
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ sudo su -
 $ apt-get update
 $ apt-get install libpango1.0-0 -y
 $ add-apt-repository ppa:staticfloat/julia-deps -y
@@ -458,34 +439,21 @@ $ cd /usr/local/src
 $ git clone https://github.com/JuliaLang/julia.git
 $ cd julia
 $ git checkout v0.6.1
-$ echo &quot;JULIA_CPU_TARGET=core2&quot; &amp;gt; Make.user
-$ make -j 4 julia-deps
+$ echo <span style="color:#e6db74">&#34;JULIA_CPU_TARGET=core2&#34;</span> &amp;gt; Make.user
+$ make -j <span style="color:#ae81ff">4</span> julia-deps
 $ make -j 4
 $ make install
 $ ln -s /usr/local/src/julia/julia /usr/local/bin/julia
-</code></pre>
-
-<h2 id="mxnet-jl-のインストール">MXNet.jl のインストール</h2>
-
+</code></pre></div><h2 id="mxnetjl-のインストール">MXNet.jl のインストール</h2>
 <p><code>julia</code> コマンドで起動してパッケージをインストール。以前は MXNet がインストール失敗してたけど、バージョンアップでインストールできるようになった。</p>
-
-<pre><code class="language-julia">$ julia
-&gt; Pkg.add(&quot;IJulia&quot;)
-&gt; Pkg.add(&quot;MXNet&quot;)
-</code></pre>
-
-<h2 id="jupyter-notebook-で-cpu-と-gpu-を比較">Jupyter notebook で CPU と GPU を比較</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#f92672">$</span> julia
+<span style="color:#f92672">&gt;</span> Pkg<span style="color:#f92672">.</span>add(<span style="color:#e6db74">&#34;IJulia&#34;</span>)
+<span style="color:#f92672">&gt;</span> Pkg<span style="color:#f92672">.</span>add(<span style="color:#e6db74">&#34;MXNet&#34;</span>)
+</code></pre></div><h2 id="jupyter-notebook-で-cpu-と-gpu-を比較">Jupyter notebook で CPU と GPU を比較</h2>
 <p><code>jupyter notebook</code> を実行して、MXNet.jl のサンプルコードで MNIST のデータを処理する。先に CPU でやってみて、後半 GPU。変更部分は <code>context=mx.gpu(0)</code> の部分。</p>
-
-<p><amp-gist
-  data-gistid="145b1f441a34f31246b9ad0d650d3738"
-  layout="fixed-height"
-  height="225">
-</amp-gist></p>
-
+<p><!-- raw HTML omitted -->
+<!-- raw HTML omitted --></p>
 <h2 id="cpu-と-gpu-の比較結果">CPU と GPU の比較結果</h2>
-
 <p>CPU だと 1epoch の処理に 100 秒かかっているのが、GPU だとなんと 1 秒に。パネェ。</p>
 
 

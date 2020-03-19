@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>jiji on そこのけそこのけゆとりが通る</title>
@@ -20,7 +20,7 @@
       <description>目的 TensorFlow を使った為替(FX)のトレードシステムを作るチュートリアル ～システムのセットアップからトレードまで～ で公開されているサンプルコードを実行してみて、トレードの成績は良いものの、取引回数が減ってしまうので、複数通貨で取引できるようにしてみた。さらに今回は Digital Ocean VPS で実際に動かすところまでやってみる。
 ※ 実際の取引は自己責任でお願いしますね。
 取引 Agent のコード サンプルコードを参考に複数通貨対応していった感じ。Tensorflow 側のコードはいじってないです。 ちょっとログを出力する関係でイマイチな部分もある。 Currency クラスを作ってそのインスタンスを複数持つことで対応した。
-# tensorflow_agent.rb # coding: utf-8 require &#39;jiji/model/agents/agent&#39; require &#39;httpclient&#39; require &#39;json&#39; # ここで通貨ペアを複数指定。ただし、jiji上で同時にバックテストができるのは5通貨ペアまで。 TRADE_CURRENCIES = %i(USDJPY EURUSD USDJPY).freeze # 通貨単位。最高で 通貨ペア×通貨単位 分保有することがあるので調整してください。 CURRENCY_UNIT = 10000 TENSORFLOW_API_URL = &amp;quot;http://tensorflow:5000/api/estimator&amp;quot;.freeze class TensorFlowAgent include Jiji::Model::Agents::Agent def self.description &amp;lt;&amp;lt;-STR TensorFlowと連携してトレードするエージェントのサンプル STR end def self.property_infos [ Property.new(&#39;exec_mode&#39;, &#39;動作モード(&amp;quot;collect&amp;quot; or &amp;quot;trade&amp;quot; or &amp;quot;test&amp;quot;)&#39;, &amp;quot;collect&amp;quot;) ] end def post_create @mode = create_mode(@exec_mode) @currencies = TRADE_CURRENCIES.</description>
+# tensorflow_agent.rb # coding: utf-8 require &amp;#39;jiji/model/agents/agent&amp;#39;require &amp;#39;httpclient&amp;#39;require &amp;#39;json&amp;#39;# ここで通貨ペアを複数指定。ただし、jiji上で同時にバックテストができるのは5通貨ペアまで。 TRADE_CURRENCIES = %i(USDJPY EURUSD USDJPY).freeze# 通貨単位。最高で 通貨ペア×通貨単位 分保有することがあるので調整してください。 CURRENCY_UNIT = 10000TENSORFLOW_API_URL = &amp;#34;http://tensorflow:5000/api/estimator&amp;#34;.freezeclass TensorFlowAgentinclude Jiji::Model::Agents::Agentdef self.description&amp;lt;&amp;lt;-STRTensorFlowと連携してトレードするエージェントのサンプルSTRenddef self.property_infos[Property.new(&amp;#39;exec_mode&amp;#39;,&amp;#39;動作モード(&amp;#34;collect&amp;#34; or &amp;#34;trade&amp;#34; or &amp;#34;test&amp;#34;)&amp;#39;,&amp;#34;collect&amp;#34;)]enddef post_create@mode = create_mode(@exec_mode)@currencies = TRADE_CURRENCIES.</description>
     </item>
     
   </channel>

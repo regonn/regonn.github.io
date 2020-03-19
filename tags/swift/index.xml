@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>swift on そこのけそこのけゆとりが通る</title>
@@ -23,8 +23,10 @@
 マッチして欲しいのは [ ] で囲んだ所(今回は@のみもマッチする)
 &amp;quot;[@banana] [@] tomato [@orange] regonn@sonicgarden.jp &amp;quot;
 そこで次のようなコードになりました。
-mentionMatch.swift import UIKit let string = &amp;quot;@banana @ tomato @orange regonn@sonicgarden.jp &amp;quot; let regrex = try? NSRegularExpression(pattern: &amp;quot;(?&amp;lt;=^|\\s)(@\\w*)&amp;quot;, options: NSRegularExpressionOptions.CaseInsensitive) let matches = regrex!.matchesInString(string, options: [], range: NSMakeRange(0, string.characters.count)) for match in matches { print(match.range) } =&amp;gt; (0,7) (8,1) (17,7)  ちゃんと 3 か所にマッチできていることが確認できます。
-今回の正規表現は</description>
+mentionMatch.swift import UIKitlet string = &amp;#34;@banana @ tomato @orange regonn@sonicgarden.jp &amp;#34;let regrex = try? NSRegularExpression(pattern: &amp;#34;(?&amp;lt;=^|\\s)(@\\w*)&amp;#34;, options: NSRegularExpressionOptions.CaseInsensitive)let matches = regrex!.matchesInString(string, options: [], range: NSMakeRange(0, string.characters.count))for match in matches {print(match.range)}=&amp;gt; (0,7)(8,1)(17,7)ちゃんと 3 か所にマッチできていることが確認できます。
+今回の正規表現は
+(?&amp;lt;=^|\\s)(@\\w*)
+となりました(もし@単体はマッチさせたくないのなら最後をw+に変更)</description>
     </item>
     
   </channel>

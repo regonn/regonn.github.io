@@ -414,185 +414,113 @@
 
     
 
-    
-
-<p>WEB プログラマがサイトデザインを整えるにとても便利な<a href="http://getbootstrap.com/" target="_blank">Bootstrap</a>。
+    <p>WEB プログラマがサイトデザインを整えるにとても便利な<a href="http://getbootstrap.com/">Bootstrap</a>。
 しかし、Bootstrap を利用してサイトを作ると、やっぱり Bootstrap 臭がしてしまう。(私の技術力やデザイン力が低いのが原因かもしれませんが。。。)</p>
-
 <p>そこで、Bootstrap を利用してデザインをしている Rails のサイトをデザイナーの人にレビューしてもらい、実践した <strong>Bootstrap の依存を減らしていくために工夫したこと &amp; デザインの指摘を受けた部分</strong> について書いていきます。</p>
-
 <h1 id="実装したサイトの説明">実装したサイトの説明</h1>
-
 <p>まず作っていたサイトについて説明しておきますと、 <em>企業がイベントを開催した際にフィードバックを受けるためのアンケートを WEB 上で回答してもらい、その集計結果が見えるというサービス</em> です。機能としては少なく、企業管理側のイベントページの作成と詳細ページを見ることができるだけです。</p>
-
 <h1 id="before-and-after">Before and After</h1>
-
 <p>まず、サイトがどう変わったかの画像を載せておきます。(サイトが特定される情報の部分は隠してあります。)</p>
-
 <h2 id="before">Before</h2>
-
 <p>まずは、デザイン修正前の画像です。どのページもすごい Bootstrap 臭がプンプンしてますね。</p>
-
 <h3 id="ログイン画面">ログイン画面</h3>
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2016-05-23/1.png" alt="Bootstrapログイン" width="2840" height="1508" layout="responsive" ></amp-img></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h3 id="ログイン後の画面">ログイン後の画面</h3>
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2016-05-23/2.png" alt="Bootstrapダッシュボード" width="2840" height="1508" layout="responsive" ></amp-img></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h3 id="イベント詳細ページ">イベント詳細ページ</h3>
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2016-05-23/3.png" alt="Bootstrapイベント詳細" width="2830" height="1520" layout="responsive" ></amp-img></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h3 id="イベント作成ページ">イベント作成ページ</h3>
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2016-05-23/4.png" alt="Bootstrapイベント作成" width="2866" height="1486" layout="responsive" ></amp-img></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h2 id="after">After</h2>
-
 <p>続いて、デザイナーから指摘を受けて修正したものです、全体的に洗練されてますね。（デザイナーの方にコードを触ってもらったわけではなく、指摘部分を私が直しているので、まだまだ改善の余地はありそうですが）</p>
-
 <h3 id="ログイン画面-1">ログイン画面</h3>
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2016-05-23/5.png" alt="ログイン" width="1218" height="785" layout="responsive" ></amp-img></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h3 id="ログイン後の画面-1">ログイン後の画面</h3>
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2016-05-23/6.png" alt="ダッシュボード" width="1243" height="823" layout="responsive" ></amp-img></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h3 id="イベント詳細ページ-1">イベント詳細ページ</h3>
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2016-05-23/7.png" alt="イベント詳細" width="1244" height="690" layout="responsive" ></amp-img></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h3 id="イベント作成ページ-1">イベント作成ページ</h3>
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2016-05-23/8.png" alt="イベント作成" width="1239" height="741" layout="responsive" ></amp-img></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h1 id="最初に注意を受けた部分">最初に注意を受けた部分</h1>
-
 <p>デザイナーの人に見せてまず言われたことが次の 2 つです</p>
-
 <ul>
 <li>デザインのコンセプトを決める</li>
 <li>基本 Bootstrap の機能は Grid システムだけにしてみる</li>
 </ul>
-
 <p>それぞれについて書いていきます。</p>
-
 <h2 id="デザインのコンセプトを決める">デザインのコンセプトを決める</h2>
-
 <p>デザインのコンセプトを決めないでいるため、 <strong>Bootstrap の色がそのまま使われてしまっているなど、オリジナル感が出しにくくなってしまっていました</strong> 。最初に、どのようなデザインにするのかコンセプトを決めることが必要のようです。</p>
-
 <p>そこで、依頼者からの話などをもとに次のようなコンセプトに決めました。</p>
-
 <ul>
 <li>基調を白として、アクセントに赤を入れる</li>
 <li>パディングなども大きさをもたせてゆとりを作り高級感を出す</li>
 </ul>
-
 <h2 id="基本-bootstrap-の機能は-grid-システムだけにしてみる">基本 Bootstrap の機能は Grid システムだけにしてみる</h2>
-
-<p>Bootstrap のボタンをそのまま使うと色が決まっていたり(カスタムはできますが)、丸みを帯びたボタンになってしまったりするため、基本的に Bootstrap は縦を揃えるための Grid 以外は使わずに、他は自分で実装していった方が結局はデザインしやすいとのこと。Bootstrap 自体を外すことも考えましたが、Bootstrap は v4 になると flexbox(<a href="http://codepen.io/ncerminara/pen/EjqbPj" target="_blank">flexbox の分かりやすいサンプル - Bootstrap 4 Flex Box Grid Demo</a>)等の便利な機能が追加されるのと、改修する部分が多くなりそうなので v4 の一部分を import して使いました。</p>
-
+<p>Bootstrap のボタンをそのまま使うと色が決まっていたり(カスタムはできますが)、丸みを帯びたボタンになってしまったりするため、基本的に Bootstrap は縦を揃えるための Grid 以外は使わずに、他は自分で実装していった方が結局はデザインしやすいとのこと。Bootstrap 自体を外すことも考えましたが、Bootstrap は v4 になると flexbox(<a href="http://codepen.io/ncerminara/pen/EjqbPj">flexbox の分かりやすいサンプル - Bootstrap 4 Flex Box Grid Demo</a>)等の便利な機能が追加されるのと、改修する部分が多くなりそうなので v4 の一部分を import して使いました。</p>
 <h1 id="bootstrap-の依存を減らすために利用したライブラリ">Bootstrap の依存を減らすために利用したライブラリ</h1>
-
 <ul>
-<li><p><a href="https://github.com/twbs/bootstrap-rubygem" target="_blank">bootstrap-ruby-gem</a>
-rails で bootstrap を利用する場合には <a href="https://github.com/twbs/bootstrap-sass" target="_blank">bootstrap-sass</a> gem が有名ですが、bootstrap-ruby-gem は bootstrap version 4 に対応している gem です。bootstrap の form や modal はそのまま利用したかったので application.sass では次のように import して使っています。</p>
-
-<pre><code class="language-sass">@import bootstrap-grid
-@import &quot;bootstrap/mixins&quot;
-@import &quot;bootstrap/forms&quot;
-@import &quot;bootstrap/modal&quot;
-</code></pre></li>
-
-<li><p><a href="https://github.com/ai/autoprefixer-rails" target="_blank">auto-prefixer-rails</a>
-ベンダープレフィックスを簡単に生成してくれる gem です。<a href="http://paranishian.hateblo.jp/entry/2015/12/29/142219" target="_blank">autoprefixer を使って快適にコーディングする</a></p></li>
-
-<li><p><a href="https://github.com/sass/sassc-rails" target="_blank">sassc-rails</a>
-sass の C 実装です。ローカル開発中でリロードした際に体感でわかるぐらい早くなります。heroku 上でも問題なく利用できました。実際の sass ruby 実装と生成されるものの違いが気になる方は <a href="http://www.sassmeister.com/" target="_blank">sassmeister</a>というサイトで options から libsass を選ぶと sass C 実装で生成されるコードが確認できます。</p></li>
-
-<li><p><a href="https://github.com/thoughtbot/bourbon" target="_blank">bourbon</a>
-sass の mixin 集です。ボタンがホバーした時に少し明るくしたり、暗くしたりするために、tint や shade が便利です、lighten や darken よりも自然に色を明るしてくれます。<a href="http://qiita.com/nekoneko-wanwan/items/99d4650768c46ae41897#functions" target="_blank">CSS フレームワーク Bourbon 超速入門</a></p></li>
+<li><a href="https://github.com/twbs/bootstrap-rubygem">bootstrap-ruby-gem</a>
+rails で bootstrap を利用する場合には <a href="https://github.com/twbs/bootstrap-sass">bootstrap-sass</a> gem が有名ですが、bootstrap-ruby-gem は bootstrap version 4 に対応している gem です。bootstrap の form や modal はそのまま利用したかったので application.sass では次のように import して使っています。</li>
 </ul>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sass" data-lang="sass"><span style="color:#66d9ef">@import</span> <span style="color:#e6db74">bootstrap-grid</span><span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#66d9ef">@import</span> <span style="color:#e6db74">&#34;bootstrap/mixins&#34;</span><span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#66d9ef">@import</span> <span style="color:#e6db74">&#34;bootstrap/forms&#34;</span><span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#66d9ef">@import</span> <span style="color:#e6db74">&#34;bootstrap/modal&#34;</span><span style="color:#960050;background-color:#1e0010"></span>
+</code></pre></div><ul>
+<li><a href="https://github.com/ai/autoprefixer-rails">auto-prefixer-rails</a>
+ベンダープレフィックスを簡単に生成してくれる gem です。<a href="http://paranishian.hateblo.jp/entry/2015/12/29/142219">autoprefixer を使って快適にコーディングする</a></li>
+<li><a href="https://github.com/sass/sassc-rails">sassc-rails</a>
+sass の C 実装です。ローカル開発中でリロードした際に体感でわかるぐらい早くなります。heroku 上でも問題なく利用できました。実際の sass ruby 実装と生成されるものの違いが気になる方は <a href="http://www.sassmeister.com/">sassmeister</a>というサイトで options から libsass を選ぶと sass C 実装で生成されるコードが確認できます。</li>
+<li><a href="https://github.com/thoughtbot/bourbon">bourbon</a>
+sass の mixin 集です。ボタンがホバーした時に少し明るくしたり、暗くしたりするために、tint や shade が便利です、lighten や darken よりも自然に色を明るしてくれます。<a href="http://qiita.com/nekoneko-wanwan/items/99d4650768c46ae41897#functions">CSS フレームワーク Bourbon 超速入門</a></li>
+</ul>
 <h1 id="大きさの単位を-px-ではなく-rem-を使う">大きさの単位を px ではなく rem を使う</h1>
-
-<p><a href="http://qiita.com/butchi_y/items/453654828d9d6c9f94b0" target="_blank">CSS の基本単位として rem を使うと超絶便利 - Qiita</a> でもあるようにレスポンシブなサイトを作るときに px と rem を使い分けると作りやすいみたいです。
+<p><a href="http://qiita.com/butchi_y/items/453654828d9d6c9f94b0">CSS の基本単位として rem を使うと超絶便利 - Qiita</a> でもあるようにレスポンシブなサイトを作るときに px と rem を使い分けると作りやすいみたいです。
 ただ、rem は <code>360px = 22.5rem</code> など、計算が必要になってくるので sass の function を作ってしまいます。</p>
-
-<pre><code class="language-sass">$base-px: 16px
-
-@function strip_unit($number)
-  @if number($number)
-    @return $number / ($number * 0 + 1)
-
-@function px($value)
-  @if number($value) and unit($value) == &quot;px&quot;
-    @return true
-  @else
-    @return null
-
-@function px_to_rem($px, $base-px: $base-px)
-  @if strip_unit($px) == 0
-    @return 0
-  @else if px($px)
-    @return (strip_unit($px) / strip_unit($base-px)) * 1rem
-  @else
-    @return $px
-</code></pre>
-
-<p>これで</p>
-
-<pre><code class="language-sass">max-width: px_to_rem(826px) // 51.625rem
-</code></pre>
-
-<p>のように rem を利用したサイズ指定が利用しやすくなります。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sass" data-lang="sass"><span style="color:#a6e22e">$base-px</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">16</span><span style="color:#66d9ef">px</span><span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#66d9ef">@function</span> <span style="color:#f92672">strip_unit</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">number</span><span style="color:#f92672">)</span><span style="color:#960050;background-color:#1e0010"></span>
+  <span style="color:#f92672">@</span><span style="color:#f92672">if</span> <span style="color:#f92672">number</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">number</span><span style="color:#f92672">)</span><span style="color:#960050;background-color:#1e0010"></span>
+    <span style="color:#f92672">@</span><span style="color:#f92672">return</span> <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">number</span> <span style="color:#f92672">/</span> <span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">number</span> <span style="color:#f92672">*</span> <span style="color:#f92672">0</span> <span style="color:#f92672">+</span> <span style="color:#f92672">1</span><span style="color:#f92672">)</span><span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#66d9ef">@function</span> <span style="color:#f92672">px</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">value</span><span style="color:#f92672">)</span><span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#960050;background-color:#1e0010">  </span><span style="color:#a6e22e">@if</span><span style="color:#960050;background-color:#1e0010"> </span><span style="color:#a6e22e">number($value)</span><span style="color:#960050;background-color:#1e0010"> </span><span style="color:#a6e22e">and</span><span style="color:#960050;background-color:#1e0010"> </span><span style="color:#a6e22e">unit($value)</span><span style="color:#f92672"> ==</span> <span style="color:#e6db74">&#34;px&#34;</span><span style="color:#960050;background-color:#1e0010"></span>
+    <span style="color:#f92672">@</span><span style="color:#f92672">return</span> <span style="color:#f92672">true</span><span style="color:#960050;background-color:#1e0010"></span>
+  <span style="color:#f92672">@</span><span style="color:#f92672">else</span><span style="color:#960050;background-color:#1e0010"></span>
+    <span style="color:#f92672">@</span><span style="color:#f92672">return</span> <span style="color:#f92672">null</span><span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#66d9ef">@function</span> <span style="color:#f92672">px_to_rem</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">px</span><span style="color:#f92672">,</span> <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">base-px</span><span style="color:#a6e22e">:</span> <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">base-px</span><span style="color:#f92672">)</span><span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#960050;background-color:#1e0010">  </span><span style="color:#a6e22e">@if</span><span style="color:#960050;background-color:#1e0010"> </span><span style="color:#a6e22e">strip_unit($px)</span><span style="color:#f92672"> ==</span> <span style="color:#ae81ff">0</span><span style="color:#960050;background-color:#1e0010"></span>
+    <span style="color:#f92672">@</span><span style="color:#f92672">return</span> <span style="color:#f92672">0</span><span style="color:#960050;background-color:#1e0010"></span>
+  <span style="color:#f92672">@</span><span style="color:#f92672">else</span> <span style="color:#f92672">if</span> <span style="color:#f92672">px</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">px</span><span style="color:#f92672">)</span><span style="color:#960050;background-color:#1e0010"></span>
+    <span style="color:#f92672">@</span><span style="color:#f92672">return</span> <span style="color:#f92672">(</span><span style="color:#f92672">strip_unit</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">px</span><span style="color:#f92672">)</span> <span style="color:#f92672">/</span> <span style="color:#f92672">strip_unit</span><span style="color:#f92672">(</span><span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">base-px</span><span style="color:#f92672">))</span> <span style="color:#f92672">*</span> <span style="color:#f92672">1rem</span><span style="color:#960050;background-color:#1e0010"></span>
+  <span style="color:#f92672">@</span><span style="color:#f92672">else</span><span style="color:#960050;background-color:#1e0010"></span>
+    <span style="color:#f92672">@</span><span style="color:#f92672">return</span> <span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">px</span><span style="color:#960050;background-color:#1e0010"></span>
+</code></pre></div><p>これで</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sass" data-lang="sass"><span style="color:#a6e22e">max-width</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">px_to_rem</span>(<span style="color:#ae81ff">826</span><span style="color:#66d9ef">px</span>) <span style="color:#75715e">// 51.625rem</span>
+</code></pre></div><p>のように rem を利用したサイズ指定が利用しやすくなります。</p>
 <h1 id="細かい-tips">細かい Tips</h1>
-
 <h2 id="全体的に色を揃える">全体的に色を揃える</h2>
-
 <p>色を決めると、リンクの色が青になっていて目立ったりしてしまうので、テーマの色(今回は黒)にして下線を常に出してリンクとわかるようにしました。</p>
-
 <h2 id="panel-を使わない">Panel を使わない</h2>
-
-<p>何かと情報をまとめる時に<a href="http://getbootstrap.com/components/#panels" target="_blank">Panel</a>を使っていたんですが、Bootstrap v4 からは消えてしまう機能なのでなるべく使わずに。今回は h2 を利用してどこまでが情報のまとまりかをわかるように表示。</p>
-
+<p>何かと情報をまとめる時に<a href="http://getbootstrap.com/components/#panels">Panel</a>を使っていたんですが、Bootstrap v4 からは消えてしまう機能なのでなるべく使わずに。今回は h2 を利用してどこまでが情報のまとまりかをわかるように表示。</p>
 <h2 id="table-には交互に色をつける">table には交互に色をつける</h2>
-
 <p>これは Bootstrap の機能をはずしたので</p>
-
-<pre><code class="language-sass">tr:nth-child(even)
-  background-color: #F2F2F2
-</code></pre>
-
-<p>のように対応。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sass" data-lang="sass"><span style="color:#f92672">tr</span><span style="color:#a6e22e">:nth-child</span><span style="color:#f92672">(</span><span style="color:#f92672">even</span><span style="color:#f92672">)</span><span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#960050;background-color:#1e0010">  </span><span style="color:#a6e22e">background-color</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">#F2F2F2</span><span style="color:#960050;background-color:#1e0010"></span>
+</code></pre></div><p>のように対応。</p>
 <h2 id="単位は小さく">単位は小さく</h2>
-
 <p>15 人や 10%の &ldquo;人&rdquo; や &ldquo;%&rdquo; の <strong>単位部分を小さくすることで、数字(データ)が見やすくなる</strong>。</p>
-
-<h2 id="dt-項目名-は目立たなくさせる">DT(項目名)は目立たなくさせる</h2>
-
+<h2 id="dt項目名は目立たなくさせる">DT(項目名)は目立たなくさせる</h2>
 <p>&ldquo;開催日時&rdquo; などの <strong>項目名を表す部分は、必要ではあるけど実際の情報に注目して欲しいのであくまで補助という形で色を薄く</strong> しました。</p>
-
-<h2 id="左寄せと-右寄せは意識して使い分ける">左寄せと、右寄せは意識して使い分ける</h2>
-
+<h2 id="左寄せと右寄せは意識して使い分ける">左寄せと、右寄せは意識して使い分ける</h2>
 <p>例えば、金額などを表示するときには、桁数を揃えて表示したいので右寄せを利用する。
 中央寄せを利用していて、タイトルなどの目立たせたいところは他と差異を作るために、そこだけ左寄せを利用する。</p>
-
 <h2 id="想定するフォームの幅にする">想定するフォームの幅にする</h2>
-
 <p>これは、まだ未実装ですが Bootstrap のフォームを使っていると <code>width: 100%</code> のスタイルが適用されるので、全体的に間延びした印象を与えてしまうので、ちゃんと想定する入力の長さを決めて幅を整える。</p>
-
 <h2 id="削除のリンクなど取り扱いに注意が必要なものは色を目立つように">削除のリンクなど取り扱いに注意が必要なものは色を目立つように</h2>
-
 <p>画面一覧の画像にはないですが、削除するためのリンクなどは、利用者に注意を促す意味もあり、普通のリンクと色を変える。</p>
-
 <h1 id="最後に">最後に</h1>
-
 <p>今回の紹介は以上です。他のサイトでも Bootstrap を外してみたり、今回実装したサイトでも何かさらに進展があったら加筆していきます。
 デザインをデザイナーの方に頼らず、ある程度構築できるようになりたいですね。</p>
 

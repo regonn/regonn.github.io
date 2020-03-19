@@ -405,79 +405,61 @@
 
     
 
-    
-
-<p>最近 Rails 開発で puma-dev とかを入れていると、fsevent_watch プロセスが量産されて、プロセス上限数に達し</p>
-
+    <p>最近 Rails 開発で puma-dev とかを入れていると、fsevent_watch プロセスが量産されて、プロセス上限数に達し</p>
 <pre><code>fork: Resource temporarily unavailable
-</code></pre>
-
-<p>というエラーが出て開発が中断される。</p>
-
+</code></pre><p>というエラーが出て開発が中断される。</p>
 <p>色々なところで議論もされていて、まだ根本的な解決はされていない様子</p>
-
 <ul>
-<li><a href="https://github.com/puma/puma-dev/issues/56" target="_blank">fork: Resource temporarily unavailable occurring since installing · Issue #56 · puma/puma-dev</a></li>
-<li><a href="https://github.com/rails/rails/issues/26158" target="_blank">The listen gem breaks my laptop · Issue #26158 · rails/rails</a></li>
+<li><a href="https://github.com/puma/puma-dev/issues/56">fork: Resource temporarily unavailable occurring since installing · Issue #56 · puma/puma-dev</a></li>
+<li><a href="https://github.com/rails/rails/issues/26158">The listen gem breaks my laptop · Issue #26158 · rails/rails</a></li>
 </ul>
-
 <p><code>listen</code> gem を削除したり <code>development.rb</code> を修正する必要があるみたいだけど、Railsアプリのコードをいじってしまうと他の人の開発環境にも影響が出るので、自分の Mac のプロセス上限を上げることに。</p>
-
 <p>以前の MacOSX だと、 <code>/etc/launchd.conf</code> をいじれば良さそうだったけど、Sierraではそんなファイルが存在していなく、調べると</p>
-
-<p><a href="https://docs.basho.com/riak/kv/2.2.0/using/performance/open-files-limit/#mac-os-x" target="_blank">Open Files Limit</a></p>
-
+<p><a href="https://docs.basho.com/riak/kv/2.2.0/using/performance/open-files-limit/#mac-os-x">Open Files Limit</a></p>
 <p>という記事で、次の2つのファイルを作ることで対応できるみたい。</p>
-
-<h3 id="library-launchdaemons-limit-maxfiles-plist">/Library/LaunchDaemons/limit.maxfiles.plist</h3>
-
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version=&quot;1.0&quot;&gt;
-  &lt;dict&gt;
-    &lt;key&gt;Label&lt;/key&gt;
-    &lt;string&gt;limit.maxfiles&lt;/string&gt;
-    &lt;key&gt;ProgramArguments&lt;/key&gt;
-    &lt;array&gt;
-      &lt;string&gt;launchctl&lt;/string&gt;
-      &lt;string&gt;limit&lt;/string&gt;
-      &lt;string&gt;maxfiles&lt;/string&gt;
-      &lt;string&gt;200000&lt;/string&gt;
-      &lt;string&gt;200000&lt;/string&gt;
-    &lt;/array&gt;
-    &lt;key&gt;RunAtLoad&lt;/key&gt;
-    &lt;true/&gt;
-    &lt;key&gt;ServiceIPC&lt;/key&gt;
-    &lt;false/&gt;
-  &lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre>
-
-<h3 id="library-launchdaemons-limit-maxproc-plist">/Library/LaunchDaemons/limit.maxproc.plist</h3>
-
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;!DOCTYPE plist PUBLIC &quot;-//Apple/DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
-&lt;plist version=&quot;1.0&quot;&gt;
-  &lt;dict&gt;
-    &lt;key&gt;Label&lt;/key&gt;
-    &lt;string&gt;limit.maxproc&lt;/string&gt;
-    &lt;key&gt;ProgramArguments&lt;/key&gt;
-    &lt;array&gt;
-      &lt;string&gt;launchctl&lt;/string&gt;
-      &lt;string&gt;limit&lt;/string&gt;
-      &lt;string&gt;maxproc&lt;/string&gt;
-      &lt;string&gt;2048&lt;/string&gt;
-      &lt;string&gt;2048&lt;/string&gt;
-    &lt;/array&gt;
-    &lt;key&gt;RunAtLoad&lt;/key&gt;
-    &lt;true /&gt;
-    &lt;key&gt;ServiceIPC&lt;/key&gt;
-      &lt;false /&gt;
-  &lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre>
-
-<p>再起動して、 <code>$ sudo launchctl limit</code> コマンドで maxproc と maxfiles が増えていればOK</p>
+<h3 id="librarylaunchdaemonslimitmaxfilesplist">/Library/LaunchDaemons/limit.maxfiles.plist</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
+<span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;dict&gt;</span>
+    <span style="color:#f92672">&lt;key&gt;</span>Label<span style="color:#f92672">&lt;/key&gt;</span>
+    <span style="color:#f92672">&lt;string&gt;</span>limit.maxfiles<span style="color:#f92672">&lt;/string&gt;</span>
+    <span style="color:#f92672">&lt;key&gt;</span>ProgramArguments<span style="color:#f92672">&lt;/key&gt;</span>
+    <span style="color:#f92672">&lt;array&gt;</span>
+      <span style="color:#f92672">&lt;string&gt;</span>launchctl<span style="color:#f92672">&lt;/string&gt;</span>
+      <span style="color:#f92672">&lt;string&gt;</span>limit<span style="color:#f92672">&lt;/string&gt;</span>
+      <span style="color:#f92672">&lt;string&gt;</span>maxfiles<span style="color:#f92672">&lt;/string&gt;</span>
+      <span style="color:#f92672">&lt;string&gt;</span>200000<span style="color:#f92672">&lt;/string&gt;</span>
+      <span style="color:#f92672">&lt;string&gt;</span>200000<span style="color:#f92672">&lt;/string&gt;</span>
+    <span style="color:#f92672">&lt;/array&gt;</span>
+    <span style="color:#f92672">&lt;key&gt;</span>RunAtLoad<span style="color:#f92672">&lt;/key&gt;</span>
+    <span style="color:#f92672">&lt;true/&gt;</span>
+    <span style="color:#f92672">&lt;key&gt;</span>ServiceIPC<span style="color:#f92672">&lt;/key&gt;</span>
+    <span style="color:#f92672">&lt;false/&gt;</span>
+  <span style="color:#f92672">&lt;/dict&gt;</span>
+<span style="color:#f92672">&lt;/plist&gt;</span>
+</code></pre></div><h3 id="librarylaunchdaemonslimitmaxprocplist">/Library/LaunchDaemons/limit.maxproc.plist</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple/DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
+<span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
+  <span style="color:#f92672">&lt;dict&gt;</span>
+    <span style="color:#f92672">&lt;key&gt;</span>Label<span style="color:#f92672">&lt;/key&gt;</span>
+    <span style="color:#f92672">&lt;string&gt;</span>limit.maxproc<span style="color:#f92672">&lt;/string&gt;</span>
+    <span style="color:#f92672">&lt;key&gt;</span>ProgramArguments<span style="color:#f92672">&lt;/key&gt;</span>
+    <span style="color:#f92672">&lt;array&gt;</span>
+      <span style="color:#f92672">&lt;string&gt;</span>launchctl<span style="color:#f92672">&lt;/string&gt;</span>
+      <span style="color:#f92672">&lt;string&gt;</span>limit<span style="color:#f92672">&lt;/string&gt;</span>
+      <span style="color:#f92672">&lt;string&gt;</span>maxproc<span style="color:#f92672">&lt;/string&gt;</span>
+      <span style="color:#f92672">&lt;string&gt;</span>2048<span style="color:#f92672">&lt;/string&gt;</span>
+      <span style="color:#f92672">&lt;string&gt;</span>2048<span style="color:#f92672">&lt;/string&gt;</span>
+    <span style="color:#f92672">&lt;/array&gt;</span>
+    <span style="color:#f92672">&lt;key&gt;</span>RunAtLoad<span style="color:#f92672">&lt;/key&gt;</span>
+    <span style="color:#f92672">&lt;true</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;key&gt;</span>ServiceIPC<span style="color:#f92672">&lt;/key&gt;</span>
+      <span style="color:#f92672">&lt;false</span> <span style="color:#f92672">/&gt;</span>
+  <span style="color:#f92672">&lt;/dict&gt;</span>
+<span style="color:#f92672">&lt;/plist&gt;</span>
+</code></pre></div><p>再起動して、 <code>$ sudo launchctl limit</code> コマンドで maxproc と maxfiles が増えていればOK</p>
 
 
   </div>

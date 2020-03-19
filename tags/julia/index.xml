@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>julia on そこのけそこのけゆとりが通る</title>
@@ -17,16 +17,13 @@
       <pubDate>Tue, 22 Jan 2019 18:00:00 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/data-science/2019-01-22-julia-pca/</guid>
-      <description> 私の最近所属しているグループでは、自分の強みを知ることができる Strength Finder を皆がやっています。
+      <description>私の最近所属しているグループでは、自分の強みを知ることができる Strength Finder を皆がやっています。
 スプレッドシートに情報が溜まっていたのですが、34項目あるので、自分と同じ傾向の人が探しにくいなと思って、主成分分析を使ってグラフで近い人を見つけられるようにしてみました。
 せっかくなのでJulia言語で書いてみることに。
 PCA(主成分分析) 主成分分析 - Wikipedia 次元を減らすために使われる処理ですが、今回はグラフにしたかったので、34項目の情報(34次元)を2次元にしています。似ている人が近く表示されるようになるはず。
 利用するデータ 流石に個人情報なのと、34項目だと多いのでサンプルデータを用意してみました。
-
 コルクラボでもこんな感じでしたが、実際は人によって、34位まで書いている人と上位5項目までの人がいたので合わせるために、上位5項目以外は0にして処理しました。残りは、1の方を大きい値にするために全体の数値を逆数にして処理しました。
-開発環境  Julia: v1.0.3  この記事書いている時に v1.1 リリースされたけど v1.0.3 で書いてます。  MultivariateStats.jl  PCAを使うためのライブラリ  PlotlyJS.jl  Plotly.jl もあるんですが、PlotlyJS.jl の方がメンテナンスもされているので、こちらを使いました。   Julia のコード 
-出来上がったグラフ 
-サンプルのデータなのでそこまで意味は無いですが、ちゃんと上位が一緒の人(父ちゃんとおまわりさん、兄ちゃんと姉ちゃん)が近い所にいますね。説明変数についてもベクトル表示していて、人が少ない回復志向とかは全員の反対側の方を向いたりしているのでちゃんとできてるっぽい?
+開発環境  Julia: v1.0.3  この記事書いている時に v1.1 リリースされたけど v1.0.3 で書いてます。   MultivariateStats.jl  PCAを使うためのライブラリ   PlotlyJS.jl  Plotly.jl もあるんですが、PlotlyJS.jl の方がメンテナンスもされているので、こちらを使いました。    Julia のコード 出来上がったグラフ サンプルのデータなのでそこまで意味は無いですが、ちゃんと上位が一緒の人(父ちゃんとおまわりさん、兄ちゃんと姉ちゃん)が近い所にいますね。説明変数についてもベクトル表示していて、人が少ない回復志向とかは全員の反対側の方を向いたりしているのでちゃんとできてるっぽい?
 気になること  逆数で処理してるけど、もっと良さそうな計算方法を知りたい  </description>
     </item>
     
@@ -42,7 +39,6 @@ Optunaが公開されて、Julia言語でもハイパーパラメータ自動最
 MNIST 問題 皆大好きMNIST。ちなみに、Juliaだと以前は MNIST.jl からデータが取得できたけどメンテされてなく、Julia 1.0 だと動かないので、MLDatasets.jl を利用する。
 試してみたコード JuliaのランダムフォレストライブラリDecisionTree.jlでMNIST を参考に Julia 1.0 でも動くようにしていく。
 Hyperopt.jl は対応ライブラリとかなく、ランダムで複数のハイパーパラメータの選択した範囲を試してくれて、一番良い結果を返してくれるだけなので、色々使える気もするけど、結局ランダムなので、ある程度値の範囲は絞ってあげる必要がありそう。
-
 無事に正答率は上がったけど、過学習の可能性もあるので、そこら辺は工夫が必要そう。 とりあえず、雰囲気と使い方がわかったので良しとする。
 それよりも、もっと Optuna で遊んでみたい欲がある。 こんな感じでハイパーパラメータも簡単に設定できていけるといいですね。</description>
     </item>
@@ -54,13 +50,11 @@ Hyperopt.jl は対応ライブラリとかなく、ランダムで複数のハ�
       
       <guid>https://blog.regonn.tokyo/data-science/2018-06-21-julia-bayesian-udemy/</guid>
       <description>ベイズを学ぶために Udemy の講座で
-【Python と Stan で学ぶ】仕組みが分かるベイズ統計学入門
-
-の Python のコードを Julia で書き直して勉強している。
+【Python と Stan で学ぶ】仕組みが分かるベイズ統計学入門の Python のコードを Julia で書き直して勉強している。
 Python のコード
 次のようにベルヌーイ分布で data から N_data 個取った場合の確立密度関数を計算する Python コードがあった
-import from scipy.stats import bernoulli p_a = 0.3 data = [0,1,0,0,1,1,1] N_data = 2 likehood_a = bernoulli.pmf(data[:N_data], p_a) likehood_a # array([ 0.7, 0.3])  Julia で書き直すとこんな感じになった
-using Distributions p_a = 0.3 data = [0,1,0,0,1,1,1] N_data = 2 likehood_a = pdf(Bernoulli(p_a), data[1:N_data]) likehood_a # 2-element Array{Float64,1}: # 0.7 # 0.</description>
+import from scipy.stats import bernoullip_a = 0.3data = [0,1,0,0,1,1,1]N_data = 2likehood_a = bernoulli.pmf(data[:N_data], p_a)likehood_a # array([ 0.7, 0.3]) Julia で書き直すとこんな感じになった
+using Distributionsp_a = 0.3data = [0,1,0,0,1,1,1]N_data = 2likehood_a = pdf(Bernoulli(p_a), data[1:N_data])likehood_a# 2-element Array{Float64,1}: # 0.7 # 0.</description>
     </item>
     
     <item>
@@ -72,8 +66,7 @@ using Distributions p_a = 0.3 data = [0,1,0,0,1,1,1] N_data = 2 likehood_a = pdf
       <description>2018/04/18 開催の Kaggle Knight Matsue #4 でやった作業内容。
 KaggleのiMaterialist Challengeの作業
 画像取得スクリプトの改善 以前作った画像取得スクリプト だと、ラベルの情報が無かったり、先にフォルダを作っておかないとエラーになったりしたので、自動で取得できるように変更する。
-スクリプトの仕様  ラベル情報を読み取り、ラベルのフォルダに画像を保存 フォルダが存在していなければ、新しく mkdir でフォルダ作成 全ての画像を取得するのではなく、それぞれのラベルの画像をn枚毎ダウンロードしたかったので、ラベル毎の枚数を length(readdir(dirname) でファイル数を読み取って、条件に追加する(コードだと100枚にしてある) label に missing が存在していたので、その場合は保存しないようにする json ファイルのときは for in で処理出来ていたが、Dataframeの場合は eachrow を使って行毎に処理できるようにする
-for row in eachrow(target_rows) try dirname = &amp;quot;./images/$(row[:label_id])&amp;quot; filename = &amp;quot;./images/$(row[:label_id])/$(row[:image_id]).jpg&amp;quot; if !isdir(dirname) mkdir(dirname) end if !(ismissing(row[:label_id]).|(isfile(filename)).|(length(readdir(dirname)) &amp;gt; 100)) println(filename) t = tempname() download(row[:url], t) img = load(t) square = imresize(img, (80, 80)) save(filename, square) rm(t) end catch err println(&amp;quot;ERROR: &amp;quot;, err) end end   これで、あとは放置しておけば勝手に指定した枚数毎にラベルの画像がダウンロードできるようになった。途中で止まっても、ちゃんと枚数を数えてから、ダウンロードが再開されるので安心。</description>
+スクリプトの仕様  ラベル情報を読み取り、ラベルのフォルダに画像を保存 フォルダが存在していなければ、新しく mkdir でフォルダ作成 全ての画像を取得するのではなく、それぞれのラベルの画像をn枚毎ダウンロードしたかったので、ラベル毎の枚数を length(readdir(dirname) でファイル数を読み取って、条件に追加する(コードだと100枚にしてある) label に missing が存在していたので、その場合は保存しないようにする json ファイルのときは for in で処理出来ていたが、Dataframeの場合は eachrow を使って行毎に処理できるようにする  for row in eachrow(target_rows)trydirname = &amp;#34;./images/$(row[:label_id])&amp;#34;filename = &amp;#34;./images/$(row[:label_id])/$(row[:image_id]).jpg&amp;#34;if !isdir(dirname)mkdir(dirname)endif !(ismissing(row[:label_id]).|(isfile(filename)).|(length(readdir(dirname)) &amp;gt; 100))println(filename)t = tempname()download(row[:url], t)img = load(t)square = imresize(img, (80, 80))save(filename, square)rm(t)endcatch errprintln(&amp;#34;ERROR: &amp;#34;, err)endendこれで、あとは放置しておけば勝手に指定した枚数毎にラベルの画像がダウンロードできるようになった。途中で止まっても、ちゃんと枚数を数えてから、ダウンロードが再開されるので安心。</description>
     </item>
     
     <item>
@@ -87,7 +80,7 @@ Object Detection using HOG · ImageFeatures を参考にして、KaggleのiMater
 Juliaで保存する前に画像の拡大縮小をするには次の記事が参考になった。
 Juliaで画像の拡大縮小を行う - Qiita
 Juliaのコードは次のようになった。
-# 必要なライブラリを設定 using JSON using Images using DataFrames using FileIO using LIBSVM # 学習に利用 # ./input にデータを置いてる json = JSON.parsefile(&amp;quot;./input/train.json&amp;quot;) # 数が大きいので最初の10件で試す。images =&amp;gt; 画像URL, annotations =&amp;gt; ラベル情報 が別々に入っている a = json[&amp;quot;images&amp;quot;][1:10] # Json から Dataframe へ変換する。コピペコード。 ka = union([keys(r) for r in a]...) df = DataFrame(;Dict(Symbol(k)=&amp;gt;get.(a,k,NA) for k in ka)...) df[:url] = map(x-&amp;gt; x[1], df[:url]) # 毎回やるのは面倒なのでCSVで保存しておく FileIO.</description>
+# 必要なライブラリを設定 using JSONusing Imagesusing DataFramesusing FileIOusing LIBSVM # 学習に利用 # ./input にデータを置いてる json = JSON.parsefile(&amp;#34;./input/train.json&amp;#34;)# 数が大きいので最初の10件で試す。images =&amp;gt; 画像URL, annotations =&amp;gt; ラベル情報 が別々に入っている a = json[&amp;#34;images&amp;#34;][1:10]# Json から Dataframe へ変換する。コピペコード。 ka = union([keys(r) for r in a]...)df = DataFrame(;Dict(Symbol(k)=&amp;gt;get.(a,k,NA) for k in ka).</description>
     </item>
     
     <item>
@@ -110,7 +103,6 @@ Juliaのコードは次のようになった。
 Kaggle のiMaterialist Challenge問題で Julia を使って画像ファイルをダウンロードする。
 また、画像ファイルは 404 や 403 が発生して取得できない場合があるため、エラーハンドリングもしておく。
 とりあえず先頭の 10 個の画像を images フォルダに {model_id}.jpg の形で保存していくコードを書く。
-
 jpg 以外は考慮していない。
 今後は画像のサイズ処理等フィルター関連をしていきたい。</description>
     </item>
@@ -122,12 +114,12 @@ jpg 以外は考慮していない。
       
       <guid>https://blog.regonn.tokyo/data-science/2018-02-18-julia-dataframes-jl/</guid>
       <description>以前の記事 で紹介した
-DataFrame(load(&amp;quot;./input/train.csv&amp;quot;))  だと、どうやら数字が先頭のカラム名をそのまま扱ってしまう。
+DataFrame(load(&amp;#34;./input/train.csv&amp;#34;))だと、どうやら数字が先頭のカラム名をそのまま扱ってしまう。
 Julia DataFrame columns starting with number? - Stack Overflow
 によると、 :2aa という表記は Julia 上シンボルではなく 1:2aa というレンジの扱いになってしまうため、&amp;quot;1st&amp;quot;というカラムが存在しているからといって、df[:1st] と書いても想定しているカラムを取得できない。
 DataFrame.readtable だと、いい感じにカラム名の先頭を &amp;quot;1st&amp;quot; =&amp;gt; &amp;quot;x1st&amp;quot; のように x を入れてくれていた(これも、実際データ触る時邪魔な気もするけど)
 解決方法 ちゃんとシンボルだと指定してあげればいいので、
-df[Symbol(&amp;quot;1st&amp;quot;)]  としてあげれば取得できる。少し不格好だが嫌いじゃない。</description>
+df[Symbol(&amp;#34;1st&amp;#34;)]としてあげれば取得できる。少し不格好だが嫌いじゃない。</description>
     </item>
     
     <item>
@@ -137,10 +129,10 @@ df[Symbol(&amp;quot;1st&amp;quot;)]  としてあげれば取得できる。少�
       
       <guid>https://blog.regonn.tokyo/data-science/2018-02-16-julia-csv-dataframes/</guid>
       <description>DataFramesでreadtableを実行しようとすると、deprecated warningが出る。
-DataFrames.readtable DataFrames.readtable(&amp;quot;./input/train.csv&amp;quot;) =&amp;gt; WARNING: readtable is deprecated, use CSV.read from the CSV package instead  CSV.read これに対応しようとして CSV の read メソッドを呼ぼうとするが、現状このメソッドでやろうとするとNull値を許可したり、Unionで型を指定してあげないといけなかったりする。
-CSV.read(&amp;quot;./input/train.csv&amp;quot;) =&amp;gt; CSV.ParsingException(&amp;quot;error parsing a `Int64` value on column 27, row 235; encountered &#39;N&#39;&amp;quot;)  CSVFiles.jl 他に良さそうなライブラリがないか探してみたら、CSVFiles.jl: FileIO.jl integration for CSV filesが使いやすそうだった。そういえば、提出用ファイルで出力する時にheaderのカラムにダブルクォーテーションを使いたくないときにもこのライブラリで対応できた。スター数は全然付いていないがメンテもされているし使い勝手が良い。作者のdavidanthoffさんがjuliaの質問サイトとかで自分のライブラリを紹介して広めているのも健気で好感が持てる。Read file with CSV.read - Usage / First steps - Julia discourse
+DataFrames.readtable DataFrames.readtable(&amp;#34;./input/train.csv&amp;#34;)=&amp;gt;WARNING: readtable is deprecated, use CSV.read from the CSV package insteadCSV.read これに対応しようとして CSV の read メソッドを呼ぼうとするが、現状このメソッドでやろうとするとNull値を許可したり、Unionで型を指定してあげないといけなかったりする。
+CSV.read(&amp;#34;./input/train.csv&amp;#34;)=&amp;gt;CSV.ParsingException(&amp;#34;error parsing a `Int64` value on column 27, row 235; encountered &amp;#39;N&amp;#39;&amp;#34;)CSVFiles.jl 他に良さそうなライブラリがないか探してみたら、CSVFiles.jl: FileIO.jl integration for CSV filesが使いやすそうだった。そういえば、提出用ファイルで出力する時にheaderのカラムにダブルクォーテーションを使いたくないときにもこのライブラリで対応できた。スター数は全然付いていないがメンテもされているし使い勝手が良い。作者のdavidanthoffさんがjuliaの質問サイトとかで自分のライブラリを紹介して広めているのも健気で好感が持てる。Read file with CSV.read - Usage / First steps - Julia discourse
 使い方としては
-DataFrame(load(&amp;quot;./input/train.csv&amp;quot;))  で DataFrames.readtable と同じように扱うことができる。</description>
+DataFrame(load(&amp;#34;./input/train.csv&amp;#34;))で DataFrames.readtable と同じように扱うことができる。</description>
     </item>
     
     <item>
@@ -154,7 +146,7 @@ DataFrame(load(&amp;quot;./input/train.csv&amp;quot;))  で DataFrames.readtable
 Kaggleのgithubページを見ると、Kaggle/docker-python: Kaggle Python docker image や Kaggle/docker-rstats: Kaggle R docker image といったPythonやR言語向けKernel dockerはちゃんとメンテナンスされているっぽい。
 同じようにjuliaも Kaggle/docker-julia でリポジトリは存在しているが、残念ながらメンテナスがされていない。
 このままだと世界中のJulia愛好家がKaggleで活躍できないので、今回はローカルDockerfileを実行しつつ最新のJuliaの安定版が起動するように変更していく。そしていずれ、JuliaのKernelがKaggle上で動いてくれて、メンテも継続されていくのが夢。
-元のDockerファイル # kaggle/julia dockerfile FROM ubuntu:16.04 ADD package_installs.jl /tmp/package_installs.jl RUN apt-get update &amp;amp;&amp;amp; \ apt-get install git software-properties-common curl wget libcairo2 libpango1.0-0 -y &amp;amp;&amp;amp; \ add-apt-repository ppa:staticfloat/julia-deps -y &amp;amp;&amp;amp; \ apt-get update -y &amp;amp;&amp;amp; \ apt-get install -y libpcre3-dev build-essential &amp;amp;&amp;amp; \ apt-get install -y gettext hdf5-tools &amp;amp;&amp;amp; \ apt-get install -y gfortran python &amp;amp;&amp;amp; \ apt-get install -y m4 cmake libssl-dev &amp;amp;&amp;amp; \ cd /usr/local/src &amp;amp;&amp;amp; git clone https://github.</description>
+元のDockerファイル # kaggle/julia dockerfileFROM ubuntu:16.04ADD package_installs.jl /tmp/package_installs.jlRUN apt-get update &amp;amp;&amp;amp; \apt-get install git software-properties-common curl wget libcairo2 libpango1.0-0 -y &amp;amp;&amp;amp; \add-apt-repository ppa:staticfloat/julia-deps -y &amp;amp;&amp;amp; \apt-get update -y &amp;amp;&amp;amp; \apt-get install -y libpcre3-dev build-essential &amp;amp;&amp;amp; \apt-get install -y gettext hdf5-tools &amp;amp;&amp;amp; \apt-get install -y gfortran python &amp;amp;&amp;amp; \apt-get install -y m4 cmake libssl-dev &amp;amp;&amp;amp; \cd /usr/local/src &amp;amp;&amp;amp; git clone https://github.</description>
     </item>
     
     <item>
@@ -171,7 +163,8 @@ AWS の Deep Learning AMI を使って EC2 インスタンス上で 最新の Ju
 けど、この記事を書いた後に使っていた Deep Learning AMI が大幅に変更された。
 AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Services ブログ
 そして、Julia 0.6.1 だとインストールが失敗するためPkg.build(&#39;MXNet&#39;) してビルドして使っていた MXNet.jl も v0.3.0 がリリースされてインストールできるようになったぽい。
-なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。</description>
+なので環境構築を最初からやり直して、AWS 上で動かせるようにして、サンプルコードを使って CPU 処理と GPU 処理でどれだけ速さが違うのかも確かめてみる。
+利用する EC2 環境  インスタンスタイプ: p2.</description>
     </item>
     
     <item>
@@ -186,8 +179,7 @@ AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Se
 このライブラリは奈良先端科学技術大学院大学の進藤氏が自然言語処理分野において、入力のサンプルが異なるためミニバッチ化が難しく並列計算処理を行いにくい問題を解決するために作られました。 Julia 言語が採用されており、命令形的で動的にモデルを構築しても、Julia の特徴の一つである高速で動かせるメリットが活きて、柔軟に素早く学習を行うことが可能になっています。 参考論文:Julia 言語による深層学習ライブラリの実装と評価
 詳しい内容は論文を読んでもらいサンプルコードを紹介していきます。
 サンプルコード 次のような簡単なニューラルネットワークを構築します
-
-静的評価の場合 static.jl T = Float32 n = Node(name=&amp;quot;x&amp;quot;) n = Linear(T,10,7)(n) n = relu(n) n = Linear(T,7,3)(n) g = Graph(n) x = zerograd(rand(T,10,10)) y = g(&amp;quot;x&amp;quot;=&amp;gt;x) params = gradient!(y) println(x.grad) opt = SGD(0.01) foreach(opt, params)  入力xについてはランダムな値を入れています。 この場合、Graphを作って、そこにデータを入力し結果をだしています。 Theano 等宣言型のフレームワークの書き方。 画像などの入力の形が一定であるものは扱いやすく高速に処理できる。</description>
+静的評価の場合 static.jl T = Float32n = Node(name=&amp;#34;x&amp;#34;)n = Linear(T,10,7)(n)n = relu(n)n = Linear(T,7,3)(n)g = Graph(n)x = zerograd(rand(T,10,10))y = g(&amp;#34;x&amp;#34;=&amp;gt;x)params = gradient!(y)println(x.grad)opt = SGD(0.01)foreach(opt, params)入力xについてはランダムな値を入れています。 この場合、Graphを作って、そこにデータを入力し結果をだしています。 Theano 等宣言型のフレームワークの書き方。 画像などの入力の形が一定であるものは扱いやすく高速に処理できる。</description>
     </item>
     
     <item>
@@ -200,7 +192,7 @@ AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Se
 【動画解説】AWS の Deep learning 用 AMI で MXNet を動かす
 ただし、自分の今触っている Julia 言語が AMI にインストールされておらず、最新版(現在 v0.6.1) を動かしてGPU処理をするまで持っていった。Amazon Linux だとライブラリ周りのバージョンが追いついていなかったので、今回はUbuntu版のDeep Learning AMI(タイプはGPUが使えるp2.xlarge)を利用して構築。
 まずは普通にEC2のインスタンスにアクセスして、rootユーザになり、julia の v0.6.1 を make する。(CPU4コア使っても1時間ぐらいかかる。。。)
-$ sudo su - $ apt-get update $ apt-get install libpango1.0-0 -y $ add-apt-repository ppa:staticfloat/julia-deps -y $ apt-get update $ cd /usr/local/src $ git clone https://github.com/JuliaLang/julia.git $ cd julia $ git checkout v0.6.1 $ echo &amp;quot;JULIA_CPU_TARGET=core2&amp;quot; &amp;gt; Make.</description>
+$ sudo su -$ apt-get update$ apt-get install libpango1.0-0 -y$ add-apt-repository ppa:staticfloat/julia-deps -y$ apt-get update$ cd /usr/local/src$ git clone https://github.com/JuliaLang/julia.git$ cd julia$ git checkout v0.6.1$ echo &amp;#34;JULIA_CPU_TARGET=core2&amp;#34; &amp;gt; Make.</description>
     </item>
     
     <item>
@@ -211,16 +203,12 @@ $ sudo su - $ apt-get update $ apt-get install libpango1.0-0 -y $ add-apt-reposi
       <guid>https://blog.regonn.tokyo/data-science/2017-11-03-julia-study/</guid>
       <description>最近 Julia のデータサイエンス本を購入。
 Julia データサイエンス―Julia を使って自分でゼロから作るデータサイエンス世界の探索
-
-
 ちょうど、この書籍に関する勉強会が開催されるのを知り参加してみる。
 Julia データサイエンスワークショップ - connpass
 やはりというか、書籍で書かれている Julia のバージョンが v0.4 で現在は v0.6 なので、動かないコードが多い印象。(公式 github は更新がなく、日本の出版社も v0.6 対応は近日公開になっている。。。)発表者の方が、一部 v0.6 でも動くようにしてもらっていたので助かった。
 data-refinement/Julia-for-Data-Science
 この勉強会を開催するに至った経緯に次の本の話があり、この本の著者が公開しているサンプルコードは Julia のコードで書かれているみたいで、今後も Julia は科学計算分野で使われていきそう。
 機械学習スタートアップシリーズ ベイズ推論による機械学習入門 (KS 情報科学専門書)
-
-
 「機械学習スタートアップシリーズ ベイズ推論による機械学習入門」のサンプルコード(コチラは最新の v0.6 で書かれている)
 最初に紹介した Julia のデータサイエンス本の次はこれを読んでいくのと、勉強会で Julia で書かれている(他の言語でのライブラリの API を叩いていない)deep learning ライブラリの hshindo/Merlin.jl(国産ライブラリ) や pluskid/Mocha.jl の存在を知ったので触っていこうと思う。</description>
     </item>
@@ -234,8 +222,8 @@ data-refinement/Julia-for-Data-Science
       <description>引き続き Numerai をランダムフォレストで解いてみる。
 https://www.slideshare.net/sfchaos/julia-39591233
 のスライドによると、 DecisionTree は並列計算対応してくれているらしいので、実験してみた。
-using DataFrames using DecisionTree using ScikitLearn using LossFunctions train = readtable(&amp;quot;./numerai_training_data.csv&amp;quot;) test = readtable(&amp;quot;./numerai_tournament_data.csv&amp;quot;) yTrain_array = Array(train[:, :target] * 1.0) xTrain_array = Array(train[:, 4:53]) @time model = build_forest(yTrain_array, xTrain_array, 2, 30, 4, 0.7, 50) pred_test = apply_forest(model, Array(test[:,4:53])) labelsInfoTest = DataFrame() labelsInfoTest[:id] = test[:id] labelsInfoTest[:probability] = pred_test writetable(&amp;quot;numerai_answer3.csv&amp;quot;, labelsInfoTest, separator=&#39;,&#39;, header=true)  @time を付けることでそのコードでの処理時間やメモリ使用量が分かるっぽい。
-実行結果 &amp;gt; julia numerai.jl 657.770862 seconds &amp;gt; julia -p 3 numerai.</description>
+using DataFramesusing DecisionTreeusing ScikitLearnusing LossFunctionstrain = readtable(&amp;#34;./numerai_training_data.csv&amp;#34;)test = readtable(&amp;#34;./numerai_tournament_data.csv&amp;#34;)yTrain_array = Array(train[:, :target] * 1.0)xTrain_array = Array(train[:, 4:53])@time model = build_forest(yTrain_array, xTrain_array, 2, 30, 4, 0.7, 50)pred_test = apply_forest(model, Array(test[:,4:53]))labelsInfoTest = DataFrame()labelsInfoTest[:id] = test[:id]labelsInfoTest[:probability] = pred_testwritetable(&amp;#34;numerai_answer3.csv&amp;#34;, labelsInfoTest, separator=&amp;#39;,&amp;#39;, header=true)@time を付けることでそのコードでの処理時間やメモリ使用量が分かるっぽい。
+実行結果 &amp;gt; julia numerai.jl657.770862 seconds&amp;gt; julia -p 3 numerai.</description>
     </item>
     
     <item>
@@ -247,7 +235,7 @@ using DataFrames using DecisionTree using ScikitLearn using LossFunctions train 
       <description>Numerai というデータサイエンスが競い合って、効率の良いファウンドを運営しようという試み。
 ビットコインで雇われた匿名の7,500人が「頭脳」となるヘッジファンド「Numerai」｜WIRED.jp
 良いデータを登録できると、報酬ももらえるので頑張って Julia で挑戦してみる。
-using DataFrames using DecisionTree using ScikitLearn train = readtable(&amp;quot;./numerai_training_data.csv&amp;quot;) test = readtable(&amp;quot;./numerai_tournament_data.csv&amp;quot;) yTrain_array = Array(train[:, :target] * 1.0) xTrain_array = Array(train[:,4:53]) model = RandomForestRegressor() ScikitLearn.fit!(model, xTrain_array, yTrain_array) predTest = ScikitLearn.predict(model, Array(test[:,4:53])) labelsInfoTest = DataFrame() labelsInfoTest[:id] = test[:id] labelsInfoTest[:probability] = predTest writetable(&amp;quot;numerai_predict.csv&amp;quot;, labelsInfoTest, separator=&#39;,&#39;, header=true)  とりあえず、simpleなランダムフォレストを作って登録もできた。Loglossは0.76522ぐらいだった。</description>
+using DataFramesusing DecisionTreeusing ScikitLearntrain = readtable(&amp;#34;./numerai_training_data.csv&amp;#34;)test = readtable(&amp;#34;./numerai_tournament_data.csv&amp;#34;)yTrain_array = Array(train[:, :target] * 1.0)xTrain_array = Array(train[:,4:53])model = RandomForestRegressor()ScikitLearn.fit!(model, xTrain_array, yTrain_array)predTest = ScikitLearn.predict(model, Array(test[:,4:53]))labelsInfoTest = DataFrame()labelsInfoTest[:id] = test[:id]labelsInfoTest[:probability] = predTestwritetable(&amp;#34;numerai_predict.csv&amp;#34;, labelsInfoTest, separator=&amp;#39;,&amp;#39;, header=true)とりあえず、simpleなランダムフォレストを作って登録もできた。Loglossは0.76522ぐらいだった。</description>
     </item>
     
     <item>
@@ -260,7 +248,6 @@ using DataFrames using DecisionTree using ScikitLearn train = readtable(&amp;quo
 性別と等級から年齢の平均は異なりそうで、それを NaN 値に入れることを考えた。
 まずは、実際にどれくらい違いがでるのかを確認してみる。
 箱ひげ図 を表示できれば良さそうなので、Julia の Gadfly ライブラリを使って、図を表示してみる。
-
 やっぱり差異はありそうなので、今後の :Age の NaN 値にはとりあえず、この平均を入れていくことにする。</description>
     </item>
     

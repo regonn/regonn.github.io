@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>macos on そこのけそこのけゆとりが通る</title>
@@ -18,13 +18,13 @@
       
       <guid>https://blog.regonn.tokyo/programmer/2017-02-03-mac-osx-process/</guid>
       <description>最近 Rails 開発で puma-dev とかを入れていると、fsevent_watch プロセスが量産されて、プロセス上限数に達し
-fork: Resource temporarily unavailable  というエラーが出て開発が中断される。
+fork: Resource temporarily unavailableというエラーが出て開発が中断される。
 色々なところで議論もされていて、まだ根本的な解決はされていない様子
  fork: Resource temporarily unavailable occurring since installing · Issue #56 · puma/puma-dev The listen gem breaks my laptop · Issue #26158 · rails/rails  listen gem を削除したり development.rb を修正する必要があるみたいだけど、Railsアプリのコードをいじってしまうと他の人の開発環境にも影響が出るので、自分の Mac のプロセス上限を上げることに。
 以前の MacOSX だと、 /etc/launchd.conf をいじれば良さそうだったけど、Sierraではそんなファイルが存在していなく、調べると
 Open Files Limit
 という記事で、次の2つのファイルを作ることで対応できるみたい。
-/Library/LaunchDaemons/limit.maxfiles.plist &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt; &amp;lt;!DOCTYPE plist PUBLIC &amp;quot;-//Apple//DTD PLIST 1.0//EN&amp;quot; &amp;quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;quot;&amp;gt; &amp;lt;plist version=&amp;quot;1.0&amp;quot;&amp;gt; &amp;lt;dict&amp;gt; &amp;lt;key&amp;gt;Label&amp;lt;/key&amp;gt; &amp;lt;string&amp;gt;limit.</description>
+/Library/LaunchDaemons/limit.maxfiles.plist &amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&amp;lt;!DOCTYPE plist PUBLIC &amp;#34;-//Apple//DTD PLIST 1.0//EN&amp;#34; &amp;#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&amp;#34;&amp;gt;&amp;lt;plist version=&amp;#34;1.0&amp;#34;&amp;gt;&amp;lt;dict&amp;gt;&amp;lt;key&amp;gt;Label&amp;lt;/key&amp;gt;&amp;lt;string&amp;gt;limit.maxfiles&amp;lt;/string&amp;gt;&amp;lt;key&amp;gt;ProgramArguments&amp;lt;/key&amp;gt;&amp;lt;array&amp;gt;&amp;lt;string&amp;gt;launchctl&amp;lt;/string&amp;gt;&amp;lt;string&amp;gt;limit&amp;lt;/string&amp;gt;&amp;lt;string&amp;gt;maxfiles&amp;lt;/string&amp;gt;&amp;lt;string&amp;gt;200000&amp;lt;/string&amp;gt;&amp;lt;string&amp;gt;200000&amp;lt;/string&amp;gt;&amp;lt;/array&amp;gt;&amp;lt;key&amp;gt;RunAtLoad&amp;lt;/key&amp;gt;&amp;lt;true/&amp;gt;&amp;lt;key&amp;gt;ServiceIPC&amp;lt;/key&amp;gt;&amp;lt;false/&amp;gt;&amp;lt;/dict&amp;gt;&amp;lt;/plist&amp;gt;/Library/LaunchDaemons/limit.</description>
     </item>
     
   </channel>

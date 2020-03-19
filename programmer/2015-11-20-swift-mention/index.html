@@ -405,52 +405,35 @@
 
     
 
-    
-
-<p>よくチャットなどで <code>@regonn</code> のようにメンションで使ったりしますが、Swift で正規表現(NSRegularExpression)を使って取得したい。</p>
-
+    <p>よくチャットなどで <code>@regonn</code> のようにメンションで使ったりしますが、Swift で正規表現(NSRegularExpression)を使って取得したい。</p>
 <p>例えば次のような String の場合</p>
-
 <p><code>&quot;@banana @ tomato @orange regonn@sonicgarden.jp &quot;</code></p>
-
 <p>マッチして欲しいのは [ ] で囲んだ所(今回は<code>@</code>のみもマッチする)</p>
-
 <p><code>&quot;[@banana] [@] tomato [@orange] regonn@sonicgarden.jp &quot;</code></p>
-
 <p>そこで次のようなコードになりました。</p>
+<h3 id="mentionmatchswift">mentionMatch.swift</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-swift" data-lang="swift"><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">UIKit</span>
 
-<h3 id="mentionmatch-swift">mentionMatch.swift</h3>
+<span style="color:#a6e22e">let</span> <span style="color:#a6e22e">string</span> = <span style="color:#e6db74">&#34;@banana @ tomato @orange regonn@sonicgarden.jp &#34;</span>
 
-<pre><code class="language-swift">import UIKit
+<span style="color:#a6e22e">let</span> <span style="color:#a6e22e">regrex</span> = <span style="color:#a6e22e">try</span>? <span style="color:#a6e22e">NSRegularExpression</span>(<span style="color:#a6e22e">pattern</span>: <span style="color:#e6db74">&#34;(?&lt;=^|</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">s)(@</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">w*)&#34;</span>, <span style="color:#a6e22e">options</span>: <span style="color:#a6e22e">NSRegularExpressionOptions</span>.<span style="color:#a6e22e">CaseInsensitive</span>)
 
-let string = &quot;@banana @ tomato @orange regonn@sonicgarden.jp &quot;
+<span style="color:#a6e22e">let</span> <span style="color:#a6e22e">matches</span> = <span style="color:#a6e22e">regrex</span>!.<span style="color:#a6e22e">matchesInString</span>(<span style="color:#a6e22e">string</span>, <span style="color:#a6e22e">options</span>: [], <span style="color:#a6e22e">range</span>: <span style="color:#a6e22e">NSMakeRange</span>(<span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">string</span>.<span style="color:#a6e22e">characters</span>.<span style="color:#a6e22e">count</span>))
 
-let regrex = try? NSRegularExpression(pattern: &quot;(?&lt;=^|\\s)(@\\w*)&quot;, options: NSRegularExpressionOptions.CaseInsensitive)
-
-let matches = regrex!.matchesInString(string, options: [], range: NSMakeRange(0, string.characters.count))
-
-for match in matches {
-    print(match.range)
+<span style="color:#a6e22e">for</span> <span style="color:#a6e22e">match</span> <span style="color:#a6e22e">in</span> <span style="color:#a6e22e">matches</span> {
+    <span style="color:#a6e22e">print</span>(<span style="color:#a6e22e">match</span>.<span style="color:#a6e22e">range</span>)
 }
 
-=&gt; (0,7)
-(8,1)
-(17,7)
-</code></pre>
-
-<p>ちゃんと 3 か所にマッチできていることが確認できます。</p>
-
+=<span style="color:#f92672">&gt;</span> (<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">7</span>)
+(<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">1</span>)
+(<span style="color:#ae81ff">17</span>,<span style="color:#ae81ff">7</span>)
+</code></pre></div><p>ちゃんと 3 か所にマッチできていることが確認できます。</p>
 <p>今回の正規表現は</p>
-
 <p><code>(?&lt;=^|\\s)(@\\w*)</code></p>
-
 <p>となりました(もし<code>@</code>単体はマッチさせたくないのなら最後を<code>w+</code>に変更)</p>
-
 <p><code>(?&lt;=pattern)</code>は肯定後読み(positive lookbehind)という書き方らしい。知らなかった。。。</p>
-
 <p>図にしてみるとこんな感じになります。</p>
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2015-11-20.png" alt="" width="768" height="266" layout="responsive" ></amp-img></p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 
 
   </div>

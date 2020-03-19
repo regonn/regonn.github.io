@@ -405,53 +405,36 @@
 
     
 
-    
-
-<p>引き続き Numerai をランダムフォレストで解いてみる。</p>
-
-<p><a href="https://www.slideshare.net/sfchaos/julia-39591233" target="_blank">https://www.slideshare.net/sfchaos/julia-39591233</a></p>
-
+    <p>引き続き Numerai をランダムフォレストで解いてみる。</p>
+<p><a href="https://www.slideshare.net/sfchaos/julia-39591233">https://www.slideshare.net/sfchaos/julia-39591233</a></p>
 <p>のスライドによると、 DecisionTree は並列計算対応してくれているらしいので、実験してみた。</p>
-
-<pre><code class="language-julia">using DataFrames
-using DecisionTree
-using ScikitLearn
-using LossFunctions
-train = readtable(&quot;./numerai_training_data.csv&quot;)
-test = readtable(&quot;./numerai_tournament_data.csv&quot;)
-yTrain_array = Array(train[:, :target] * 1.0)
-xTrain_array = Array(train[:, 4:53])
-@time model = build_forest(yTrain_array, xTrain_array, 2, 30, 4, 0.7, 50)
-pred_test = apply_forest(model, Array(test[:,4:53]))
-labelsInfoTest = DataFrame()
-labelsInfoTest[:id] = test[:id]
-labelsInfoTest[:probability] = pred_test
-writetable(&quot;numerai_answer3.csv&quot;, labelsInfoTest, separator=',', header=true)
-</code></pre>
-
-<p><code>@time</code> を付けることでそのコードでの処理時間やメモリ使用量が分かるっぽい。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> DataFrames
+<span style="color:#66d9ef">using</span> DecisionTree
+<span style="color:#66d9ef">using</span> ScikitLearn
+<span style="color:#66d9ef">using</span> LossFunctions
+train <span style="color:#f92672">=</span> readtable(<span style="color:#e6db74">&#34;./numerai_training_data.csv&#34;</span>)
+test <span style="color:#f92672">=</span> readtable(<span style="color:#e6db74">&#34;./numerai_tournament_data.csv&#34;</span>)
+yTrain_array <span style="color:#f92672">=</span> <span style="color:#66d9ef">Array</span>(train[<span style="color:#f92672">:</span>, <span style="color:#f92672">:</span>target] <span style="color:#f92672">*</span> <span style="color:#ae81ff">1.0</span>)
+xTrain_array <span style="color:#f92672">=</span> <span style="color:#66d9ef">Array</span>(train[<span style="color:#f92672">:</span>, <span style="color:#ae81ff">4</span><span style="color:#f92672">:</span><span style="color:#ae81ff">53</span>])
+<span style="color:#a6e22e">@time</span> model <span style="color:#f92672">=</span> build_forest(yTrain_array, xTrain_array, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">0.7</span>, <span style="color:#ae81ff">50</span>)
+pred_test <span style="color:#f92672">=</span> apply_forest(model, <span style="color:#66d9ef">Array</span>(test[<span style="color:#f92672">:</span>,<span style="color:#ae81ff">4</span><span style="color:#f92672">:</span><span style="color:#ae81ff">53</span>]))
+labelsInfoTest <span style="color:#f92672">=</span> DataFrame()
+labelsInfoTest[<span style="color:#f92672">:</span>id] <span style="color:#f92672">=</span> test[<span style="color:#f92672">:</span>id]
+labelsInfoTest[<span style="color:#f92672">:</span>probability] <span style="color:#f92672">=</span> pred_test
+writetable(<span style="color:#e6db74">&#34;numerai_answer3.csv&#34;</span>, labelsInfoTest, separator<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;,&#39;</span>, header<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span>)
+</code></pre></div><p><code>@time</code> を付けることでそのコードでの処理時間やメモリ使用量が分かるっぽい。</p>
 <h2 id="実行結果">実行結果</h2>
-
-<pre><code class="language-shell">&gt; julia numerai.jl
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">&gt; julia numerai.jl
 657.770862 seconds
 
-&gt; julia -p 3 numerai.jl
+&gt; julia -p <span style="color:#ae81ff">3</span> numerai.jl
 282.813077 seconds
-</code></pre>
-
-<p>確かに、かなり時間が節約できている。</p>
-
+</code></pre></div><p>確かに、かなり時間が節約できている。</p>
 <p>今後はJupyter である程度変数とかを絞ったら、コードにして並列計算したほうが良さそう。</p>
-
 <p>肝心のNumeraiの結果は一度、Loglossが 0.70 台まで下がったが、Originarity チェックで弾かれた。なんでだろう。</p>
-
 <p>他の結果は 0.75 以上の結果になってしまった。</p>
-
 <p>損失関数の計算で分かってきたけど、1か0 の結果に対して、全ての予測が 0.5 だと、Logloss は 0.75 になる。</p>
-
 <p>つまり0.75を下回らないと、予測の精度は全てを 0.5 で答えた結果よりも悪いことになる。</p>
-
 <p>ここに一つのハードルがありそうだ。データはマスキングされているけど、元々はグラフデータとかの内容だろうし、普通に株取引とかで機械学習でやろうとしても、なかなか結果が出せないのと同じで、取引データから利益を出せるようになるには、もっとデータサイエンスを学ばないといけないな。</p>
 
 

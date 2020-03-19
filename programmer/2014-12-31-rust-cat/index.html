@@ -405,210 +405,180 @@
 
     
 
-    
-
-<p>2015年には1.0が公開される予定のRust言語の勉強のために、Unixコマンドを簡略化してRustで実装してみた。</p>
-
-<p>すでに、<a href="https://github.com/uutils/coreutils/blob/master/src/cat/cat.rs" target="_blank">uutils/coreutils</a>プロジェクトでcatコマンドは実装されていますが、今回は<a href="http://www.amazon.co.jp/gp/product/4797328355/ref=as_li_ss_tl?ie=UTF8&amp;camp=247&amp;creative=7399&amp;creativeASIN=4797328355&amp;linkCode=as2&amp;tag=regonns-22" target="_blank">ふつうのlinuxプログラミング</a>という本のサンプルコードを参考にしました。</p>
-
-<p>※ コードは<a href="https://github.com/regonn/rust-unix-command" target="_blank">ここ</a>のレポジトリに公開するので、「もっとこう書けるよ」みたいなのがあれば、プルリクお願いします。</p>
-
+    <p>2015年には1.0が公開される予定のRust言語の勉強のために、Unixコマンドを簡略化してRustで実装してみた。</p>
+<p>すでに、<a href="https://github.com/uutils/coreutils/blob/master/src/cat/cat.rs">uutils/coreutils</a>プロジェクトでcatコマンドは実装されていますが、今回は<a href="http://www.amazon.co.jp/gp/product/4797328355/ref=as_li_ss_tl?ie=UTF8&amp;camp=247&amp;creative=7399&amp;creativeASIN=4797328355&amp;linkCode=as2&amp;tag=regonns-22">ふつうのlinuxプログラミング</a>という本のサンプルコードを参考にしました。</p>
+<p>※ コードは<a href="https://github.com/regonn/rust-unix-command">ここ</a>のレポジトリに公開するので、「もっとこう書けるよ」みたいなのがあれば、プルリクお願いします。</p>
 <h1 id="c言語でのcat">C言語でのcat</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/stat.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fcntl.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">do_cat</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>path);
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">die</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>s);
 
-<pre><code class="language-c">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;fcntl.h&gt;
-
-static void do_cat(const char *path);
-static void die(const char *s);
-
-int
-main(int argc, char *argv[])
+<span style="color:#66d9ef">int</span>
+<span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[])
 {
-  int i;
-  if (argc &lt; 2) {
-    fprintf(stderr, &quot;%s: file name not given\n&quot;, argv[0]);
-    exit(1);
+  <span style="color:#66d9ef">int</span> i;
+  <span style="color:#66d9ef">if</span> (argc <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>) {
+    fprintf(stderr, <span style="color:#e6db74">&#34;%s: file name not given</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, argv[<span style="color:#ae81ff">0</span>]);
+    exit(<span style="color:#ae81ff">1</span>);
   }
-  for (i = 1; i &lt; argc; i++) {
+  <span style="color:#66d9ef">for</span> (i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> argc; i<span style="color:#f92672">++</span>) {
     do_cat(argv[i]);
   }
-  exit(0);
+  exit(<span style="color:#ae81ff">0</span>);
 }
 
-#define BUFFER_SIZE 2048
-
-static void
-do_cat(const char *path)
+<span style="color:#75715e">#define BUFFER_SIZE 2048
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span>
+<span style="color:#a6e22e">do_cat</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>path)
 {
-  int fd;
-  unsigned char buf[BUFFER_SIZE];
-  int n;
+  <span style="color:#66d9ef">int</span> fd;
+  <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> buf[BUFFER_SIZE];
+  <span style="color:#66d9ef">int</span> n;
 
-  fd = open(path, O_RDONLY);
-  if (fd &lt; 0) die(path);
-  for (;;) {
-    n = read(fd, buf, sizeof buf);
-    if (n &lt; 0) die(path);
-    if (n == 0) break;
-    if (write(STDOUT_FILENO, buf, n) &lt; 0) die(path);
+  fd <span style="color:#f92672">=</span> open(path, O_RDONLY);
+  <span style="color:#66d9ef">if</span> (fd <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) die(path);
+  <span style="color:#66d9ef">for</span> (;;) {
+    n <span style="color:#f92672">=</span> read(fd, buf, <span style="color:#66d9ef">sizeof</span> buf);
+    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) die(path);
+    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">break</span>;
+    <span style="color:#66d9ef">if</span> (write(STDOUT_FILENO, buf, n) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) die(path);
   }
-  if (close(fd) &lt; 0) die(path);
+  <span style="color:#66d9ef">if</span> (close(fd) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) die(path);
 }
 
-static void die(const char *s)
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">die</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>s)
 {
   perror(s);
-  exit(1);
+  exit(<span style="color:#ae81ff">1</span>);
 }
-</code></pre>
-
-<p>オプションとかは実装せず、ファイルの内容を読み取り標準出力する。</p>
-
+</code></pre></div><p>オプションとかは実装せず、ファイルの内容を読み取り標準出力する。</p>
 <h1 id="rust言語でのcat">Rust言語でのcat</h1>
-
 <h2 id="実行環境">実行環境</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ rustc --version
+rustc 0.13.0-nightly <span style="color:#f92672">(</span>34d680009 2014-12-22 00:12:47 +0000<span style="color:#f92672">)</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#![allow(unused_must_use)]</span>
+<span style="color:#66d9ef">use</span> std::os;
+<span style="color:#66d9ef">use</span> std::io::{File, IoResult, IoError, EndOfFile};
+<span style="color:#66d9ef">use</span> std::io::stdio::{stdout_raw, stderr};
 
-<pre><code class="language-sh">$ rustc --version
-rustc 0.13.0-nightly (34d680009 2014-12-22 00:12:47 +0000)
-</code></pre>
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">let</span> paths <span style="color:#f92672">=</span> os::args().slice_from_or_fail(<span style="color:#f92672">&amp;</span><span style="color:#ae81ff">1</span>).to_vec();
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> stderr <span style="color:#f92672">=</span> stderr();
 
-<pre><code class="language-rust">#![allow(unused_must_use)]
-use std::os;
-use std::io::{File, IoResult, IoError, EndOfFile};
-use std::io::stdio::{stdout_raw, stderr};
-
-fn main() {
-    let paths = os::args().slice_from_or_fail(&amp;1).to_vec();
-    let mut stderr = stderr();
-
-    if paths.len() &lt; 1 {
-        stderr.write_str(&quot;file name not given\n&quot;);
+    <span style="color:#66d9ef">if</span> paths.len() <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span> {
+        stderr.write_str(<span style="color:#e6db74">&#34;file name not given\n&#34;</span>);
     }
-    for path in paths.iter() {
-        let res = do_cat(path);
-        if res.is_err() {
-            panic!(&quot;{}: {}&quot;, path, res.unwrap_err());
+    <span style="color:#66d9ef">for</span> path <span style="color:#66d9ef">in</span> paths.iter() {
+        <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> do_cat(path);
+        <span style="color:#66d9ef">if</span> res.is_err() {
+            panic<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;{}: {}&#34;</span>, path, res.unwrap_err());
         }
     }
 }
 
-const BUFFER_SIZE: uint = 2048;
+<span style="color:#66d9ef">const</span> BUFFER_SIZE: <span style="color:#a6e22e">uint</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2048</span>;
 
-fn do_cat(path: &amp;String) -&gt; IoResult&lt;()&gt; {
-    let mut writer = stdout_raw();
-    let mut in_buf = [0, .. BUFFER_SIZE];
-    let mut reader = File::open(&amp;std::path::Path::new(path));
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">do_cat</span>(path: <span style="color:#66d9ef">&amp;</span>String) -&gt; <span style="color:#a6e22e">IoResult</span><span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> writer <span style="color:#f92672">=</span> stdout_raw();
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> in_buf <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>, .. BUFFER_SIZE];
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> reader <span style="color:#f92672">=</span> File::open(<span style="color:#f92672">&amp;</span>std::path::Path::new(path));
 
-    loop {
-        let n = match reader.read(&amp;mut in_buf) {
-            Ok(n) if n == 0 =&gt; return Ok(()),
-            Ok(n) =&gt; n,
-            Err(IoError{ kind: EndOfFile, ..}) =&gt; return Ok(()),
-            Err(e) =&gt; return Err(e)
+    <span style="color:#66d9ef">loop</span> {
+        <span style="color:#66d9ef">let</span> n <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> reader.read(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> in_buf) {
+            Ok(n) <span style="color:#66d9ef">if</span> n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Ok(()),
+            Ok(n) <span style="color:#f92672">=&gt;</span> n,
+            Err(IoError{ kind: <span style="color:#a6e22e">EndOfFile</span>, ..}) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Ok(()),
+            Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Err(e)
         };
-        try!(writer.write(in_buf.slice_to(n)));
+        try<span style="color:#f92672">!</span>(writer.write(in_buf.slice_to(n)));
     }
 }
-</code></pre>
-
-<p>実際に書いてみたら、やっぱりfor文のカウント用変数とかを使う必要がなくなったので、コンパクトに書けるし可読性は増している。</p>
-
+</code></pre></div><p>実際に書いてみたら、やっぱりfor文のカウント用変数とかを使う必要がなくなったので、コンパクトに書けるし可読性は増している。</p>
 <p>配列をeachっぽく使える <code>iter()</code> とか、 <code>match</code> 使ってif文が減らせるから便利。</p>
-
 <h1 id="もっとシンプルに書けているプルリクを頂きました">もっとシンプルに書けているプルリクを頂きました</h1>
-
 <p>2015/06/26更新
-<a href="https://github.com/tos-kamiya" target="_blank">tos-kamiya</a>さんからもっと、シンプルに書けているプルリクを頂きました。上のコードはCを元にしてしまっているので、Rustの恩恵があまり受けられていませんが、こちらのコードはとてもRustっぽいですね。ありがとうございます。</p>
+<a href="https://github.com/tos-kamiya">tos-kamiya</a>さんからもっと、シンプルに書けているプルリクを頂きました。上のコードはCを元にしてしまっているので、Rustの恩恵があまり受けられていませんが、こちらのコードはとてもRustっぽいですね。ありがとうございます。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">use</span> std::fs::File;
+<span style="color:#66d9ef">use</span> std::io::{BufReader, Read, Write};
+<span style="color:#66d9ef">use</span> std::io::stdout;
+<span style="color:#66d9ef">use</span> std::env::args;
 
-<pre><code class="language-rust">use std::fs::File;
-use std::io::{BufReader, Read, Write};
-use std::io::stdout;
-use std::env::args;
+<span style="color:#66d9ef">const</span> BUFFER_SIZE: <span style="color:#66d9ef">usize</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2048</span>;
 
-const BUFFER_SIZE: usize = 2048;
-
-fn main() {
-    let paths: Vec&lt;String&gt; = args().skip(1).collect();
-    if paths.is_empty() {
-        panic!(&quot;file name not given&quot;);
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">let</span> paths: Vec<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> args().skip(<span style="color:#ae81ff">1</span>).collect();
+    <span style="color:#66d9ef">if</span> paths.is_empty() {
+        panic<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;file name not given&#34;</span>);
     }
 
-    let mut writer = stdout();
-    for path in paths {
-        do_cat(&amp;mut writer, &amp;path);
-    }
-}
-
-fn do_cat(writer: &amp;mut Write, path: &amp;str) {
-    let file = File::open(path).unwrap();
-    let mut reader = BufReader::new(&amp;file);
-    let mut buf = [0; BUFFER_SIZE];
-    loop {
-        let n = reader.read(&amp;mut buf).unwrap();
-        if n == 0 { break; }
-        writer.write_all(&amp;buf[..n]).unwrap();
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> writer <span style="color:#f92672">=</span> stdout();
+    <span style="color:#66d9ef">for</span> path <span style="color:#66d9ef">in</span> paths {
+        do_cat(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> writer, <span style="color:#f92672">&amp;</span>path);
     }
 }
-</code></pre>
 
-<p>元のコードは<a href="https://github.com/tos-kamiya/rust-unix-command/blob/simpler/cat.rs" target="_blank">こちら</a>で確認できます</p>
-
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">do_cat</span>(writer: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Write, path: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) {
+    <span style="color:#66d9ef">let</span> file <span style="color:#f92672">=</span> File::open(path).unwrap();
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> reader <span style="color:#f92672">=</span> BufReader::new(<span style="color:#f92672">&amp;</span>file);
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> buf <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>; BUFFER_SIZE];
+    <span style="color:#66d9ef">loop</span> {
+        <span style="color:#66d9ef">let</span> n <span style="color:#f92672">=</span> reader.read(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> buf).unwrap();
+        <span style="color:#66d9ef">if</span> n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> { <span style="color:#66d9ef">break</span>; }
+        writer.write_all(<span style="color:#f92672">&amp;</span>buf[..n]).unwrap();
+    }
+}
+</code></pre></div><p>元のコードは<a href="https://github.com/tos-kamiya/rust-unix-command/blob/simpler/cat.rs">こちら</a>で確認できます</p>
 <h1 id="追記">追記</h1>
-
-<p>2015/01/03 <a href="https://github.com/kui" target="_blank">kui</a> さんにプルリクもらいました。配列の最初だけ取り除く方法も</p>
-
-<pre><code class="language-rust">let paths = os::args().slice_from_or_fail(&amp;1).to_vec();
-</code></pre>
-
-<p>って書けばよかったんですね。
+<p>2015/01/03 <a href="https://github.com/kui">kui</a> さんにプルリクもらいました。配列の最初だけ取り除く方法も</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> paths <span style="color:#f92672">=</span> os::args().slice_from_or_fail(<span style="color:#f92672">&amp;</span><span style="color:#ae81ff">1</span>).to_vec();
+</code></pre></div><p>って書けばよかったんですね。
 ありがとうございます。</p>
-
 <h1 id="追記-1">追記</h1>
+<p>2017/03/01 <a href="https://rust.connpass.com/event/48826/">RustのLT会！ Rust入門者の集い #2</a>で発表した時 1.15.1 で動くようにしました。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#![allow(unused_must_use)]</span>
+<span style="color:#66d9ef">use</span> std::env;
+<span style="color:#66d9ef">use</span> std::io::{stdout, stderr, Write, Read, Result};
+<span style="color:#66d9ef">use</span> std::fs::File;
 
-<p>2017/03/01 <a href="https://rust.connpass.com/event/48826/" target="_blank">RustのLT会！ Rust入門者の集い #2</a>で発表した時 1.15.1 で動くようにしました。</p>
-
-<pre><code class="language-rust">#![allow(unused_must_use)]
-use std::env;
-use std::io::{stdout, stderr, Write, Read, Result};
-use std::fs::File;
-
-fn main() {
-    let paths = env::args().skip(1);
-    if paths.len() &lt; 1 {
-        writeln!(&amp;mut stderr(), &quot;file name not given\n&quot;);
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#66d9ef">let</span> paths <span style="color:#f92672">=</span> env::args().skip(<span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">if</span> paths.len() <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span> {
+        writeln<span style="color:#f92672">!</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> stderr(), <span style="color:#e6db74">&#34;file name not given\n&#34;</span>);
     }
-    for path in paths {
-        let res = do_cat(path);
-        if res.is_err() {
-            panic!(&quot;{}&quot;, res.unwrap_err());
+    <span style="color:#66d9ef">for</span> path <span style="color:#66d9ef">in</span> paths {
+        <span style="color:#66d9ef">let</span> res <span style="color:#f92672">=</span> do_cat(path);
+        <span style="color:#66d9ef">if</span> res.is_err() {
+            panic<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;{}&#34;</span>, res.unwrap_err());
         }
     }
 }
 
-const BUFFER_SIZE: usize = 2048;
+<span style="color:#66d9ef">const</span> BUFFER_SIZE: <span style="color:#66d9ef">usize</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">2048</span>;
 
-fn do_cat(path: String) -&gt; Result&lt;()&gt; {
-    let stdout = stdout();
-    let mut handle = stdout.lock();
-    let mut in_buf = [0; BUFFER_SIZE];
-    let mut reader = try!(File::open(&amp;std::path::Path::new(&amp;path)));
+<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">do_cat</span>(path: String) -&gt; Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;</span> {
+    <span style="color:#66d9ef">let</span> stdout <span style="color:#f92672">=</span> stdout();
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> handle <span style="color:#f92672">=</span> stdout.lock();
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> in_buf <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>; BUFFER_SIZE];
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> reader <span style="color:#f92672">=</span> try<span style="color:#f92672">!</span>(File::open(<span style="color:#f92672">&amp;</span>std::path::Path::new(<span style="color:#f92672">&amp;</span>path)));
 
-    loop {
-        let n = match reader.read(&amp;mut in_buf[..]) {
-            Ok(n) if n == 0 =&gt; return Ok(()),
-            Ok(n) =&gt; n,
-            Err(e) =&gt; return Err(e)
+    <span style="color:#66d9ef">loop</span> {
+        <span style="color:#66d9ef">let</span> n <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> reader.read(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> in_buf[..]) {
+            Ok(n) <span style="color:#66d9ef">if</span> n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Ok(()),
+            Ok(n) <span style="color:#f92672">=&gt;</span> n,
+            Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Err(e)
         };
-        try!(handle.write(&amp;in_buf[0..n]));
+        try<span style="color:#f92672">!</span>(handle.write(<span style="color:#f92672">&amp;</span>in_buf[<span style="color:#ae81ff">0</span>..n]));
     }
 }
 
-</code></pre>
-
+</code></pre></div>
 
   </div>
   <footer class="my4">

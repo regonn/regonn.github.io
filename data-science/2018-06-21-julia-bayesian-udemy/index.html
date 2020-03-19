@@ -406,41 +406,30 @@
     
 
     <p>ベイズを学ぶために Udemy の講座で</p>
-
-<p><a href="https://px.a8.net/svt/ejp?a8mat=2ZJCFL+GE0L9U+3L4M+BW8O2&a8ejpredirect=https%3A%2F%2Fwww.udemy.com%2Fpythonstan%2F%3Fdeal_code%3DJPA8DEAL2PERCENTAGE%26aEightID%3Ds00000016735001" target="_blank" rel="nofollow">【Python と Stan で学ぶ】仕組みが分かるベイズ統計学入門</a></p>
-
-<p><amp-img src="https://www18.a8.net/0.gif?a8mat=2ZJCFL+GE0L9U+3L4M+BW8O2" alt="" width="1px" height="1px" layout="fixed" ></amp-img></p>
-
+<p><!-- raw HTML omitted -->【Python と Stan で学ぶ】仕組みが分かるベイズ統計学入門<!-- raw HTML omitted --></p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <p>の Python のコードを Julia で書き直して勉強している。</p>
-
 <p>Python のコード</p>
-
 <p>次のようにベルヌーイ分布で data から N_data 個取った場合の確立密度関数を計算する Python コードがあった</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> from scipy.stats import bernoulli
 
-<pre><code class="language-python">import from scipy.stats import bernoulli
+p_a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>
+data <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>]
+N_data <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+likehood_a <span style="color:#f92672">=</span> bernoulli<span style="color:#f92672">.</span>pmf(data[:N_data], p_a)
+likehood_a <span style="color:#75715e"># array([ 0.7, 0.3])</span>
+</code></pre></div><p>Julia で書き直すとこんな感じになった</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#66d9ef">using</span> Distributions
 
-p_a = 0.3
-data = [0,1,0,0,1,1,1]
-N_data = 2
-likehood_a = bernoulli.pmf(data[:N_data], p_a)
-likehood_a # array([ 0.7, 0.3])
-</code></pre>
-
-<p>Julia で書き直すとこんな感じになった</p>
-
-<pre><code class="language-julia">using Distributions
-
-p_a = 0.3
-data = [0,1,0,0,1,1,1]
-N_data = 2
-likehood_a = pdf(Bernoulli(p_a), data[1:N_data])
+p_a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.3</span>
+data <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>]
+N_data <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+likehood_a <span style="color:#f92672">=</span> pdf(Bernoulli(p_a), data[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span>N_data])
 likehood_a
-# 2-element Array{Float64,1}:
-# 0.7
-# 0.3
-</code></pre>
-
-<p>Julia で<a href="https://github.com/JuliaStats/Distributions.jl" target="_blank">Distributions.jl</a>には pmf メソッドは用意されていなかったので pdf を変わりに使っている。
+<span style="color:#75715e"># 2-element Array{Float64,1}:</span>
+<span style="color:#75715e"># 0.7</span>
+<span style="color:#75715e"># 0.3</span>
+</code></pre></div><p>Julia で<a href="https://github.com/JuliaStats/Distributions.jl">Distributions.jl</a>には pmf メソッドは用意されていなかったので pdf を変わりに使っている。
 Julia 贔屓な目で見てしまうが、それでも Julia の書き方のほうが <code>Bernoulli(p_a)</code> とか使うあたりがメソッドを汎用性高く使えている気がする。
 もちろん書き方はライブラリにもよるのだけども。</p>
 

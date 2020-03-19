@@ -408,97 +408,91 @@
       </amp-youtube>
     
 
-    <p>2018/04/04開催の <a href="https://www.facebook.com/events/247495035794663/" target="_blank">Kaggle Knight Matsue #2</a> でやった作業内容。</p>
-
-<p><a href="http://juliaimages.github.io/ImageFeatures.jl/latest/tutorials/object_detection.html" target="_blank">Object Detection using HOG · ImageFeatures</a>
-を参考にして、Kaggleの<a href="https://www.kaggle.com/c/imaterialist-challenge-furniture-2018" target="_blank">iMaterialist Challenge</a>準備。</p>
-
+    <p>2018/04/04開催の <a href="https://www.facebook.com/events/247495035794663/">Kaggle Knight Matsue #2</a> でやった作業内容。</p>
+<p><a href="http://juliaimages.github.io/ImageFeatures.jl/latest/tutorials/object_detection.html">Object Detection using HOG · ImageFeatures</a>
+を参考にして、Kaggleの<a href="https://www.kaggle.com/c/imaterialist-challenge-furniture-2018">iMaterialist Challenge</a>準備。</p>
 <p>Juliaで保存する前に画像の拡大縮小をするには次の記事が参考になった。</p>
-
-<p><a href="https://qiita.com/nel215/items/ed3476a1a4607c3f9beb" target="_blank">Juliaで画像の拡大縮小を行う - Qiita</a></p>
-
+<p><a href="https://qiita.com/nel215/items/ed3476a1a4607c3f9beb">Juliaで画像の拡大縮小を行う - Qiita</a></p>
 <p>Juliaのコードは次のようになった。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia"><span style="color:#75715e"># 必要なライブラリを設定</span>
+<span style="color:#66d9ef">using</span> JSON
+<span style="color:#66d9ef">using</span> Images
+<span style="color:#66d9ef">using</span> DataFrames
+<span style="color:#66d9ef">using</span> FileIO
+<span style="color:#66d9ef">using</span> LIBSVM <span style="color:#75715e"># 学習に利用</span>
 
-<pre><code class="language-julia"># 必要なライブラリを設定
-using JSON
-using Images
-using DataFrames
-using FileIO
-using LIBSVM # 学習に利用
+<span style="color:#75715e"># ./input にデータを置いてる</span>
+json <span style="color:#f92672">=</span> JSON<span style="color:#f92672">.</span>parsefile(<span style="color:#e6db74">&#34;./input/train.json&#34;</span>)
 
-# ./input にデータを置いてる
-json = JSON.parsefile(&quot;./input/train.json&quot;)
+<span style="color:#75715e"># 数が大きいので最初の10件で試す。images =&gt; 画像URL, annotations =&gt; ラベル情報 が別々に入っている</span>
+a <span style="color:#f92672">=</span> json[<span style="color:#e6db74">&#34;images&#34;</span>][<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>]
 
-# 数が大きいので最初の10件で試す。images =&gt; 画像URL, annotations =&gt; ラベル情報 が別々に入っている
-a = json[&quot;images&quot;][1:10]
+<span style="color:#75715e"># Json から Dataframe へ変換する。コピペコード。</span>
+ka <span style="color:#f92672">=</span> union([keys(r) <span style="color:#66d9ef">for</span> r <span style="color:#66d9ef">in</span> a]<span style="color:#f92672">...</span>)
+df <span style="color:#f92672">=</span> DataFrame(;<span style="color:#66d9ef">Dict</span>(<span style="color:#66d9ef">Symbol</span>(k)<span style="color:#f92672">=&gt;</span>get<span style="color:#f92672">.</span>(a,k,NA) <span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> ka)<span style="color:#f92672">...</span>)
+df[<span style="color:#f92672">:</span>url] <span style="color:#f92672">=</span> map(x<span style="color:#f92672">-&gt;</span> x[<span style="color:#ae81ff">1</span>], df[<span style="color:#f92672">:</span>url])
 
-# Json から Dataframe へ変換する。コピペコード。
-ka = union([keys(r) for r in a]...)
-df = DataFrame(;Dict(Symbol(k)=&gt;get.(a,k,NA) for k in ka)...)
-df[:url] = map(x-&gt; x[1], df[:url])
+<span style="color:#75715e"># 毎回やるのは面倒なのでCSVで保存しておく</span>
+FileIO<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;images-1-10.csv&#34;</span>, df, quotechar<span style="color:#f92672">=</span>nothing)
 
-# 毎回やるのは面倒なのでCSVで保存しておく
-FileIO.save(&quot;images-1-10.csv&quot;, df, quotechar=nothing)
+<span style="color:#75715e"># 同じ作業を annotations でも行う</span>
+a <span style="color:#f92672">=</span> json[<span style="color:#e6db74">&#34;annotations&#34;</span>][<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>]
+ka <span style="color:#f92672">=</span> union([keys(r) <span style="color:#66d9ef">for</span> r <span style="color:#66d9ef">in</span> a]<span style="color:#f92672">...</span>)
+df <span style="color:#f92672">=</span> DataFrame(;<span style="color:#66d9ef">Dict</span>(<span style="color:#66d9ef">Symbol</span>(k)<span style="color:#f92672">=&gt;</span>get<span style="color:#f92672">.</span>(a,k,NA) <span style="color:#66d9ef">for</span> k <span style="color:#66d9ef">in</span> ka)<span style="color:#f92672">...</span>)
+FileIO<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;annotations-1-10.csv&#34;</span>, df, quotechar<span style="color:#f92672">=</span>nothing)
 
-# 同じ作業を annotations でも行う
-a = json[&quot;annotations&quot;][1:10]
-ka = union([keys(r) for r in a]...)
-df = DataFrame(;Dict(Symbol(k)=&gt;get.(a,k,NA) for k in ka)...)
-FileIO.save(&quot;annotations-1-10.csv&quot;, df, quotechar=nothing)
+<span style="color:#75715e"># CSVデータを image_id で join して一つの DataFrameに</span>
+annotations <span style="color:#f92672">=</span> DataFrame(load(<span style="color:#e6db74">&#34;./annotations-1-10.csv&#34;</span>))
+images <span style="color:#f92672">=</span> DataFrame(load(<span style="color:#e6db74">&#34;./images-1-10.csv&#34;</span>))
+images_annotations <span style="color:#f92672">=</span> join(images, annotations, on <span style="color:#f92672">=</span> <span style="color:#f92672">:</span>image_id, kind<span style="color:#f92672">=</span> <span style="color:#f92672">:</span>left)
 
-# CSVデータを image_id で join して一つの DataFrameに
-annotations = DataFrame(load(&quot;./annotations-1-10.csv&quot;))
-images = DataFrame(load(&quot;./images-1-10.csv&quot;))
-images_annotations = join(images, annotations, on = :image_id, kind= :left)
-
-# 画像を 80x80 で保存する。 HOG で行う場合に cell_size の倍数にしないといけないらしい
-for row in eachrow(images_annotations)
-    try
-        t = tempname()
-        download(row[:url], t)
-        img = load(t)
-        square = imresize(img, (80, 80))
-        save(&quot;./images/$(row[:label_id])/$(row[:image_id]).jpg&quot;, square)
+<span style="color:#75715e"># 画像を 80x80 で保存する。 HOG で行う場合に cell_size の倍数にしないといけないらしい</span>
+<span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> eachrow(images_annotations)
+    <span style="color:#66d9ef">try</span>
+        t <span style="color:#f92672">=</span> tempname()
+        download(row[<span style="color:#f92672">:</span>url], t)
+        img <span style="color:#f92672">=</span> load(t)
+        square <span style="color:#f92672">=</span> imresize(img, (<span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">80</span>))
+        save(<span style="color:#e6db74">&#34;./images/</span><span style="color:#e6db74">$</span>(row[<span style="color:#f92672">:</span>label_id])<span style="color:#e6db74">/</span><span style="color:#e6db74">$</span>(row[<span style="color:#f92672">:</span>image_id])<span style="color:#e6db74">.jpg&#34;</span>, square)
         rm(t)
-    catch err
-        println(&quot;ERROR: &quot;, err.msg)
-    end
-end
+    <span style="color:#66d9ef">catch</span> err
+        println(<span style="color:#e6db74">&#34;ERROR: &#34;</span>, err<span style="color:#f92672">.</span>msg)
+    <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
 
-# 最初の画像10件は全てラベルは5なので、そこで処理していく
-examples = &quot;./images/5/&quot;
-n_example = length(readdir(examples))
+<span style="color:#75715e"># 最初の画像10件は全てラベルは5なので、そこで処理していく</span>
+examples <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;./images/5/&#34;</span>
+n_example <span style="color:#f92672">=</span> length(readdir(examples))
 
-data = Array{Float64}(2916, n_example)  # 80x80の場合 2916
-labels = Vector{Int}(n_example)
+data <span style="color:#f92672">=</span> <span style="color:#66d9ef">Array</span>{<span style="color:#66d9ef">Float64</span>}(<span style="color:#ae81ff">2916</span>, n_example)  <span style="color:#75715e"># 80x80の場合 2916</span>
+labels <span style="color:#f92672">=</span> <span style="color:#66d9ef">Vector</span>{<span style="color:#66d9ef">Int</span>}(n_example)
 
-for (i, file) in enumerate(readdir(examples))
-    filename = &quot;./images/5/$file&quot;
+<span style="color:#66d9ef">for</span> (i, file) <span style="color:#66d9ef">in</span> enumerate(readdir(examples))
+    filename <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;./images/5/</span><span style="color:#e6db74">$file</span><span style="color:#e6db74">&#34;</span>
     print(filename)
-    img = load(filename)
-    data[:, i] = create_descriptor(img, HOG())
-    labels[i] = 5
-end
+    img <span style="color:#f92672">=</span> load(filename)
+    data[<span style="color:#f92672">:</span>, i] <span style="color:#f92672">=</span> create_descriptor(img, HOG())
+    labels[i] <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+<span style="color:#66d9ef">end</span>
 
-random_perm = randperm(n_example)
+random_perm <span style="color:#f92672">=</span> randperm(n_example)
 
-# 分ける必要も無いけどサンプルデータのやり方を真似る
-train_ind = random_perm[1:7]
-test_ind = random_perm[8:9]
+<span style="color:#75715e"># 分ける必要も無いけどサンプルデータのやり方を真似る</span>
+train_ind <span style="color:#f92672">=</span> random_perm[<span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">7</span>]
+test_ind <span style="color:#f92672">=</span> random_perm[<span style="color:#ae81ff">8</span><span style="color:#f92672">:</span><span style="color:#ae81ff">9</span>]
 
-model = svmtrain(data[:, train_ind], labels[train_ind]);
-img = load(&quot;./images/5/11.jpg&quot;) # 上のコードとは別にテスト用に 11.jpg も用意しておく
-descriptor = Array{Float64}(2916, 1)
-descriptor[:, 1] = create_descriptor(img, HOG())
+model <span style="color:#f92672">=</span> svmtrain(data[<span style="color:#f92672">:</span>, train_ind], labels[train_ind]);
+img <span style="color:#f92672">=</span> load(<span style="color:#e6db74">&#34;./images/5/11.jpg&#34;</span>) <span style="color:#75715e"># 上のコードとは別にテスト用に 11.jpg も用意しておく</span>
+descriptor <span style="color:#f92672">=</span> <span style="color:#66d9ef">Array</span>{<span style="color:#66d9ef">Float64</span>}(<span style="color:#ae81ff">2916</span>, <span style="color:#ae81ff">1</span>)
+descriptor[<span style="color:#f92672">:</span>, <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> create_descriptor(img, HOG())
 
-predicted_label, _ = svmpredict(model, descriptor);
+predicted_label, _ <span style="color:#f92672">=</span> svmpredict(model, descriptor);
 print(predicted_label)
 
-# モデルの正答率をだすけど。ラベルが 5 しか用意していないので、100%になるので、ラベルを増やして試したい
-predicted_labels, decision_values = svmpredict(model, data[:, test_ind]);
-@printf &quot;Accuracy: %.2f%%\n&quot; mean((predicted_labels .== labels[test_ind]))*100
-</code></pre>
-
+<span style="color:#75715e"># モデルの正答率をだすけど。ラベルが 5 しか用意していないので、100%になるので、ラベルを増やして試したい</span>
+predicted_labels, decision_values <span style="color:#f92672">=</span> svmpredict(model, data[<span style="color:#f92672">:</span>, test_ind]);
+<span style="color:#a6e22e">@printf</span> <span style="color:#e6db74">&#34;Accuracy: </span><span style="color:#e6db74">%.2f%%</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> mean((predicted_labels <span style="color:#f92672">.==</span> labels[test_ind]))<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>
+</code></pre></div>
 
   </div>
   <footer class="my4">

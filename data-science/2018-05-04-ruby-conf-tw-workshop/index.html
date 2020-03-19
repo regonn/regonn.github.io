@@ -410,88 +410,62 @@
 
     
 
-    
-
-<p>台湾のRubyとElixirのTechイベント<a href="https://2018.rubyconf.tw/" target="_blank">Ruby X Elixir Conf Taiwan 2018</a>に参加してきました。
+    <p>台湾のRubyとElixirのTechイベント<a href="https://2018.rubyconf.tw/">Ruby X Elixir Conf Taiwan 2018</a>に参加してきました。
 自分にとって初めての海外一人旅と海外Techカンファレンス。</p>
-
-<p><a href="https://www.youtube.com/channel/UCWXXSB94_CUAYD7XgdLzvBg" target="_blank">趣味でデータサイエンス系の技術を触っていて</a>データサイエンスに興味があり、丁度イベントでRubyのデータサイエンス界隈がどうなっているかについて、<a href="https://github.com/mrkn/pycall.rb" target="_blank">pycall.rb</a>等のライブラリを作っている<a href="https://twitter.com/mrkn" target="_blank">@mrkn</a>さん(株式会社Speee)のワークショップに参加したので、その内容をまとめようと思います。</p>
-
+<p><a href="https://www.youtube.com/channel/UCWXXSB94_CUAYD7XgdLzvBg">趣味でデータサイエンス系の技術を触っていて</a>データサイエンスに興味があり、丁度イベントでRubyのデータサイエンス界隈がどうなっているかについて、<a href="https://github.com/mrkn/pycall.rb">pycall.rb</a>等のライブラリを作っている<a href="https://twitter.com/mrkn">@mrkn</a>さん(株式会社Speee)のワークショップに参加したので、その内容をまとめようと思います。</p>
 <p>内容のレベルはPythonで既に機械学習系のライブラリを触ったことのある人が対象ぐらいで書いています。</p>
-
 <h2 id="ワークショップリポジトリ">ワークショップリポジトリ</h2>
-
-<p><a href="https://github.com/RubyData/workshop_taiwan_201804" target="_blank">RubyData/workshop_taiwan_201804</a></p>
-
+<p><a href="https://github.com/RubyData/workshop_taiwan_201804">RubyData/workshop_taiwan_201804</a></p>
 <p>今回のワークショップで使われたリポジトリ。</p>
-
 <p>Dockerを用いて、それぞれの環境を作り進めていきました。</p>
-
-<h2 id="session-1-introduction-to-ruby-s-data-tools-ecosystem">Session 1: Introduction to Ruby&rsquo;s data tools ecosystem</h2>
-
+<h2 id="session-1-introduction-to-rubys-data-tools-ecosystem">Session 1: Introduction to Ruby&rsquo;s data tools ecosystem</h2>
 <p>現在のRuby界隈のDataScience系のプロジェクトやツールを紹介</p>
-
-<h3 id="ruby-データサイエンス系プロジェクト">Ruby×データサイエンス系プロジェクト</h3>
-
+<h3 id="rubyデータサイエンス系プロジェクト">Ruby×データサイエンス系プロジェクト</h3>
 <ul>
-<li><a href="http://sciruby.com/" target="_blank">SciRuby</a>
-
+<li><a href="http://sciruby.com/">SciRuby</a>
 <ul>
 <li>科学技術計算におけるRuby環境の改善が目的の国際プロジェクト</li>
-<li>Dataframe(Pythonでいうpandas)の <a href="https://github.com/SciRuby/daru" target="_blank">daru</a> だったり、RubyをJupyter上で動かすための iruby 等を開発</li>
-</ul></li>
-<li><a href="https://github.com/ruby-numo/numo/blob/master/README.md" target="_blank">Ruby Numo</a>
-
+<li>Dataframe(Pythonでいうpandas)の <a href="https://github.com/SciRuby/daru">daru</a> だったり、RubyをJupyter上で動かすための iruby 等を開発</li>
+</ul>
+</li>
+<li><a href="https://github.com/ruby-numo/numo/blob/master/README.md">Ruby Numo</a>
 <ul>
-<li>行列計算ライブラリ(Pythonでいうnumpy)の <a href="https://github.com/ruby-numo/numo-narray" target="_blank">NArray</a> を開発</li>
-</ul></li>
-<li><a href="https://red-data-tools.github.io/ja/" target="_blank">Red Data Tools</a>
-
+<li>行列計算ライブラリ(Pythonでいうnumpy)の <a href="https://github.com/ruby-numo/numo-narray">NArray</a> を開発</li>
+</ul>
+</li>
+<li><a href="https://red-data-tools.github.io/ja/">Red Data Tools</a>
 <ul>
 <li>Rubyのデータ処理ライブラリを提供するプロジェクト</li>
-<li><a href="https://arrow.apache.org/" target="_blank">Apache Arrow</a>のRubyバインドである<a href="https://github.com/red-data-tools/red-arrow" target="_blank">red-arrow</a>を開発</li>
-</ul></li>
+<li><a href="https://arrow.apache.org/">Apache Arrow</a>のRubyバインドである<a href="https://github.com/red-data-tools/red-arrow">red-arrow</a>を開発</li>
 </ul>
-
+</li>
+</ul>
 <h3 id="jupyter-notebook上でrubyを動かす">Jupyter Notebook上でRubyを動かす</h3>
-
-<h4 id="session1-ipynb-http-nbviewer-jupyter-org-github-rubydata-workshop-taiwan-201804-blob-master-session1-ipynb"><a href="http://nbviewer.jupyter.org/github/RubyData/workshop_taiwan_201804/blob/master/Session1.ipynb" target="_blank">Session1.ipynb</a></h4>
-
+<h4 id="session1ipynbhttpnbviewerjupyterorggithubrubydataworkshop_taiwan_201804blobmastersession1ipynb"><a href="http://nbviewer.jupyter.org/github/RubyData/workshop_taiwan_201804/blob/master/Session1.ipynb">Session1.ipynb</a></h4>
 <ul>
-<li>Kaggle でもチュートリアルとして有名な <a href="https://public.opendatasoft.com/explore/dataset/titanic-passengers/export/" target="_blank">Titanic生存者データ</a></li>
-<li><a href="https://github.com/ash1day/rbplotly" target="_blank">rbplotly</a>(いい感じにデータを描画してくれるサービス<a href="https://plot.ly/" target="_blank">plotly</a>をrubyから呼べるgem)を使ってチャートを表示</li>
+<li>Kaggle でもチュートリアルとして有名な <a href="https://public.opendatasoft.com/explore/dataset/titanic-passengers/export/">Titanic生存者データ</a></li>
+<li><a href="https://github.com/ash1day/rbplotly">rbplotly</a>(いい感じにデータを描画してくれるサービス<a href="https://plot.ly/">plotly</a>をrubyから呼べるgem)を使ってチャートを表示</li>
 <li>CSVデータからDaruでデータフレーム型に変換して、rubyの文法でデータを処理できて、チャート表示までが問題なく出来ていた</li>
 <li>ある程度の前処理等もRubyでできてしまえる可能性を感じた</li>
 </ul>
-
-<h2 id="session-2-introduction-to-pycall-rb">Session 2: Introduction to pycall.rb</h2>
-
-<p>RubyでPythonのライブラリやメソッドを呼べる <a href="https://github.com/mrkn/pycall.rb" target="_blank">pycall.rb</a> について</p>
-
-<h4 id="session2-ipynb-http-nbviewer-jupyter-org-github-rubydata-workshop-taiwan-201804-blob-master-session2-ipynb"><a href="http://nbviewer.jupyter.org/github/RubyData/workshop_taiwan_201804/blob/master/Session2.ipynb" target="_blank">Session2.ipynb</a></h4>
-
+<h2 id="session-2-introduction-to-pycallrb">Session 2: Introduction to pycall.rb</h2>
+<p>RubyでPythonのライブラリやメソッドを呼べる <a href="https://github.com/mrkn/pycall.rb">pycall.rb</a> について</p>
+<h4 id="session2ipynbhttpnbviewerjupyterorggithubrubydataworkshop_taiwan_201804blobmastersession2ipynb"><a href="http://nbviewer.jupyter.org/github/RubyData/workshop_taiwan_201804/blob/master/Session2.ipynb">Session2.ipynb</a></h4>
 <ul>
 <li>iris(アヤメ)データをpandas(データフレーム),seaborn(描画),scikit-learn(PCA,SVC)を使って解析</li>
 </ul>
-
-<h4 id="wine-data-viewer-https-github-com-rubydata-wine-data-viewer"><a href="https://github.com/RubyData/wine_data_viewer" target="_blank">wine_data_viewer</a></h4>
-
+<h4 id="wine_data_viewerhttpsgithubcomrubydatawine_data_viewer"><a href="https://github.com/RubyData/wine_data_viewer">wine_data_viewer</a></h4>
 <ul>
 <li>pycall.rbを用いてRails上でwineデータを表示</li>
 <li>helperで <code>= render_dataframe @dataframe</code> みたいに書けるようにしてあって、自分のプロジェクトとかでも使えそう</li>
 </ul>
-
 <h2 id="session-3-introduction-to-machine-learning-programming-in-ruby">Session 3: Introduction to machine learning programming in Ruby</h2>
-
-<p><a href="https://github.com/mrkn/mxnet.rb" target="_blank">mxnet.rb</a>を使ってディープラーニングを行う</p>
-
+<p><a href="https://github.com/mrkn/mxnet.rb">mxnet.rb</a>を使ってディープラーニングを行う</p>
 <ul>
-<li><a href="https://mxnet.incubator.apache.org/" target="_blank">MXNet</a>は最近AmazonとかMicrosoftが力を入れているDeepLearningライブラリ</li>
+<li><a href="https://mxnet.incubator.apache.org/">MXNet</a>は最近AmazonとかMicrosoftが力を入れているDeepLearningライブラリ</li>
 <li>色々な言語(Python,C++,Scala,Julia,Perl,R)に対応していて、MXNet.rbの開発を進めてRubyも対応言語に入れてもらうのが目標</li>
 </ul>
-
-<h4 id="session3-ipynb-http-nbviewer-jupyter-org-github-rubydata-workshop-taiwan-201804-blob-master-session3-ipynb"><a href="http://nbviewer.jupyter.org/github/RubyData/workshop_taiwan_201804/blob/master/Session3.ipynb" target="_blank">Session3.ipynb</a></h4>
-
+<h4 id="session3ipynbhttpnbviewerjupyterorggithubrubydataworkshop_taiwan_201804blobmastersession3ipynb"><a href="http://nbviewer.jupyter.org/github/RubyData/workshop_taiwan_201804/blob/master/Session3.ipynb">Session3.ipynb</a></h4>
 <ul>
 <li>MNIST(手書き文字)データを使ってMXNetでモデルを実装して学習</li>
 <li>隠れ層2層の全結合モデル</li>
@@ -499,12 +473,9 @@
 <li>トレーニング済みのモデルでランダムに画像10個をpredictしても正しくできていた</li>
 <li>より複雑な Wide ResNet のMXNet.rb実装デモもあった</li>
 </ul>
-
 <h2 id="ワークショップを終えて">ワークショップを終えて</h2>
-
 <p>普段趣味でJulia言語を用いてデータサイエンスをやっていますが、仕事で使っているRuby(主にRails)でも色々できることが増えてきて、試しに使ってみる位のレベルになってきている気がします。</p>
-
-<p>今後の話ですが、<a href="https://twitter.com/mrkn" target="_blank">@mrkn</a>さんは科学計算向けプログラミング言語のJuliaもRubyとバインディングできるように進めているので、私もお手伝いできるように現在必死にRubyのC拡張を触ったりしてます。今後もそこら辺の記事を書けたらなと思います。</p>
+<p>今後の話ですが、<a href="https://twitter.com/mrkn">@mrkn</a>さんは科学計算向けプログラミング言語のJuliaもRubyとバインディングできるように進めているので、私もお手伝いできるように現在必死にRubyのC拡張を触ったりしてます。今後もそこら辺の記事を書けたらなと思います。</p>
 
 
   </div>

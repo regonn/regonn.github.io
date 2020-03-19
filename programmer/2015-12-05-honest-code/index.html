@@ -410,36 +410,22 @@
 
     
 
-    
-
-<p><amp-img src="https://blog.regonn.tokyo/images/2015-12-05-honest-code.jpg" alt="クリスマス" width="670px" height="480px" layout="responsive" ></amp-img></p>
-
+    <p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h2 id="素直なコード">素直なコード？</h2>
-
-<p>この記事は<a href="http://www.adventar.org/calendars/855" target="_blank">ソニックガーデン Advent Calendar 2015</a>の5日目の記事です。
-今回は以前、代表の倉貫が島根の<a href="http://matsue.rubyist.net/matrk06/" target="_blank">松江Ruby会議 06</a>で公演を行うので、
+<p>この記事は<a href="http://www.adventar.org/calendars/855">ソニックガーデン Advent Calendar 2015</a>の5日目の記事です。
+今回は以前、代表の倉貫が島根の<a href="http://matsue.rubyist.net/matrk06/">松江Ruby会議 06</a>で公演を行うので、
 一緒について行ってライブコーディング大喜利というイベントに参加した時に言われた「素直なコード」というものについて自分で考えてみました。</p>
-
 <p>その時のライブコーディング大喜利で書いたコードはqiitaにあげてあります。</p>
-
-<p><a href="http://qiita.com/regonn/items/96097ebece367b227d21" target="_blank">松江Ruby会議06で出された問題を解いてみた。 - Qiita</a></p>
-
+<p><a href="http://qiita.com/regonn/items/96097ebece367b227d21">松江Ruby会議06で出された問題を解いてみた。 - Qiita</a></p>
 <p>ライブコーディングが終わり、コードを見てもらったのですが審査員の人から「素直なコードですね」と言われました。</p>
-
 <p>その当時、新卒入社1年目で技術力はなかったものの、
 ソニックガーデンでは可読性のあるコードや保守性の高いコードの書き方になるようにコードレビュー等で頻繁に注意されていたので、
 意識してそう言ったコードは書けていたと思います。</p>
-
 <p>もし、素直なコードを超えた先（ソニックガーデン師匠レベルの人達が書くコード）はどんなコードになるのかなと考えてみました。</p>
-
 <p>（忙しい人用に4行でまとめました。飛びたい場合は<a href="#summary">コチラ</a>）</p>
-
 <h2 id="素直なコードになる前は">素直なコードになる前は？</h2>
-
 <p>まず素直なコードに達するまでは、どんなコードと呼べるかを考えたら、 <strong>自己中なコード</strong> だなと思いました。</p>
-
 <p>例えばRailsで次のようなコードはかなり自己中なコードです。</p>
-
 <pre><code># 1ヶ月(30日), 2592000秒
 def self.delete_expired_events
   all.each do |event|
@@ -448,38 +434,25 @@ def self.delete_expired_events
     end
   end
 end
-</code></pre>
-
-<p>コメントはありますが、2592000という文字が何を意味するのか捉えにくい（[マジックナンバー](<a href="https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B8%E3%83%83%E3%82%AF%E3%83%8A%E3%83%B3%E3%83%90%E3%83%BC_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0)と呼ばれてる）ですし、" target="_blank">https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B8%E3%83%83%E3%82%AF%E3%83%8A%E3%83%B3%E3%83%90%E3%83%BC_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0)と呼ばれてる）ですし、</a>
+</code></pre><p>コメントはありますが、2592000という文字が何を意味するのか捉えにくい（[マジックナンバー](<a href="https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B8%E3%83%83%E3%82%AF%E3%83%8A%E3%83%B3%E3%83%90%E3%83%BC_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0)">https://ja.wikipedia.org/wiki/%E3%83%9E%E3%82%B8%E3%83%83%E3%82%AF%E3%83%8A%E3%83%B3%E3%83%90%E3%83%BC_(%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0)</a>と呼ばれてる）ですし、
 もし2か月後に変更するときに <code>2592000 * 2</code> みたいになると、余計混乱の元です。</p>
-
 <h2 id="じゃあ素直なコードは">じゃあ素直なコードは？</h2>
-
 <p>さっきのコードの例だと、素直なコードは</p>
-
 <pre><code>def self.destroy_expired_events
   where(&quot;created_at &lt;= ?&quot;, Time.current.months_ago(1)).destroy_all
 end
-</code></pre>
-
-<p>みたいになります。if文がなくなって1行になったり、 <code>months_ago</code> メソッドを使っているため、どの条件でイベントを削除したいのかがわかりやすくなりました。</p>
-
+</code></pre><p>みたいになります。if文がなくなって1行になったり、 <code>months_ago</code> メソッドを使っているため、どの条件でイベントを削除したいのかがわかりやすくなりました。</p>
 <p>RubyやRailsのメジャーな書き方やメソッドをちゃんと使いこなせているようになると素直なコードは書けるようになってきます。
 ここまでくると可読性も上がり、他の人や将来の自分が見ても理解しやすいコードになっています。</p>
-
 <h2 id="次のステージへ">次のステージへ</h2>
-
 <p>もし、この次があるとしたらそれは、コードの全体や運用での観点でコードが考えられているのだと思います。
 例えば、</p>
-
 <ul>
 <li>ステージング環境でちゃんとデータが消されるかを確認したいんだけど1か月待たないといけないの？　。</li>
 <li>運用してから削除する日数（月単位でない）を決めたいから簡単に変えられるようにしておきたい。</li>
 <li>他にもユーザーが特定の日数以前のデータを消せるように <code>def self.destroy_at_or_before(datetime)</code> というメソッドが用意されていた。</li>
 </ul>
-
 <p>のような状態ですと、実は次のような実装が適していたのかもしれません。</p>
-
 <pre><code>def self.destory_at_or_before(datetime)
   where(&quot;created_at &lt;= ?&quot;, datetime).destroy_all
 end
@@ -487,34 +460,27 @@ end
 def self.destroy_expired_events
   self.destroy_at_or_before(Time.current.days_ago(ENV[&quot;NUMBER_OF_EFFECTIVE_DATES&quot;]))
 end
-</code></pre>
-
-<p>みたいにした方が、環境変数を変更するだけで有効日数を変更できますし、すでにあったメソッドを使うために、メソッドの役割を分担できています。
+</code></pre><p>みたいにした方が、環境変数を変更するだけで有効日数を変更できますし、すでにあったメソッドを使うために、メソッドの役割を分担できています。
 （さらに <code>self.destroy_at_or_before(datetime)</code> のメソッドはeventに関係ないのでconcernのようなところに書けば共通化ができますね）</p>
-
 <p>このように、コード的には正しいけど、運用やコード全体を考えてかけているコードが素直なコードの次に目指すところだと思います。</p>
-
 <p>私は、このコードのことを <strong>優しいコード</strong> と名付けました。コードを見る人や運用する人のことが考慮されています（別にソニックガーデンでこう呼ばれているわけではないですが）。</p>
-
 <p>優しいコードは、その都度環境と求められるものが変化するので正解はないですがより良いものを目指していきます。</p>
-
 <p>師匠レベルの人は、この優しいコードが自然と書けているし、より優しいコードはどう書けるかを追い求めているのだと思います。</p>
-
-<p><a name="summary"></a></p>
-
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
 <h2 id="まとめ">まとめ</h2>
-
 <ul>
-<li><p>自己中コード =&gt; 周りが見えていなく、自分にしか理解できないコード</p></li>
-
-<li><p>素直なコード =&gt; プログラミングの重要な考え方（オブジェクト志向）や、言語やフレームワークの機能がしっかり利用できていて、他の人が読んでも読みやすい</p></li>
-
-<li><p>優しいコード =&gt; 素直なコードが書けていて、運用やコード全体のことが考えられている</p></li>
+<li>
+<p>自己中コード =&gt; 周りが見えていなく、自分にしか理解できないコード</p>
+</li>
+<li>
+<p>素直なコード =&gt; プログラミングの重要な考え方（オブジェクト志向）や、言語やフレームワークの機能がしっかり利用できていて、他の人が読んでも読みやすい</p>
+</li>
+<li>
+<p>優しいコード =&gt; 素直なコードが書けていて、運用やコード全体のことが考えられている</p>
+</li>
 </ul>
-
 <p><strong>コードが良くなる = 視野が広がり、周りのことを考えられている</strong></p>
-
-<p><a href="http://www.adventar.org/calendars/855" target="_blank">ソニックガーデン Advent Calendar 2015</a></p>
+<p><a href="http://www.adventar.org/calendars/855">ソニックガーデン Advent Calendar 2015</a></p>
 
 
   </div>

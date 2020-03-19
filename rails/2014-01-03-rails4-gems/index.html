@@ -401,140 +401,101 @@
 
     
 
-    
-
-<p>Railsに触って半年ぐらい経つけど、未だにrails newした時に出来上がるGemfileの中身を理解していたなかったので調べてみた。</p>
-
-<p>「そもそもGemfileとは？」という人はこちらへ⇒<a href="http://xxxcaqui.hatenablog.com/entry/2013/02/11/013421" target="_blank">http://xxxcaqui.hatenablog.com/entry/2013/02/11/013421</a></p>
-
+    <p>Railsに触って半年ぐらい経つけど、未だにrails newした時に出来上がるGemfileの中身を理解していたなかったので調べてみた。</p>
+<p>「そもそもGemfileとは？」という人はこちらへ⇒http://xxxcaqui.hatenablog.com/entry/2013/02/11/013421</p>
 <p>rails newで生成されるGemfile</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">source <span style="color:#e6db74">&#39;https://rubygems.org&#39;</span>
 
-<pre><code class="language-ruby">source 'https://rubygems.org'
+<span style="color:#75715e"># Bundle edge Rails instead: gem &#39;rails&#39;, github: &#39;rails/rails&#39;</span>
+gem <span style="color:#e6db74">&#39;rails&#39;</span>, <span style="color:#e6db74">&#39;4.0.0&#39;</span>
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+<span style="color:#75715e"># Use sqlite3 as the database for Active Record</span>
+gem <span style="color:#e6db74">&#39;sqlite3&#39;</span>
 
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+<span style="color:#75715e"># Use SCSS for stylesheets</span>
+gem <span style="color:#e6db74">&#39;sass-rails&#39;</span>, <span style="color:#e6db74">&#39;~&gt; 4.0.0&#39;</span>
 
-# Use SCSS for stylesheets
-gem 'sass-rails', '~&gt; 4.0.0'
+<span style="color:#75715e"># Use Uglifier as compressor for JavaScript assets</span>
+gem <span style="color:#e6db74">&#39;uglifier&#39;</span>, <span style="color:#e6db74">&#39;&gt;= 1.3.0&#39;</span>
 
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '&gt;= 1.3.0'
+<span style="color:#75715e"># Use CoffeeScript for .js.coffee assets and views</span>
+gem <span style="color:#e6db74">&#39;coffee-rails&#39;</span>, <span style="color:#e6db74">&#39;~&gt; 4.0.0&#39;</span>
 
-# Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails', '~&gt; 4.0.0'
+<span style="color:#75715e"># See https://github.com/sstephenson/execjs#readme for more supported runtimes</span>
+<span style="color:#75715e"># gem &#39;therubyracer&#39;, platforms: :ruby</span>
 
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
+<span style="color:#75715e"># Use jquery as the JavaScript library</span>
+gem <span style="color:#e6db74">&#39;jquery-rails&#39;</span>
 
-# Use jquery as the JavaScript library
-gem 'jquery-rails'
+<span style="color:#75715e"># Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks</span>
+gem <span style="color:#e6db74">&#39;turbolinks&#39;</span>
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+<span style="color:#75715e"># Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder</span>
+gem <span style="color:#e6db74">&#39;jbuilder&#39;</span>, <span style="color:#e6db74">&#39;~&gt; 1.2&#39;</span>
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~&gt; 1.2'
+group <span style="color:#e6db74">:doc</span> <span style="color:#66d9ef">do</span>
+  <span style="color:#75715e"># bundle exec rake doc:rails generates the API under doc/api.</span>
+  gem <span style="color:#e6db74">&#39;sdoc&#39;</span>, require: <span style="color:#66d9ef">false</span>
+<span style="color:#66d9ef">end</span>
 
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', require: false
-end
+<span style="color:#75715e"># Use ActiveModel has_secure_password</span>
+<span style="color:#75715e"># gem &#39;bcrypt-ruby&#39;, &#39;~&gt; 3.0.0&#39;</span>
 
-# Use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~&gt; 3.0.0'
+<span style="color:#75715e"># Use unicorn as the app server</span>
+<span style="color:#75715e"># gem &#39;unicorn&#39;</span>
 
-# Use unicorn as the app server
-# gem 'unicorn'
+<span style="color:#75715e"># Use Capistrano for deployment</span>
+<span style="color:#75715e"># gem &#39;capistrano&#39;, group: :development</span>
 
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
-</code></pre>
-
-<p>長くなりますが、勉強のために上から順に見ていきます。</p>
-
+<span style="color:#75715e"># Use debugger</span>
+<span style="color:#75715e"># gem &#39;debugger&#39;, group: [:development, :test]</span>
+</code></pre></div><p>長くなりますが、勉強のために上から順に見ていきます。</p>
 <h2 id="rails">rails</h2>
-
 <p>まぁ、これはいいか。
 ここでバージョンを指定すれば、bundle installした後bundle exec rails で指定したrailsバージョンで作業できる。</p>
-
 <h2 id="sqlite3">sqlite3</h2>
-
-<p>データベースですね、わかります。sqlite3はローカルにdb/development.sqlite3というファイルが生成されて、<a href="http://sourceforge.net/projects/sqlitebrowser/" target="_blank">SQLite Database Browser</a>でデータベースの構造を詳しく見ることもできる。ファイルとして保存してあるので、他の人へ渡す時とか楽。しかし、herokuでアプリを作るときはPostgreSQLを使えと言われる。
-<a href="https://devcenter.heroku.com/articles/sqlite3" target="_blank">herokuのリファレンス（英語）</a>を読むとなぜSQLiteが使えないのか書いてある。勝手に翻訳して解釈すると、複数のサーバー(dyno)を立ち上げると、まったく別の環境になるため、お互いのファイル(sqlite3ファイル)を更新することができないし、サーバーが起動中に書き換えられても一時的なファイルとして扱うため、再起動したら元に戻るみたい。怖いですね。素直にsqlite3以外を使いましょう。</p>
-
+<p>データベースですね、わかります。sqlite3はローカルにdb/development.sqlite3というファイルが生成されて、<a href="http://sourceforge.net/projects/sqlitebrowser/">SQLite Database Browser</a>でデータベースの構造を詳しく見ることもできる。ファイルとして保存してあるので、他の人へ渡す時とか楽。しかし、herokuでアプリを作るときはPostgreSQLを使えと言われる。
+<a href="https://devcenter.heroku.com/articles/sqlite3">herokuのリファレンス（英語）</a>を読むとなぜSQLiteが使えないのか書いてある。勝手に翻訳して解釈すると、複数のサーバー(dyno)を立ち上げると、まったく別の環境になるため、お互いのファイル(sqlite3ファイル)を更新することができないし、サーバーが起動中に書き換えられても一時的なファイルとして扱うため、再起動したら元に戻るみたい。怖いですね。素直にsqlite3以外を使いましょう。</p>
 <h3 id="asset-pipeline">Asset Pipeline</h3>
-
-<p>次の3つのgemはRails3.1から導入された Asset Pipelineに使われている。詳しくは⇒<a href="http://blog.livedoor.jp/sasata299/archives/51851170.html" target="_blank">Rails3.1から導入されたAsset Pipelineがよくわかってなかったから調べた - (ﾟ∀ﾟ)o彡 sasata299&rsquo;s blog</a></p>
-
+<p>次の3つのgemはRails3.1から導入された Asset Pipelineに使われている。詳しくは⇒<a href="http://blog.livedoor.jp/sasata299/archives/51851170.html">Rails3.1から導入されたAsset Pipelineがよくわかってなかったから調べた - (ﾟ∀ﾟ)o彡 sasata299&rsquo;s blog</a></p>
 <h2 id="sass-rails">sass-rails</h2>
-
 <p>sassです。便利なCSSです。入れ子構造で書けたり、変数が使えたりする。</p>
-
-<pre><code class="language-sass">$blue:#23599b;
-
-.top{
-	color:$blue;
-	h1{
-		font-size: 12px;
-	}
-}
-</code></pre>
-
-<h2 id="uglifier">uglifier</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sass" data-lang="sass">$blue<span style="color:#f92672">:</span><span style="color:#ae81ff">#23599b</span><span style="color:#960050;background-color:#1e0010">;</span>
+<span style="color:#960050;background-color:#1e0010"></span>
+<span style="color:#a6e22e">.top</span><span style="color:#960050;background-color:#1e0010">{</span>
+<span style="color:#960050;background-color:#1e0010">	</span><span style="color:#a6e22e">color</span><span style="color:#f92672">:</span>$blue<span style="color:#960050;background-color:#1e0010">;</span>
+	<span style="color:#f92672">h1</span><span style="color:#960050;background-color:#1e0010">{</span>
+<span style="color:#960050;background-color:#1e0010">		</span><span style="color:#a6e22e">font-size</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">12</span><span style="color:#66d9ef">px</span><span style="color:#960050;background-color:#1e0010">;</span>
+	<span style="color:#960050;background-color:#1e0010">}</span>
+<span style="color:#960050;background-color:#1e0010">}</span>
+</code></pre></div><h2 id="uglifier">uglifier</h2>
 <p>javascriptを圧縮してくれる。
 config/environments/production.rbの所で
 config.assets.js_compressor = :uglifierで呼び出されている。
 ホワイトスペースを削除して、if-else文を三項演算子に変更するなど最適化をしてくれるので、素早く読み込める＆難読化の効果が現れてくる。</p>
-
 <h2 id="coffee-rails">coffee-rails</h2>
-
 <p>CoffeeScriptはJavaScriptに比べて簡潔さと可読性を向上させていて、だいたいJavaScriptよりも1/3程度の行数が削減できる。</p>
-
 <h2 id="therubyracer">therubyracer</h2>
-
-<p>Googleが開発したJavaScriptのエンジンであるV8をRubyから使えるようにするgem。他にもJavaScriptエンジンはあるけれど、V8はバージョンが上がるたびに高速化しており、スクリプト言語の中では最速の部類となっているみたい。<a href="http://benchmarksgame.alioth.debian.org/u32/which-programs-are-fastest.php?" target="_blank">Which programs are fastest? | Computer Language Benchmarks Game</a>しかし、gemインストール時で一番つまずくのもこのgemな気がする。</p>
-
+<p>Googleが開発したJavaScriptのエンジンであるV8をRubyから使えるようにするgem。他にもJavaScriptエンジンはあるけれど、V8はバージョンが上がるたびに高速化しており、スクリプト言語の中では最速の部類となっているみたい。<a href="http://benchmarksgame.alioth.debian.org/u32/which-programs-are-fastest.php?">Which programs are fastest? | Computer Language Benchmarks Game</a>しかし、gemインストール時で一番つまずくのもこのgemな気がする。</p>
 <h2 id="jquery-rails">jquery-rails</h2>
-
 <p>ウェブブラウザ用のJavaScriptコードを容易に記述できるように設計された、JavaScriptライブラリ。CSSが操作できたり、Ajaxで動きのあるページを作ることが可能。</p>
-
 <h2 id="turbolinks">turbolinks</h2>
-
-<p>ページの移動をAjaxに置き換えることで、JavaScriptやCSSの読み込みを省略して高速化してくれる。しかし、ページ移動でJavaScriptで書かれていた広告が表示されないなどのエラーも起こる。英語だが、このサイトで解決策がまとめられている。<a href="http://reed.github.io/turbolinks-compatibility/" target="_blank">Turbolinks Compatibility</a></p>
-
+<p>ページの移動をAjaxに置き換えることで、JavaScriptやCSSの読み込みを省略して高速化してくれる。しかし、ページ移動でJavaScriptで書かれていた広告が表示されないなどのエラーも起こる。英語だが、このサイトで解決策がまとめられている。<a href="http://reed.github.io/turbolinks-compatibility/">Turbolinks Compatibility</a></p>
 <h2 id="jbuilder">jbuilder</h2>
-
-<p>JSON形式でレスポンスを出力してくれるテンプレートエンジン。Viewで記述できて、部分テンプレート等にも使える。日本語に翻訳されてて分かりやすい⇒<a href="http://railscasts.com/episodes/320-jbuilder?language=ja&amp;view=asciicast" target="_blank">#320 Jbuilder - RailsCasts</a></p>
-
+<p>JSON形式でレスポンスを出力してくれるテンプレートエンジン。Viewで記述できて、部分テンプレート等にも使える。日本語に翻訳されてて分かりやすい⇒<a href="http://railscasts.com/episodes/320-jbuilder?language=ja&amp;view=asciicast">#320 Jbuilder - RailsCasts</a></p>
 <h2 id="sdoc">sdoc</h2>
-
 <p>Rubyのソースコードからコメント等を読み取りHTML+CSS+JavaScriptを吐き出して、ブラウザで閲覧しやすいドキュメントを作ってくれる。Sはsearchableのことで、ブラウザ上でクラスやメソッド名を検索できるようになる。</p>
-
 <h2 id="bcrypt-ruby">bcrypt-ruby</h2>
-
-<p>パスワードの暗号化をしてくれる機能。使い方は次のサイトが分かりやすい。<a href="http://bakunyo.hatenablog.com/entry/2013/05/26/bcrypt-ruby%E3%82%92Rails%E3%81%A7%E4%BD%BF%E3%81%86" target="_blank">bcrypt-rubyをRailsで使う - ばくのエンジニア日誌</a></p>
-
+<p>パスワードの暗号化をしてくれる機能。使い方は次のサイトが分かりやすい。<a href="http://bakunyo.hatenablog.com/entry/2013/05/26/bcrypt-ruby%E3%82%92Rails%E3%81%A7%E4%BD%BF%E3%81%86">bcrypt-rubyをRailsで使う - ばくのエンジニア日誌</a></p>
 <h2 id="unicorn">unicorn</h2>
-
 <p>Rackアプリケーション向けのHTTPサーバー。RackとはRubyにおけるサーバーとアプリケーション間のインタフェースの役割を果たしていて、Rails以外の様々なフレームワークで実装されたアプリケーションでもサーバー側の構成を変えることなく置き換えることができたりする。
 他にもRailsのサーバーは色々あるが、unicornは他のに比べてデプロイ時間が早かったり、メモリ効率が良かったりするらしい。
-ちょっと記事としては古いが詳しく他のサーバーと比較して書かれているやつ⇒<a href="http://techracho.bpsinc.jp/piichan1031/2010_07_09/2075" target="_blank">次世代Ruby on RailsサーバーUnicorn（汎用のRackアプリケーションサーバ）を使ってみた | TechRacho</a></p>
-
+ちょっと記事としては古いが詳しく他のサーバーと比較して書かれているやつ⇒<a href="http://techracho.bpsinc.jp/piichan1031/2010_07_09/2075">次世代Ruby on RailsサーバーUnicorn（汎用のRackアプリケーションサーバ）を使ってみた | TechRacho</a></p>
 <h2 id="capistrano">capistrano</h2>
-
 <p>デプロイメントツール。アプリケーションを本番サーバーにインストールしたり、最新版に更新。サーバーの起動、再起動、停止。メンテナンス中への切り替えが可能。</p>
-
 <h2 id="debugger">debugger</h2>
-
 <p>その名の通りデバッガーツール。ここに詳しく載ってる。
-<a href="https://gist.github.com/tkyowa/1378694" target="_blank">ruby-debugを使ったRuby・Railsアプリケーションのデバッグ方法</a></p>
+<a href="https://gist.github.com/tkyowa/1378694">ruby-debugを使ったRuby・Railsアプリケーションのデバッグ方法</a></p>
 
 
   </div>

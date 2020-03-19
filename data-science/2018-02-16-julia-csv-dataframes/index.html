@@ -405,36 +405,21 @@
 
     
 
-    
-
-<p>DataFramesでreadtableを実行しようとすると、deprecated warningが出る。</p>
-
-<h2 id="dataframes-readtable">DataFrames.readtable</h2>
-
-<pre><code class="language-julia">DataFrames.readtable(&quot;./input/train.csv&quot;)
-=&gt;
-WARNING: readtable is deprecated, use CSV.read from the CSV package instead
-</code></pre>
-
-<h2 id="csv-read">CSV.read</h2>
-
+    <p>DataFramesでreadtableを実行しようとすると、deprecated warningが出る。</p>
+<h2 id="dataframesreadtable">DataFrames.readtable</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">DataFrames<span style="color:#f92672">.</span>readtable(<span style="color:#e6db74">&#34;./input/train.csv&#34;</span>)
+<span style="color:#f92672">=&gt;</span>
+WARNING<span style="color:#f92672">:</span> readtable is deprecated, use CSV<span style="color:#f92672">.</span>read from the CSV package instead
+</code></pre></div><h2 id="csvread">CSV.read</h2>
 <p>これに対応しようとして CSV の read メソッドを呼ぼうとするが、現状このメソッドでやろうとするとNull値を許可したり、Unionで型を指定してあげないといけなかったりする。</p>
-
-<pre><code class="language-julia">CSV.read(&quot;./input/train.csv&quot;)
-=&gt;
-CSV.ParsingException(&quot;error parsing a `Int64` value on column 27, row 235; encountered 'N'&quot;)
-</code></pre>
-
-<h2 id="csvfiles-jl">CSVFiles.jl</h2>
-
-<p>他に良さそうなライブラリがないか探してみたら、<a href="https://github.com/davidanthoff/CSVFiles.jl" target="_blank">CSVFiles.jl: FileIO.jl integration for CSV files</a>が使いやすそうだった。そういえば、提出用ファイルで出力する時にheaderのカラムにダブルクォーテーションを使いたくないときにもこのライブラリで対応できた。スター数は全然付いていないがメンテもされているし使い勝手が良い。作者のdavidanthoffさんがjuliaの質問サイトとかで自分のライブラリを紹介して広めているのも健気で好感が持てる。<a href="https://discourse.julialang.org/t/read-file-with-csv-read/7838/6" target="_blank">Read file with CSV.read - Usage / First steps - Julia discourse</a></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">CSV<span style="color:#f92672">.</span>read(<span style="color:#e6db74">&#34;./input/train.csv&#34;</span>)
+<span style="color:#f92672">=&gt;</span>
+CSV<span style="color:#f92672">.</span>ParsingException(<span style="color:#e6db74">&#34;error parsing a `Int64` value on column 27, row 235; encountered &#39;N&#39;&#34;</span>)
+</code></pre></div><h2 id="csvfilesjl">CSVFiles.jl</h2>
+<p>他に良さそうなライブラリがないか探してみたら、<a href="https://github.com/davidanthoff/CSVFiles.jl">CSVFiles.jl: FileIO.jl integration for CSV files</a>が使いやすそうだった。そういえば、提出用ファイルで出力する時にheaderのカラムにダブルクォーテーションを使いたくないときにもこのライブラリで対応できた。スター数は全然付いていないがメンテもされているし使い勝手が良い。作者のdavidanthoffさんがjuliaの質問サイトとかで自分のライブラリを紹介して広めているのも健気で好感が持てる。<a href="https://discourse.julialang.org/t/read-file-with-csv-read/7838/6">Read file with CSV.read - Usage / First steps - Julia discourse</a></p>
 <p>使い方としては</p>
-
-<pre><code class="language-julia">DataFrame(load(&quot;./input/train.csv&quot;))
-</code></pre>
-
-<p>で <code>DataFrames.readtable</code> と同じように扱うことができる。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-julia" data-lang="julia">DataFrame(load(<span style="color:#e6db74">&#34;./input/train.csv&#34;</span>))
+</code></pre></div><p>で <code>DataFrames.readtable</code> と同じように扱うことができる。</p>
 
 
   </div>
