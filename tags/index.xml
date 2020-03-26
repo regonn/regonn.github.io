@@ -6,15 +6,51 @@
     <description>Recent content in Tags on そこのけそこのけゆとりが通る</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Wed, 16 Oct 2019 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 09 Dec 2019 09:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.regonn.tokyo/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>ギルド</title>
+      <link>https://blog.regonn.tokyo/tags/%E3%82%AE%E3%83%AB%E3%83%89/</link>
+      <pubDate>Mon, 09 Dec 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/tags/%E3%82%AE%E3%83%AB%E3%83%89/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>働き方</title>
+      <link>https://blog.regonn.tokyo/tags/%E5%83%8D%E3%81%8D%E6%96%B9/</link>
+      <pubDate>Mon, 09 Dec 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/tags/%E5%83%8D%E3%81%8D%E6%96%B9/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>julia</title>
+      <link>https://blog.regonn.tokyo/tags/julia/</link>
+      <pubDate>Wed, 04 Dec 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/tags/julia/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>flutter</title>
+      <link>https://blog.regonn.tokyo/tags/flutter/</link>
+      <pubDate>Sun, 01 Dec 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/tags/flutter/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>kaggle</title>
       <link>https://blog.regonn.tokyo/tags/kaggle/</link>
-      <pubDate>Wed, 16 Oct 2019 09:00:00 +0900</pubDate>
+      <pubDate>Sun, 01 Dec 2019 09:00:00 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/tags/kaggle/</guid>
       <description></description>
@@ -35,15 +71,6 @@
       <pubDate>Sun, 13 Oct 2019 09:00:00 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/tags/gcp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>julia</title>
-      <link>https://blog.regonn.tokyo/tags/julia/</link>
-      <pubDate>Tue, 22 Jan 2019 18:00:00 +0900</pubDate>
-      
-      <guid>https://blog.regonn.tokyo/tags/julia/</guid>
       <description></description>
     </item>
     

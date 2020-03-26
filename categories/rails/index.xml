@@ -30,8 +30,8 @@
       <description>RailsでDBのレコードを読み込んでCSVとして吐き出す方法。
 Userというモデルで実装しています。
 以下のコードをダウンロードを行いたいControllerのアクションに追加(config/routes.rb にもアクションを追加してください。)
-# app/controllers/users_controller.rb def csvself.response.headers[&amp;#34;Content-Type&amp;#34;] ||= &amp;#39;text/csv; charset=Shift_JIS&amp;#39;self.response.headers[&amp;#34;Content-Disposition&amp;#34;] = &amp;#34;attachment;filename=users_#{Time.current.to_i}.csv&amp;#34;self.response.headers[&amp;#34;Content-Transfer-Encoding&amp;#34;] = &amp;#34;binary&amp;#34;self.response.headers[&amp;#34;Last-Modified&amp;#34;] = Time.current.ctime.to_sself.response_body = Enumerator.new do |yielder|yielder &amp;lt;&amp;lt; encode_sjis(User.csv_header)# ここで、出力するデータのスコープを変更できます。 User.all.each do |user|yielder &amp;lt;&amp;lt; encode_sjis(user.to_csv)endendendprivatedef encode_sjis datadata.encode(&amp;#34;Shift_JIS&amp;#34;, invalid: :replace, undef: :replace, replace: &amp;#39;?&amp;#39;)endモデルの方も実装していきます
-# app/models/user.rb def self.csv_headerheader = []header &amp;lt;&amp;lt; (User.human_attribute_name :id)header &amp;lt;&amp;lt; (User.human_attribute_name :name)header.</description>
+# app/controllers/users_controller.rb def csv self.response.headers[&amp;#34;Content-Type&amp;#34;] ||= &amp;#39;text/csv; charset=Shift_JIS&amp;#39; self.response.headers[&amp;#34;Content-Disposition&amp;#34;] = &amp;#34;attachment;filename=users_#{Time.current.to_i}.csv&amp;#34; self.response.headers[&amp;#34;Content-Transfer-Encoding&amp;#34;] = &amp;#34;binary&amp;#34; self.response.headers[&amp;#34;Last-Modified&amp;#34;] = Time.current.ctime.to_s self.response_body = Enumerator.new do |yielder| yielder &amp;lt;&amp;lt; encode_sjis(User.csv_header) # ここで、出力するデータのスコープを変更できます。 User.all.each do |user| yielder &amp;lt;&amp;lt; encode_sjis(user.to_csv) end end end private def encode_sjis data data.encode(&amp;#34;Shift_JIS&amp;#34;, invalid: :replace, undef: :replace, replace: &amp;#39;?&amp;#39;) end モデルの方も実装していきます
+# app/models/user.rb def self.csv_header header = [] header &amp;lt;&amp;lt; (User.human_attribute_name :id) header &amp;lt;&amp;lt; (User.human_attribute_name :name) header.to_csv end def to_csv cols = [] cols &amp;lt;&amp;lt; id cols &amp;lt;&amp;lt; name cols.</description>
     </item>
     
     <item>
@@ -43,13 +43,14 @@ Userというモデルで実装しています。
       <description>devise gemを使うことで簡単にログイン環境と認可機能を実装できますが、自分しか使わない個人のアプリだけどHerokuにアップするから他の人がeditとかnewのページに入れないようにしたいぐらいだと、gem使うよりも独自に実装するほうが簡単だったのでご紹介。
 参考サイト ほとんど、このブログ記事を参考にしました。Ruby on Rails3.2でログイン機能を実装する。
 準備 Gemfileに書かれているがコメントアウトされている bcrypt gem を有効にします。パスワードの暗号化に必要です。
-# Gemfile gem &amp;#39;bcrypt&amp;#39;, &amp;#39;~&amp;gt; 3.1.7&amp;#39;そして、 bundle install をして準備完了。
+# Gemfile gem &amp;#39;bcrypt&amp;#39;, &amp;#39;~&amp;gt; 3.1.7&amp;#39; そして、 bundle install をして準備完了。
 Userモデル作成 まず、Userモデルを作ります。
-$ rails g model user name:string password_digest:string$ rails db:migrate次にできたUserモデルファイルを変更
-# app/model/user.rb class User &amp;lt; ApplicationRecordhas_secure_passwordvalidates :password, presence: true, length: { minimum: 8 }endこれでさっき入れたbcrypt gemが使われます。
+$ rails g model user name:string password_digest:string $ rails db:migrate 次にできたUserモデルファイルを変更
+# app/model/user.rb class User &amp;lt; ApplicationRecord has_secure_password validates :password, presence: true, length: { minimum: 8 } end これでさっき入れたbcrypt gemが使われます。
 データ作成 そして、アカウント追加
-$ rails cirb(main):001:0&amp;gt; User.create!(name: &amp;quot;admin&amp;quot;, password: &amp;quot;hogehoge&amp;quot;, password_confirmation: &amp;quot;hogehoge&amp;quot;)passwordはハッシュ化された値で保存されます。
-Sessionコントローラ作成 ログイン環境のsessionコントローラを生成</description>
+$ rails c irb(main):001:0&amp;gt; User.create!(name: &amp;quot;admin&amp;quot;, password: &amp;quot;hogehoge&amp;quot;, password_confirmation: &amp;quot;hogehoge&amp;quot;) passwordはハッシュ化された値で保存されます。
+Sessionコントローラ作成 ログイン環境のsessionコントローラを生成
+$ rails g controller sessions ルートに追加 # config/routes.</description>
     </item>
     
     <item>
@@ -60,14 +61,14 @@ Sessionコントローラ作成 ログイン環境のsessionコントローラ�
       <guid>https://blog.regonn.tokyo/rails/2017-10-03-rails-secrets-float/</guid>
       <description>困ったこと Railsで Slack OAuth 認証を実装していたら、Slack の client_id が 4167427656.251487306806 のような 数字 + .(ドット) + 数字 の形式が使われてた。
 client_id は環境変数として使いたかったため
-SLACK_CLIENT_ID=&#39;4167427656.251487306806&#39;のように設定し secrets.yml には次のように書く
-shared:client_id: &amp;lt;%= ENV[&amp;#39;SLACK_CLIENT_ID&amp;#39;] %&amp;gt;そして、Railsで値を呼ぼうとすると
-&amp;gt; Rails.application.secrets.client_id=&amp;gt; 4167427656.2514873のように設定した値と異なって表示されてしまう。
+SLACK_CLIENT_ID=&#39;4167427656.251487306806&#39; のように設定し secrets.yml には次のように書く
+shared: client_id: &amp;lt;%= ENV[&amp;#39;SLACK_CLIENT_ID&amp;#39;] %&amp;gt; そして、Railsで値を呼ぼうとすると
+&amp;gt; Rails.application.secrets.client_id =&amp;gt; 4167427656.2514873 のように設定した値と異なって表示されてしまう。
 原因 型を確認してみると
-&amp;gt; Rails.application.secrets.client_id.class=&amp;gt; Floatとなっていて、Float型で読み込まれてしまっており、浮動小数点数の精度の影響で期待した値にならなかった。
+&amp;gt; Rails.application.secrets.client_id.class =&amp;gt; Float となっていて、Float型で読み込まれてしまっており、浮動小数点数の精度の影響で期待した値にならなかった。
 解決策 String型で読み込めるように書いてあげる。
-shared:client_id: &amp;#34;&amp;lt;%= ENV[&amp;#39;SLACK_CLIENT_ID&amp;#39;] %&amp;gt;&amp;#34;こうすることで正しく文字として呼び出せる。
-&amp;gt; Rails.application.secrets.client_id=&amp;gt; &amp;quot;4167427656.251487306806&amp;quot;あんまり、このような書き方で環境変数を呼んだことがなかったのでハマってしまった。 他の書き方で良さそうなものがありましたら教えてください。</description>
+shared: client_id: &amp;#34;&amp;lt;%= ENV[&amp;#39;SLACK_CLIENT_ID&amp;#39;] %&amp;gt;&amp;#34; こうすることで正しく文字として呼び出せる。
+&amp;gt; Rails.application.secrets.client_id =&amp;gt; &amp;quot;4167427656.251487306806&amp;quot; あんまり、このような書き方で環境変数を呼んだことがなかったのでハマってしまった。 他の書き方で良さそうなものがありましたら教えてください。</description>
     </item>
     
     <item>
@@ -86,7 +87,7 @@ Workaround chromedriver lack of support for system modals when headless by twalp
 あと、引数を渡すと、モーダルの内容確認してくれたり、指定した時間(デフォルトはCapybara.default_max_wait_timeなので、設定しなくてもOK)待ってくれたりします。
 今後 Chrome Headless へ移行する予定なら、先に対応しておくと楽になりそうです。
 移行作業 既存のテストコードに対して、
-- page.driver.browser.switch_to.alert.accept+ page.accept_confirmにするだけでOKです。</description>
+- page.driver.browser.switch_to.alert.accept + page.accept_confirm にするだけでOKです。</description>
     </item>
     
     <item>
@@ -100,8 +101,16 @@ Workaround chromedriver lack of support for system modals when headless by twalp
 実装したサイトの説明 まず作っていたサイトについて説明しておきますと、 企業がイベントを開催した際にフィードバックを受けるためのアンケートを WEB 上で回答してもらい、その集計結果が見えるというサービス です。機能としては少なく、企業管理側のイベントページの作成と詳細ページを見ることができるだけです。
 Before and After まず、サイトがどう変わったかの画像を載せておきます。(サイトが特定される情報の部分は隠してあります。)
 Before まずは、デザイン修正前の画像です。どのページもすごい Bootstrap 臭がプンプンしてますね。
-ログイン画面 ログイン後の画面 イベント詳細ページ イベント作成ページ After 続いて、デザイナーから指摘を受けて修正したものです、全体的に洗練されてますね。（デザイナーの方にコードを触ってもらったわけではなく、指摘部分を私が直しているので、まだまだ改善の余地はありそうですが）
-ログイン画面 ログイン後の画面 イベント詳細ページ イベント作成ページ 最初に注意を受けた部分 デザイナーの人に見せてまず言われたことが次の 2 つです
+ログイン画面 
+ログイン後の画面 
+イベント詳細ページ 
+イベント作成ページ 
+After 続いて、デザイナーから指摘を受けて修正したものです、全体的に洗練されてますね。（デザイナーの方にコードを触ってもらったわけではなく、指摘部分を私が直しているので、まだまだ改善の余地はありそうですが）
+ログイン画面 
+ログイン後の画面 
+イベント詳細ページ 
+イベント作成ページ 
+最初に注意を受けた部分 デザイナーの人に見せてまず言われたことが次の 2 つです
  デザインのコンセプトを決める 基本 Bootstrap の機能は Grid システムだけにしてみる  それぞれについて書いていきます。
 デザインのコンセプトを決める デザインのコンセプトを決めないでいるため、 Bootstrap の色がそのまま使われてしまっているなど、オリジナル感が出しにくくなってしまっていました 。最初に、どのようなデザインにするのかコンセプトを決めることが必要のようです。
 そこで、依頼者からの話などをもとに次のようなコンセプトに決めました。
@@ -118,7 +127,7 @@ Before まずは、デザイン修正前の画像です。どのページもす�
 Rack::Test::UploadedFileを使うと簡単にできました。
 例えば public/sample.jpg というファイルがあるとします。
 するとコンソール上で次のようにすることでアップロードできます。
-&amp;gt; file = Rack::Test::UploadedFile.new(&amp;quot;public/sample.jpg&amp;quot;, &amp;quot;image/jpeg&amp;quot;)=&amp;gt; #&amp;lt;Rack::Test::UploadedFile:0x007fd769dfa140 @content_type=&amp;quot;image/jpeg&amp;quot;, @original_filename=&amp;quot;sample.jpg&amp;quot;, @tempfile=#&amp;lt;Tempfile:/var/folders/8l/nqm1cg1d7nv6hgsww_s04vxw0000gn/T/sample.jpg20150712-55981-1ora8cn&amp;gt;&amp;gt;&amp;gt; Item.create(file: file, name: &amp;quot;sample file&amp;quot;)まとめて画像をローカルにアップロードしたい時とかも簡単に扱えるので便利ですね。</description>
+&amp;gt; file = Rack::Test::UploadedFile.new(&amp;quot;public/sample.jpg&amp;quot;, &amp;quot;image/jpeg&amp;quot;) =&amp;gt; #&amp;lt;Rack::Test::UploadedFile:0x007fd769dfa140 @content_type=&amp;quot;image/jpeg&amp;quot;, @original_filename=&amp;quot;sample.jpg&amp;quot;, @tempfile=#&amp;lt;Tempfile:/var/folders/8l/nqm1cg1d7nv6hgsww_s04vxw0000gn/T/sample.jpg20150712-55981-1ora8cn&amp;gt;&amp;gt; &amp;gt; Item.create(file: file, name: &amp;quot;sample file&amp;quot;) まとめて画像をローカルにアップロードしたい時とかも簡単に扱えるので便利ですね。</description>
     </item>
     
     <item>
@@ -133,10 +142,10 @@ Start Rails 5 development :tada: · rails/rails@f25ad07
 どうやら標準でGemに追加されたみたいです。
 This week in Rails: tokens migrations, method_source and more | Riding Rails
 取り込まれた経緯 取り込まれた経緯を見てみますと、どうやらDHHがRails console上で次のようにmethodが書かれている場所を取得しても
-irb(main):001:0&amp;gt; User.first.method(:yo).source_locationUser Load (0.7ms) SELECT &amp;quot;users&amp;quot;.* FROM &amp;quot;users&amp;quot; ORDER BY &amp;quot;users&amp;quot;.&amp;quot;id&amp;quot; ASC LIMIT 1=&amp;gt; [&amp;quot;/Users/regonn/sample/app/models/user.rb&amp;quot;, 23]と表示されるだけ(メソッド名は気にしないでください)で いちいちクリップボードにPathをコピーして該当のLineに飛ばないと行けないんだけど、もっとシンプルに出来るんじゃない？ というIssueを上げていました。 pryでもやりたいことはできたんですが(DHHも納得して一度Issueが閉じられた)、method_source gemがあまりにも期待していている挙動だったので、このGemが採用されたみたいです。
+irb(main):001:0&amp;gt; User.first.method(:yo).source_location User Load (0.7ms) SELECT &amp;quot;users&amp;quot;.* FROM &amp;quot;users&amp;quot; ORDER BY &amp;quot;users&amp;quot;.&amp;quot;id&amp;quot; ASC LIMIT 1 =&amp;gt; [&amp;quot;/Users/regonn/sample/app/models/user.rb&amp;quot;, 23] と表示されるだけ(メソッド名は気にしないでください)で いちいちクリップボードにPathをコピーして該当のLineに飛ばないと行けないんだけど、もっとシンプルに出来るんじゃない？ というIssueを上げていました。 pryでもやりたいことはできたんですが(DHHも納得して一度Issueが閉じられた)、method_source gemがあまりにも期待していている挙動だったので、このGemが採用されたみたいです。
 実際に使ってみた method_source gemを使うと次のようにメソッドの中身をコンソール上で見ることができます。
 参照先のmodelファイル
-class User &amp;lt; ActiveRecord::Base#Say Yo! #Yoを返すYo! #TODO push Yo API def yoif self.</description>
+class User &amp;lt; ActiveRecord::Base #Say Yo! #Yoを返すYo! #TODO push Yo API def yo if self.</description>
     </item>
     
     <item>
@@ -147,16 +156,17 @@ class User &amp;lt; ActiveRecord::Base#Say Yo! #Yoを返すYo! #TODO push Yo 
       <guid>https://blog.regonn.tokyo/rails/2014-11-07-rails-datetime/</guid>
       <description>困った内容 RubyでDatetimeの比較についてです。
 次のような場合を想定します。
-foo, hoge #どちらも、Datetimeかnilの可能性がある この2つの変数を比較して、新しい方の値を取得したいです。 しかし、Google先生にRuby Time 比較を聞いても。
+foo, hoge #どちらも、Datetimeかnilの可能性がある この2つの変数を比較して、新しい方の値を取得したいです。 しかし、Google先生にRuby Time 比較を聞いても。
 &amp;lt;=&amp;gt;演算子を使うと-1 0 1 nilを返してくれるよ！
 という結果しか出てきませんでした（私の検索力が低いせいもありますが。。。。）
 欲しいのは どちらが大きいかの情報 ではなく、 大きかった方の値 だし、もし片方にnilが含まれていた場合だと
-&amp;gt; foo = DateTime.now=&amp;gt; Tue, 04 Nov 2014 19:48:53&amp;gt; hoge = nil=&amp;gt; nil&amp;gt; foo &amp;lt;=&amp;gt; hoge=&amp;gt; nilとなりどちらがnilなのか分かりません。
+&amp;gt; foo = DateTime.now =&amp;gt; Tue, 04 Nov 2014 19:48:53 &amp;gt; hoge = nil =&amp;gt; nil &amp;gt; foo &amp;lt;=&amp;gt; hoge =&amp;gt; nil となりどちらがnilなのか分かりません。
 さらに、普通の比較演算子でtrue falseでの結果を知ろうとしても
-foo &amp;lt; hoge# ArgumentError: comparison of DateTime with nil failed となりnilが含まれているとエラーになってしまいます。
+foo &amp;lt; hoge # ArgumentError: comparison of DateTime with nil failed となりnilが含まれているとエラーになってしまいます。
 だからといって
-if foo.present? and hoge.present?foo &amp;lt; hogeendみたいに書いていっても、最終的に値を取得するまでの条件分岐が複雑になりそうで嫌でした。
-ダメなコード まず、nilの値で時間の比較をしないようにダミーの値を持たせて三項演算子で値を取得する方法を考えました。</description>
+if foo.present? and hoge.present? foo &amp;lt; hoge end みたいに書いていっても、最終的に値を取得するまでの条件分岐が複雑になりそうで嫌でした。
+ダメなコード まず、nilの値で時間の比較をしないようにダミーの値を持たせて三項演算子で値を取得する方法を考えました。
+bar = foo || DateTime.</description>
     </item>
     
     <item>
@@ -168,11 +178,11 @@ if foo.present? and hoge.present?foo &amp;lt; hogeendみたいに書いてい
       <description>はじめに 今までRailsのscaffoldは、素早くアプリを作るためのツールだと思っていました。しかし、scaffoldはRailsの規約が適用されているバイブル的な存在であり、scaffoldに従って書くことで効率的にサイトを作っていくことができる！と教わったので、生成されるコードで気になる所を調べてみました。その時のメモ。
 ※このメモを書いたのは2013年7月で書いた時点ではRails触って3ヶ月位だったので情報が間違っているor古くなっている可能性があります。
 scaffold差分 生成されるコード 実行コード
-$ rails generate scaffold Item name:string price:integer description:textmigrateファイル class CreateItems &amp;lt; ActiveRecord::Migrationdef changecreate_table :items do |t|t.string :namet.integer :pricet.text :descriptiont.timestampsendendend ActiveRecordのclassを継承していますが、これはSQLでリレーショナルデータベースを扱う際に必要なもの  Ruby on Rails3で学ぶWeb開発のキホン（3）：「ActiveRecord」の基本とデータの参照 (1/2) - ＠IT
+$ rails generate scaffold Item name:string price:integer description:text migrateファイル class CreateItems &amp;lt; ActiveRecord::Migration def change create_table :items do |t| t.string :name t.integer :price t.text :description t.timestamps end end end  ActiveRecordのclassを継承していますが、これはSQLでリレーショナルデータベースを扱う際に必要なもの  Ruby on Rails3で学ぶWeb開発のキホン（3）：「ActiveRecord」の基本とデータの参照 (1/2) - ＠IT
  NOSQLでは使われないみたい  MongoDB を Rails から使う、導入編 - happy lie, happy life
 これで無事に、migrateができました。失敗したorやり直したい時には
-$ rake db:migrate:redo [STEP=ステップ数]で戻すことができます。
-config/routes.rb Sample::Application.routes.draw doresources :itemsend resources :itemsがscaffoldで生成されています。これによって、routingが追加されてきます。ちなみに、 resource :itemとすれば、単体で扱う場合に重宝するみたいです。  Ruby on Rails ルーティング - ayaketanのプログラミング勉強日記</description>
+$ rake db:migrate:redo [STEP=ステップ数] で戻すことができます。
+config/routes.rb Sample::Application.routes.draw do resources :items end  resources :itemsがscaffoldで生成されています。これによって、routingが追加されてきます。ちなみに、 resource :itemとすれば、単体で扱う場合に重宝するみたいです。  Ruby on Rails ルーティング - ayaketanのプログラミング勉強日記</description>
     </item>
     
     <item>
@@ -184,7 +194,7 @@ config/routes.rb Sample::Application.routes.draw doresources :itemsend resour
       <description>Railsに触って半年ぐらい経つけど、未だにrails newした時に出来上がるGemfileの中身を理解していたなかったので調べてみた。
 「そもそもGemfileとは？」という人はこちらへ⇒http://xxxcaqui.hatenablog.com/entry/2013/02/11/013421
 rails newで生成されるGemfile
-source &amp;#39;https://rubygems.org&amp;#39;# Bundle edge Rails instead: gem &amp;#39;rails&amp;#39;, github: &amp;#39;rails/rails&amp;#39; gem &amp;#39;rails&amp;#39;, &amp;#39;4.0.0&amp;#39;# Use sqlite3 as the database for Active Record gem &amp;#39;sqlite3&amp;#39;# Use SCSS for stylesheets gem &amp;#39;sass-rails&amp;#39;, &amp;#39;~&amp;gt; 4.0.0&amp;#39;# Use Uglifier as compressor for JavaScript assets gem &amp;#39;uglifier&amp;#39;, &amp;#39;&amp;gt;= 1.3.0&amp;#39;# Use CoffeeScript for .js.coffee assets and views gem &amp;#39;coffee-rails&amp;#39;, &amp;#39;~&amp;gt; 4.0.0&amp;#39;# See https://github.</description>
+source &amp;#39;https://rubygems.org&amp;#39; # Bundle edge Rails instead: gem &amp;#39;rails&amp;#39;, github: &amp;#39;rails/rails&amp;#39; gem &amp;#39;rails&amp;#39;, &amp;#39;4.0.0&amp;#39; # Use sqlite3 as the database for Active Record gem &amp;#39;sqlite3&amp;#39; # Use SCSS for stylesheets gem &amp;#39;sass-rails&amp;#39;, &amp;#39;~&amp;gt; 4.0.0&amp;#39; # Use Uglifier as compressor for JavaScript assets gem &amp;#39;uglifier&amp;#39;, &amp;#39;&amp;gt;= 1.3.0&amp;#39; # Use CoffeeScript for .js.coffee assets and views gem &amp;#39;coffee-rails&amp;#39;, &amp;#39;~&amp;gt; 4.0.0&amp;#39; # See https://github.com/sstephenson/execjs#readme for more supported runtimes # gem &amp;#39;therubyracer&amp;#39;, platforms: :ruby # Use jquery as the JavaScript library gem &amp;#39;jquery-rails&amp;#39; # Turbolinks makes following links in your web application faster.</description>
     </item>
     
   </channel>

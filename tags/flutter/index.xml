@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>flutter on そこのけそこのけゆとりが通る</title>
+    <link>https://blog.regonn.tokyo/tags/flutter/</link>
+    <description>Recent content in flutter on そこのけそこのけゆとりが通る</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja-jp</language>
+    <lastBuildDate>Sun, 01 Dec 2019 09:00:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://blog.regonn.tokyo/tags/flutter/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>最近Flutterで作ってるもの</title>
+      <link>https://blog.regonn.tokyo/flutter/2019-12-01-flutter-apps/</link>
+      <pubDate>Sun, 01 Dec 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/flutter/2019-12-01-flutter-apps/</guid>
+      <description>今まで Flutter、Dart 関連はちょくちょく触ってましたが、ちゃんとアプリとして公開等したことがなく、Flutter Web 対応も発表されたので、もうちょっと深く触っていきました。
+自分のレベル感  普段業務: Web プログラマ(Rails) 5 年程度 iOS と Android も一度は開発の経験有り  作ってるアプリ概要  Bouyomisan Flutter  以前 Dart で作ったサービスのリプレイス Flutter web   Regonn&amp;amp;Curry.fm  ポッドキャストを聞くためのスマホアプリ    CI やデプロイはCodemagicを利用しているので、そのあたりも所感に含めて書いていきます。
+Bouyomisan Flutter 以前、YouTubeLive コメント読み上げさんという Web サイトを、Dart1.0 時代に作ってました。 YouTubeLive のコメントを読み上げてくれるツールを Dart で書いてみた YouTubeLive コメント読み上げさん しかし、一度作って放置していたら、Dart1.0 の環境構築が難しくなりメンテナンスが出来ない状態になっていました。 Dart でのコードが残っているので、そのまま Flutter でできないかリプレイスに挑戦してみました。
+Bouyomisan Flutter
+所感 dart:html が使えて、ブラウザの文章読み上げ機能が使えた。 リプレイス前が Dart のアプリで、更に文章をブラウザで読み上げるために Web Speech API の SpeechSynthesisUtteranceを利用していたので、HTML で記述したい部分がありました。Flutter だと、Flutter UI で画面を構築して、web 版も全体を覆う感じにスタイルがなっているので、HTML とかを扱うのが難しいかなと思っていたんですが、 dart:html が呼べたので、</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,17 +6,35 @@
     <description>Recent content in Categories on そこのけそこのけゆとりが通る</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja-jp</language>
-    <lastBuildDate>Wed, 16 Oct 2019 09:00:00 +0900</lastBuildDate>
+    <lastBuildDate>Mon, 09 Dec 2019 09:00:00 +0900</lastBuildDate>
     
 	<atom:link href="https://blog.regonn.tokyo/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>programmer</title>
+      <link>https://blog.regonn.tokyo/categories/programmer/</link>
+      <pubDate>Mon, 09 Dec 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/programmer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>data-science</title>
       <link>https://blog.regonn.tokyo/categories/data-science/</link>
-      <pubDate>Wed, 16 Oct 2019 09:00:00 +0900</pubDate>
+      <pubDate>Wed, 04 Dec 2019 09:00:00 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/categories/data-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>flutter</title>
+      <link>https://blog.regonn.tokyo/categories/flutter/</link>
+      <pubDate>Sun, 01 Dec 2019 09:00:00 +0900</pubDate>
+      
+      <guid>https://blog.regonn.tokyo/categories/flutter/</guid>
       <description></description>
     </item>
     
@@ -44,15 +62,6 @@
       <pubDate>Wed, 12 Dec 2018 22:30:00 +0900</pubDate>
       
       <guid>https://blog.regonn.tokyo/categories/podcast/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>programmer</title>
-      <link>https://blog.regonn.tokyo/categories/programmer/</link>
-      <pubDate>Wed, 05 Dec 2018 18:00:00 +0900</pubDate>
-      
-      <guid>https://blog.regonn.tokyo/categories/programmer/</guid>
       <description></description>
     </item>
     

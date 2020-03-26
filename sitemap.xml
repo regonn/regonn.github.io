@@ -4,36 +4,91 @@
   
   <url>
     <loc>https://blog.regonn.tokyo/categories/</loc>
-    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/categories/data-science/</loc>
-    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/tags/kaggle/</loc>
-    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/data-science/2019-10-16-kaggle-team/</loc>
-    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
+    <lastmod>2019-12-09T09:00:00+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.regonn.tokyo/posts/</loc>
-    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
+    <lastmod>2019-12-09T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/programmer/</loc>
+    <lastmod>2019-12-09T09:00:00+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.regonn.tokyo/tags/</loc>
-    <lastmod>2019-10-16T09:00:00+09:00</lastmod>
+    <lastmod>2019-12-09T09:00:00+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.regonn.tokyo/</loc>
+    <lastmod>2019-12-09T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/%E3%82%AE%E3%83%AB%E3%83%89/</loc>
+    <lastmod>2019-12-09T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/%E5%83%8D%E3%81%8D%E6%96%B9/</loc>
+    <lastmod>2019-12-09T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2019-12-09-guilds/</loc>
+    <lastmod>2019-12-09T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/data-science/</loc>
+    <lastmod>2019-12-04T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/julia/</loc>
+    <lastmod>2019-12-04T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2019-12-04-julia-cookbook/</loc>
+    <lastmod>2019-12-04T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/programmer/2019-12-04-auto-presentation/</loc>
+    <lastmod>2019-12-04T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/flutter/</loc>
+    <lastmod>2019-12-01T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/categories/flutter/</loc>
+    <lastmod>2019-12-01T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/tags/kaggle/</loc>
+    <lastmod>2019-12-01T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2019-12-01-kaggle-sutra/</loc>
+    <lastmod>2019-12-01T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/flutter/2019-12-01-flutter-apps/</loc>
+    <lastmod>2019-12-01T09:00:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.regonn.tokyo/data-science/2019-10-16-kaggle-team/</loc>
     <lastmod>2019-10-16T09:00:00+09:00</lastmod>
   </url>
   
@@ -50,11 +105,6 @@
   <url>
     <loc>https://blog.regonn.tokyo/data-science/2019-10-13-gcp-for-data-science-competition/</loc>
     <lastmod>2019-10-13T09:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/tags/julia/</loc>
-    <lastmod>2019-01-22T18:00:00+09:00</lastmod>
   </url>
   
   <url>
@@ -145,11 +195,6 @@
   <url>
     <loc>https://blog.regonn.tokyo/community/2018-12-09-cork/</loc>
     <lastmod>2018-12-09T17:00:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.regonn.tokyo/categories/programmer/</loc>
-    <lastmod>2018-12-05T18:00:00+09:00</lastmod>
   </url>
   
   <url>

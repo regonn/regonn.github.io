@@ -39,7 +39,7 @@ AWS Deep Learning Conda と Base AMI の利用開始について | Amazon Web Se
 【動画解説】AWS の Deep learning 用 AMI で MXNet を動かす
 ただし、自分の今触っている Julia 言語が AMI にインストールされておらず、最新版(現在 v0.6.1) を動かしてGPU処理をするまで持っていった。Amazon Linux だとライブラリ周りのバージョンが追いついていなかったので、今回はUbuntu版のDeep Learning AMI(タイプはGPUが使えるp2.xlarge)を利用して構築。
 まずは普通にEC2のインスタンスにアクセスして、rootユーザになり、julia の v0.6.1 を make する。(CPU4コア使っても1時間ぐらいかかる。。。)
-$ sudo su -$ apt-get update$ apt-get install libpango1.0-0 -y$ add-apt-repository ppa:staticfloat/julia-deps -y$ apt-get update$ cd /usr/local/src$ git clone https://github.com/JuliaLang/julia.git$ cd julia$ git checkout v0.6.1$ echo &amp;#34;JULIA_CPU_TARGET=core2&amp;#34; &amp;gt; Make.</description>
+$ sudo su - $ apt-get update $ apt-get install libpango1.0-0 -y $ add-apt-repository ppa:staticfloat/julia-deps -y $ apt-get update $ cd /usr/local/src $ git clone https://github.com/JuliaLang/julia.git $ cd julia $ git checkout v0.6.1 $ echo &amp;#34;JULIA_CPU_TARGET=core2&amp;#34; &amp;gt; Make.</description>
     </item>
     
     <item>
